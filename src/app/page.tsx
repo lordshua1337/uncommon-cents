@@ -1,65 +1,255 @@
-import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Coins,
+  ArrowUpDown,
+  AlertTriangle,
+  Shield,
+  KeyRound,
+  Scissors,
+  Heart,
+  TrendingUp,
+  Calculator,
+  MessageCircle,
+} from "lucide-react";
+import { strategies } from "@/lib/strategies-data";
 
-export default function Home() {
+const iconMap: Record<string, React.ReactNode> = {
+  ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
+  AlertTriangle: <AlertTriangle className="w-5 h-5 text-gold" />,
+  Shield: <Shield className="w-5 h-5 text-accent" />,
+  KeyRound: <KeyRound className="w-5 h-5 text-accent" />,
+  Scissors: <Scissors className="w-5 h-5 text-accent" />,
+  Heart: <Heart className="w-5 h-5 text-accent" />,
+};
+
+function StrategyPreview({
+  id,
+  title,
+  subtitle,
+  icon,
+  summary,
+}: {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: string;
+  summary: string;
+}) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <Link
+      href={`/learn#${id}`}
+      className="group bg-surface rounded-xl border border-border p-5 card-hover block"
+    >
+      <div className="flex items-start gap-3 mb-3">
+        <div className="w-9 h-9 rounded-lg bg-accent-bg flex items-center justify-center flex-shrink-0">
+          {iconMap[icon]}
+        </div>
+        <div>
+          <h3 className="text-base font-semibold leading-tight">{title}</h3>
+          <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>
+        </div>
+      </div>
+      <p className="text-sm text-text-secondary leading-relaxed line-clamp-3">
+        {summary}
+      </p>
+      <div className="flex items-center gap-1 text-accent text-sm font-medium mt-3 group-hover:gap-2 transition-all">
+        Read more <ArrowRight className="w-3.5 h-3.5" />
+      </div>
+    </Link>
+  );
+}
+
+function StatCard({
+  value,
+  label,
+}: {
+  value: string;
+  label: string;
+}) {
+  return (
+    <div className="text-center">
+      <p className="text-2xl sm:text-3xl font-semibold text-accent">{value}</p>
+      <p className="text-xs text-text-muted mt-1">{label}</p>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="pt-28 pb-16 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-6">
+            <Coins className="w-3.5 h-3.5" />
+            Financial strategies they don&apos;t teach you
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-5">
+            The Money Moves That{" "}
+            <span className="text-accent">Actually Matter</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+
+          <p className="text-text-secondary text-lg max-w-xl mx-auto mb-4 leading-relaxed">
+            Your financial advisor probably hasn&apos;t mentioned half of
+            these. Roth conversion ladders, 401k overfunding traps, creditor
+            protection through cash value, and the strategies that separate
+            the wealthy from everyone else.
+          </p>
+
+          <p className="text-text-muted text-sm max-w-lg mx-auto mb-8">
+            No products to sell. No affiliate links. Just the financial
+            knowledge that costs six figures to learn the hard way.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/learn"
+              className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center justify-center gap-2"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Start Learning
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/calculators"
+              className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors inline-flex items-center justify-center gap-2"
             >
-              Learning
-            </a>{" "}
-            center.
+              Calculators
+              <Calculator className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-10 px-4 border-y border-border-light bg-surface">
+        <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <StatCard value="$0" label="Cost to use" />
+          <StatCard value="6" label="Key strategies" />
+          <StatCard value="$3K+" label="Potential annual tax savings" />
+          <StatCard value="0" label="Products to sell you" />
+        </div>
+      </section>
+
+      {/* Strategies grid */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+              Strategies
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+              The Uncommon Playbook
+            </h2>
+            <p className="text-text-secondary text-sm mt-2 max-w-lg mx-auto">
+              Each of these strategies is legal, well-documented, and used
+              by financially literate people every day. Most people just
+              don&apos;t know about them.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {strategies.map((s) => (
+              <StrategyPreview key={s.id} {...s} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 px-4 bg-surface-alt">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+              Tools
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+              Three Ways to Get Smarter
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link
+              href="/learn"
+              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
+            >
+              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
+                <TrendingUp className="w-5 h-5 text-accent" />
+              </div>
+              <h3 className="text-base font-semibold mb-2">Learn</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                Deep dives into each strategy with real numbers, common
+                mistakes, and the insight most people miss.
+              </p>
+            </Link>
+
+            <Link
+              href="/calculators"
+              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
+            >
+              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
+                <Calculator className="w-5 h-5 text-accent" />
+              </div>
+              <h3 className="text-base font-semibold mb-2">Calculate</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                Run the numbers on Roth conversions, tax-loss harvesting, and
+                HSA compound growth with your own inputs.
+              </p>
+            </Link>
+
+            <Link
+              href="/ask"
+              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
+            >
+              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
+                <MessageCircle className="w-5 h-5 text-accent" />
+              </div>
+              <h3 className="text-base font-semibold mb-2">Ask</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                Ask specific questions about your situation and get clear
+                answers backed by tax code and financial research.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Disclaimer / CTA */}
+      <section className="py-16 px-4">
+        <div className="max-w-xl mx-auto text-center">
+          <Coins className="w-8 h-8 text-accent mx-auto mb-4" />
+          <h2 className="text-2xl font-semibold tracking-tight mb-3">
+            Knowledge Is the Best Investment
+          </h2>
+          <p className="text-text-secondary text-sm mb-8 leading-relaxed">
+            This is education, not financial advice. Every situation is
+            different. But understanding these strategies puts you years
+            ahead of people who don&apos;t.
+          </p>
+          <Link
+            href="/learn"
+            className="bg-accent text-white px-8 py-3 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center gap-2"
+          >
+            Start With Strategy #1
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border py-6 px-4">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-text-muted text-sm">
+            <Coins className="w-4 h-4" />
+            Uncommon Cents
+          </div>
+          <p className="text-text-muted text-xs text-center">
+            Educational content only. Not financial, tax, or legal advice.
+            Consult qualified professionals for your specific situation.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </footer>
     </div>
   );
 }
