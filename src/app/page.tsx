@@ -138,10 +138,10 @@ export default function HomePage() {
       {/* Stats */}
       <section className="py-10 px-4 border-y border-border-light bg-surface">
         <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <StatCard value="13" label="Financial domains" />
+          <StatCard value={`${concepts.length}`} label="Concepts" />
+          <StatCard value="4" label="Calculators" />
           <StatCard value="$0" label="Cost to use" />
-          <StatCard value="6" label="Key strategies" />
-          <StatCard value="$3K+" label="Potential annual tax savings" />
-          <StatCard value="0" label="Products to sell you" />
         </div>
       </section>
 

@@ -478,7 +478,18 @@ function BuyVsRentCalc() {
   }
 
   const totalPaidRenting = monthlyRent * years * 12;
-  const buyNetWealth = homeValueAtEnd - loanAmount * 0.85;
+
+  // Remaining mortgage balance after N years of payments
+  const paymentsMade = years * 12;
+  const remainingLoan =
+    monthlyMortgageRate > 0
+      ? loanAmount *
+        (Math.pow(1 + monthlyMortgageRate, totalPayments) -
+          Math.pow(1 + monthlyMortgageRate, paymentsMade)) /
+        (Math.pow(1 + monthlyMortgageRate, totalPayments) - 1)
+      : loanAmount * ((totalPayments - paymentsMade) / totalPayments);
+
+  const buyNetWealth = homeValueAtEnd - remainingLoan;
   const rentNetWealth = investedSavings;
 
   return (
