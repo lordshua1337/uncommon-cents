@@ -130,7 +130,7 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
           <StatCard value={`${domains.length}`} label="Financial domains" />
           <StatCard value={`${concepts.length}`} label="Concepts" />
-          <StatCard value="8" label="Calculators" />
+          <StatCard value="9" label="Calculators" />
           <StatCard value="$0" label="Cost to use" />
         </div>
       </section>

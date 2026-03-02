@@ -1405,6 +1405,178 @@ function BackdoorRothCalc() {
   );
 }
 
+function DCAvsLumpSumCalc() {
+  const [totalAmount, setTotalAmount] = useState(60000);
+  const [dcaMonths, setDcaMonths] = useState(12);
+  const [annualReturn, setAnnualReturn] = useState(10);
+  const [annualVolatility, setAnnualVolatility] = useState(15);
+
+  const monthlyReturn = annualReturn / 100 / 12;
+  const monthlyContribution = totalAmount / dcaMonths;
+
+  // Lump sum: invested immediately, grows for full period
+  const lumpSumFinal = totalAmount * Math.pow(1 + monthlyReturn, dcaMonths);
+
+  // DCA: monthly contributions each growing for remaining months
+  let dcaFinal = 0;
+  for (let i = 0; i < dcaMonths; i++) {
+    const monthsRemaining = dcaMonths - i;
+    dcaFinal += monthlyContribution * Math.pow(1 + monthlyReturn, monthsRemaining);
+  }
+
+  const lumpSumGain = lumpSumFinal - totalAmount;
+  const dcaGain = dcaFinal - totalAmount;
+  const difference = lumpSumGain - dcaGain;
+  const lumpSumWins = difference > 0;
+
+  // Rough downside scenario: -1 standard deviation
+  const downReturn = (annualReturn - annualVolatility) / 100 / 12;
+  const lumpSumDown = totalAmount * Math.pow(1 + downReturn, dcaMonths);
+  let dcaDown = 0;
+  for (let i = 0; i < dcaMonths; i++) {
+    dcaDown += monthlyContribution * Math.pow(1 + downReturn, dcaMonths - i);
+  }
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-2 mb-1 text-accent">
+        <ArrowUpDown className="w-4 h-4" />
+        <p className="text-xs uppercase tracking-widest font-medium">
+          DCA vs. Lump Sum
+        </p>
+      </div>
+      <h3 className="text-lg font-semibold mb-4">
+        Should You Invest All at Once or Spread It Out?
+      </h3>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label className="text-xs text-text-muted block mb-1">
+            Total Amount to Invest: {formatCurrency(totalAmount)}
+          </label>
+          <input
+            type="range"
+            min={5000}
+            max={500000}
+            step={5000}
+            value={totalAmount}
+            onChange={(e) => setTotalAmount(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div>
+          <label className="text-xs text-text-muted block mb-1">
+            DCA Period: {dcaMonths} months
+          </label>
+          <input
+            type="range"
+            min={3}
+            max={36}
+            step={1}
+            value={dcaMonths}
+            onChange={(e) => setDcaMonths(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs text-text-muted block mb-1">
+              Expected Annual Return: {annualReturn}%
+            </label>
+            <input
+              type="range"
+              min={0}
+              max={20}
+              step={1}
+              value={annualReturn}
+              onChange={(e) => setAnnualReturn(Number(e.target.value))}
+              className="w-full accent-accent"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-text-muted block mb-1">
+              Annual Volatility: {annualVolatility}%
+            </label>
+            <input
+              type="range"
+              min={5}
+              max={40}
+              step={1}
+              value={annualVolatility}
+              onChange={(e) => setAnnualVolatility(Number(e.target.value))}
+              className="w-full accent-accent"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className={`rounded-lg p-3 border ${lumpSumWins ? "border-accent/20 bg-accent-bg" : "border-border-light bg-surface-alt"}`}>
+          <p className="text-xs text-text-muted mb-1">Lump Sum Growth</p>
+          <p className={`text-lg font-semibold ${lumpSumWins ? "text-accent" : ""}`}>
+            {formatCurrency(lumpSumGain)}
+          </p>
+          <p className="text-xs text-text-muted">
+            Final: {formatCurrency(lumpSumFinal)}
+          </p>
+        </div>
+        <div className={`rounded-lg p-3 border ${!lumpSumWins ? "border-accent/20 bg-accent-bg" : "border-border-light bg-surface-alt"}`}>
+          <p className="text-xs text-text-muted mb-1">DCA Growth</p>
+          <p className={`text-lg font-semibold ${!lumpSumWins ? "text-accent" : ""}`}>
+            {formatCurrency(dcaGain)}
+          </p>
+          <p className="text-xs text-text-muted">
+            Final: {formatCurrency(dcaFinal)}
+          </p>
+        </div>
+      </div>
+
+      <div className={`rounded-lg p-3 text-center ${lumpSumWins ? "bg-accent-bg border border-accent/10" : "bg-surface-alt border border-border-light"}`}>
+        <p className="text-sm font-semibold">
+          {lumpSumWins
+            ? `Lump Sum wins by ${formatCurrency(difference)}`
+            : `DCA wins by ${formatCurrency(Math.abs(difference))}`}
+        </p>
+        <p className="text-xs text-text-muted mt-1">
+          In a normal market, lump sum wins ~65% of the time
+        </p>
+      </div>
+
+      {/* Downside scenario */}
+      <div className="mt-4 bg-red/5 border border-red/10 rounded-lg p-3">
+        <p className="text-xs font-semibold text-red mb-2">
+          Bad Year Scenario (-1 Std Dev)
+        </p>
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <p className="text-text-muted">Lump Sum</p>
+            <p className="font-mono font-medium">
+              {formatCurrency(lumpSumDown - totalAmount)}
+            </p>
+          </div>
+          <div>
+            <p className="text-text-muted">DCA</p>
+            <p className="font-mono font-medium">
+              {formatCurrency(dcaDown - totalAmount)}
+            </p>
+          </div>
+        </div>
+        <p className="text-xs text-text-muted mt-2">
+          DCA reduces downside in bad markets by averaging your entry price
+        </p>
+      </div>
+
+      <p className="text-xs text-text-muted mt-4">
+        Historical data shows lump sum investing beats DCA about two-thirds of
+        the time because markets trend upward. DCA&apos;s advantage is
+        psychological -- it reduces regret if markets drop right after you invest.
+        The &quot;best&quot; strategy is the one you&apos;ll actually execute.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -1441,6 +1613,7 @@ export default function CalculatorsPage() {
           <TaxLossHarvestingCalc />
           <HSAGrowthCalc />
           <CompoundInterestCalc />
+          <DCAvsLumpSumCalc />
           <BuyVsRentCalc />
         </div>
 

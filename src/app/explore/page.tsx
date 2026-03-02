@@ -240,9 +240,33 @@ export default function ExplorePage() {
           </div>
         )}
 
+        {/* Stats */}
+        {!isSearching && (
+          <div className="mt-8 bg-surface border border-border rounded-xl p-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+              <div>
+                <p className="text-2xl font-semibold text-accent">{domains.length}</p>
+                <p className="text-xs text-text-muted mt-1">Domains</p>
+              </div>
+              <div>
+                <p className="text-2xl font-semibold text-accent">{concepts.length}</p>
+                <p className="text-xs text-text-muted mt-1">Concepts</p>
+              </div>
+              <div>
+                <p className="text-2xl font-semibold text-accent">3</p>
+                <p className="text-xs text-text-muted mt-1">Depth Levels</p>
+              </div>
+              <div>
+                <p className="text-2xl font-semibold text-accent">{concepts.filter(c => c.hasCalculator).length}</p>
+                <p className="text-xs text-text-muted mt-1">With Calculators</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Bottom links */}
         {!isSearching && (
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
               href="/calculators"
               className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
