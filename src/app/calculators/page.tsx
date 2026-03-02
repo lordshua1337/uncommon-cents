@@ -1577,6 +1577,143 @@ function DCAvsLumpSumCalc() {
   );
 }
 
+function EmergencyFundCalc() {
+  const [monthlyExpenses, setMonthlyExpenses] = useState(4000);
+  const [currentSavings, setCurrentSavings] = useState(5000);
+  const [monthlyContribution, setMonthlyContribution] = useState(500);
+  const [targetMonths, setTargetMonths] = useState(6);
+
+  const targetAmount = monthlyExpenses * targetMonths;
+  const gap = Math.max(0, targetAmount - currentSavings);
+  const monthsToGoal = monthlyContribution > 0 ? Math.ceil(gap / monthlyContribution) : Infinity;
+  const coverageMonths = monthlyExpenses > 0 ? currentSavings / monthlyExpenses : 0;
+  const progressPct = Math.min(100, (currentSavings / targetAmount) * 100);
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <h3 className="text-lg font-semibold mb-1">Emergency Fund</h3>
+      <p className="text-sm text-text-muted mb-5">
+        How long until you have a real safety net?
+      </p>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label className="text-xs text-text-muted">
+            Monthly Expenses: ${monthlyExpenses.toLocaleString()}
+          </label>
+          <input
+            type="range"
+            min={1000}
+            max={15000}
+            step={250}
+            value={monthlyExpenses}
+            onChange={(e) => setMonthlyExpenses(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div>
+          <label className="text-xs text-text-muted">
+            Current Savings: ${currentSavings.toLocaleString()}
+          </label>
+          <input
+            type="range"
+            min={0}
+            max={100000}
+            step={500}
+            value={currentSavings}
+            onChange={(e) => setCurrentSavings(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div>
+          <label className="text-xs text-text-muted">
+            Monthly Contribution: ${monthlyContribution.toLocaleString()}
+          </label>
+          <input
+            type="range"
+            min={0}
+            max={3000}
+            step={50}
+            value={monthlyContribution}
+            onChange={(e) => setMonthlyContribution(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div>
+          <label className="text-xs text-text-muted">
+            Target: {targetMonths} months of expenses
+          </label>
+          <input
+            type="range"
+            min={3}
+            max={12}
+            step={1}
+            value={targetMonths}
+            onChange={(e) => setTargetMonths(Number(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-4">
+        <div className="flex justify-between text-xs text-text-muted mb-1">
+          <span>${currentSavings.toLocaleString()} saved</span>
+          <span>${targetAmount.toLocaleString()} target</span>
+        </div>
+        <div className="w-full bg-surface-alt rounded-full h-3">
+          <div
+            className="h-3 rounded-full transition-all duration-300"
+            style={{
+              width: `${progressPct}%`,
+              background:
+                progressPct >= 100
+                  ? "var(--color-green, #16a34a)"
+                  : progressPct >= 50
+                    ? "var(--color-accent)"
+                    : "var(--color-gold, #eab308)",
+            }}
+          />
+        </div>
+        <p className="text-xs text-text-muted mt-1 text-center">
+          {progressPct.toFixed(0)}% funded
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-surface-alt rounded-lg p-3">
+          <p className="text-xs text-text-muted">Current Coverage</p>
+          <p className="text-lg font-bold font-mono text-accent">
+            {coverageMonths.toFixed(1)} mo
+          </p>
+        </div>
+        <div className="bg-surface-alt rounded-lg p-3">
+          <p className="text-xs text-text-muted">Gap to Fill</p>
+          <p className="text-lg font-bold font-mono">
+            ${gap.toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-surface-alt rounded-lg p-3 col-span-2">
+          <p className="text-xs text-text-muted">Time to Fully Funded</p>
+          <p className="text-lg font-bold font-mono text-accent">
+            {gap === 0
+              ? "Already there"
+              : monthsToGoal === Infinity
+                ? "Start contributing"
+                : `${monthsToGoal} months`}
+          </p>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted mt-4 leading-relaxed">
+        Most experts recommend 3-6 months of expenses. Self-employed or single-income
+        households should aim for 6-12 months. Keep it in a high-yield savings account --
+        accessible but not too accessible.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -1614,6 +1751,7 @@ export default function CalculatorsPage() {
           <HSAGrowthCalc />
           <CompoundInterestCalc />
           <DCAvsLumpSumCalc />
+          <EmergencyFundCalc />
           <BuyVsRentCalc />
         </div>
 
