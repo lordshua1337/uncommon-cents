@@ -188,6 +188,64 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Recently added concepts */}
+      <section className="py-12 px-4 bg-surface-alt">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+              Newest Entries
+            </p>
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Recently Added
+            </h2>
+            <p className="text-text-secondary text-sm mt-2">
+              The latest deep dives added to the knowledge base.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {concepts.slice(-6).reverse().map((concept) => {
+              const domain = domains.find((d) => d.id === concept.domainId);
+              return (
+                <Link
+                  key={concept.id}
+                  href={`/concepts/${concept.slug}`}
+                  className="group bg-surface rounded-lg border border-border p-4 card-hover block"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    {domain && (
+                      <span
+                        className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: `${domain.color}15`,
+                          color: domain.color,
+                        }}
+                      >
+                        {domain.shortName}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-sm font-semibold group-hover:text-accent transition-colors mb-1">
+                    {concept.name}
+                  </h3>
+                  <p className="text-xs text-text-muted line-clamp-2">
+                    {concept.summary}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="text-center mt-6">
+            <Link
+              href="/explore"
+              className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            >
+              See all {concepts.length} entries
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Strategies grid */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">

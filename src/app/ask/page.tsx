@@ -24,6 +24,10 @@ const STARTER_QUESTIONS = [
   "What is a backdoor Roth IRA?",
   "How does tax-loss harvesting work?",
   "Is whole life insurance ever worth it?",
+  "When does DCA beat lump sum investing?",
+  "How do I reduce taxes in retirement?",
+  "What's the order of operations for investing?",
+  "Should I pay off my mortgage or invest?",
 ];
 
 function MessageBubble({ message }: { message: Message }) {
