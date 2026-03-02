@@ -515,6 +515,177 @@ export const concepts: FinancialConcept[] = [
     honestAnalysis:
       "The US global taxation system is genuinely burdensome for Americans abroad. Many expats are unaware of their filing obligations until they face penalties. The FEIE/FTC choice is not a DIY decision for most situations -- a CPA specializing in expat taxes is a necessary expense.",
   },
+
+  // ─── Additional Concepts for Thin Domains ──────────────────────────────
+
+  {
+    id: "c4-02",
+    slug: "house-hacking",
+    domainId: "d4",
+    name: "House Hacking: Live Free While Building Wealth",
+    summary:
+      "Buy a multi-unit property, live in one unit, rent the others. Your tenants pay your mortgage while you build equity.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["buy-vs-rent"],
+    layers: {
+      accessible:
+        "House hacking is simple: buy a duplex, triplex, or fourplex. Live in one unit. Rent out the others. Your tenants' rent covers most or all of your mortgage payment, so you live for free (or close to it) while building equity in a property that appreciates over time.\n\nThe magic is that properties with 1-4 units qualify for residential mortgages. That means you can put down as little as 3.5% (FHA) instead of the 20-25% required for investment properties. You get investor benefits at homeowner mortgage rates.\n\nExample: buy a duplex for $400K with 3.5% down ($14K). Your mortgage is $2,400/month. You rent the other unit for $1,800/month. Your net housing cost: $600/month. Your neighbor in a comparable single-family home pays $2,400/month. You're saving $1,800/month -- $21,600/year -- while building equity in a $400K asset.",
+      intermediate:
+        "FHA loans allow 3.5% down on properties up to 4 units, but you must live in one unit for at least 12 months (owner-occupancy requirement). After 12 months, you can move out and rent all units, or refinance into a conventional loan and buy your next house hack.\n\nThe numbers that matter: (1) Debt-to-income ratio: lenders count 75% of projected rental income toward your qualifying income. (2) Cash-on-cash return: if you put $14K down and your tenants cover all but $600/month of your costs, you're paying $7,200/year for a $400K asset -- a 5.7x leveraged position. (3) Appreciation: at 3% annual appreciation, your $400K property gains $12K in year one. On your $14K investment, that's an 86% return before rental income.\n\nCommon strategies: (1) Live-in flip: buy, renovate while living there (FHA 203k), increase value, move out. (2) Rent by the room: single-family home where you rent individual rooms for higher total income than renting the whole unit. (3) ADU conversion: add an accessory dwelling unit to a single-family property.\n\nTax benefits: mortgage interest deduction on your unit, depreciation on rental units, property tax deduction, and all operating expenses for rental units are deductible.",
+      advanced:
+        "Scaling house hacking: the most effective strategy is the 'BRRRR-hack' -- Buy, Renovate, Rent, Refinance, Repeat with owner-occupied financing. Year 1: buy a duplex with FHA (3.5% down), renovate both units using a 203k loan. Year 2: refinance into conventional, pull out your equity, move to the next property. Repeat annually.\n\nAfter 4-5 cycles, you own multiple properties with minimal capital deployed. The key constraint is the 12-month occupancy requirement -- violating it is mortgage fraud. But after 12 months, you're free to move.\n\nAdvanced tax strategy: cost segregation studies on your rental units allow accelerated depreciation, creating paper losses that offset rental income. Combined with the Section 199A deduction for qualified business income (if you qualify as a real estate professional), you can generate significant tax-free cash flow.\n\nRisks: being a landlord is work. Tenant turnover, maintenance emergencies, vacancy months, and problem tenants are real. Budget 5-10% of gross rent for vacancy, 5-10% for maintenance, and 8-10% for management (even if you self-manage, value your time). The 'live free' math only works if you include realistic operating expenses."
+    },
+    honestAnalysis:
+      "House hacking works, but it means living next to or with your tenants. Not everyone wants to be a 25-year-old landlord dealing with noise complaints and plumbing emergencies. The financial returns are real, but the lifestyle trade-off is significant and often underestimated by real estate influencers.",
+  },
+  {
+    id: "c5-02",
+    slug: "solo-401k",
+    domainId: "d5",
+    name: "Solo 401(k): The Self-Employed Supercharger",
+    summary:
+      "Self-employed? A Solo 401(k) lets you contribute up to $69,000/year as both employee and employer -- far more than an IRA or SEP.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["roth-vs-traditional", "s-corp-optimization"],
+    layers: {
+      accessible:
+        "If you're self-employed or have a side business, the Solo 401(k) is possibly the most powerful retirement account available. You can contribute up to $69,000 per year (2025) -- compared to $7,000 for an IRA or ~$15,000 for most SEP-IRAs at moderate income levels.\n\nThe trick: you wear two hats. As the employee, you can contribute up to $23,500. As the employer, you can contribute up to 25% of your net self-employment income. Together, these can reach $69,000. If you're over 50, add another $7,500 in catch-up contributions.\n\nYou can also choose Roth contributions for the employee portion, giving you tax-free growth on up to $23,500/year. The employer portion is always pre-tax.",
+      intermediate:
+        "Solo 401(k) mechanics: (1) Eligibility: any business with no full-time employees other than you and your spouse. Side businesses count -- you can have a W-2 job AND a Solo 401(k) for side income. (2) Contribution formula: employee side is $23,500 flat. Employer side is 25% of W-2 salary (if S-Corp) or 20% of net SE income (if sole prop/LLC). (3) Combined limit: $69,000 total (employee + employer), not counting catch-up.\n\nThe S-Corp advantage: if your side business earns $150K and you elect S-Corp status, you pay yourself a reasonable salary of $80K. Employee contribution: $23,500. Employer contribution: 25% x $80K = $20,000. Total: $43,500 sheltered from taxes. Plus the $70K in distributions avoids self-employment tax.\n\nIf you already max out a W-2 employer 401(k), your employee contributions are shared across all plans. But the employer contribution has its own limit per plan. So you can still contribute the employer portion to a Solo 401(k) even if you've maxed employee contributions elsewhere.",
+      advanced:
+        "Advanced Solo 401(k) strategies: (1) Mega Backdoor Roth via Solo 401(k): if your plan document allows after-tax contributions + in-plan Roth conversions, you can contribute the full $69,000 - employee - employer portions as after-tax, then immediately convert to Roth. This effectively lets you put up to $69,000/year into a Roth account regardless of income. (2) Voluntary after-tax contributions: the gap between your employee + employer contributions and $69,000 can be filled with after-tax dollars, which can then be converted to Roth (the mega backdoor). (3) Loan provision: Solo 401(k)s can include loan provisions, allowing you to borrow up to 50% of the balance (max $50,000) for any purpose -- effectively using retirement funds without triggering taxes or penalties.\n\nPlan administration: you can open a Solo 401(k) at most brokerages for free (Fidelity, Schwab, Vanguard). However, if you want the mega backdoor Roth option, you need a custodian that supports after-tax contributions and in-plan conversions -- not all do. MySolo401k and Nabers Group offer customizable plan documents. Once your plan exceeds $250,000, you must file Form 5500-EZ annually with the IRS."
+    },
+    honestAnalysis:
+      "The Solo 401(k) is genuinely the best retirement account for self-employed people. The main limitation is that it only works if you have no employees. Once you hire someone full-time, you need a regular 401(k) with all its compliance costs. Plan around this if you're growing.",
+  },
+  {
+    id: "c8-02",
+    slug: "beneficiary-designations",
+    domainId: "d8",
+    name: "Beneficiary Designations: The Document That Beats Your Will",
+    summary:
+      "Your retirement accounts and life insurance pass by beneficiary designation, not by your will. Get these wrong and your estate plan is meaningless.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["estate-planning-basics"],
+    layers: {
+      accessible:
+        "Here is a fact that surprises most people: your will does NOT control who gets your 401(k), IRA, or life insurance. These assets pass by beneficiary designation -- a form you filled out (or forgot to fill out) when you opened the account.\n\nThis means if you got divorced, remarried, and updated your will to leave everything to your new spouse, but never changed the beneficiary on your 401(k)... your ex-spouse gets the 401(k). Your will is irrelevant. The beneficiary form wins.\n\nThis is the single most common estate planning mistake in America. Review your beneficiary designations on every account at least once a year, and always after major life events (marriage, divorce, birth, death).",
+      intermediate:
+        "Accounts controlled by beneficiary designation (not your will): 401(k), 403(b), IRA, Roth IRA, HSA, life insurance, annuities, transfer-on-death (TOD) brokerage accounts, payable-on-death (POD) bank accounts. Together, these often represent 70-90% of a person's total wealth.\n\nCommon mistakes: (1) Naming minor children directly -- they can't inherit until 18, so a court appoints a guardian to manage the money (expensive, inflexible). Solution: name a trust for the benefit of minors. (2) Naming your estate as beneficiary -- this forces retirement accounts through probate (public, slow, expensive) and may accelerate required distributions. (3) Not naming contingent beneficiaries -- if your primary beneficiary dies before you and you have no contingent, the account goes through probate.\n\nSpousal rights: in community property states and for ERISA-governed plans (401k), your spouse has legal rights to be the beneficiary. You generally cannot name someone other than your spouse without their written consent.",
+      advanced:
+        "SECURE Act implications: the 2020 SECURE Act eliminated the 'stretch IRA' for most non-spouse beneficiaries. Previously, a beneficiary could take distributions over their lifetime. Now, most non-spouse beneficiaries must empty inherited retirement accounts within 10 years. This creates a potential tax bomb -- decades of tax-deferred growth forced into income over 10 years.\n\nStrategies: (1) Roth conversions during your lifetime reduce the tax burden on beneficiaries (Roth IRAs still have the 10-year rule but distributions are tax-free). (2) Charitable remainder trusts (CRTs) as beneficiaries can spread distributions and provide income to heirs beyond 10 years. (3) Accumulation trusts vs conduit trusts: conduit trusts pass distributions directly to beneficiaries (simpler but subject to 10-year rule). Accumulation trusts can retain distributions inside the trust, but trust income above $15,200 is taxed at the highest marginal rate (37%).\n\nPer stirpes vs per capita: 'per stirpes' means if a beneficiary dies before you, their share passes to their children. 'Per capita' means it's split among the surviving beneficiaries. Per stirpes is almost always the better choice for contingent designations."
+    },
+    honestAnalysis:
+      "This is legitimately the most important estate planning action most people can take, and it costs $0. Logging into your accounts and reviewing beneficiary designations takes 30 minutes and prevents more family financial disasters than any other single action.",
+  },
+  {
+    id: "c9-02",
+    slug: "umbrella-insurance",
+    domainId: "d9",
+    name: "Umbrella Insurance: Cheap Protection for Everything You Own",
+    summary:
+      "A $1M umbrella policy costs $200-$400/year and protects your entire net worth from lawsuits, accidents, and liability claims that exceed your auto or homeowner's coverage.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["term-vs-permanent-insurance", "estate-planning-basics"],
+    layers: {
+      accessible:
+        "Your auto insurance covers you up to $300,000 (typical). Your homeowner's covers up to $300,000 in liability. But if someone is seriously injured in a car accident you cause, the medical bills alone can exceed $1 million. If a guest is injured at your home, the lawsuit can be six or seven figures.\n\nUmbrella insurance sits on top of your existing policies and kicks in when they run out. A $1 million umbrella policy typically costs $200-$400 per year. A $2 million policy costs $300-$500 per year. For the price of a streaming subscription, you protect your entire net worth.\n\nWho needs it? Anyone with assets to protect. If you own a home, have savings or investments, or earn a good income, you are a target for lawsuits. Umbrella insurance is the cheapest form of wealth protection available.",
+      intermediate:
+        "What umbrella covers beyond auto and homeowners: (1) Libel and slander claims -- including social media posts. (2) False arrest or wrongful eviction (if you're a landlord). (3) Invasion of privacy. (4) Liability in foreign countries. (5) Legal defense costs -- even if you win, defending a lawsuit costs $50K-$200K+.\n\nWhat it does NOT cover: intentional acts, business activities (need a separate commercial policy), professional malpractice, and criminal acts.\n\nRequirements: most umbrella insurers require you to carry higher-than-minimum limits on your auto and homeowner's policies first (typically $300K/$500K auto liability and $300K+ homeowner's liability). This may increase your underlying premiums slightly, but the total cost is still remarkably low.\n\nHow much to carry: common advice is to match your net worth. If you have $2M in assets, carry a $2M umbrella. If your income and earning potential are high, consider carrying more -- future wages can be garnished by lawsuit judgments.",
+      advanced:
+        "Asset protection layering: umbrella insurance is layer one. For significant wealth ($1M+), consider: (1) State-specific exemptions: some states (Florida, Texas) offer unlimited homestead protection. (2) Retirement accounts: 401(k)s and IRAs have federal creditor protection. (3) Irrevocable trusts: assets transferred to properly structured irrevocable trusts are generally beyond creditor reach after the fraudulent transfer lookback period (typically 2-4 years). (4) LLCs for investment properties: each rental property in its own LLC limits liability to that property's assets.\n\nUmbrella policy limits are typically available up to $5-10M from standard carriers. Beyond that, you enter the excess liability market (Lloyd's of London, specialty carriers). High-net-worth individuals should work with a broker who specializes in HNW coverage.\n\nThe cost-benefit math: a $2M umbrella policy costs $400/year. Over 30 years, you pay $12,000 in premiums. A single uninsured lawsuit judgment of $500K would take years of income to pay and could force bankruptcy. The expected value calculation overwhelmingly favors carrying umbrella coverage."
+    },
+    honestAnalysis:
+      "Umbrella insurance is genuinely one of the best financial deals available. The only reason more people don't have it is that insurance agents don't push it aggressively (low commissions relative to life insurance). If you have any assets at all, this is a no-brainer purchase.",
+  },
+  {
+    id: "c10-02",
+    slug: "emergency-fund-optimization",
+    domainId: "d10",
+    name: "Emergency Fund: How Much Is Enough (And Where to Keep It)",
+    summary:
+      "The 3-6 month rule is a starting point, not a formula. The right emergency fund size depends on your income stability, expenses, and what counts as an emergency.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["debt-avalanche-vs-snowball"],
+    layers: {
+      accessible:
+        "An emergency fund is cash you can access immediately when life goes sideways -- job loss, medical bills, car breaks down, furnace dies. It is NOT an investment. Its job is not to grow. Its job is to be there.\n\nThe standard advice is 3-6 months of essential expenses. Not income -- expenses. If you earn $6,000/month but your essential bills are $4,000/month, you need $12,000-$24,000.\n\nWhere to keep it: a high-yield savings account (HYSA). Not in the stock market (can lose value right when you need it). Not under your mattress (loses to inflation). Not in CDs (can't access without penalty). A HYSA at an online bank currently pays 4-5% APY while remaining fully liquid.",
+      intermediate:
+        "Calibrating the right size: (1) Stable W-2 job, dual income household, low expenses: 3 months is fine. (2) Single income, variable expenses, or health issues: 6 months minimum. (3) Self-employed, commission-based, or seasonal income: 6-12 months. (4) Pre-retirement (within 5 years of retiring): 12-24 months (you don't want to sell investments in a downturn early in retirement).\n\nThe tiered approach: (1) Tier 1: $1,000 in checking for immediate access. (2) Tier 2: 1-2 months in HYSA for quick access. (3) Tier 3: remaining 2-4 months in a money market fund or short-term Treasury fund (slightly higher yield, 1-2 day access).\n\nHYSA options: Marcus (Goldman Sachs), Ally, Wealthfront, Betterment, SoFi. Compare APYs monthly -- online banks compete aggressively on rates. At $20,000 balance and 4.5% APY, you earn $900/year in interest. That's free money for holding your emergency fund in the right place.",
+      advanced:
+        "The opportunity cost debate: keeping $30,000 in cash earning 4.5% when the stock market averages 10% feels like leaving money on the table. The math says you 'lose' about $1,650/year in expected returns. But this analysis ignores sequence risk: if you're forced to sell stocks during a 30% drawdown to cover a $20,000 emergency, you lock in losses and miss the recovery. The expected cost of NOT having an emergency fund (selling investments at the worst time, taking on high-interest debt, or missing opportunities) far exceeds the opportunity cost of holding cash.\n\nAdvanced alternatives: (1) HELOC as backup: a home equity line of credit can serve as a backup emergency fund. You pay nothing unless you draw on it. But this only works if you have home equity and can qualify. (2) Roth IRA contributions (not earnings) can be withdrawn penalty-free at any time. Some people use a Roth as a dual-purpose emergency/retirement fund. (3) I-bonds: up to $10,000/year in inflation-protected savings bonds. Can't be redeemed for 12 months, and you lose 3 months of interest if redeemed before 5 years, but they track inflation and are state-tax-free.\n\nThe psychological value: beyond the math, an emergency fund provides peace of mind that is worth more than any marginal return difference. Financial stress is correlated with worse health outcomes, worse decision-making, and lower productivity. The ROI on reduced financial anxiety is real but unmeasurable."
+    },
+    honestAnalysis:
+      "The 'optimal emergency fund' debate is mostly academic. Having one at all puts you ahead of 56% of Americans who can't cover a $1,000 emergency. Start with $1,000, then build to one month, then three. Perfect is the enemy of funded.",
+  },
+  {
+    id: "c12-02",
+    slug: "salary-negotiation",
+    domainId: "d12",
+    name: "Salary Negotiation: The Highest-ROI Hour of Your Career",
+    summary:
+      "A single successful negotiation can be worth $500K+ over a career. Most people never negotiate because they don't know how.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["total-comp-analysis"],
+    layers: {
+      accessible:
+        "Not negotiating your salary is the most expensive mistake you can make early in your career. Here's why: raises are almost always percentage-based. If you start at $60,000 instead of $55,000 (a $5,000 difference), and get 3% raises annually for 30 years, that single negotiation is worth over $130,000 in additional lifetime earnings. Factor in higher 401(k) matches, higher Social Security benefits, and investing the difference, and it's $500,000+.\n\nThe basic script: 'I'm excited about this role. Based on my research and what I bring to the table, I was expecting something in the range of $X-$Y. Is there flexibility?' Then stop talking.\n\nMost employers expect you to negotiate. They build room into the initial offer. By not negotiating, you're literally leaving money on the table that was budgeted for you.",
+      intermediate:
+        "Negotiation preparation: (1) Research: use Glassdoor, Levels.fyi, Blind, Payscale, and the Bureau of Labor Statistics to find the range for your role, level, and location. (2) Know your number: determine your target (what you want) and your walk-away (the minimum you'll accept). (3) Timing: negotiate AFTER you have the written offer, never during interviews. (4) Leverage: the best leverage is another offer. The second best is specific, quantifiable accomplishments.\n\nBeyond base salary: if they can't move on base, negotiate: signing bonus (one-time cost, easier to approve), extra PTO (costs nothing on paper), remote work flexibility, title upgrade (affects future earning power), accelerated review timeline (6-month review instead of annual), professional development budget, or equity.\n\nThe ask: 'Thank you for the offer. I'm very interested in this role. I've done some research and based on [specific reasons], I was hoping we could discuss a base salary of $X. I understand there may be constraints, so I'm also open to discussing other forms of compensation.'",
+      advanced:
+        "Advanced negotiation tactics: (1) Never give the first number if you can avoid it. If pressed: 'I'd prefer to understand the full scope of the role before discussing numbers. What range has been budgeted for this position?' (2) Use round numbers strategically: asking for $87,500 (precise) implies research; asking for $90,000 (round) implies anchoring. Research suggests precise numbers are perceived as more informed. (3) The 'exploding offer' counter: if given a deadline, respond with 'I want to give this the consideration it deserves. Would it be possible to have until [date]?' Most deadlines are flexible.\n\nInternal negotiations (raises/promotions): (1) Document your wins continuously -- maintain a 'brag document' of measurable impact. (2) Time your ask: after a major win, during budget planning season, or when you have outside interest. (3) Frame it as a market correction, not a reward: 'Based on what I'm seeing in the market for someone with my experience and the results I've delivered, I believe my compensation should be at $X.' (4) If denied, get specifics: 'What would need to be true for me to reach $X in the next 6 months?' Get it in writing.\n\nThe compound effect: a $10K higher starting salary at age 25, compounded at 3% annual raises, with the difference invested at 7%, is worth $1.1M by age 65. One conversation. One million dollars. This is the highest-ROI activity in personal finance, and most people skip it because they're uncomfortable for 15 minutes."
+    },
+    honestAnalysis:
+      "Negotiation advice is easy to give and hard to follow, especially for people in precarious financial situations, marginalized groups who face backlash for negotiating, or fields with rigid pay scales (government, union, education). The advice to 'just negotiate' ignores real power dynamics. That said, in roles where negotiation is expected (tech, finance, consulting), not negotiating is genuinely leaving money on the table.",
+  },
+  {
+    id: "c7-03",
+    slug: "dollar-cost-averaging",
+    domainId: "d7",
+    name: "Dollar-Cost Averaging vs Lump Sum: The Psychology of Investing",
+    summary:
+      "Investing a fixed amount regularly beats trying to time the market. But lump sum investing actually outperforms DCA most of the time -- so why do experts still recommend DCA?",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["asset-allocation", "loss-aversion"],
+    layers: {
+      accessible:
+        "Dollar-cost averaging (DCA) means investing a fixed amount on a regular schedule -- like $500 every month into an index fund. When prices are high, your $500 buys fewer shares. When prices are low, your $500 buys more shares. Over time, your average cost per share is lower than the average price.\n\nThe alternative is lump sum investing -- putting all your money in at once. Studies show lump sum wins about 2/3 of the time because markets go up more often than they go down. Time in the market beats timing the market.\n\nBut DCA has a huge psychological advantage: you never invest everything at the worst possible moment. If the market drops 30% after you invest your lump sum, you feel terrible and might panic sell. If you're DCA-ing, the drop means your next purchase is 30% cheaper. DCA turns bad markets into sales.",
+      intermediate:
+        "The Vanguard study (2012, updated): analyzed 1,000+ rolling periods in the US, UK, and Australian markets. Lump sum investing beat DCA about 2/3 of the time, with an average outperformance of 2.3% over 12 months. However: (1) The 1/3 of the time DCA won, it won by protecting you from investing right before major drawdowns. (2) The psychological benefit is not captured in the math. A person who DCA's and stays invested beats a person who lump sums, panics during a crash, and sells.\n\nWhen DCA is clearly better: (1) When you earn money over time (salary), DCA is automatic -- you invest each paycheck. No choice needed. (2) When you're anxious about a lump sum. If $100K is sitting in cash and you're afraid to invest it all at once, DCA over 6-12 months is better than paralysis. (3) In highly volatile or expensive-looking markets, DCA reduces regret risk.\n\nAutomation is key: set up automatic investments so DCA happens without you making monthly decisions. Every decision point is an opportunity to procrastinate. Remove the decision.",
+      advanced:
+        "Behavioral analysis: DCA's real value is as a commitment device. It removes the two most damaging investor behaviors: (1) market timing (waiting for a 'better' entry point that never comes) and (2) panic selling (liquidating at the bottom). Dollar-cost averaging into a diversified index fund with automatic rebalancing is the single most reliable wealth-building strategy available to individual investors -- not because it's mathematically optimal, but because it's psychologically sustainable.\n\nValue averaging (VA): a lesser-known alternative where you set a target portfolio value path (e.g., $1,000/month growth). When the market is down, you invest more to hit the target. When the market is up, you invest less (or even sell). VA has been shown to outperform DCA in backtests, but it's more complex and requires variable cash flows, making it impractical for most people.\n\nThe real answer: for 401(k) contributions from your paycheck, DCA is the only option (and it works great). For a windfall (inheritance, bonus, sale of a house), the mathematically correct answer is lump sum if you can handle the volatility. If you can't, DCA over 3-12 months. The worst option by far is sitting in cash indefinitely while 'waiting for a good time to invest.' Cash drag in a bull market is the most common invisible cost in personal finance."
+    },
+    honestAnalysis:
+      "The DCA vs lump sum debate is mostly about psychology, not math. The best strategy is the one you'll actually stick with through a 30% drawdown. For most people, that's DCA with automatic investments. Stop optimizing and start investing.",
+  },
+  {
+    id: "c6-03",
+    slug: "social-security-optimization",
+    domainId: "d6",
+    name: "Social Security: When to Claim (The $200K Decision)",
+    summary:
+      "You can claim Social Security at 62, 67, or 70. Each year you delay increases your benefit by 8%. This single decision can be worth $200,000+ in lifetime benefits.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["safe-withdrawal-rate", "sequence-of-returns-risk"],
+    layers: {
+      accessible:
+        "You can start Social Security benefits as early as 62, at your full retirement age (67 for most people), or as late as 70. For each year you delay past 62, your monthly check grows by about 7-8%. At 62, you get roughly 70% of your full benefit. At 70, you get 124%.\n\nExample: if your full benefit at 67 is $2,000/month: at 62 you'd get $1,400/month, at 70 you'd get $2,480/month. That's $1,080/month difference between earliest and latest -- $12,960/year for life, adjusted for inflation.\n\nThe break-even point is around age 80. If you live past 80 (and most people do -- average life expectancy at 65 is about 85), delaying to 70 pays more total dollars. If you're in poor health or need the money now, claiming early makes sense.",
+      intermediate:
+        "Spousal coordination: married couples have powerful optimization options. (1) The higher earner should almost always delay to 70 (maximizes the survivor benefit -- when one spouse dies, the surviving spouse gets the higher of the two benefits). (2) The lower earner can claim at 62 to provide household income while the higher earner's benefit grows. (3) Spousal benefits: a non-working or lower-earning spouse can receive up to 50% of the higher earner's full retirement benefit.\n\nThe survivor benefit is the key insight most people miss: when one spouse dies, the surviving spouse keeps only one Social Security check (the higher one). If the higher earner claimed at 62 ($1,400/month) instead of 70 ($2,480/month), the surviving spouse is locked into the lower amount for life. Delaying the higher earner's claim is essentially buying a life insurance policy that pays $1,080/month forever, inflation-adjusted.\n\nTaxation: up to 85% of Social Security benefits are taxable if your combined income exceeds $34,000 (single) or $44,000 (married). Roth conversions before claiming Social Security can reduce the tax hit on benefits later.",
+      advanced:
+        "Break-even analysis by scenario: (1) Single, good health, longevity in family: delay to 70. The internal rate of return on delaying is approximately 7-8% -- risk-free, inflation-adjusted. No other guaranteed investment offers this. (2) Single, poor health: claim at 62 or FRA. (3) Married, both healthy: higher earner delays to 70, lower earner claims at 62-FRA. (4) Married, one unhealthy: the unhealthy spouse claims early; the healthy spouse delays.\n\nAdvanced strategies: (1) File and suspend (eliminated in 2015 for new filers, but existing suspensions are grandfathered). (2) Restricted application (only available if born before 1/2/1954 -- being phased out). (3) Coordination with pension income, Roth conversions, and RMDs to manage tax brackets in retirement.\n\nThe IRMAA trap: high income in retirement (from RMDs, Roth conversions, or capital gains) can trigger Income-Related Monthly Adjustment Amount surcharges on Medicare Parts B and D. A $1 overshoot of the IRMAA threshold can cost $2,000-$4,000/year in additional premiums. Social Security claiming strategy should be coordinated with Medicare premium management."
+    },
+    honestAnalysis:
+      "For most people, delaying Social Security to 70 is mathematically correct. But 'most people' doesn't mean everyone. If you're in poor health, need the income, or have a strong alternative use for the money (paying off high-interest debt), claiming early is rational. The mistake is claiming early without understanding the trade-off.",
+  },
 ];
 
 export function getConceptBySlug(slug: string): FinancialConcept | undefined {
