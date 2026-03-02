@@ -332,4 +332,144 @@ export const strategies: Strategy[] = [
     uncommonInsight:
       "The trifecta: donate appreciated stock to a DAF in a high-income year. Take the deduction when your marginal rate is highest. Distribute from the DAF to charities over multiple years. Buy replacement stock at the new (higher) cost basis. You've avoided capital gains, maximized the deduction, and reset your basis. This is how wealthy families structure their charitable giving.",
   },
+  {
+    id: "social-security-timing",
+    title: "Social Security Timing Strategy",
+    subtitle: "Every year you wait adds 8%",
+    icon: "Clock",
+    summary:
+      "You can claim Social Security between 62 and 70. Every year you delay past your Full Retirement Age (FRA) increases your benefit by 8%. Claiming at 62 permanently reduces it by up to 30%. The difference between 62 and 70 can be over $1,000/month for life.",
+    sections: [
+      {
+        heading: "The Math Behind the Decision",
+        content:
+          "If your Full Retirement Age benefit is $2,000/month: Claiming at 62 gets you $1,400/month (30% cut). Claiming at 67 (FRA) gets you $2,000/month. Claiming at 70 gets you $2,480/month (24% increase). That $2,480 vs $1,400 is a $1,080/month difference -- $12,960/year -- for the rest of your life, with COLA adjustments. The 'breakeven age' where delayed claiming catches up to early claiming is typically around 80-82. If you live past 82, you come out ahead by waiting. Average life expectancy at 62 is about 84 for men and 87 for women.",
+      },
+      {
+        heading: "When Early Claiming Makes Sense",
+        content:
+          "Early claiming at 62 can be optimal if: you have a terminal illness or significantly shortened life expectancy; you have no other income and need the money to survive; you plan to invest the entire benefit and can reliably earn more than 8% after-tax; or your spouse has a higher benefit and will provide a survivor benefit. The key question: do you need this money to live on, or are you just taking it because 'it is available'?",
+      },
+      {
+        heading: "The Bridge Strategy",
+        content:
+          "If you retire at 60 or 62 but want to delay Social Security to 70, you need a 'bridge' -- income to cover the gap years. Options: draw down taxable brokerage accounts first, do Roth conversions during these low-income years (filling up the 12% or 22% bracket), use cash reserves, or work part-time. This gap period is the most tax-efficient window many retirees will ever have -- low income, low brackets, opportunity to optimize before RMDs start at 73.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Benefit increase per year after FRA", value: "8%" },
+      { label: "Max reduction at 62 (if FRA is 67)", value: "-30%" },
+      { label: "Typical breakeven age", value: "80-82" },
+      { label: "Survivor benefit", value: "100% of higher earner's" },
+    ],
+    commonMistake:
+      "Taking Social Security at 62 'because I might not live that long' without actually running the numbers. Most people underestimate their longevity. A 62-year-old woman has a 50% chance of living to 88. The psychological pull of 'a bird in the hand' costs many retirees hundreds of thousands over their lifetime.",
+    uncommonInsight:
+      "For married couples, the higher earner delaying to 70 is almost always optimal because of the survivor benefit. When one spouse dies, the surviving spouse gets the HIGHER of the two benefits. If the higher earner took Social Security at 62 ($1,400/month), the survivor is stuck with that reduced amount. If they waited until 70 ($2,480/month), the survivor gets $2,480. Delaying is insurance for the surviving spouse. This is the single biggest Social Security optimization most couples miss.",
+  },
+  {
+    id: "i-bond-strategy",
+    title: "Series I Bond Strategy",
+    subtitle: "The government's inflation-proof savings account",
+    icon: "Landmark",
+    summary:
+      "I Bonds are US Treasury savings bonds that pay a rate tied to inflation. The rate adjusts every 6 months. You can buy up to $10,000/year electronically (plus $5,000 via tax refund). They are risk-free, tax-deferred, and state-tax-exempt.",
+    sections: [
+      {
+        heading: "How I Bonds Work",
+        content:
+          "I Bonds pay a composite rate made of two parts: a fixed rate (set when you buy, lasts the life of the bond -- currently around 1.2%) and an inflation rate (resets every 6 months based on CPI). Your money is locked for 1 year minimum. If you redeem between years 1-5, you forfeit the last 3 months of interest. After 5 years, no penalty. They mature after 30 years. Interest is federal-tax-deferred until redemption and completely exempt from state and local taxes.",
+      },
+      {
+        heading: "When I Bonds Shine",
+        content:
+          "I Bonds are optimal for: your emergency fund (after the 1-year lockup), money you will need in 2-7 years (too short for stock risk, I Bonds beat savings accounts in high-inflation environments), college savings (interest is tax-free if used for education and you meet income limits), and the conservative allocation of a retiree's portfolio. They are NOT good for: money you might need within 12 months, or long-term growth (stocks will outperform over 20+ years).",
+      },
+      {
+        heading: "The Optimization Play",
+        content:
+          "Buy I Bonds in late October or April (just before the new rate announcement) so you can see the upcoming rate before committing. A married couple can purchase $20,000/year electronically, plus $10,000 via tax refund overpayment, for $30,000 total. The fixed rate component is your real yield -- if the fixed rate is above 1%, the bond is attractive for the long term because you are getting 1%+ ABOVE inflation, guaranteed by the US government, with no credit risk.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Annual purchase limit (electronic)", value: "$10,000" },
+      { label: "Additional via tax refund", value: "$5,000" },
+      { label: "Minimum holding period", value: "1 year" },
+      { label: "Early redemption penalty (yr 1-5)", value: "3 months interest" },
+    ],
+    commonMistake:
+      "Ignoring I Bonds because the current composite rate seems low. The composite rate changes every 6 months -- what matters for long-term holding is the FIXED rate, which is locked for the life of the bond. A 1.2% fixed rate means you earn 1.2% above inflation for up to 30 years, completely risk-free. No other investment offers that.",
+    uncommonInsight:
+      "I Bonds are one of the only inflation hedges available to retail investors that has zero credit risk, zero market risk, and tax deferral. TIPS (Treasury Inflation-Protected Securities) also track inflation but trade on the secondary market with price volatility and pay taxable 'phantom income' annually. I Bonds avoid both problems. For the conservative sleeve of a portfolio, I Bonds are objectively superior to TIPS held in a taxable account.",
+  },
+  {
+    id: "income-smoothing",
+    title: "Income Smoothing Strategy",
+    subtitle: "Fill every bracket, waste no deduction",
+    icon: "BarChart3",
+    summary:
+      "The US tax system is progressive -- higher income gets taxed at higher rates. If your income varies wildly year to year, you overpay in high years and waste bracket space in low years. Income smoothing means shifting income between years to stay in the optimal bracket range.",
+    sections: [
+      {
+        heading: "The Problem: Volatile Income",
+        content:
+          "A freelancer earning $200K one year and $50K the next pays more tax over two years than someone earning $125K both years -- even though the total is the same ($250K). Why? The $200K year pushes income into the 32% bracket, while the $50K year wastes the entire 12% and most of the 22% bracket space. Progressive rates reward consistency and punish volatility. The same principle applies to retirees with variable capital gains, business owners with lumpy revenue, or anyone with stock vesting schedules.",
+      },
+      {
+        heading: "Smoothing Tools",
+        content:
+          "In high-income years: maximize pre-tax 401(k) contributions, defer bonuses or stock sales to January, harvest capital losses, make large charitable contributions (DAF bunching), and fund a solo 401(k) or SEP if self-employed. In low-income years: do Roth conversions to 'fill up' the 12% or 22% bracket, realize capital gains at the 0% rate (income under $47,025 single in 2025), accelerate ordinary income if possible. The goal is to keep your marginal rate within a 2-bracket range every year.",
+      },
+      {
+        heading: "Retirement Income Smoothing",
+        content:
+          "The years between retirement (say age 60) and RMDs (age 73) are a golden window. Income is low (no salary), RMDs have not started, and Social Security can be delayed. During this window: do Roth conversions filling the 22% or 24% bracket, take capital gains at the 0% or 15% rate, and draw down traditional accounts strategically. If you do nothing during this window, your RMDs at 73+ may push you into the 24-32% bracket -- meaning you end up paying MORE tax in retirement than you saved during your working years.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Top of 12% bracket (single, 2025)", value: "$47,150" },
+      { label: "Top of 22% bracket (single, 2025)", value: "$100,525" },
+      { label: "0% LTCG threshold (single)", value: "$47,025" },
+      { label: "Roth conversion gap (retire 60 to RMD 73)", value: "13 years" },
+    ],
+    commonMistake:
+      "Ignoring the gap years between retirement and RMDs. Many retirees take the standard deduction, claim Social Security early, and leave their traditional IRA untouched for 10+ years -- missing the lowest-tax window they will ever have. Then RMDs at 73 force distributions at much higher rates.",
+    uncommonInsight:
+      "The most tax-efficient retirees often pay MORE tax in their early retirement years, not less. They deliberately fill up the 22-24% bracket with Roth conversions. This seems counterintuitive -- why pay tax when you do not have to? Because paying 22% now to avoid 32% later is a 10-percentage-point arbitrage. Over a 20-year retirement, this single strategy can save six figures in cumulative tax.",
+  },
+  {
+    id: "529-education-planning",
+    title: "529 Plan and Education Tax Strategy",
+    subtitle: "Tax-free growth for education -- if you use it right",
+    icon: "GraduationCap",
+    summary:
+      "529 plans offer tax-free growth and tax-free withdrawals for qualified education expenses. Many states add a state tax deduction for contributions. But the rules are specific, and mistakes are expensive.",
+    sections: [
+      {
+        heading: "The Tax Triple Play",
+        content:
+          "529 contributions are not federally deductible, but 30+ states offer a state income tax deduction or credit. The money grows tax-free. Withdrawals for qualified education expenses are tax-free. This 'triple play' (state deduction + tax-free growth + tax-free withdrawal) makes 529s one of the best tax-advantaged vehicles available. Qualified expenses include: tuition, room and board, books, computers, internet access, and up to $10,000/year for K-12 tuition.",
+      },
+      {
+        heading: "Superfunding and Gift Tax Strategy",
+        content:
+          "You can contribute up to 5 years of the annual gift tax exclusion ($19,000 x 5 = $95,000 per beneficiary in 2025) in a single year without triggering gift tax. A married couple can superfund $190,000 per child. This front-loads growth and is one of the most powerful estate planning tools for grandparents: the money leaves your estate immediately, grows tax-free for decades, and funds education. If you have the cash, superfunding at birth gives 18 years of tax-free compounding.",
+      },
+      {
+        heading: "SECURE 2.0: 529-to-Roth Rollover",
+        content:
+          "Starting in 2024, unused 529 funds can be rolled over to a Roth IRA for the beneficiary. Conditions: the 529 must have been open for 15+ years, annual rollovers are limited to the Roth IRA contribution limit ($7,000 in 2025), and the lifetime rollover cap is $35,000. This eliminates the biggest objection to 529s ('what if my kid doesn't go to college?'). Worst case: you've created a funded Roth IRA for your child. Over-fund the 529 deliberately and let the excess become retirement savings.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Annual gift exclusion (2025)", value: "$19,000" },
+      { label: "5-year superfunding max (single)", value: "$95,000" },
+      { label: "529-to-Roth lifetime rollover cap", value: "$35,000" },
+      { label: "K-12 tuition limit per year", value: "$10,000" },
+    ],
+    commonMistake:
+      "Not using your own state's 529 plan when your state offers a tax deduction. Some parents choose Vanguard's Nevada 529 or Utah's plan for lower fees -- but if your state gives a 5-6% deduction on contributions, the tax benefit usually outweighs the fee difference. Always check your state's plan first.",
+    uncommonInsight:
+      "The 529-to-Roth rollover changes the calculus completely. Previously, the risk of 'overfunding' the 529 (penalties on non-qualified withdrawals) discouraged aggressive funding. Now, overfunding is a feature: contribute $95K at birth, it grows tax-free for 18 years, use what you need for college, and roll the rest into a Roth IRA. Your child starts adulthood with potentially $35,000+ in a Roth -- a massive head start on tax-free compounding.",
+  },
 ];

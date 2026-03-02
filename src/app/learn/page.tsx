@@ -11,6 +11,10 @@ import {
   Heart,
   Lightbulb,
   AlertCircle,
+  Clock,
+  Landmark,
+  BarChart3,
+  GraduationCap,
 } from "lucide-react";
 import { strategies } from "@/lib/strategies-data";
 
@@ -21,6 +25,10 @@ const iconMap: Record<string, React.ReactNode> = {
   KeyRound: <KeyRound className="w-6 h-6 text-accent" />,
   Scissors: <Scissors className="w-6 h-6 text-accent" />,
   Heart: <Heart className="w-6 h-6 text-accent" />,
+  Clock: <Clock className="w-6 h-6 text-accent" />,
+  Landmark: <Landmark className="w-6 h-6 text-accent" />,
+  BarChart3: <BarChart3 className="w-6 h-6 text-accent" />,
+  GraduationCap: <GraduationCap className="w-6 h-6 text-accent" />,
 };
 
 export default function LearnPage() {
