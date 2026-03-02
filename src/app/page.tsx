@@ -153,7 +153,7 @@ export default function HomePage() {
               Knowledge Base
             </p>
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-              13 Domains. {concepts.length} Concepts. Three Depths.
+              {domains.length} Domains. {concepts.length} Concepts. Three Depths.
             </h2>
             <p className="text-text-secondary text-sm mt-2 max-w-lg mx-auto">
               From tax accounts to behavioral finance. Each concept at
@@ -191,7 +191,7 @@ export default function HomePage() {
               href="/explore"
               className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
-              Explore all 13 domains
+              Explore all {domains.length} domains
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

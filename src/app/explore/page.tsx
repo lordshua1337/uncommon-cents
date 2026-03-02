@@ -183,7 +183,7 @@ export default function ExplorePage() {
           </p>
           <h1 className="text-3xl sm:text-4xl font-bold mb-3">Explore</h1>
           <p className="text-text-secondary text-sm max-w-lg mx-auto">
-            13 domains covering taxes, investing, retirement, real estate, and
+            {domains.length} domains covering taxes, investing, retirement, real estate, and
             more. Every concept at three depth levels with honest analysis.
           </p>
         </div>

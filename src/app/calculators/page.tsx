@@ -619,11 +619,7 @@ function BuyVsRentCalc() {
           <span className="font-semibold">
             {buyNetWealth > rentNetWealth ? "Buying wins by" : "Renting wins by"}
           </span>
-          <span
-            className={`font-semibold ${
-              buyNetWealth > rentNetWealth ? "text-accent" : "text-accent"
-            }`}
-          >
+          <span className="font-semibold text-accent">
             {formatCurrency(Math.abs(buyNetWealth - rentNetWealth))}
           </span>
         </div>
