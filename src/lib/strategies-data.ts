@@ -227,4 +227,109 @@ export const strategies: Strategy[] = [
     uncommonInsight:
       "If you have a family HSA and invest the maximum every year from age 30 to 65, assuming 7% returns, you'll have roughly $900K in tax-free money. That's your entire medical cost coverage in retirement, completely tax-free.",
   },
+  {
+    id: "asset-location",
+    title: "Asset Location: The Tax Alpha Nobody Talks About",
+    subtitle: "Same investments, different accounts, different taxes",
+    icon: "ArrowUpDown",
+    summary:
+      "Asset location is choosing WHICH account to hold each investment in. Putting tax-inefficient assets (bonds, REITs) in tax-advantaged accounts and tax-efficient assets (index funds) in taxable accounts can add 0.5-1% per year to your after-tax returns.",
+    sections: [
+      {
+        heading: "The Core Idea",
+        content:
+          "You probably own multiple account types: 401(k)/IRA (tax-deferred), Roth (tax-free), and taxable brokerage. The same investments behave very differently depending on which account they're in. Bond interest is taxed as ordinary income (up to 37%). If that bond is in your 401(k), you defer the tax. If it's in your Roth, you never pay it. But if it's in your taxable account, you're paying 37% on the interest every year. Meanwhile, stock index funds in a taxable account are highly tax-efficient: they generate few distributions and qualify for the lower capital gains rate (0-20%).",
+      },
+      {
+        heading: "The Optimal Order",
+        content:
+          "Tax-advantaged accounts (Traditional IRA/401k): bonds, REITs, actively managed funds -- anything that generates taxable income. Roth accounts: your highest-growth assets (small cap, emerging markets, growth stocks) -- because all that growth is tax-free forever. Taxable accounts: total market index funds, tax-managed funds, individual stocks you plan to hold long-term -- they're naturally tax-efficient.",
+      },
+      {
+        heading: "The Practical Challenge",
+        content:
+          "Asset location only works if your total allocation across ALL accounts matches your target. If your target is 70/30 stocks/bonds, your 401(k) might be 100% bonds, your Roth might be 100% stocks, and your taxable might be 80/20 -- but the total is 70/30. Think of it as one big portfolio split across multiple accounts, not separate portfolios in each account.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Typical annual tax alpha", value: "0.5-1.0%" },
+      { label: "Bond tax rate (ordinary income)", value: "Up to 37%" },
+      { label: "LTCG rate (qualified stocks)", value: "0-20%" },
+      { label: "REIT dividend tax rate", value: "Up to 37%" },
+    ],
+    commonMistake:
+      "Treating each account as a separate portfolio with its own allocation, instead of viewing them as one portfolio spread across tax-optimized containers.",
+    uncommonInsight:
+      "Over 30 years, the difference between good and bad asset location can exceed $200K on a $500K portfolio. It's free money -- no additional risk, no additional savings, just smarter placement of investments you already own.",
+  },
+  {
+    id: "mega-backdoor-roth",
+    title: "The Mega Backdoor Roth",
+    subtitle: "The $46K/year Roth hack",
+    icon: "KeyRound",
+    summary:
+      "If your employer's 401(k) allows after-tax contributions and in-plan Roth conversions, you can funnel up to $46,000 extra per year into Roth -- far beyond the $7,000 IRA limit. Not all plans support it, but if yours does, it's the most powerful savings vehicle available.",
+    sections: [
+      {
+        heading: "How It Works",
+        content:
+          "The total 401(k) limit in 2025 is $70,000 (employee + employer contributions). Most people only use the $23,500 employee portion. But if your plan allows 'after-tax contributions' (different from Roth contributions), you can contribute the remaining gap between your employee + employer contributions and the $70,000 cap. Then you convert those after-tax contributions to Roth -- either in-plan or via rollover to a Roth IRA.",
+      },
+      {
+        heading: "Who Can Do This",
+        content:
+          "Your employer plan must specifically allow two things: (1) after-tax contributions beyond the $23,500 employee limit, and (2) in-plan Roth conversions or in-service withdrawals for after-tax money. Ask HR or your plan administrator. Major providers like Fidelity, Vanguard, and Schwab support it in many plans. If you have a Solo 401(k), you can design your plan to allow it.",
+      },
+      {
+        heading: "The Math",
+        content:
+          "2025 total 401(k) limit: $70,000. You contribute $23,500 (employee). Employer matches $8,000. That's $31,500. Remaining space: $38,500. You can contribute $38,500 in after-tax contributions and immediately convert them to Roth. Combined with a Backdoor Roth IRA ($7,000) and HSA ($8,550 family), that's up to $54,050 per year in tax-advantaged savings -- per person.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Total 401(k) limit (2025)", value: "$70,000" },
+      { label: "Max Mega Backdoor Roth contribution", value: "~$38-46K" },
+      { label: "Combined tax-advantaged savings (per person)", value: "$54K+" },
+      { label: "Roth value after 15yr at 7%", value: "~$1.2M" },
+    ],
+    commonMistake:
+      "Not converting the after-tax contributions immediately. If you leave them sitting as after-tax, the EARNINGS become taxable on conversion. Convert as quickly as possible -- ideally automatically.",
+    uncommonInsight:
+      "A dual-income couple both doing Mega Backdoor Roth can shelter over $100K/year in Roth accounts. Over 20 years at 7% growth, that's over $4M in completely tax-free retirement savings. That's a different retirement than someone who only maxed their IRA.",
+  },
+  {
+    id: "charitable-giving-strategy",
+    title: "Charitable Giving Tax Strategies",
+    subtitle: "Give smarter, not just more",
+    icon: "Heart",
+    summary:
+      "Donating appreciated stock instead of cash avoids capital gains tax AND gives you a full fair market value deduction. Donor-advised funds let you bunch deductions. QCDs let retirees give from their IRA without paying income tax on the distribution.",
+    sections: [
+      {
+        heading: "Donate Appreciated Stock",
+        content:
+          "If you bought stock at $10 and it's now worth $100, selling it to donate the cash means paying capital gains tax on $90 of gain. Instead, donate the stock directly to charity: you get a deduction for the full $100, the charity receives $100, and NOBODY pays capital gains tax on the $90. You avoid up to $21.42 in tax ($90 x 23.8% LTCG + NIIT) versus selling and donating cash. Then use the cash you would have donated to buy new stock at the higher basis.",
+      },
+      {
+        heading: "Donor-Advised Fund (DAF) Bunching",
+        content:
+          "The standard deduction in 2025 is $30,000 for married filers. If your total deductions (state tax, mortgage interest, charity) are close to $30,000, your charitable giving provides zero additional tax benefit. Solution: bunch 2-3 years of giving into a single year using a DAF. Contribute $30K to the DAF in one year (pushing you well above the standard deduction), then distribute from the DAF to your chosen charities over the next 2-3 years. Alternate between bunching years and standard deduction years.",
+      },
+      {
+        heading: "Qualified Charitable Distributions (QCDs)",
+        content:
+          "If you're 70.5 or older, you can donate up to $105,000 directly from your IRA to charity. This is a QCD. It counts toward your Required Minimum Distribution (RMD) but is NOT included in your taxable income. For retirees who give to charity anyway, this is dramatically better than taking the RMD, paying tax on it, and then donating from checking. The QCD reduces your AGI, which can lower your Medicare premiums (IRMAA), reduce the taxation of Social Security benefits, and keep you below various phase-out thresholds.",
+      },
+    ],
+    keyNumbers: [
+      { label: "Max QCD per year (70.5+)", value: "$105,000" },
+      { label: "Avoided LTCG on donated stock", value: "Up to 23.8%" },
+      { label: "DAF bunching benefit", value: "2-3x deduction in 1 year" },
+      { label: "Standard deduction (married, 2025)", value: "$30,000" },
+    ],
+    commonMistake:
+      "Donating cash instead of appreciated stock. If you're giving $5K+ to charity and have appreciated investments, donating the stock is almost always better. Your accountant should be asking about this.",
+    uncommonInsight:
+      "The trifecta: donate appreciated stock to a DAF in a high-income year. Take the deduction when your marginal rate is highest. Distribute from the DAF to charities over multiple years. Buy replacement stock at the new (higher) cost basis. You've avoided capital gains, maximized the deduction, and reset your basis. This is how wealthy families structure their charitable giving.",
+  },
 ];
