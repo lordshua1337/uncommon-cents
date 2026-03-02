@@ -1125,6 +1125,327 @@ export const concepts: FinancialConcept[] = [
     honestAnalysis:
       "FBAR/FATCA compliance is one of the most common areas where well-meaning Americans abroad get into serious trouble. The rules are complex, the penalties are wildly disproportionate to the offense, and many tax preparers don't understand international reporting. If you have foreign accounts, find a tax preparer who specializes in expat taxation.",
   },
+
+  // ─── New concepts: filling domain gaps ──────────────────────────────────
+
+  // d2: Tax Optimization (needs 2 more)
+  {
+    id: "c2-06",
+    slug: "qualified-opportunity-zones",
+    domainId: "d2",
+    name: "Qualified Opportunity Zones: Tax-Free Capital Gains",
+    summary:
+      "Invest capital gains into designated Opportunity Zones and potentially eliminate taxes on the new investment's appreciation. A powerful but complex strategy with real traps.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["tax-loss-harvesting", "zero-percent-capital-gains", "1031-exchange"],
+    layers: {
+      accessible:
+        "When you sell an asset for a profit (stocks, real estate, a business), you owe capital gains tax. Qualified Opportunity Zones (QOZs) let you defer and potentially reduce that tax by reinvesting the gain into a QOZ Fund within 180 days. The real prize: if you hold the QOZ investment for 10+ years, ALL future appreciation on that new investment is completely tax-free. Congress created this in the 2017 Tax Cuts and Jobs Act to drive investment into economically distressed areas. There are over 8,700 designated zones across all 50 states.",
+      intermediate:
+        "The three-tier tax benefit: (1) Deferral -- you don't pay capital gains tax on the original gain until December 31, 2026 (or when you sell the QOZ investment, whichever is earlier). (2) Reduction -- the original step-up basis benefits (10% at 5 years, 15% at 7 years) expired for new investments after 2019, so this tier is mostly gone for new investors. (3) Exclusion -- if held 10+ years, you pay ZERO tax on the appreciation of the QOZ investment itself.\n\nThe 180-day clock: you must invest the gain (not the total proceeds, just the gain portion) into a Qualified Opportunity Fund within 180 days of the sale. For pass-through entities (partnerships, S-corps), you can choose to start the 180 days from the entity's sale date or from the last day of the entity's tax year.\n\nInvestment vehicles: you can invest in a QOZ Fund that you create (self-certifying on Form 8996) or invest in existing QOZ Funds. Self-certification requires that 90% of the fund's assets be in qualified opportunity zone property.",
+      advanced:
+        "Critical due diligence: QOZ investments are illiquid by design -- the 10-year hold requirement means your capital is locked up. Many QOZ Funds are real estate development projects with real project risk. The tax benefit can blind people to terrible underlying investments. A tax-free return on a bad investment is still a bad investment.\n\nThe December 2026 deadline: all deferred gains from QOZ investments will be recognized on December 31, 2026, regardless of whether you sell. This means a potentially large tax bill in April 2027. Plan for this.\n\nStructuring considerations: QOZ Funds must meet the 90% asset test semi-annually. If the fund fails this test, it faces penalties. For self-directed QOZ investments (e.g., buying and developing a property in a QOZ), you need to 'substantially improve' the property within 30 months -- the improvements must exceed the original purchase price of the building (land excluded). This rule does not apply to new construction.\n\nThe best use case: you have a large, unexpected capital gain (sold a business, exercised stock options, sold appreciated real estate) and want to deploy that gain into real estate development in an area you believe in. The tax benefit enhances the return; it shouldn't be the only reason to invest."
+    },
+    honestAnalysis:
+      "Opportunity Zones are a legitimate tax strategy but they've attracted a lot of promoters selling mediocre investments wrapped in a tax benefit. The tax tail should never wag the investment dog. Do your due diligence on the underlying investment first, then consider the tax benefit as a bonus.",
+  },
+
+  {
+    id: "c2-07",
+    slug: "charitable-giving-strategies",
+    domainId: "d2",
+    name: "Charitable Giving Tax Strategies",
+    summary:
+      "Donate appreciated stock instead of cash, bunch deductions with donor-advised funds, do qualified charitable distributions from IRAs. The tax-smart way to give.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["tax-bracket-management", "rmd-strategies", "zero-percent-capital-gains"],
+    layers: {
+      accessible:
+        "If you donate cash to charity, you get a tax deduction. But if you donate appreciated stock (stock that has gone up in value), you get the deduction AND avoid paying capital gains tax on the appreciation. Example: you bought stock for $5,000, it's now worth $20,000. If you sell and donate cash, you pay capital gains tax on $15,000 of gains (~$3,000 in tax) and donate $20,000 for a net cost of $23,000. If you donate the stock directly, you pay $0 in capital gains tax and still get a $20,000 deduction. Same gift, $3,000 less cost.\n\nThe catch: you must have held the stock for over one year (long-term) and you must itemize deductions to benefit. With the standard deduction at $30,000+ for married couples, many people don't itemize -- which leads to the next strategy.",
+      intermediate:
+        "Donor-Advised Fund (DAF) bunching strategy: if your annual charitable giving doesn't push you over the standard deduction threshold, 'bunch' multiple years of giving into a single year. Contribute 3-5 years worth of donations to a Donor-Advised Fund in one year, claim the large deduction that year, then distribute from the DAF to charities over the next several years. You get the tax benefit of itemizing in the bunching year and take the standard deduction in other years.\n\nExample: you normally give $8,000/year to charity. Your other itemized deductions total $18,000. Standard deduction (married) is $30,050. $18,000 + $8,000 = $26,000 < $30,050, so you take the standard deduction and get ZERO benefit from charitable giving. Instead: contribute $40,000 (5 years of giving) to a DAF in one year. $18,000 + $40,000 = $58,000 in itemized deductions, saving you roughly $8,400 in taxes at the 24% bracket. Then distribute $8,000/year from the DAF to your charities. Meanwhile, the remaining DAF balance can be invested and grow tax-free.\n\nThe DAF itself can receive appreciated stock, real estate, or even private business interests. Fidelity Charitable, Schwab Charitable, and Vanguard Charitable all offer DAFs with low minimums.",
+      advanced:
+        "Qualified Charitable Distribution (QCD): once you're 70.5 or older, you can donate up to $105,000 per year directly from your IRA to charity. This is a QCD and it counts toward your Required Minimum Distribution (RMD) but is NOT included in your taxable income. This is strictly better than taking the RMD, paying tax on it, and then donating cash (even with a deduction). The QCD reduces AGI, which affects Social Security taxation thresholds, IRMAA brackets, ACA subsidy eligibility, and the 3.8% Net Investment Income Tax.\n\nCharitable Remainder Trust (CRT): for very large gifts, a CRT lets you contribute assets, receive an income stream for life (or a term of years), and then the remainder goes to charity. You get an upfront partial deduction and avoid capital gains on contributed appreciated assets. CRTs are complex and have significant legal costs, but for $500K+ charitable intentions they can be transformative.\n\nPrivate Foundation vs DAF: if you want family involvement in giving decisions, naming rights, and the ability to hire family members (with reasonable compensation), a private foundation offers more control than a DAF. But foundations have a 5% annual distribution requirement, excise taxes on investment income, and significant administrative costs. For most people under $5M in charitable assets, a DAF is simpler and cheaper."
+    },
+  },
+
+  // d3: Equity Compensation (needs 2 more)
+  {
+    id: "c3-06",
+    slug: "concentrated-stock-risk",
+    domainId: "d3",
+    name: "Concentrated Stock Position: Managing the Risk",
+    summary:
+      "When a huge chunk of your net worth is in a single stock (usually your employer), you face a risk most people underestimate. Here's how to diversify without a massive tax bill.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["rsu-basics", "iso-vs-nso", "tax-loss-harvesting", "direct-indexing"],
+    layers: {
+      accessible:
+        "A concentrated stock position means one stock makes up 10%+ of your net worth. This happens easily with RSUs, ISOs, or working at a company whose stock price has surged. The problem: your income AND your investments are tied to the same company. If the stock drops 50%, your net worth drops 50% -- and if it drops because the company is struggling, your job security is also at risk. Enron employees lost both their jobs AND their retirement savings. The emotional trap: 'the stock has done so well, why would I sell?' But past performance says nothing about future risk. The tax trap: selling triggers capital gains tax, so people hold and hold, concentrating more.",
+      intermediate:
+        "Systematic diversification strategies: (1) 10b5-1 plan -- a pre-scheduled selling plan that automatically sells a set number of shares on a set schedule. This removes emotional decision-making and provides insider trading protection. (2) Sell-on-vest -- for RSUs, sell each vesting tranche immediately and reinvest in a diversified portfolio. You've already been 'paid' the value at vesting (that's your income); holding after vesting is a new investment decision. (3) Direct indexing -- sell concentrated shares and immediately invest in individual stocks that replicate an index minus your concentrated holding. This gets you diversified quickly while generating tax losses from the individual positions.\n\nThe tax-lot approach: identify your highest-cost-basis shares (those closest to current price) and sell those first. The capital gains will be minimal. Over time, work your way down to the low-basis shares, spreading the tax impact across multiple years.\n\nRule of thumb: never let a single stock exceed 10-15% of your investable assets. If your employer stock is 50%+ of your net worth, diversifying is urgent -- even if it means paying some capital gains tax.",
+      advanced:
+        "Exchange funds (for ultra-high-net-worth): you contribute your concentrated stock position into a partnership fund that holds multiple concentrated stocks from different investors. After 7+ years, you can withdraw a diversified basket of stocks. No capital gains event on entry. These require $1M+ minimums and are offered by Goldman Sachs, Morgan Stanley, and others.\n\nPrepaid forward contracts: you enter a contract to deliver your shares at a future date in exchange for receiving most of the value upfront. This provides immediate liquidity and downside protection without triggering a current sale. Complex, expensive, and only available through private banks.\n\nCharitable strategies: donate the most appreciated shares to a DAF or charitable remainder trust. You get the full market value deduction and avoid all capital gains tax. If you were going to give to charity anyway, using concentrated stock is the most tax-efficient way.\n\nCollar strategy: simultaneously buy a put option (downside protection) and sell a call option (caps upside) on your concentrated position. The cost of the put is offset by the premium from the call. This locks in a price range, protecting you from catastrophic loss while you diversify gradually. Be aware: collars may trigger constructive sale rules if the collar is too tight."
+    },
+    honestAnalysis:
+      "The hardest part of managing a concentrated stock position is emotional, not financial. People anchor to the price they 'could have gotten' and refuse to sell. Think of it this way: if you had the cash value of your stock position today, would you put it all into that single stock? If the answer is no, you have a diversification problem.",
+  },
+
+  {
+    id: "c3-07",
+    slug: "ipo-lockup-strategy",
+    domainId: "d3",
+    name: "IPO and Lockup Period Strategy",
+    summary:
+      "Your company just went public and your shares are locked up for 90-180 days. What should you do before, during, and after the lockup expires?",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["iso-vs-nso", "rsu-basics", "83b-election", "concentrated-stock-risk"],
+    layers: {
+      accessible:
+        "When a private company goes public (IPO), employees typically can't sell their shares immediately. The lockup period (usually 90-180 days) prevents insiders from flooding the market. During this period, you watch your paper wealth fluctuate -- sometimes dramatically -- without being able to do anything. The historical pattern: many stocks drop when the lockup expires because employees sell. The emotional reality: you went from 'I might be wealthy' to 'I'm watching my net worth change by $50,000 a day and I can't touch it.' Planning ahead is critical.",
+      intermediate:
+        "Before the IPO -- if you have ISOs, consider early exercise + 83(b) election to start the long-term capital gains clock and potentially qualify for Qualified Small Business Stock (QSBS) exclusion. For NSOs, the spread at exercise is ordinary income regardless, so timing matters less. For RSUs, double-trigger vesting means they typically vest at IPO, creating a taxable event at the IPO price.\n\nDuring lockup: (1) Create a written selling plan NOW. Decide what percentage you'll sell and at what prices. Writing it down prevents emotional decision-making when the lockup lifts. (2) Model your tax bill. RSU vesting at IPO likely triggered significant withholding, but check if supplemental withholding (22% federal) is enough for your actual bracket. (3) Consider a 10b5-1 plan that starts executing automatically when the lockup lifts.\n\nAfter lockup expires: resist the urge to either sell everything (panic) or sell nothing (greed). The mechanical approach works best: sell enough to cover your tax bill plus 20% buffer, then sell a fixed percentage of the remaining shares each month over 12-18 months. This dollar-cost-averages your exit.",
+      advanced:
+        "QSBS exclusion (Section 1202): if the company was a qualified small business when you acquired the stock, you may exclude up to $10M or 10x your basis (whichever is greater) of capital gains from federal tax. Requirements: C-corporation, held 5+ years, company had less than $50M in gross assets when stock was issued. This is the most valuable tax break in the entire code for startup employees. California does not conform to QSBS -- you'll owe CA state tax on the gain.\n\nTax planning for a massive liquidity event: (1) Make estimated tax payments to avoid underpayment penalties. (2) Front-load charitable giving (via DAF) in the year of the sale to offset income. (3) Consider Opportunity Zone investments for a portion of the gains. (4) If relocating to a no-income-tax state, ensure you've changed domicile BEFORE the taxable event.\n\nThe diversification imperative: after working for years at a startup for below-market salary, it's tempting to 'let it ride.' But once you have life-changing money, protecting it becomes more important than growing it. The goal shifts from maximizing upside to ensuring you keep enough to actually change your life."
+    },
+  },
+
+  // d4: Real Estate (needs 2 more)
+  {
+    id: "c4-05",
+    slug: "real-estate-depreciation",
+    domainId: "d4",
+    name: "Real Estate Depreciation: The Paper Loss Tax Shield",
+    summary:
+      "The IRS lets you deduct the 'wear and tear' on rental property even when the property is appreciating. This paper loss shelters real rental income from taxes.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["buy-vs-rent", "house-hacking", "1031-exchange"],
+    layers: {
+      accessible:
+        "When you buy a rental property, the IRS says the building (not the land) wears out over 27.5 years. So each year, you can deduct 1/27.5 of the building's value as a 'depreciation expense' -- even though the property is probably GAINING value. This creates a paper loss that reduces your taxable rental income. Example: you buy a rental for $300,000. The building is worth $240,000. Annual depreciation: $240,000 / 27.5 = $8,727. If your rental nets $12,000 in profit, your taxable income is only $12,000 - $8,727 = $3,273. You keep most of the cash but barely pay taxes on it.",
+      intermediate:
+        "Cost segregation study: instead of depreciating the whole building over 27.5 years, a cost segregation study breaks the property into components with shorter useful lives. Appliances, carpeting, and certain fixtures can be depreciated over 5-7 years. Site improvements (parking lots, landscaping) over 15 years. This front-loads depreciation deductions into the early years of ownership, dramatically reducing taxes in years 1-5. For properties over $500,000, a cost seg study typically costs $5,000-$10,000 but can generate $50,000-$200,000 in accelerated deductions.\n\nBonus depreciation: the Tax Cuts and Jobs Act allows 60% bonus depreciation in 2025 (declining 20% per year). This lets you deduct 60% of the cost-segregated short-lived components in the first year. Combined with cost segregation, you might deduct 20-30% of the total building cost in year one.\n\nPassive activity loss rules: depreciation losses from rental property are 'passive' losses. They can only offset passive income unless you qualify as a Real Estate Professional (750+ hours/year in real estate activities AND more time in real estate than any other job). REP status lets you deduct unlimited rental losses against ordinary income -- a massive benefit for high earners.",
+      advanced:
+        "Depreciation recapture: the IRS doesn't give free lunches forever. When you sell a depreciated property, you must 'recapture' the depreciation at a 25% rate (Section 1250 recapture). So if you took $100,000 in depreciation deductions and then sell, $100,000 of the gain is taxed at 25%, not the normal 15-20% capital gains rate.\n\nAvoiding recapture: a 1031 exchange defers depreciation recapture along with capital gains. You can 1031 exchange indefinitely, and if you die holding the property, your heirs get a stepped-up basis -- eliminating both capital gains AND accumulated depreciation recapture. This is the 'swap till you drop' strategy and it's one of the most powerful wealth-building tools in real estate.\n\nThe real estate professional + cost segregation combo: a high-earning couple where one spouse qualifies as a Real Estate Professional can use cost segregation on newly acquired properties to generate massive losses that offset the other spouse's W-2 or business income. Example: a doctor earning $500K/year married to a real estate professional who acquires a $2M apartment building. Cost segregation generates $400K in year-one depreciation, reducing their taxable income to $100K. This is legal, established, and one of the primary reasons the tax code favors real estate investors."
+    },
+  },
+
+  {
+    id: "c4-06",
+    slug: "rental-property-analysis",
+    domainId: "d4",
+    name: "Rental Property Analysis: The Numbers That Matter",
+    summary:
+      "Cap rate, cash-on-cash return, the 1% rule, debt service coverage ratio. How to analyze a rental property like an investor, not a dreamer.",
+    complexityMin: 1,
+    hasCalculator: true,
+    relatedConceptSlugs: ["buy-vs-rent", "house-hacking", "real-estate-depreciation"],
+    layers: {
+      accessible:
+        "Before buying a rental property, you need to know if it will actually make money. The key metrics: (1) Cap Rate = Net Operating Income / Purchase Price. A $200,000 property netting $14,000/year after expenses (but before mortgage) = 7% cap rate. Higher is better. Most markets: 4-8%. (2) Cash-on-Cash Return = Annual Cash Flow / Total Cash Invested. If you put $50,000 down and net $4,800/year after all expenses including mortgage, that's a 9.6% cash-on-cash return. (3) The 1% Rule (screening tool): monthly rent should be at least 1% of purchase price. $200,000 property should rent for at least $2,000/month. Hard to find in expensive markets but useful for quick filtering.",
+      intermediate:
+        "The expenses most beginners miss: (1) Vacancy: budget 5-8% of gross rent for months when the property sits empty between tenants. (2) Maintenance: budget 5-10% for ongoing repairs (higher for older properties). (3) Capital expenditures (CapEx): budget 5-10% for big items -- roofs, HVAC, water heaters. A new roof every 20 years on a $300K property is ~$10,000, which is ~$500/year or ~3% of typical rent. (4) Property management: if you hire a manager, expect 8-10% of gross rent. Even if you self-manage, value your time. (5) Insurance, property taxes, HOA if applicable.\n\nThe conservative analysis: take your expected rent, subtract ALL of the above, then subtract your mortgage payment. What's left is your true cash flow. Many 'deals' that look great on paper show negative cash flow when properly analyzed. That's fine if you're betting on appreciation, but know that you're speculating, not investing.\n\nDebt Service Coverage Ratio (DSCR): Net Operating Income / Annual Debt Service. Lenders want to see 1.25+ (income exceeds debt payments by 25%). If your DSCR is below 1.0, the property doesn't generate enough income to cover the mortgage -- you're subsidizing it from your own pocket.",
+      advanced:
+        "Internal Rate of Return (IRR): the single best metric for evaluating a rental property because it accounts for all cash flows over time -- purchase costs, annual cash flow, appreciation, tax benefits, and eventual sale proceeds. A property might have mediocre cash-on-cash return but excellent IRR because of depreciation tax benefits and appreciation. Target IRR for rental property: 12-18% over a 10-year hold.\n\nLeverage amplification: real estate's superpower is leverage. If you put 25% down on a property that appreciates 3%/year, your equity return from appreciation alone is 12%/year (3% on 4x leverage). Add cash flow and tax benefits and unleveraged real estate returns of 8-10% become levered returns of 15-25%. But leverage cuts both ways: a 10% decline in value wipes out 40% of your equity.\n\nThe break-even occupancy calculation: at what occupancy rate does the property break even? If your property breaks even at 85% occupancy, you have a 15% margin of safety. If it breaks even at 97%, one bad month puts you underwater. Markets with high seasonal variation (college towns, vacation areas) need larger margins.\n\nPro forma vs actuals: sellers present 'pro forma' numbers showing what the property COULD earn. Always analyze based on ACTUAL current income and expenses. Then underwrite conservatively: assume rents stay flat, vacancy increases, and expenses grow 2-3%/year."
+    },
+  },
+
+  // d5: Business (needs 2 more)
+  {
+    id: "c5-06",
+    slug: "business-retirement-plans",
+    domainId: "d5",
+    name: "Business Owner Retirement Plans: Beyond the Solo 401(k)",
+    summary:
+      "SEP-IRA, SIMPLE IRA, defined benefit plans, cash balance plans. Business owners have retirement plan options that can shelter $100,000 to $300,000+ per year.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["solo-401k", "s-corp-optimization", "roth-vs-traditional"],
+    layers: {
+      accessible:
+        "As a business owner, your retirement plan options are far more powerful than a regular employee's 401(k). The basic options: (1) Solo 401(k): up to $70,000/year (employee + employer contributions). Best for sole proprietors with no employees. (2) SEP-IRA: contribute up to 25% of net self-employment income, max $70,000. Simple to set up but no employee contribution or Roth option. (3) SIMPLE IRA: employee contribution up to $16,500 + employer match. Good for small businesses with employees, lower admin costs. The more aggressive option: (4) Defined Benefit Plan: contribute $100,000-$300,000+ per year depending on age. This is how older, high-income business owners shelter massive amounts from taxes.",
+      intermediate:
+        "Defined Benefit (DB) plan details: a DB plan promises a specific retirement benefit (e.g., $200,000/year starting at age 62). An actuary calculates how much you need to contribute each year to fund that promise. The older you are when you start, the more you must contribute each year (less time for money to grow). A 55-year-old business owner earning $500K could contribute $200,000+/year to a DB plan, all tax-deductible.\n\nCash Balance Plan: a hybrid that combines features of DB and defined contribution plans. It's technically a DB plan (so it gets the high contribution limits) but it feels like a DC plan because each participant has a notional 'account balance.' Cash balance plans are increasingly popular because they allow $100K-$300K+ in annual contributions while being easier to understand than traditional DB plans.\n\nThe stacking strategy: Solo 401(k) ($70,000) + Defined Benefit Plan ($200,000) = $270,000/year in tax-deductible retirement contributions. At the 37% bracket, that's $99,900/year in tax savings. The DB plan costs $2,000-$5,000/year for actuarial administration, but the tax savings dwarf the cost.\n\nKey constraint: if you have employees, DB and cash balance plans must be offered to eligible employees too, which increases costs. These plans work best for solo businesses or businesses with very few employees.",
+      advanced:
+        "The DB plan exit strategy: many business owners open a DB plan, make large contributions for 5-10 years to accumulate a large tax-deferred pool, then close the plan and roll the entire balance into an IRA. This is perfectly legal and common. The key is that the plan must be maintained for a 'reasonable' period -- the IRS has challenged plans that were clearly temporary tax shelters.\n\nCombining with Roth: you can make Roth contributions to a Solo 401(k) ($23,500 employee side) while making tax-deductible employer contributions to the same plan plus a DB plan. This gives you both tax-free money (Roth) and tax-deferred money (employer + DB contributions).\n\nThe age-based profit-sharing trap: in plans covering multiple employees, age-based formulas can allocate more to older, higher-paid participants (typically the owners). But IRS nondiscrimination rules limit how skewed the allocation can be. Cross-testing (comparing equivalent benefits) can help, but it requires actuarial expertise.\n\nWarning: DB and cash balance plans have MANDATORY annual contributions once established. If your business income drops, you still owe the contribution. This is the primary risk. Only establish these plans if your income is stable and predictable."
+    },
+  },
+
+  {
+    id: "c5-07",
+    slug: "business-exit-strategies",
+    domainId: "d5",
+    name: "Business Exit Strategy: Selling, Succession, and Tax Planning",
+    summary:
+      "When you sell a business, the structure of the deal (asset vs stock sale, installment sale, ESOP, QSBS) can change your tax bill by hundreds of thousands of dollars.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["s-corp-optimization", "entity-selection", "qualified-opportunity-zones"],
+    layers: {
+      accessible:
+        "Selling a business is the largest financial event in most business owners' lives. The tax implications depend heavily on HOW you sell. (1) Stock sale: you sell your ownership interest (shares or LLC membership interest). You pay capital gains tax on the difference between your basis and the sale price. Buyers usually prefer asset sales. (2) Asset sale: the business sells its individual assets. The owner then liquidates the entity. This often results in DOUBLE taxation for C-corps (corporate level + shareholder level). (3) Installment sale: spread the sale over multiple years, recognizing gain proportionally each year. This keeps you in a lower tax bracket each year instead of one massive gain.",
+      intermediate:
+        "QSBS exclusion (Section 1202): if your business is a C-corporation and the stock was held 5+ years, you may exclude up to $10 million (or 10x your basis) of capital gains from federal tax. For a founder who started with $100 basis, that's a $10 million tax-free gain. This is one of the most valuable provisions in the tax code for founders. Key requirements: C-corp, original issuance stock, 5+ year hold, company had <$50M in gross assets when stock was issued, and the company is in a 'qualified' trade or business (professional services like law, accounting, and consulting are excluded).\n\nAsset vs stock negotiation: buyers prefer asset sales because they get a stepped-up basis in the assets (more depreciation deductions). Sellers prefer stock sales for cleaner tax treatment. This is often the most negotiated point in small business transactions. The compromise: Section 338(h)(10) election, which lets the buyer treat a stock sale as an asset sale for tax purposes.\n\nInstallment sale benefits: (1) Spread the tax liability over years. (2) Keep yourself in lower brackets. (3) Earn interest on the deferred payments. (4) If the buyer defaults, you may be able to recover the asset and adjust your tax liability. Caution: installment sales carry credit risk -- the buyer may not complete all payments.",
+      advanced:
+        "ESOP exit: selling to an Employee Stock Ownership Plan (ESOP) provides unique benefits. For a C-corp owner, Section 1042 allows you to defer capital gains INDEFINITELY by reinvesting proceeds into 'qualified replacement property' (US stocks and bonds) within 12 months. Combined with a step-up at death, this can eliminate capital gains tax entirely. The ESOP itself is tax-exempt, so the business earnings grow tax-free inside the trust. This makes ESOP transactions attractive for business owners who want to reward employees while minimizing their own tax bill.\n\nGrantor Retained Annuity Trust (GRAT): for business owners who want to transfer appreciation to heirs with minimal gift tax, a GRAT can receive business interests before a sale. If the sale happens while the interests are in the GRAT and the sale price exceeds the IRS-required rate (Section 7520 rate), the excess passes to heirs gift-tax-free.\n\nThe pre-sale charitable planning opportunity: contributing a portion of the business to a Donor-Advised Fund or Charitable Remainder Trust BEFORE the sale avoids capital gains on the donated portion and generates a charitable deduction. This must be done before a binding agreement to sell -- contributing after a deal is struck won't work.\n\nState tax planning: if you live in a high-tax state, consider changing domicile to a no-income-tax state before the sale. This must be a genuine move (new residence, driver's license, voter registration, social ties). States aggressively audit domicile changes around large liquidity events. Plan 12-18 months ahead."
+    },
+  },
+
+  // d6: Retirement (needs 1 more)
+  {
+    id: "c6-06",
+    slug: "irmaa-planning",
+    domainId: "d6",
+    name: "IRMAA: The Hidden Medicare Tax Cliff",
+    summary:
+      "Make $1 too much in retirement and your Medicare premiums jump by $1,000+/year. Here's how income-related Medicare surcharges work and how to plan around them.",
+    complexityMin: 2,
+    hasCalculator: true,
+    relatedConceptSlugs: ["rmd-strategies", "roth-conversion-ladder", "social-security-optimization"],
+    layers: {
+      accessible:
+        "IRMAA (Income-Related Monthly Adjustment Amount) is a surcharge on Medicare Part B and Part D premiums for higher-income retirees. In 2025, if your Modified Adjusted Gross Income (MAGI) exceeds $106,000 (single) or $212,000 (married), your Medicare premiums increase. The standard Part B premium is $185/month. At the first IRMAA tier, it jumps to $259/month. At the highest tier (>$500,000), it's $594/month. Part D gets a surcharge too. For a married couple at the highest tier, IRMAA adds ~$12,000+/year in Medicare costs.",
+      intermediate:
+        "The look-back trap: IRMAA is based on your tax return from 2 YEARS ago. So your 2025 Medicare premiums are based on your 2023 income. This means a one-time income spike (selling a house, Roth conversion, stock option exercise) in 2023 can increase your Medicare premiums in 2025. Planning must happen 2 years in advance.\n\nThe cliff effect: IRMAA brackets are cliffs, not gradual. Earning $212,001 (married) costs the same as earning $265,999 -- both pay the first IRMAA tier surcharge. But earning $212,000 pays nothing. This means that $1 of additional income can cost you $2,000+/year in extra premiums. Smart retirement income planning stays just below the nearest IRMAA threshold.\n\nStrategies to manage IRMAA: (1) Front-load Roth conversions before age 63 (2 years before Medicare at 65) so the large conversion income doesn't hit during IRMAA years. (2) Control capital gains realization -- sell positions over multiple years to stay below thresholds. (3) Use Roth withdrawals (not counted in MAGI) to supplement income without triggering IRMAA. (4) If you had a life-changing event (retirement, death of spouse, divorce), file Form SSA-44 to request IRMAA reduction based on current-year income instead of 2-year-ago income.",
+      advanced:
+        "The Roth conversion cliff analysis: if you plan to do Roth conversions in early retirement (before age 63), go big. The conversions will hit your IRMAA 2 years later, but the goal is to minimize future RMDs that would permanently keep you in IRMAA territory. A series of $200K Roth conversions at age 60-62 might trigger temporary IRMAA at 62-64, but eliminate it permanently from 65+ by reducing your Traditional IRA balance (and thus future RMDs).\n\nQCD + IRMAA: Qualified Charitable Distributions from IRAs reduce AGI (unlike regular IRA withdrawals followed by charitable deductions). This directly helps with IRMAA thresholds. After 70.5, $105,000/year of IRA withdrawals can be redirected to charity via QCD, keeping your MAGI lower.\n\nThe IRMAA math: at the first tier ($212,001-$266,000 married), the surcharge is about $2,500/year for a couple. The effective marginal tax rate on income in this range is: 22% federal + state tax + 3.8% NIIT (possibly) + IRMAA surcharge spread. For someone right at the cliff, $1 of income effectively costs $2,500 -- an infinite marginal rate on that dollar. Tax planning software that models IRMAA cliffs alongside tax brackets produces dramatically different optimal strategies than software that ignores them."
+    },
+  },
+
+  // d7: Investing (needs 1 more)
+  {
+    id: "c7-06",
+    slug: "factor-investing",
+    domainId: "d7",
+    name: "Factor Investing: What Actually Drives Returns",
+    summary:
+      "Value, size, momentum, quality, low volatility. Academic research has identified specific factors that explain most of the variation in stock returns. Here's what the evidence says.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["asset-allocation", "direct-indexing", "dollar-cost-averaging"],
+    layers: {
+      accessible:
+        "Factor investing is based on decades of academic research showing that certain characteristics of stocks are associated with higher long-term returns. The main factors: (1) Market (beta): stocks outperform bonds over time. (2) Value: cheap stocks (low price relative to earnings/book value) tend to outperform expensive ones. (3) Size: small companies tend to outperform large companies. (4) Momentum: stocks that have been going up tend to keep going up (and vice versa) over 3-12 month periods. (5) Quality/Profitability: companies with high profit margins and low debt tend to outperform. (6) Low Volatility: less volatile stocks have historically provided better risk-adjusted returns than predicted.",
+      intermediate:
+        "The factor zoo problem: researchers have identified 400+ supposed factors. Most are statistical noise. The robust ones share common features: (1) documented across decades and multiple countries, (2) persist after publication, (3) have an economic rationale for why the premium exists, (4) can be implemented at reasonable cost.\n\nWhy factors work -- the economic rationale: Value premium: cheap stocks are often distressed companies. Holding them is psychologically painful and risky, so investors demand higher compensation. Size premium: small companies are less liquid and harder to analyze. Momentum: behavioral biases cause investors to under-react to good news and over-react to bad news, creating trends. Quality: high-quality companies compound efficiently.\n\nHow to implement: factor-tilted index funds and ETFs. Examples: Avantis US Small Cap Value ETF (AVUV) tilts toward small + value. DFA US Core Equity (DFSAX) tilts toward value + profitability. Vanguard Value Index (VTV) is a simple value tilt. A diversified factor portfolio might overweight value, small-cap, and profitability while maintaining broad market exposure.\n\nThe critical caveat: factor premiums are LONG-TERM averages. Value has underperformed growth for 15+ years before recently recovering. If you can't hold through a decade-long drought, don't factor tilt.",
+      advanced:
+        "Multi-factor portfolio construction: the most robust approach combines multiple factors because they have low correlation with each other. When value underperforms, momentum may outperform. Academic research (Fama-French, AQR) suggests a multi-factor portfolio with value, momentum, and quality tilts provides the best risk-adjusted excess return.\n\nFactor timing: there is weak evidence that factors can be timed based on valuation spread (e.g., value factor is more likely to outperform when the spread between cheap and expensive stocks is wide). However, the signal is noisy and implementing timing adds complexity and transaction costs. Most evidence-based advisors recommend static factor tilts rather than timing.\n\nThe implementation gap: factor ETFs charge higher fees (0.15-0.35%) vs market-cap index funds (0.03%). Over decades, this fee difference can offset part of the factor premium. The factors must deliver net-of-fee outperformance to justify the higher cost. Avantis and DFA have the strongest track records of capturing factor premiums after costs.\n\nFactor investing and asset location: factor-tilted portfolios tend to have higher turnover (especially momentum), generating more short-term capital gains. Place high-turnover factor funds in tax-advantaged accounts. Market-cap-weighted index funds (low turnover, tax-efficient) go in taxable accounts."
+    },
+  },
+
+  // d8: Estate Planning (needs 1 more)
+  {
+    id: "c8-05",
+    slug: "step-up-basis",
+    domainId: "d8",
+    name: "Step-Up in Basis: The Most Valuable Tax Break at Death",
+    summary:
+      "When you die, your heirs receive your assets with a 'stepped up' cost basis -- wiping out all unrealized capital gains. This single rule shapes estate planning strategy more than almost anything else.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["estate-planning-basics", "buy-borrow-die", "irrevocable-life-insurance-trust"],
+    layers: {
+      accessible:
+        "Cost basis is what you paid for an asset. If you bought stock for $10,000 and it's now worth $100,000, your basis is $10,000 and your unrealized gain is $90,000. If YOU sell, you owe capital gains tax on $90,000 (~$18,000 at 20%). But if you hold it until death, your heirs receive the stock with a new basis of $100,000 (the value at your date of death). If they sell immediately, they owe ZERO capital gains tax. That $90,000 gain is completely erased by the step-up.\n\nThis is why 'buy, borrow, die' works: never sell appreciated assets during your lifetime (avoiding capital gains), borrow against them for spending money (loan proceeds aren't taxable income), and at death the step-up eliminates the gains for your heirs.",
+      intermediate:
+        "Strategic implications: (1) NEVER gift highly appreciated assets to someone while you're alive -- they inherit YOUR low basis and will owe tax when they sell. Instead, hold the asset and let them inherit it with a step-up. (2) DO gift assets that have LOST value -- a gift transfers your basis, and the recipient can sell and deduct the loss. At death, losses are NOT stepped down in practice (the stepped-up basis equals market value, which is below your purchase price, so the loss is lost). (3) For married couples in community property states (CA, TX, WA, etc.), BOTH halves of community property get a full step-up at the first spouse's death. In non-community-property states, only the deceased spouse's half steps up.\n\nCommunity property trust strategy: couples in non-community-property states can create a community property trust (legal in many states now) to convert separate property into community property, getting the double step-up benefit. This can save hundreds of thousands in capital gains tax for long-married couples with large appreciated portfolios.\n\nThe anti-churning rules: you cannot gift an appreciated asset to an elderly relative and then inherit it back with a step-up. Section 1014(e) says that if the person you gifted it to dies within one year, the original donor does NOT get a step-up. You must wait at least a year.",
+      advanced:
+        "The step-up and estate tax interaction: people worry about estate tax (40% on estates over $13.61M per person in 2025). But for most families, the step-up in basis saves far more than the estate tax costs. Example: a couple with $10M in appreciated assets and $8M in unrealized gains. Estate tax: $0 (under the $27.22M combined exemption). Capital gains avoided by step-up: $8M x 23.8% = $1.9M. The step-up is pure benefit for estates under the exemption amount.\n\nThe 2026 exemption sunset: the individual estate tax exemption is scheduled to drop from ~$13.61M to ~$7M in 2026 (adjusted for inflation). This doesn't change the step-up basis rule, but it means more estates will face estate tax. Planning in 2025 to use the higher exemption (via irrevocable trusts, gifts) is a priority for estates in the $7-14M range.\n\nBasis consistency rules: the basis reported by the estate on Form 8971 must be consistent with the basis reported by the beneficiary when they eventually sell. You can't claim one value for estate tax purposes and a different value for basis purposes. The IRS cross-references these filings.\n\nThe build-back-better risk: multiple legislative proposals have attempted to eliminate or limit the step-up in basis. Biden's 2021 proposal would have taxed unrealized gains at death above $1M. It failed, but the revenue it would generate (~$40B/year) makes it a perennial legislative target. The current step-up is not guaranteed to last forever."
+    },
+  },
+
+  // d9: Insurance (needs 1 more)
+  {
+    id: "c9-06",
+    slug: "liability-protection",
+    domainId: "d9",
+    name: "Asset Protection: Shielding Wealth from Lawsuits",
+    summary:
+      "Umbrella insurance, LLC structures, retirement account protections, homestead exemptions. How to legally protect your assets from creditors and litigation.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["umbrella-insurance", "estate-planning-basics", "entity-selection"],
+    layers: {
+      accessible:
+        "Asset protection means arranging your finances so that if someone sues you and wins, they can't easily take everything you've built. The basics everyone should know: (1) Umbrella insurance: $1M-$5M in liability coverage for $200-$500/year. This is the cheapest form of asset protection available. It covers you for lawsuits from car accidents, injuries on your property, dog bites, etc. (2) Retirement accounts: 401(k)s and pensions have unlimited federal creditor protection under ERISA. IRAs have $1.5M+ in bankruptcy protection (varies by state). Creditors generally cannot touch your retirement accounts. (3) Home equity: many states offer homestead exemptions protecting some or all of your home equity from creditors. Florida and Texas offer unlimited homestead protection.",
+      intermediate:
+        "LLC asset protection for real estate: each rental property should ideally be in its own LLC. If a tenant sues over a slip-and-fall, they can only reach the assets of that LLC -- not your personal assets or other properties. This is called 'charging order protection.' The strength varies by state: Wyoming, Nevada, and Delaware offer the strongest LLC protections.\n\nThe $5M rule of thumb: if your net worth exceeds $5M, you should have an asset protection attorney review your situation. Below $5M, umbrella insurance + retirement account protection + basic LLC structuring covers most risks.\n\nDomestic Asset Protection Trusts (DAPTs): about 20 states (Nevada, South Dakota, Delaware, etc.) allow you to create an irrevocable trust where you're a beneficiary but creditors can't reach the assets. You transfer assets into the trust and retain the ability to receive distributions at the trustee's discretion. The trust must be properly funded, administered, and maintained. These are powerful but expensive to set up ($10K-$25K) and have limitations -- most importantly, the transfer cannot be made to defraud existing creditors (fraudulent transfer laws).\n\nTiming is everything: asset protection must be done BEFORE you need it. Moving assets after a lawsuit is filed (or a claim arises) is fraudulent transfer. Plan proactively.",
+      advanced:
+        "Offshore trusts: for the ultra-high-net-worth ($10M+), foreign trusts (Cook Islands, Nevis, Belize) provide the strongest creditor protection because US courts have limited ability to reach foreign-held assets. A US court can order you to repatriate funds, but properly structured foreign trusts make compliance with such orders legally impossible. These are legal but aggressive, require careful compliance (foreign trust reporting on Form 3520), and cost $50K+ to establish.\n\nCharging order as exclusive remedy: in single-member LLC states with strong charging order protection, a creditor's only remedy is a 'charging order' -- they can intercept distributions if made, but can't force a distribution or seize the LLC. If you simply don't make distributions, the creditor gets nothing. In some states, the creditor must still pay tax on allocated income (the 'reverse vesting' problem that deters most creditors from pursuing this remedy).\n\nExempt assets by state: the patchwork of state laws creates planning opportunities. Florida: unlimited homestead + unlimited annuity protection + unlimited life insurance cash value. Texas: unlimited homestead + generous personal property exemptions. Compare this to states like New Jersey, which offers almost no exemptions. For high-risk professionals (surgeons, real estate developers), the state you live in significantly impacts your vulnerability.\n\nThe integrated plan: umbrella insurance (first $5M of protection) + LLC structuring for real estate + DAPT for liquid assets + retirement accounts (ERISA-protected) + life insurance (state-protected in most states) + proper titling of marital assets. This layered approach makes you an extremely unattractive target for lawsuits."
+    },
+  },
+
+  // d10: Debt Strategy (needs 1 more)
+  {
+    id: "c10-06",
+    slug: "credit-score-optimization",
+    domainId: "d10",
+    name: "Credit Score Optimization: The Game Behind the Number",
+    summary:
+      "Your credit score affects mortgage rates, insurance premiums, and rental applications. Understanding the algorithm lets you optimize it strategically.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["debt-avalanche-vs-snowball", "mortgage-payoff-vs-invest"],
+    layers: {
+      accessible:
+        "Your FICO score (300-850) is calculated from five components: (1) Payment history (35%): have you paid on time? Even one 30-day late payment can drop your score 50-100 points. (2) Credit utilization (30%): how much of your available credit are you using? Below 10% is ideal, below 30% is acceptable. (3) Length of credit history (15%): older accounts are better. Don't close your oldest credit card. (4) Credit mix (10%): having both revolving credit (cards) and installment loans (mortgage, auto) is better than only one type. (5) New credit inquiries (10%): applying for new credit causes temporary dips.\n\nThe most impactful quick fix: reduce credit card utilization. If you're using 50% of your credit limit, paying down to 10% can boost your score 30-50 points in one billing cycle. The second quickest fix: become an authorized user on a family member's old card with perfect payment history.",
+      intermediate:
+        "The utilization timing trick: FICO looks at the balance reported to credit bureaus, which is usually your statement balance (not your current balance). Even if you pay in full every month, a high statement balance hurts your utilization ratio. Solution: pay your balance down BEFORE the statement closes, or make multiple payments per month to keep the reported balance low.\n\nThe credit limit game: requesting credit limit increases lowers your utilization ratio without reducing spending. Most issuers allow requests every 6-12 months. Some (Chase, Amex) do soft pulls that don't affect your score. Others do hard pulls -- ask first.\n\nThe optimal credit profile for the highest score: 3-5 credit cards (0-5% utilization each), 1 installment loan, oldest account 10+ years, no late payments ever, no inquiries in last 6 months. This profile routinely produces 800+ scores.\n\nThe 'thin file' problem: if you have few accounts or short history, you have a 'thin file' that's scored unreliably. Solutions: secured credit cards, credit-builder loans, or being added as an authorized user. Experian Boost can add utility/phone payments to your Experian report.\n\nFICO vs VantageScore: most lenders use FICO, but Credit Karma shows VantageScore. These can differ by 20-40 points. For mortgage qualification, only FICO matters.",
+      advanced:
+        "The mortgage rate impact: the difference between a 760+ and 680 FICO score on a 30-year mortgage is typically 0.5-1.0% in interest rate. On a $400,000 mortgage, that's $120-$240/month, or $43,000-$86,000 over the life of the loan. Optimizing your credit score 6-12 months before a major purchase is one of the highest-ROI financial activities you can undertake.\n\nRapid rescore for mortgage: mortgage lenders can use a 'rapid rescore' process that updates your credit report within days (instead of the normal 30-45 day cycle). This is useful when you've made a payment or corrected an error and need the updated score for loan approval. Only the lender can initiate this; you can't do it yourself.\n\nDispute strategy: errors on credit reports are common (one FTC study found 25% of consumers had errors). Dispute inaccurate negative items with each bureau (Equifax, Experian, TransUnion). The bureau has 30 days to investigate. If they can't verify the item, it must be removed. For older negative items close to the 7-year removal date, some creditors won't bother verifying, resulting in removal.\n\nThe credit card churning consideration: travel hackers open many cards for sign-up bonuses. Each application creates a hard inquiry (-5 to -10 points) and lowers average account age. For people who will need a mortgage within 2 years, aggressive churning is counterproductive. The bonuses rarely offset the cost of a higher mortgage rate."
+    },
+  },
+
+  // d11: Behavioral Finance (needs 1 more)
+  {
+    id: "c11-06",
+    slug: "overconfidence-effect",
+    domainId: "d11",
+    name: "Overconfidence Effect: Why You Think You're Better Than Average",
+    summary:
+      "90% of drivers think they're above average. The same bias applies to investing, career decisions, and financial planning -- and it costs you more than you think.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["loss-aversion", "recency-bias", "anchoring-bias"],
+    layers: {
+      accessible:
+        "Overconfidence bias is the tendency to overestimate your own abilities, knowledge, and the precision of your predictions. In investing, this manifests as: (1) Trading too frequently -- overconfident investors trade 75% more than average and earn 6% less per year (Barber & Odean, 2000). (2) Under-diversifying -- 'I know this stock is going up' leads to concentrated bets. (3) Ignoring base rates -- 'Most small businesses fail, but mine is different.' The Dunning-Kruger effect is a specific form: people with the least expertise tend to overestimate their abilities the most. The expert recognizes how much they don't know; the novice doesn't know enough to realize what they're missing.",
+      intermediate:
+        "Where overconfidence costs you the most: (1) Stock picking: the average active stock picker underperforms a simple index fund by 2-4% per year after costs. Yet most stock pickers believe they're in the minority that outperforms. (2) Market timing: confidently moving to cash 'because I see a crash coming' means you need to be right twice (when to sell AND when to buy back). Studies show even professional fund managers can't reliably time markets. (3) Entrepreneurship: overconfidence is correlated with starting businesses (a good thing) but also with under-capitalization, unrealistic projections, and failure to plan for downside scenarios.\n\nThe planning fallacy: a specific form of overconfidence where you systematically underestimate how long things will take and how much they'll cost. Home renovations average 40% over budget. Software projects average 200% over budget. Financial independence targets are routinely too optimistic on the savings rate and too aggressive on the return assumption.\n\nCalibration exercise: write down 10 predictions with 90% confidence intervals (things you're 90% sure about). If you're well-calibrated, 1 out of 10 should fall outside your range. Most people find that 3-5 fall outside, proving they're overconfident in their knowledge.",
+      advanced:
+        "The gender gap in overconfidence: research consistently shows that men are more overconfident in investing than women, leading to 45% more trading (Barber & Odean). This extra trading reduces men's net returns by 2.65%/year vs 1.72% for women. Women's portfolios often outperform men's not because of superior stock picking but because of less destructive overconfident trading.\n\nInstitutional overconfidence: hedge funds charge 2-and-20 (2% of assets + 20% of profits) based on the implicit claim of superior returns. Over 10-year periods, 90%+ of hedge funds underperform a simple 60/40 index portfolio. The overconfidence of both the managers and the investors who hire them destroys billions in wealth annually.\n\nDe-biasing strategies: (1) Pre-mortem analysis -- before making a financial decision, imagine it's one year later and it went badly. Write down why. This forces you to consider failure scenarios your overconfidence would otherwise dismiss. (2) Track your predictions -- keep a decision journal with your reasoning and expected outcomes. Review quarterly. You'll quickly learn where your confidence exceeds your accuracy. (3) Automate -- the most effective way to avoid overconfidence is to remove yourself from decisions entirely. Automatic contributions to index funds, automatic rebalancing, target-date funds. The evidence is overwhelming: less human intervention = better outcomes for the vast majority of investors."
+    },
+    honestAnalysis:
+      "Telling someone they're overconfident rarely works -- the overconfidence bias prevents them from accepting they have it. The best protection is systematic investing rules that remove discretionary decisions. If you must make active decisions, keep a written record and review it honestly.",
+  },
+
+  // d13: International (needs 1 more)
+  {
+    id: "c13-04",
+    slug: "foreign-tax-planning",
+    domainId: "d13",
+    name: "Tax Treaty Planning and Foreign Investment Structures",
+    summary:
+      "Tax treaties, foreign tax credits vs deductions, PFIC rules, and how to legally minimize taxes when investing or earning income across borders.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["feie-foreign-tax-credit", "fbar-fatca"],
+    layers: {
+      accessible:
+        "The US taxes its citizens and residents on worldwide income, regardless of where they live or where the income is earned. This creates double taxation when a foreign country also taxes the same income. Two primary relief mechanisms: (1) Foreign Tax Credit (FTC): a dollar-for-dollar credit on your US return for taxes paid to a foreign government. If you earn $100,000 abroad and pay $25,000 in foreign taxes, you get a $25,000 credit on your US return. (2) Foreign Earned Income Exclusion (FEIE): exclude up to $126,500 (2025) of foreign earned income from US taxation if you meet the physical presence or bona fide residence test. You can use EITHER the FTC or FEIE for a given source of income, not both. Choosing correctly can save thousands.",
+      intermediate:
+        "FTC vs FEIE decision: if your foreign tax rate is HIGHER than your US rate, use the Foreign Tax Credit -- you'll have excess credits that can carry forward. If your foreign tax rate is LOWER than your US rate, the FEIE is often better because it excludes the income entirely (no US tax or foreign tax if the foreign rate is low).\n\nTax treaties: the US has tax treaties with 60+ countries that modify these rules. Treaties may reduce withholding tax rates on dividends (typically from 30% to 15% or even 0%), interest, and royalties. They also determine which country has 'primary taxing rights' for various income types. The treaty tiebreaker rules determine your tax residence when both countries claim you.\n\nForeign housing exclusion: on top of the FEIE, you can exclude or deduct certain foreign housing expenses (rent, utilities, insurance -- not the purchase of a home). The exclusion amount is typically 30% of the FEIE limit, with adjustments for high-cost cities. This can exclude an additional $30,000-$50,000 in high-cost locations like London, Hong Kong, or Tokyo.",
+      advanced:
+        "PFIC avoidance: a Passive Foreign Investment Company (any non-US registered investment fund) faces punitive US tax treatment. Gains are taxed at the highest ordinary income rate PLUS an interest charge for the 'deferral benefit.' This makes holding foreign mutual funds, ETFs, or investment companies outside a US-qualified account extremely tax-inefficient.\n\nSolutions: (1) Only hold US-domiciled funds (Vanguard, Schwab, etc.) even in foreign brokerage accounts. (2) If you must hold foreign funds, make a QEF (Qualified Electing Fund) election to be taxed on your share of the fund's income annually (avoiding the punitive excess distribution regime). (3) Mark-to-market election: treat the fund as sold at year-end, recognizing gain/loss as ordinary income. Less punitive than the default PFIC regime but still unfavorable.\n\nStructuring for global mobility: if you expect to live in multiple countries, consider: (1) Where to hold investments (US-domiciled funds avoid PFIC issues). (2) Pension portability (some country pensions have treaty-protected tax treatment, others don't). (3) Timing of moves relative to income events (exercise stock options before or after becoming resident in a new country?). (4) Social Security totalization agreements -- 30+ countries have agreements preventing double Social Security taxation.\n\nThe US exit tax consideration: if a long-term permanent resident (8+ years with a green card) or US citizen renounces, they face an exit tax on unrealized gains. The tax applies as if all worldwide assets were sold at fair market value the day before expatriation. The first $866,000 in gains is exempt (2025). Above that, capital gains rates apply. This makes the timing and structure of expatriation critical."
+    },
+    honestAnalysis:
+      "International tax is the most complex area of the US tax code. The interaction of US rules, foreign rules, and treaties creates scenarios where even experienced CPAs get confused. If you have significant international income or assets, hire a specialist -- not just a CPA who 'can do' international returns, but one whose primary practice is international taxation.",
+  },
 ];
 
 export function getConceptBySlug(slug: string): FinancialConcept | undefined {
