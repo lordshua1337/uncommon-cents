@@ -1206,6 +1206,205 @@ function MarginalVsEffectiveCalc() {
   );
 }
 
+function BackdoorRothCalc() {
+  const [annualContribution, setAnnualContribution] = useState(7000);
+  const [currentAge, setCurrentAge] = useState(35);
+  const [retirementAge, setRetirementAge] = useState(65);
+  const [growthRate, setGrowthRate] = useState(7);
+  const [existingTraditionalIRA, setExistingTraditionalIRA] = useState(0);
+
+  const years = Math.max(0, retirementAge - currentAge);
+  const futureValue =
+    annualContribution *
+    ((Math.pow(1 + growthRate / 100, years) - 1) / (growthRate / 100));
+
+  const hasProRataIssue = existingTraditionalIRA > 0;
+  const proRataTaxablePercent = hasProRataIssue
+    ? (existingTraditionalIRA /
+        (existingTraditionalIRA + annualContribution)) *
+      100
+    : 0;
+
+  const taxFreeSavings = futureValue * 0.22;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <ArrowUpDown className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Backdoor Roth IRA Calculator</h3>
+          <p className="text-xs text-text-muted">
+            The workaround for high-income earners
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label className="text-xs text-text-muted block mb-1">
+            Annual Contribution (${annualContribution.toLocaleString()})
+          </label>
+          <input
+            type="range"
+            min={1000}
+            max={8000}
+            step={500}
+            value={annualContribution}
+            onChange={(e) => setAnnualContribution(Number(e.target.value))}
+            className="w-full accent-[var(--color-accent)]"
+          />
+          <div className="flex justify-between text-[10px] text-text-muted mt-0.5">
+            <span>$1,000</span>
+            <span>$7,000 (2025 limit)</span>
+            <span>$8,000 (50+ catch-up)</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs text-text-muted block mb-1">
+              Current Age
+            </label>
+            <input
+              type="number"
+              min={18}
+              max={80}
+              value={currentAge}
+              onChange={(e) => setCurrentAge(Number(e.target.value))}
+              className="w-full bg-surface-alt rounded-lg px-3 py-2 text-sm border border-border-light"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-text-muted block mb-1">
+              Retirement Age
+            </label>
+            <input
+              type="number"
+              min={18}
+              max={100}
+              value={retirementAge}
+              onChange={(e) => setRetirementAge(Number(e.target.value))}
+              className="w-full bg-surface-alt rounded-lg px-3 py-2 text-sm border border-border-light"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="text-xs text-text-muted block mb-1">
+            Expected Growth Rate ({growthRate}%)
+          </label>
+          <input
+            type="range"
+            min={3}
+            max={12}
+            step={0.5}
+            value={growthRate}
+            onChange={(e) => setGrowthRate(Number(e.target.value))}
+            className="w-full accent-[var(--color-accent)]"
+          />
+        </div>
+
+        <div>
+          <label className="text-xs text-text-muted block mb-1">
+            Existing Traditional IRA Balance ({formatCurrency(existingTraditionalIRA)})
+          </label>
+          <input
+            type="range"
+            min={0}
+            max={500000}
+            step={5000}
+            value={existingTraditionalIRA}
+            onChange={(e) =>
+              setExistingTraditionalIRA(Number(e.target.value))
+            }
+            className="w-full accent-[var(--color-accent)]"
+          />
+          <p className="text-[10px] text-text-muted mt-0.5">
+            $0 = clean backdoor. Any balance triggers pro-rata rule.
+          </p>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div className="bg-surface-alt rounded-lg p-4 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-xs text-text-muted">Years of Contributions</p>
+            <p className="text-lg font-semibold font-mono">{years}</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted">Total Contributed</p>
+            <p className="text-lg font-semibold font-mono">
+              {formatCurrency(annualContribution * years)}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted">Projected Roth Value</p>
+            <p className="text-lg font-semibold font-mono text-accent">
+              {formatCurrency(futureValue)}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted">Tax-Free Growth</p>
+            <p className="text-lg font-semibold font-mono text-accent">
+              {formatCurrency(futureValue - annualContribution * years)}
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-2 border-t border-border">
+          <div className="flex justify-between text-sm">
+            <span>Estimated tax saved at 22%</span>
+            <span className="font-semibold text-accent">
+              {formatCurrency(taxFreeSavings)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Pro-rata warning */}
+      {hasProRataIssue && (
+        <div className="mt-4 bg-red/5 border border-red/10 rounded-lg p-3 flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-red flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-semibold text-red mb-1">
+              Pro-Rata Rule Warning
+            </p>
+            <p className="text-xs text-text-secondary leading-relaxed">
+              You have {formatCurrency(existingTraditionalIRA)} in Traditional IRA
+              balances. The IRS will treat{" "}
+              {proRataTaxablePercent.toFixed(0)}% of your conversion as taxable.
+              To do a clean Backdoor Roth, roll your existing Traditional IRA
+              into your employer 401(k) first (if your plan allows incoming
+              rollovers).
+            </p>
+          </div>
+        </div>
+      )}
+
+      {!hasProRataIssue && (
+        <div className="mt-4 bg-accent-bg border border-accent/10 rounded-lg p-3 flex items-start gap-2">
+          <Heart className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-text-secondary leading-relaxed">
+            No existing Traditional IRA balance -- your Backdoor Roth conversion
+            will be clean and essentially tax-free. Contribute after-tax to
+            Traditional IRA, convert immediately to Roth.
+          </p>
+        </div>
+      )}
+
+      <p className="text-xs text-text-muted mt-4">
+        Assumes annual contributions at the start of each year with consistent
+        growth. The Backdoor Roth is a legal strategy for high earners above the
+        Roth IRA income limit ($161K single / $240K married in 2025). Consult a
+        CPA for your specific situation.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -1236,6 +1435,7 @@ export default function CalculatorsPage() {
 
         <div className="space-y-8">
           <RothConversionCalc />
+          <BackdoorRothCalc />
           <OverfundingCalc />
           <MarginalVsEffectiveCalc />
           <TaxLossHarvestingCalc />
@@ -1247,7 +1447,7 @@ export default function CalculatorsPage() {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
             <DollarSign className="w-4 h-4" />
-            More coming: Backdoor Roth, Social Security Timing, Asset Location
+            More coming: Social Security Timing, Asset Location, IRMAA Planning
           </div>
         </div>
       </div>
