@@ -881,6 +881,331 @@ function OverfundingCalc() {
   );
 }
 
+function TaxLossHarvestingCalc() {
+  const [lossAmount, setLossAmount] = useState(10000);
+  const [gainsToOffset, setGainsToOffset] = useState(15000);
+  const [ordinaryIncome, setOrdinaryIncome] = useState(100000);
+  const [filingStatus, setFilingStatus] = useState<"single" | "married">("single");
+  const [stateRate, setStateRate] = useState(5);
+
+  // Federal LTCG rate based on income + filing status
+  const ltcgThresholds =
+    filingStatus === "single"
+      ? { zero: 47025, fifteen: 518900 }
+      : { zero: 94050, fifteen: 583750 };
+
+  let fedLtcgRate = 20;
+  if (ordinaryIncome <= ltcgThresholds.zero) fedLtcgRate = 0;
+  else if (ordinaryIncome <= ltcgThresholds.fifteen) fedLtcgRate = 15;
+
+  // NIIT (3.8%) applies above $200K single / $250K married
+  const niitThreshold = filingStatus === "single" ? 200000 : 250000;
+  const niitApplies = ordinaryIncome + gainsToOffset > niitThreshold;
+  const niitRate = niitApplies ? 3.8 : 0;
+
+  const totalCapGainRate = fedLtcgRate + niitRate + stateRate;
+
+  // How losses apply
+  const gainsOffset = Math.min(lossAmount, gainsToOffset);
+  const remainingLoss = lossAmount - gainsOffset;
+  const ordinaryDeduction = Math.min(remainingLoss, 3000);
+  const carryforward = remainingLoss - ordinaryDeduction;
+
+  // Tax savings
+  const capitalGainsSaved = gainsOffset * (totalCapGainRate / 100);
+
+  // Marginal ordinary rate (simplified 2025 brackets)
+  let marginalRate = 10;
+  if (filingStatus === "single") {
+    if (ordinaryIncome > 609350) marginalRate = 37;
+    else if (ordinaryIncome > 243725) marginalRate = 35;
+    else if (ordinaryIncome > 191950) marginalRate = 32;
+    else if (ordinaryIncome > 100525) marginalRate = 24;
+    else if (ordinaryIncome > 47150) marginalRate = 22;
+    else if (ordinaryIncome > 11600) marginalRate = 12;
+  } else {
+    if (ordinaryIncome > 731200) marginalRate = 37;
+    else if (ordinaryIncome > 487450) marginalRate = 35;
+    else if (ordinaryIncome > 383900) marginalRate = 32;
+    else if (ordinaryIncome > 201050) marginalRate = 24;
+    else if (ordinaryIncome > 94300) marginalRate = 22;
+    else if (ordinaryIncome > 23200) marginalRate = 12;
+  }
+
+  const ordinaryDeductionSaved = ordinaryDeduction * ((marginalRate + stateRate) / 100);
+  const totalSaved = capitalGainsSaved + ordinaryDeductionSaved;
+  const yearsOfCarryforward = carryforward > 0 ? Math.ceil(carryforward / 3000) : 0;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <ArrowUpDown className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Tax-Loss Harvesting Calculator</h3>
+          <p className="text-xs text-text-muted">
+            How much can harvested losses save you?
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Harvested Losses ($)
+          </label>
+          <input
+            type="number"
+            value={lossAmount}
+            onChange={(e) => setLossAmount(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Realized Capital Gains ($)
+          </label>
+          <input
+            type="number"
+            value={gainsToOffset}
+            onChange={(e) => setGainsToOffset(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Ordinary Income ($)
+          </label>
+          <input
+            type="number"
+            value={ordinaryIncome}
+            onChange={(e) => setOrdinaryIncome(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">Filing Status</label>
+          <select
+            value={filingStatus}
+            onChange={(e) => setFilingStatus(e.target.value as "single" | "married")}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          >
+            <option value="single">Single</option>
+            <option value="married">Married Filing Jointly</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-xs text-text-muted mb-1">
+            State Tax Rate (%)
+          </label>
+          <input
+            type="number"
+            value={stateRate}
+            onChange={(e) => setStateRate(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+      </div>
+
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
+        <p className="text-xs font-medium text-text-muted uppercase tracking-wider">
+          How Your {formatCurrency(lossAmount)} Loss Gets Applied
+        </p>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Offsets capital gains</span>
+          <span className="font-medium">{formatCurrency(gainsOffset)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Deducts from ordinary income</span>
+          <span className="font-medium">{formatCurrency(ordinaryDeduction)}</span>
+        </div>
+        {carryforward > 0 && (
+          <div className="flex justify-between text-sm">
+            <span className="text-text-secondary">
+              Carried forward (~{yearsOfCarryforward} yrs at $3K/yr)
+            </span>
+            <span className="font-medium">{formatCurrency(carryforward)}</span>
+          </div>
+        )}
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">
+            Cap gains tax rate (fed {fedLtcgRate}%{niitApplies ? " + 3.8% NIIT" : ""} + {stateRate}% state)
+          </span>
+          <span className="font-medium">{totalCapGainRate.toFixed(1)}%</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Capital gains tax saved</span>
+          <span className="font-medium text-accent">{formatCurrency(capitalGainsSaved)}</span>
+        </div>
+        {ordinaryDeduction > 0 && (
+          <div className="flex justify-between text-sm">
+            <span className="text-text-secondary">
+              Ordinary income tax saved ({marginalRate}% + {stateRate}%)
+            </span>
+            <span className="font-medium text-accent">{formatCurrency(ordinaryDeductionSaved)}</span>
+          </div>
+        )}
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Total tax saved this year</span>
+          <span className="font-semibold text-accent">{formatCurrency(totalSaved)}</span>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted">
+        Losses offset gains dollar-for-dollar, then up to $3,000 against ordinary income.
+        Excess carries forward indefinitely. Watch wash-sale rules: no repurchase of
+        substantially identical securities within 30 days.
+      </p>
+    </div>
+  );
+}
+
+function MarginalVsEffectiveCalc() {
+  const [income, setIncome] = useState(95000);
+  const [filingStatus, setFilingStatus] = useState<"single" | "married">("single");
+
+  const brackets =
+    filingStatus === "single"
+      ? [
+          { min: 0, max: 11600, rate: 10 },
+          { min: 11600, max: 47150, rate: 12 },
+          { min: 47150, max: 100525, rate: 22 },
+          { min: 100525, max: 191950, rate: 24 },
+          { min: 191950, max: 243725, rate: 32 },
+          { min: 243725, max: 609350, rate: 35 },
+          { min: 609350, max: Infinity, rate: 37 },
+        ]
+      : [
+          { min: 0, max: 23200, rate: 10 },
+          { min: 23200, max: 94300, rate: 12 },
+          { min: 94300, max: 201050, rate: 22 },
+          { min: 201050, max: 383900, rate: 24 },
+          { min: 383900, max: 487450, rate: 32 },
+          { min: 487450, max: 731200, rate: 35 },
+          { min: 731200, max: Infinity, rate: 37 },
+        ];
+
+  const breakdown = brackets
+    .filter((b) => income > b.min)
+    .map((b) => {
+      const taxableInBracket = Math.min(income, b.max) - b.min;
+      const taxInBracket = taxableInBracket * (b.rate / 100);
+      return { ...b, taxableInBracket, taxInBracket };
+    });
+
+  const totalTax = breakdown.reduce((sum, b) => sum + b.taxInBracket, 0);
+  const effectiveRate = income > 0 ? (totalTax / income) * 100 : 0;
+  const marginalRate =
+    breakdown.length > 0 ? breakdown[breakdown.length - 1].rate : 10;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <Calculator className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Marginal vs Effective Tax Rate</h3>
+          <p className="text-xs text-text-muted">
+            Your top bracket is NOT what you actually pay
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Taxable Income ($)
+          </label>
+          <input
+            type="number"
+            value={income}
+            onChange={(e) => setIncome(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">Filing Status</label>
+          <select
+            value={filingStatus}
+            onChange={(e) => setFilingStatus(e.target.value as "single" | "married")}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          >
+            <option value="single">Single</option>
+            <option value="married">Married Filing Jointly</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="bg-accent-bg rounded-lg p-4 mb-4">
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-center flex-1">
+            <p className="text-2xl font-mono font-bold text-accent">
+              {marginalRate}%
+            </p>
+            <p className="text-xs text-text-muted">Marginal Rate</p>
+            <p className="text-[10px] text-text-muted">(your top bracket)</p>
+          </div>
+          <div className="text-text-muted text-xl">vs</div>
+          <div className="text-center flex-1">
+            <p className="text-2xl font-mono font-bold text-green">
+              {effectiveRate.toFixed(1)}%
+            </p>
+            <p className="text-xs text-text-muted">Effective Rate</p>
+            <p className="text-[10px] text-text-muted">(what you actually pay)</p>
+          </div>
+        </div>
+
+        <hr className="border-accent/20 mb-3" />
+
+        <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
+          Bracket Breakdown
+        </p>
+        <div className="space-y-2">
+          {breakdown.map((b) => (
+            <div key={b.rate} className="flex items-center gap-3">
+              <div className="w-10 text-right text-xs font-mono text-text-muted">
+                {b.rate}%
+              </div>
+              <div className="flex-1 bg-surface-alt rounded-full h-3 overflow-hidden">
+                <div
+                  className="h-full bg-accent/60 rounded-full"
+                  style={{
+                    width: `${Math.min(100, (b.taxableInBracket / income) * 100)}%`,
+                  }}
+                />
+              </div>
+              <div className="w-20 text-right text-xs font-mono">
+                {formatCurrency(b.taxInBracket)}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <hr className="border-accent/20 my-3" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Total Federal Tax</span>
+          <span className="font-semibold text-accent">{formatCurrency(totalTax)}</span>
+        </div>
+        <div className="flex justify-between text-sm mt-1">
+          <span className="text-text-secondary">Take-home (before state/FICA)</span>
+          <span className="font-medium">{formatCurrency(income - totalTax)}</span>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted">
+        2025 federal brackets. Does not include standard deduction (subtract ~$15,700
+        single / ~$31,400 MFJ from gross income first), FICA (7.65%), state taxes,
+        or AMT. Your effective rate is always lower than your marginal rate because
+        only the income WITHIN each bracket is taxed at that rate.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -912,6 +1237,8 @@ export default function CalculatorsPage() {
         <div className="space-y-8">
           <RothConversionCalc />
           <OverfundingCalc />
+          <MarginalVsEffectiveCalc />
+          <TaxLossHarvestingCalc />
           <HSAGrowthCalc />
           <CompoundInterestCalc />
           <BuyVsRentCalc />
@@ -920,7 +1247,7 @@ export default function CalculatorsPage() {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
             <DollarSign className="w-4 h-4" />
-            More coming: Tax-Loss Harvesting, Marginal vs Effective Rate, Backdoor Roth
+            More coming: Backdoor Roth, Social Security Timing, Asset Location
           </div>
         </div>
       </div>
