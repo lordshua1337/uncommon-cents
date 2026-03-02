@@ -22,6 +22,7 @@ import {
   Brain,
   GraduationCap,
   Globe,
+  Compass,
 } from "lucide-react";
 import { getDomainBySlug, type Domain } from "@/lib/domains";
 import { getConceptsByDomain, type FinancialConcept } from "@/lib/concepts";
@@ -40,6 +41,7 @@ const iconMap: Record<string, React.ReactNode> = {
   Brain: <Brain className="w-6 h-6" />,
   GraduationCap: <GraduationCap className="w-6 h-6" />,
   Globe: <Globe className="w-6 h-6" />,
+  Compass: <Compass className="w-6 h-6" />,
 };
 
 const complexityLabels = ["", "Beginner", "Intermediate", "Advanced"];

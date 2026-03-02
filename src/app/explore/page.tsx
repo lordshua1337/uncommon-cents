@@ -20,6 +20,7 @@ import {
   Brain,
   GraduationCap,
   Globe,
+  Compass,
 } from "lucide-react";
 import { domains, type Domain } from "@/lib/domains";
 import { concepts, searchConcepts, getConceptsByDomain } from "@/lib/concepts";
@@ -38,6 +39,7 @@ const iconMap: Record<string, React.ReactNode> = {
   Brain: <Brain className="w-5 h-5" />,
   GraduationCap: <GraduationCap className="w-5 h-5" />,
   Globe: <Globe className="w-5 h-5" />,
+  Compass: <Compass className="w-5 h-5" />,
 };
 
 function DomainCard({

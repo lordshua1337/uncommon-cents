@@ -12,6 +12,7 @@ import {
   Calculator,
   MessageCircle,
   Layers,
+  Compass,
 } from "lucide-react";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
@@ -243,6 +244,46 @@ export default function HomePage() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Foundations callout */}
+      <section className="py-12 px-4">
+        <div className="max-w-3xl mx-auto">
+          <Link
+            href="/explore/foundations"
+            className="group block bg-surface rounded-xl border border-border overflow-hidden card-hover"
+          >
+            <div
+              className="h-1 w-full"
+              style={{ backgroundColor: "#D97706" }}
+            />
+            <div className="p-6 sm:p-8">
+              <div className="flex items-start gap-4">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: "#D9760615", color: "#D97706" }}
+                >
+                  <Compass className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: "#D97706" }}>
+                    Start Here
+                  </p>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-accent transition-colors">
+                    Foundations for Financial Freedom
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed mb-3">
+                    The 10 most important financial truths distilled from IRS data, SEC research,
+                    and academic evidence. The bedrock principles that everything else builds on.
+                  </p>
+                  <span className="text-accent text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Explore the foundations <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
       </section>
 
