@@ -12,7 +12,7 @@ import {
   AlertCircle,
   Calculator,
 } from "lucide-react";
-import { concepts, getConceptBySlug, type FinancialConcept } from "@/lib/concepts";
+import { concepts, getConceptBySlug, getConceptsByDomain, type FinancialConcept } from "@/lib/concepts";
 import { getDomainById } from "@/lib/domains";
 
 type DepthTab = "accessible" | "intermediate" | "advanced";
@@ -84,6 +84,16 @@ export default function ConceptDetailPage() {
     () => (concept ? getDomainById(concept.domainId) : undefined),
     [concept]
   );
+
+  const { prevConcept, nextConcept } = useMemo(() => {
+    if (!concept) return { prevConcept: null, nextConcept: null };
+    const domainConcepts = getConceptsByDomain(concept.domainId);
+    const idx = domainConcepts.findIndex((c) => c.id === concept.id);
+    return {
+      prevConcept: idx > 0 ? domainConcepts[idx - 1] : null,
+      nextConcept: idx < domainConcepts.length - 1 ? domainConcepts[idx + 1] : null,
+    };
+  }, [concept]);
 
   if (!concept || !domain) {
     return (
@@ -225,13 +235,31 @@ export default function ConceptDetailPage() {
         </div>
 
         {/* Bottom nav */}
-        <div className="mt-8 pt-6 border-t border-border-light">
-          <Link
-            href={`/explore/${domain.slug}`}
-            className="text-sm text-text-muted hover:text-text-secondary transition-colors inline-flex items-center gap-1"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to {domain.shortName}
-          </Link>
+        <div className="mt-8 pt-6 border-t border-border-light flex items-center justify-between">
+          <div className="flex flex-col gap-2">
+            <Link
+              href={`/explore/${domain.slug}`}
+              className="text-sm text-text-muted hover:text-text-secondary transition-colors inline-flex items-center gap-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to {domain.shortName}
+            </Link>
+            {prevConcept && (
+              <Link
+                href={`/concepts/${prevConcept.slug}`}
+                className="text-sm text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> {prevConcept.name}
+              </Link>
+            )}
+          </div>
+          {nextConcept && (
+            <Link
+              href={`/concepts/${nextConcept.slug}`}
+              className="text-sm text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            >
+              {nextConcept.name} <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

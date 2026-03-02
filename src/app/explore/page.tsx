@@ -239,6 +239,26 @@ export default function ExplorePage() {
             ))}
           </div>
         )}
+
+        {/* Bottom links */}
+        {!isSearching && (
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link
+              href="/calculators"
+              className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            >
+              Run the numbers with calculators
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/learn"
+              className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            >
+              Deep dive strategies
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
