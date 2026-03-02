@@ -12,16 +12,6 @@ import {
   Calculator,
   MessageCircle,
   Layers,
-  PiggyBank,
-  Home,
-  Briefcase,
-  Sunset,
-  BarChart3,
-  Umbrella,
-  CreditCard,
-  Brain,
-  GraduationCap,
-  Globe,
 } from "lucide-react";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
@@ -245,7 +235,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-base font-semibold mb-2">Explore</h3>
               <p className="text-sm text-text-secondary leading-relaxed">
-                13 financial domains with concepts at three depth levels.
+                {domains.length} financial domains with concepts at three depth levels.
                 From beginner overview to full advanced analysis.
               </p>
             </Link>
