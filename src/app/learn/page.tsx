@@ -51,11 +51,32 @@ export default function LearnPage() {
             The Uncommon Playbook
           </h1>
           <p className="text-text-secondary leading-relaxed">
-            Six strategies that financially literate people use every day.
-            Each one is legal, well-documented, and available to you right
-            now. Most financial advisors won&apos;t bring these up because
-            they don&apos;t generate commissions.
+            {strategies.length} strategies that financially literate people use every
+            day. Each one is legal, well-documented, and available to you
+            right now. Most financial advisors won&apos;t bring these up
+            because they don&apos;t generate commissions.
           </p>
+        </div>
+
+        {/* Table of contents */}
+        <div className="bg-surface border border-border rounded-xl p-5 mb-12">
+          <p className="text-xs text-accent uppercase tracking-widest font-medium mb-3">
+            Jump to Strategy
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {strategies.map((strategy, index) => (
+              <a
+                key={strategy.id}
+                href={`#${strategy.id}`}
+                className="flex items-center gap-3 text-sm text-text-secondary hover:text-accent transition-colors py-1"
+              >
+                <span className="text-xs text-text-muted font-mono w-5">
+                  {index + 1}.
+                </span>
+                {strategy.title}
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Strategy articles */}
