@@ -11,8 +11,21 @@ import {
   TrendingUp,
   Calculator,
   MessageCircle,
+  Layers,
+  PiggyBank,
+  Home,
+  Briefcase,
+  Sunset,
+  BarChart3,
+  Umbrella,
+  CreditCard,
+  Brain,
+  GraduationCap,
+  Globe,
 } from "lucide-react";
 import { strategies } from "@/lib/strategies-data";
+import { domains } from "@/lib/domains";
+import { concepts } from "@/lib/concepts";
 
 const iconMap: Record<string, React.ReactNode> = {
   ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
@@ -132,6 +145,59 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Knowledge Universe */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+              Knowledge Base
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+              13 Domains. {concepts.length} Concepts. Three Depths.
+            </h2>
+            <p className="text-text-secondary text-sm mt-2 max-w-lg mx-auto">
+              From tax accounts to behavioral finance. Each concept at
+              three levels -- from quick overview to full analysis.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+            {domains.slice(0, 8).map((domain) => (
+              <Link
+                key={domain.id}
+                href={`/explore/${domain.slug}`}
+                className="group bg-surface rounded-lg border border-border p-3 card-hover block"
+              >
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center mb-2"
+                  style={{
+                    backgroundColor: `${domain.color}15`,
+                    color: domain.color,
+                  }}
+                >
+                  <span className="text-sm">
+                    {domain.shortName.charAt(0)}
+                  </span>
+                </div>
+                <p className="text-xs font-semibold group-hover:text-accent transition-colors">
+                  {domain.shortName}
+                </p>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-6">
+            <Link
+              href="/explore"
+              className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            >
+              Explore all 13 domains
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Strategies grid */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
@@ -165,11 +231,25 @@ export default function HomePage() {
               Tools
             </p>
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-              Three Ways to Get Smarter
+              Four Ways to Get Smarter
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link
+              href="/explore"
+              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
+            >
+              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
+                <Layers className="w-5 h-5 text-accent" />
+              </div>
+              <h3 className="text-base font-semibold mb-2">Explore</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                13 financial domains with concepts at three depth levels.
+                From beginner overview to full advanced analysis.
+              </p>
+            </Link>
+
             <Link
               href="/learn"
               className="group bg-surface rounded-xl border border-border p-6 card-hover block"

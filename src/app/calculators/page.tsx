@@ -316,6 +316,316 @@ function HSAGrowthCalc() {
   );
 }
 
+function CompoundInterestCalc() {
+  const [principal, setPrincipal] = useState(10000);
+  const [monthlyContribution, setMonthlyContribution] = useState(500);
+  const [annualRate, setAnnualRate] = useState(7);
+  const [years, setYears] = useState(30);
+
+  const monthlyRate = annualRate / 100 / 12;
+  const totalMonths = years * 12;
+  const totalContributions = principal + monthlyContribution * totalMonths;
+
+  let futureValue = principal;
+  for (let i = 0; i < totalMonths; i++) {
+    futureValue = (futureValue + monthlyContribution) * (1 + monthlyRate);
+  }
+
+  const totalInterest = futureValue - totalContributions;
+  const doublingYears = annualRate > 0 ? 72 / annualRate : 0;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <DollarSign className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Compound Interest Calculator</h3>
+          <p className="text-xs text-text-muted">
+            See how time and consistency build wealth
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Starting Amount
+          </label>
+          <input
+            type="number"
+            value={principal}
+            onChange={(e) => setPrincipal(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Monthly Contribution
+          </label>
+          <input
+            type="number"
+            value={monthlyContribution}
+            onChange={(e) => setMonthlyContribution(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Annual Return (%)
+          </label>
+          <input
+            type="number"
+            value={annualRate}
+            onChange={(e) => setAnnualRate(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Time Horizon (years)
+          </label>
+          <input
+            type="number"
+            value={years}
+            onChange={(e) => setYears(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+      </div>
+
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Total contributions</span>
+          <span className="font-medium">{formatCurrency(totalContributions)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Interest earned</span>
+          <span className="font-medium text-accent">
+            {formatCurrency(totalInterest)}
+          </span>
+        </div>
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Future value</span>
+          <span className="font-semibold text-accent">
+            {formatCurrency(futureValue)}
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Rule of 72: money doubles every</span>
+          <span className="font-medium">{doublingYears.toFixed(1)} years</span>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted mt-3">
+        Assumes annual compounding. Real returns vary year to year. Past
+        performance does not guarantee future results.
+      </p>
+    </div>
+  );
+}
+
+function BuyVsRentCalc() {
+  const [homePrice, setHomePrice] = useState(400000);
+  const [downPaymentPct, setDownPaymentPct] = useState(20);
+  const [mortgageRate, setMortgageRate] = useState(6.5);
+  const [monthlyRent, setMonthlyRent] = useState(2000);
+  const [homeAppreciation, setHomeAppreciation] = useState(3);
+  const [investmentReturn, setInvestmentReturn] = useState(7);
+  const [years, setYears] = useState(10);
+
+  const downPayment = homePrice * (downPaymentPct / 100);
+  const loanAmount = homePrice - downPayment;
+  const monthlyMortgageRate = mortgageRate / 100 / 12;
+  const totalPayments = 30 * 12;
+  const monthlyMortgage =
+    monthlyMortgageRate > 0
+      ? (loanAmount *
+          (monthlyMortgageRate * Math.pow(1 + monthlyMortgageRate, totalPayments))) /
+        (Math.pow(1 + monthlyMortgageRate, totalPayments) - 1)
+      : loanAmount / totalPayments;
+
+  const monthlyPropertyTax = (homePrice * 0.012) / 12;
+  const monthlyInsurance = (homePrice * 0.005) / 12;
+  const monthlyMaintenance = (homePrice * 0.01) / 12;
+  const totalMonthlyOwning =
+    monthlyMortgage + monthlyPropertyTax + monthlyInsurance + monthlyMaintenance;
+
+  const homeValueAtEnd =
+    homePrice * Math.pow(1 + homeAppreciation / 100, years);
+  const totalPaidOwning = totalMonthlyOwning * years * 12;
+
+  const monthlySavings = totalMonthlyOwning - monthlyRent;
+  let investedSavings = 0;
+  const monthlyInvRate = investmentReturn / 100 / 12;
+
+  if (monthlySavings > 0) {
+    let investedDown = downPayment;
+    for (let i = 0; i < years * 12; i++) {
+      investedDown = investedDown * (1 + monthlyInvRate);
+      investedSavings =
+        (investedSavings + monthlySavings) * (1 + monthlyInvRate);
+    }
+    investedSavings += investedDown;
+  } else {
+    let investedDown = downPayment;
+    for (let i = 0; i < years * 12; i++) {
+      investedDown = investedDown * (1 + monthlyInvRate);
+    }
+    investedSavings = investedDown;
+  }
+
+  const totalPaidRenting = monthlyRent * years * 12;
+  const buyNetWealth = homeValueAtEnd - loanAmount * 0.85;
+  const rentNetWealth = investedSavings;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <Calculator className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Buy vs Rent Calculator</h3>
+          <p className="text-xs text-text-muted">
+            Compare the real cost of owning vs renting
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Home Price
+          </label>
+          <input
+            type="number"
+            value={homePrice}
+            onChange={(e) => setHomePrice(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Down Payment (%)
+          </label>
+          <input
+            type="number"
+            value={downPaymentPct}
+            onChange={(e) => setDownPaymentPct(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Mortgage Rate (%)
+          </label>
+          <input
+            type="number"
+            value={mortgageRate}
+            onChange={(e) => setMortgageRate(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Monthly Rent
+          </label>
+          <input
+            type="number"
+            value={monthlyRent}
+            onChange={(e) => setMonthlyRent(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Home Appreciation (%/yr)
+          </label>
+          <input
+            type="number"
+            value={homeAppreciation}
+            onChange={(e) => setHomeAppreciation(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Time Horizon (years)
+          </label>
+          <input
+            type="number"
+            value={years}
+            onChange={(e) => setYears(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="bg-accent-bg rounded-lg p-3">
+          <p className="text-xs text-text-muted mb-1">Monthly cost (owning)</p>
+          <p className="text-lg font-semibold">{formatCurrency(totalMonthlyOwning)}</p>
+          <p className="text-[10px] text-text-muted mt-1">
+            Mortgage + tax + insurance + maintenance
+          </p>
+        </div>
+        <div className="bg-surface-alt rounded-lg p-3">
+          <p className="text-xs text-text-muted mb-1">Monthly cost (renting)</p>
+          <p className="text-lg font-semibold">{formatCurrency(monthlyRent)}</p>
+          <p className="text-[10px] text-text-muted mt-1">
+            Difference invested at {investmentReturn}%
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Home value after {years}yr</span>
+          <span className="font-medium">{formatCurrency(homeValueAtEnd)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Total paid (owning)</span>
+          <span className="font-medium text-red">{formatCurrency(totalPaidOwning)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Total paid (renting)</span>
+          <span className="font-medium text-red">{formatCurrency(totalPaidRenting)}</span>
+        </div>
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Buy: estimated net wealth</span>
+          <span className="font-semibold">{formatCurrency(buyNetWealth)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Rent + invest: net wealth</span>
+          <span className="font-semibold">{formatCurrency(rentNetWealth)}</span>
+        </div>
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">
+            {buyNetWealth > rentNetWealth ? "Buying wins by" : "Renting wins by"}
+          </span>
+          <span
+            className={`font-semibold ${
+              buyNetWealth > rentNetWealth ? "text-accent" : "text-accent"
+            }`}
+          >
+            {formatCurrency(Math.abs(buyNetWealth - rentNetWealth))}
+          </span>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted mt-3">
+        Simplified model. Does not account for closing costs, rent increases,
+        mortgage interest deduction, or opportunity cost of maintenance time.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -347,13 +657,14 @@ export default function CalculatorsPage() {
         <div className="space-y-8">
           <RothConversionCalc />
           <HSAGrowthCalc />
+          <CompoundInterestCalc />
+          <BuyVsRentCalc />
         </div>
 
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
             <DollarSign className="w-4 h-4" />
-            More calculators coming: Tax-Loss Harvesting, RMD Projections,
-            Backdoor Roth
+            More coming: Tax-Loss Harvesting, RMD Projections, Backdoor Roth
           </div>
         </div>
       </div>
