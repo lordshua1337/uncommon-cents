@@ -195,7 +195,7 @@ export const concepts: FinancialConcept[] = [
       "The most common equity compensation for tech employees. Simpler than stock options but still misunderstood. They're taxed as ordinary income when they vest -- period.",
     complexityMin: 1,
     hasCalculator: false,
-    relatedConceptSlugs: ["iso-vs-nso", "concentrated-stock"],
+    relatedConceptSlugs: ["iso-vs-nso", "asset-allocation"],
     layers: {
       accessible:
         "RSUs are a promise from your employer to give you shares of company stock on a set schedule (the 'vesting schedule'). A typical schedule: 25% vests after one year, then the rest vests monthly or quarterly over the next three years. When RSUs vest, you receive actual shares -- and the full market value is taxed as ordinary income (like salary). If you get $100,000 in RSUs that vest and the stock price is $200/share, you receive 500 shares and owe income tax on the full $100,000. Your employer automatically withholds shares to cover taxes (typically 22-37% federal + state + FICA). The remaining shares are yours to keep or sell.",
@@ -215,7 +215,7 @@ export const concepts: FinancialConcept[] = [
       "Two types of stock options, two very different tax treatments. ISOs can get capital gains treatment but trigger AMT. NSOs are simpler but always taxed as income.",
     complexityMin: 2,
     hasCalculator: false,
-    relatedConceptSlugs: ["rsu-basics", "83b-election"],
+    relatedConceptSlugs: ["rsu-basics", "total-comp-analysis"],
     layers: {
       accessible:
         "Stock options give you the right to buy company stock at a set price (the 'strike price' or 'exercise price'). If the stock goes up, you profit from the difference. Two types exist: Incentive Stock Options (ISOs) get potentially favorable tax treatment but are complex. Non-Qualified Stock Options (NSOs) are straightforward: when you exercise (buy the stock), the difference between market price and strike price is taxed as ordinary income. ISOs: no ordinary income tax at exercise (just potential AMT), and if you hold the shares 1 year after exercise + 2 years after grant, the entire gain is taxed as long-term capital gains (15-20% instead of up to 37%). The catch: the 'spread' at exercise triggers Alternative Minimum Tax (AMT), which can create a surprise tax bill.",
@@ -590,7 +590,7 @@ export const concepts: FinancialConcept[] = [
       "A $1M umbrella policy costs $200-$400/year and protects your entire net worth from lawsuits, accidents, and liability claims that exceed your auto or homeowner's coverage.",
     complexityMin: 1,
     hasCalculator: false,
-    relatedConceptSlugs: ["term-vs-permanent-insurance", "estate-planning-basics"],
+    relatedConceptSlugs: ["term-vs-permanent", "estate-planning-basics"],
     layers: {
       accessible:
         "Your auto insurance covers you up to $300,000 (typical). Your homeowner's covers up to $300,000 in liability. But if someone is seriously injured in a car accident you cause, the medical bills alone can exceed $1 million. If a guest is injured at your home, the lawsuit can be six or seven figures.\n\nUmbrella insurance sits on top of your existing policies and kicks in when they run out. A $1 million umbrella policy typically costs $200-$400 per year. A $2 million policy costs $300-$500 per year. For the price of a streaming subscription, you protect your entire net worth.\n\nWho needs it? Anyone with assets to protect. If you own a home, have savings or investments, or earn a good income, you are a target for lawsuits. Umbrella insurance is the cheapest form of wealth protection available.",
