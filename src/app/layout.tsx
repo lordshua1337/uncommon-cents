@@ -31,6 +31,7 @@ export const metadata: Metadata = {
       "The financial strategies that actually build wealth. No fluff, no sales pitch.",
     type: "website",
   },
+  manifest: "/manifest.json",
 };
 
 export const viewport = {

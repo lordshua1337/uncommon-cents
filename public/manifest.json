@@ -1,0 +1,9 @@
+{
+  "name": "Uncommon Cents",
+  "short_name": "Uncommon Cents",
+  "description": "Financial strategies they don't teach you. No fluff, no sales pitch.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F1117",
+  "theme_color": "#16A34A"
+}
