@@ -8,6 +8,7 @@ import {
   Heart,
   Calculator,
   DollarSign,
+  AlertTriangle,
 } from "lucide-react";
 
 function formatCurrency(amount: number): string {
@@ -633,6 +634,253 @@ function BuyVsRentCalc() {
   );
 }
 
+// IRS Uniform Lifetime Table (simplified - common ages)
+const RMD_FACTORS: Record<number, number> = {
+  72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7, 77: 22.9, 78: 22.0,
+  79: 21.1, 80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7, 84: 16.8, 85: 16.0,
+  86: 15.2, 87: 14.4, 88: 13.7, 89: 12.9, 90: 12.2, 91: 11.5, 92: 10.8,
+  93: 10.1, 94: 9.5, 95: 8.9,
+};
+
+function OverfundingCalc() {
+  const [currentAge, setCurrentAge] = useState(35);
+  const [currentBalance, setCurrentBalance] = useState(150000);
+  const [annualContribution, setAnnualContribution] = useState(23500);
+  const [employerMatch, setEmployerMatch] = useState(6000);
+  const [growthRate, setGrowthRate] = useState(7);
+  const [retirementAge, setRetirementAge] = useState(65);
+  const [ssIncome, setSsIncome] = useState(30000);
+
+  const rmdStartAge = 73;
+  const yearsToRetirement = Math.max(0, retirementAge - currentAge);
+  const yearsToRmd = Math.max(0, rmdStartAge - currentAge);
+
+  // Project balance at RMD start age
+  let balanceAtRmd = currentBalance;
+  for (let i = 0; i < yearsToRmd; i++) {
+    const contribution = i < yearsToRetirement ? annualContribution + employerMatch : 0;
+    balanceAtRmd = (balanceAtRmd + contribution) * (1 + growthRate / 100);
+  }
+
+  // Project balance at retirement (for context)
+  let balanceAtRetirement = currentBalance;
+  for (let i = 0; i < yearsToRetirement; i++) {
+    balanceAtRetirement = (balanceAtRetirement + annualContribution + employerMatch) * (1 + growthRate / 100);
+  }
+
+  // Calculate RMDs from age 73-95
+  const rmdSchedule: { age: number; balance: number; rmd: number; taxableIncome: number; bracket: string }[] = [];
+  let runningBalance = balanceAtRmd;
+
+  for (let age = rmdStartAge; age <= 95; age++) {
+    const factor = RMD_FACTORS[age] || 8.9;
+    const rmd = runningBalance / factor;
+    const taxableIncome = rmd + ssIncome;
+
+    // 2025 single brackets (simplified)
+    let bracket = "10%";
+    if (taxableIncome > 609350) bracket = "37%";
+    else if (taxableIncome > 243725) bracket = "35%";
+    else if (taxableIncome > 191950) bracket = "32%";
+    else if (taxableIncome > 100525) bracket = "24%";
+    else if (taxableIncome > 47150) bracket = "22%";
+    else if (taxableIncome > 11600) bracket = "12%";
+
+    rmdSchedule.push({ age, balance: runningBalance, rmd, taxableIncome, bracket });
+    // After RMD, remaining balance continues to grow
+    runningBalance = (runningBalance - rmd) * (1 + growthRate / 100);
+  }
+
+  const firstRmd = rmdSchedule[0];
+  const peakRmd = rmdSchedule.reduce((max, r) => (r.rmd > max.rmd ? r : max), rmdSchedule[0]);
+  const totalRmdTax = rmdSchedule.reduce((sum, r) => {
+    const rate = parseFloat(r.bracket) / 100;
+    return sum + r.rmd * rate;
+  }, 0);
+
+  const isOverfunded = firstRmd && parseFloat(firstRmd.bracket) >= 24;
+
+  return (
+    <div className="bg-surface rounded-xl border border-border p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <AlertTriangle className="w-5 h-5 text-gold" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">401(k) Overfunding Calculator</h3>
+          <p className="text-xs text-text-muted">
+            Will your RMDs push you into a higher bracket?
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Current Age
+          </label>
+          <input
+            type="number"
+            value={currentAge}
+            onChange={(e) => setCurrentAge(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Current 401(k) Balance
+          </label>
+          <input
+            type="number"
+            value={currentBalance}
+            onChange={(e) => setCurrentBalance(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Annual Employee Contribution
+          </label>
+          <input
+            type="number"
+            value={annualContribution}
+            onChange={(e) => setAnnualContribution(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Annual Employer Match
+          </label>
+          <input
+            type="number"
+            value={employerMatch}
+            onChange={(e) => setEmployerMatch(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Expected Growth Rate (%)
+          </label>
+          <input
+            type="number"
+            value={growthRate}
+            onChange={(e) => setGrowthRate(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-text-muted mb-1">
+            Planned Retirement Age
+          </label>
+          <input
+            type="number"
+            value={retirementAge}
+            onChange={(e) => setRetirementAge(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-xs text-text-muted mb-1">
+            Expected Social Security / Pension Income
+          </label>
+          <input
+            type="number"
+            value={ssIncome}
+            onChange={(e) => setSsIncome(Number(e.target.value))}
+            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+          />
+        </div>
+      </div>
+
+      {/* Warning flag */}
+      {isOverfunded && (
+        <div className="bg-red/10 border border-red/20 rounded-lg p-3 mb-4">
+          <p className="text-sm text-red font-medium">
+            Warning: Your projected RMDs may push you into the {firstRmd.bracket} bracket or higher.
+          </p>
+          <p className="text-xs text-text-secondary mt-1">
+            Consider splitting future contributions between Traditional and Roth 401(k),
+            or doing Roth conversions in early retirement before RMDs begin.
+          </p>
+        </div>
+      )}
+
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Balance at retirement (age {retirementAge})</span>
+          <span className="font-medium">{formatCurrency(balanceAtRetirement)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Balance at RMD start (age 73)</span>
+          <span className="font-medium">{formatCurrency(balanceAtRmd)}</span>
+        </div>
+        <hr className="border-accent/20" />
+        {firstRmd && (
+          <div className="flex justify-between text-sm">
+            <span className="text-text-secondary">First RMD (age 73)</span>
+            <span className="font-medium text-accent">{formatCurrency(firstRmd.rmd)}</span>
+          </div>
+        )}
+        {firstRmd && (
+          <div className="flex justify-between text-sm">
+            <span className="text-text-secondary">Total taxable income at 73</span>
+            <span className={`font-medium ${isOverfunded ? "text-red" : ""}`}>
+              {formatCurrency(firstRmd.taxableIncome)} ({firstRmd.bracket} bracket)
+            </span>
+          </div>
+        )}
+        <div className="flex justify-between text-sm">
+          <span className="text-text-secondary">Peak RMD (age {peakRmd.age})</span>
+          <span className="font-medium text-accent">{formatCurrency(peakRmd.rmd)}</span>
+        </div>
+        <hr className="border-accent/20" />
+        <div className="flex justify-between text-sm">
+          <span className="font-semibold">Est. total tax on RMDs (73-95)</span>
+          <span className="font-semibold text-red">{formatCurrency(totalRmdTax)}</span>
+        </div>
+      </div>
+
+      {/* RMD Schedule Preview */}
+      <div className="mb-4">
+        <p className="text-xs text-text-muted mb-2 font-medium uppercase tracking-wider">
+          RMD Schedule (first 10 years)
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-text-muted border-b border-border">
+                <th className="text-left py-2 pr-3">Age</th>
+                <th className="text-right py-2 px-3">Balance</th>
+                <th className="text-right py-2 px-3">RMD</th>
+                <th className="text-right py-2 pl-3">Bracket</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rmdSchedule.slice(0, 10).map((row) => (
+                <tr key={row.age} className="border-b border-border-light">
+                  <td className="py-1.5 pr-3 text-text-secondary">{row.age}</td>
+                  <td className="py-1.5 px-3 text-right font-mono">{formatCurrency(row.balance)}</td>
+                  <td className="py-1.5 px-3 text-right font-mono text-accent">{formatCurrency(row.rmd)}</td>
+                  <td className={`py-1.5 pl-3 text-right font-mono ${parseFloat(row.bracket) >= 24 ? "text-red" : ""}`}>
+                    {row.bracket}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-muted">
+        Uses IRS Uniform Lifetime Table. Assumes single filer, 2025 brackets.
+        Does not account for state taxes, IRMAA, or NIIT. Consult a tax professional.
+      </p>
+    </div>
+  );
+}
+
 export default function CalculatorsPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -663,6 +911,7 @@ export default function CalculatorsPage() {
 
         <div className="space-y-8">
           <RothConversionCalc />
+          <OverfundingCalc />
           <HSAGrowthCalc />
           <CompoundInterestCalc />
           <BuyVsRentCalc />
@@ -671,7 +920,7 @@ export default function CalculatorsPage() {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
             <DollarSign className="w-4 h-4" />
-            More coming: Tax-Loss Harvesting, RMD Projections, Backdoor Roth
+            More coming: Tax-Loss Harvesting, Marginal vs Effective Rate, Backdoor Roth
           </div>
         </div>
       </div>

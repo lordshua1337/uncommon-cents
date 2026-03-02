@@ -686,6 +686,445 @@ export const concepts: FinancialConcept[] = [
     honestAnalysis:
       "For most people, delaying Social Security to 70 is mathematically correct. But 'most people' doesn't mean everyone. If you're in poor health, need the income, or have a strong alternative use for the money (paying off high-interest debt), claiming early is rational. The mistake is claiming early without understanding the trade-off.",
   },
+  // ─── Domain 2: Tax Optimization (new additions) ────────────────────────
+
+  {
+    id: "c2-05",
+    slug: "zero-percent-capital-gains",
+    domainId: "d2",
+    name: "The 0% Capital Gains Rate (Most People Don't Know It Exists)",
+    summary:
+      "If your taxable income is below ~$47K (single) or ~$94K (married), your long-term capital gains tax rate is literally zero. This changes how you should harvest gains, not just losses.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["tax-bracket-management", "roth-conversion-ladder", "tax-loss-harvesting"],
+    layers: {
+      accessible:
+        "Most people know there are three capital gains tax rates: 0%, 15%, and 20%. But most don't realize how accessible the 0% bracket is. In 2025, if your taxable income (after deductions) is below $47,025 (single) or $94,050 (married filing jointly), your long-term capital gains rate is 0%. Literally free.\n\nThis matters enormously in early retirement, sabbatical years, or any year your income is low. Instead of just doing Roth conversions in low-income years, you can also sell appreciated investments and pay zero tax on the gains. It's tax-gain harvesting -- the opposite of tax-loss harvesting.",
+      intermediate:
+        "The 0% bracket stacks on top of your ordinary income. If you're married with $60,000 in ordinary income and $34,050 in long-term capital gains, your total is $94,050 -- right at the threshold. All $34,050 in gains is taxed at 0%.\n\nStrategic applications: (1) Retirees in the gap between retirement and Social Security/RMDs can sell appreciated stock at 0% tax. (2) Anyone taking a year off can harvest gains tax-free. (3) Business owners with a down year can use the opportunity. (4) You can sell and immediately rebuy, resetting your cost basis higher (no wash sale rule for gains).\n\nThe interaction with other income: the 0% bracket is based on taxable income, which is after the standard deduction ($30,000 married in 2025). So a married couple with $124,050 in gross income (including gains) and no other deductions still qualifies for some 0% treatment.\n\nCombine with tax-loss harvesting: harvest losses in high-income years (to offset gains taxed at 15-20%), and harvest gains in low-income years (taxed at 0%). You're managing your tax rate across years, not just within a single year.",
+      advanced:
+        "The 0% bracket interacts with ACA premium subsidies, IRMAA thresholds, and state taxes in complex ways. Capital gains that are federally tax-free can still trigger state taxes (most states tax capital gains as ordinary income). They also count as MAGI for ACA subsidy calculations -- meaning 'free' federal capital gains could cost you thousands in lost healthcare subsidies.\n\nOptimal strategy for early retirees on ACA: calculate your modified AGI ceiling for maximum ACA subsidies, then fill remaining room with Roth conversions and 0% capital gains harvesting. The order matters -- conversions and gains both count as MAGI.\n\nThe step-up-in-basis interaction: if you're considering holding appreciated stock until death (for the step-up basis), compare the value of a guaranteed 0% rate today vs. a potential step-up later. The 0% rate is certain. The step-up depends on future legislation (it was temporarily eliminated in 2010 and has been targeted by multiple proposals)."
+    },
+    honestAnalysis:
+      "The 0% rate is real and powerful, but it requires low income to access. It's most useful during intentional low-income periods like early retirement, not as an everyday strategy for working professionals.",
+  },
+
+  // ─── Domain 3: Equity Compensation (new additions) ────────────────────
+
+  {
+    id: "c3-04",
+    slug: "83b-election",
+    domainId: "d3",
+    name: "The 83(b) Election: 30 Days to Save Thousands in Tax",
+    summary:
+      "When you receive restricted stock, you can elect to pay tax on it NOW at its current (low) value instead of later at its (hopefully higher) value. Miss the 30-day window and the opportunity is gone forever.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["iso-vs-nso", "rsu-basics"],
+    layers: {
+      accessible:
+        "When a startup gives you restricted stock (shares that vest over time), you normally pay tax as each batch vests. If the stock is worth $0.10 when granted but $10 when it vests, you pay tax on $10 per share. An 83(b) election lets you pay tax on $0.10 per share RIGHT NOW, when the stock is nearly worthless.\n\nIf the company succeeds and the stock becomes valuable, all that appreciation is taxed as long-term capital gains (max 20%) instead of ordinary income (up to 37%). The savings can be enormous -- potentially hundreds of thousands of dollars for early startup employees.\n\nThe catch: you must file the election with the IRS within 30 days of receiving the stock. Not 30 business days. Not 30 days from vesting. 30 calendar days from the grant date. Miss it and you cannot fix it. The form is a simple letter -- there's no official IRS form.",
+      intermediate:
+        "Who should file 83(b): early-stage startup employees who receive restricted stock at a low 409A valuation. If shares are worth $0.001 each and you get 100,000 shares, the tax on the 83(b) election is minimal (maybe $3-4 with state tax). If those shares are worth $10 each when they vest 4 years later, you saved tax on $1M of income.\n\nWho should NOT file: (1) Anyone who might leave the company before vesting (you cannot get refunded for tax paid on forfeited shares). (2) Anyone receiving stock that is already highly valued (paying tax on $50K worth of stock you might forfeit is risky). (3) RSU recipients -- 83(b) does NOT apply to RSUs because you don't receive actual shares until vesting.\n\nThe timeline: (1) Day 0: receive restricted stock grant. (2) Within 30 days: mail 83(b) election to IRS (many advisors recommend certified mail). Send a copy to your employer. Keep a copy for your records. (3) Attach a copy to your tax return for that year. (4) Hold shares for 1+ year after grant (and 2+ years for ISOs) to qualify for long-term capital gains on sale.",
+      advanced:
+        "The 83(b) election converts what would be ordinary income (the spread at vesting) into long-term capital gains (the spread at sale). The maximum rate difference is 37% - 20% = 17 percentage points, plus the 3.8% NIIT may apply differently.\n\nRisk analysis: the 83(b) is essentially a bet that the stock will appreciate. If the company fails, you paid tax on worthless stock with no refund. However, for early-stage employees where the 409A valuation is pennies per share, the tax cost of the election is trivially small -- often under $100. The expected value calculation is almost always favorable at that stage.\n\nState tax considerations: California conforms to the federal 83(b) treatment. However, if you file 83(b) in one state and vest in another, the tax treatment can be complex. Some states may try to tax the vesting event regardless of the federal 83(b) election.\n\nThe partnership/LLC twist: 83(b) elections also apply to profits interests in partnerships and LLCs. A profits interest with no current value can be subject to 83(b) to lock in zero tax basis. This is common in private equity and venture capital compensation structures."
+    },
+    honestAnalysis:
+      "The 83(b) election is one of the highest-ROI tax moves available to startup employees. The cost is usually trivial and the potential savings enormous. But it requires action within 30 days -- and most people don't learn about it until it's too late. If you're joining a startup and receiving restricted stock, this should be one of your first conversations with a tax advisor.",
+  },
+
+  {
+    id: "c3-05",
+    slug: "espp-free-money",
+    domainId: "d3",
+    name: "ESPP: The Closest Thing to Free Money at Work",
+    summary:
+      "Employee Stock Purchase Plans let you buy company stock at a 15% discount. If you sell immediately, that's a near-guaranteed 15%+ return in months. Most people don't enroll.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["rsu-basics", "iso-vs-nso"],
+    layers: {
+      accessible:
+        "An Employee Stock Purchase Plan (ESPP) lets you buy your company's stock at a discount -- typically 15% off the market price. Money is deducted from your paycheck over a period (usually 6 months), and at the end, you buy shares at the discounted price.\n\nThe simplest strategy: enroll, buy at the discount, sell immediately. You make roughly 15% on your money in 6 months with very little risk (the stock could drop more than 15% during the purchase period, but most plans have a 'look-back' provision that uses the lower of the start or end price). This is arguably the highest risk-adjusted return available to individual employees.",
+      intermediate:
+        "How a typical ESPP works: (1) Offering period begins. Stock price is noted (say $100). (2) 6 months of payroll deductions (up to 15% of salary or $25K/year in stock). (3) Purchase date arrives. Stock is now $120. (4) You buy at 85% of the LOWER of $100 or $120 = 85% of $100 = $85/share. (5) Shares are worth $120. That's a 41% return ($85 to $120).\n\nThe look-back provision makes this incredible: if the stock goes up during the period, you get 15% off the starting (lower) price. If the stock goes down, you get 15% off the ending (lower) price. You always get the better deal.\n\nTax treatment: if you sell immediately (disqualifying disposition), the discount is taxed as ordinary income on your W-2, and any additional gain is short-term capital gains. If you hold 1 year from purchase + 2 years from offering date (qualifying disposition), a portion is taxed more favorably. For most people, the immediate sell strategy wins because you eliminate stock concentration risk.",
+      advanced:
+        "The risk analysis of holding vs. immediate sale: holding for qualifying disposition saves maybe 5-10% in taxes on the discount portion. But it concentrates your portfolio in company stock for 1-2 years. You already have concentration risk through your salary, bonus, and other equity comp. Adding ESPP shares to that concentration is usually not worth the modest tax savings.\n\nMaximum benefit: if your plan allows 15% of salary and you earn $200K, that's $30K/year in ESPP purchases (capped at $25K in stock value per year by IRS rules). At a 15% discount with immediate sale, that's roughly $4,400/year in near-guaranteed profit. Over a 10-year career at a company, that's $44K in essentially free money.\n\nThe only reason not to enroll: if you literally cannot afford the cash flow reduction during the purchase period. Even then, many people can temporarily reduce 401(k) contributions to fund ESPP participation (the ESPP return is often higher than the tax savings from 401(k) contributions above the employer match)."
+    },
+    honestAnalysis:
+      "ESPP with immediate sell is as close to free money as exists in personal finance. The main barrier is inertia -- people don't sign up. If your company offers an ESPP and you're not enrolled, you are leaving guaranteed money on the table.",
+  },
+
+  // ─── Domain 4: Real Estate (new additions) ────────────────────────────
+
+  {
+    id: "c4-04",
+    slug: "1031-exchange",
+    domainId: "d4",
+    name: "1031 Exchange: Defer Taxes on Real Estate Gains Forever",
+    summary:
+      "Sell an investment property, buy another of equal or greater value, and pay zero capital gains tax. Repeat until death, when heirs get a stepped-up basis. Legally, the gains can be deferred indefinitely.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["buy-vs-rent", "house-hacking", "estate-planning-basics"],
+    layers: {
+      accessible:
+        "A 1031 exchange (named after Section 1031 of the tax code) lets you sell an investment property and defer all capital gains taxes by reinvesting the proceeds into a new property. You're not avoiding the tax permanently -- you're deferring it. But if you keep exchanging into larger properties, you can defer indefinitely. And when you die, your heirs get a stepped-up basis, potentially eliminating the deferred tax entirely.\n\nThis is how many real estate investors build massive portfolios: buy a duplex, exchange into a small apartment building, exchange into a larger one, and never pay capital gains tax along the way.",
+      intermediate:
+        "The strict rules: (1) 45-day identification period: after selling, you have 45 days to identify potential replacement properties (up to 3, or more under certain rules). (2) 180-day closing: you must close on the replacement property within 180 days of selling. (3) Must be 'like-kind': any real property for any real property (a condo can be exchanged for raw land, a rental house for a commercial building). (4) Must use a Qualified Intermediary (QI): you cannot touch the money between sale and purchase. The QI holds the funds.\n\nThe equity and debt rules: the replacement property must be of equal or greater value, and you must use equal or greater debt. If you sell a $500K property with $300K mortgage and $200K equity, the replacement must be at least $500K total. Any cash you take out ('boot') is taxable.\n\nCannot be used for your primary residence or a fix-and-flip (must be held for investment or business use). The IRS has no fixed holding period, but most advisors recommend holding at least 1-2 years to demonstrate investment intent.",
+      advanced:
+        "Advanced 1031 strategies: (1) Reverse exchange: buy the replacement property first, then sell the old one within 180 days. Requires a special 'parking' arrangement with an Exchange Accommodation Titleholder. More expensive but eliminates the pressure of finding a replacement in 45 days. (2) Improvement exchange: the replacement property can include a property that needs renovation, with the exchange funds used for improvements during the exchange period.\n\nThe step-up basis endgame: the most powerful aspect of 1031 exchanges is the estate planning angle. Under current law, when you die, your heirs receive a 'stepped-up' cost basis equal to fair market value at death. All the deferred capital gains from decades of 1031 exchanges are eliminated in a single step. A $100K property exchanged over 30 years into a $5M portfolio could pass to heirs with zero capital gains tax ever paid on the appreciation.\n\nDelaware Statutory Trust (DST): investors who want to exit active management can 1031 exchange into a DST -- a passive, professionally managed real estate investment. This is the most common 'exit strategy' for aging real estate investors who want income without landlord headaches while preserving the tax deferral."
+    },
+    honestAnalysis:
+      "The 1031 exchange is one of the most powerful wealth-building tools in the tax code, but it's complex and expensive to execute properly. QI fees, compressed timelines, and the risk of not finding suitable replacement property within 45 days are real. It's best suited for intentional real estate investors, not accidental landlords.",
+  },
+
+  // ─── Domain 5: Business Finance (new additions) ────────────────────────
+
+  {
+    id: "c5-04",
+    slug: "qbi-deduction",
+    domainId: "d5",
+    name: "QBI Deduction: The 20% Pass-Through Tax Break",
+    summary:
+      "If you're self-employed or own a pass-through business (LLC, S-Corp, sole proprietor), you may deduct 20% of your business income -- effectively lowering your tax rate by up to 7.4 percentage points.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["s-corp-optimization", "solo-401k"],
+    layers: {
+      accessible:
+        "The Qualified Business Income (QBI) deduction, created by the Tax Cuts and Jobs Act (2017), lets owners of pass-through businesses (sole proprietorships, partnerships, S-Corps, LLCs) deduct up to 20% of their business income from their taxable income. If your business earns $100,000, you might only pay tax on $80,000.\n\nThis effectively reduces the top tax rate on pass-through income from 37% to 29.6% -- making it more competitive with the corporate tax rate of 21%. The deduction is taken on your personal return; it doesn't reduce self-employment tax, just income tax.",
+      intermediate:
+        "The limitations get complex above certain income levels. If your taxable income exceeds $191,950 (single) or $383,900 (married) in 2025, the deduction starts phasing out for 'Specified Service Trades or Businesses' (SSTBs) -- which includes most professional services: law, medicine, accounting, consulting, financial services, athletics, performing arts. Above the threshold, the deduction may be limited by the W-2 wages paid by the business or 2.5% of qualified property.\n\nThis is where S-Corp optimization intersects with QBI: by paying yourself a reasonable salary (W-2 wages), you create the W-2 wage floor that supports a larger QBI deduction. The interaction between S-Corp salary, QBI deduction, and self-employment tax savings creates a three-variable optimization problem.\n\nThe SSTB phase-out creates a cliff: one dollar over the threshold can dramatically reduce the deduction. Active tax management (Roth conversions, charitable giving, retirement contributions) around the threshold can save thousands.",
+      advanced:
+        "QBI deduction optimization: (1) Aggregate or separate business activities to maximize the deduction. Multiple businesses can be aggregated if they share common ownership, centralized management, or interdependence. (2) For SSTBs above the income threshold, consider splitting the business into SSTB and non-SSTB components (with proper economic substance). (3) Real Estate Safe Harbor: rental real estate can qualify for QBI under Rev. Proc. 2019-38 if you maintain separate books, spend 250+ hours annually, and keep contemporaneous records.\n\nThe sunset risk: the QBI deduction expires December 31, 2025, under current law. Extension or modification is being debated. Business owners should model their tax situation with and without QBI to prepare for either outcome. If it sunsets, the effective tax rate on pass-through income could increase by up to 7.4 percentage points overnight."
+    },
+    honestAnalysis:
+      "The QBI deduction is a significant tax benefit, but it's fiendishly complex for high earners in service businesses. The phase-outs, SSTB rules, and W-2 wage limitations mean the deduction often isn't a simple 20% cut. Get a CPA who understands the interactions.",
+  },
+
+  {
+    id: "c5-05",
+    slug: "entity-selection",
+    domainId: "d5",
+    name: "LLC vs S-Corp vs C-Corp: Which Entity is Right?",
+    summary:
+      "The entity you choose affects taxes, liability, administration, and fundraising. Most small businesses should start as an LLC and consider S-Corp election when profits exceed $40-50K.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["s-corp-optimization", "qbi-deduction", "solo-401k"],
+    layers: {
+      accessible:
+        "Sole Proprietorship: simplest, no formation needed. You and the business are legally the same. All income reported on Schedule C. You pay self-employment tax (15.3%) on everything. No liability protection.\n\nLLC (Limited Liability Company): separates personal and business assets. By default, taxed the same as a sole proprietorship (Schedule C), but gives liability protection. Minimal paperwork. Best starting point for most businesses.\n\nS-Corp (S Corporation): not a separate entity type -- it's a tax election. An LLC or corporation can elect S-Corp status. The key benefit: you pay yourself a 'reasonable salary' and take the rest as distributions, which are NOT subject to self-employment tax (saving 15.3% on distributions). Makes sense when profits consistently exceed $40-50K.\n\nC-Corp: separate tax entity. Pays its own tax at 21% flat rate. Profits are taxed again when distributed as dividends (double taxation). Best for businesses seeking VC/PE funding or planning to go public.",
+      intermediate:
+        "The S-Corp break-even calculation: self-employment tax saved on distributions vs. additional costs of S-Corp (payroll processing $500-2,000/year, additional tax return ~$1,000-2,000/year, reasonable salary requirements, state-specific fees). Typically breaks even around $40-50K in net business income.\n\nExample: $120K net business income. As a sole proprietor, you pay SE tax on all $120K = ~$18,360. As an S-Corp paying yourself $60K salary and taking $60K in distributions: SE tax on $60K salary = ~$9,180, plus S-Corp admin costs of ~$3,000 = $12,180. Savings: ~$6,180/year.\n\nState considerations: some states (California) charge an $800 minimum franchise tax on LLCs/S-Corps regardless of income. New York City has an additional S-Corp tax. Texas franchise tax, Washington B&O tax, etc. Entity selection must account for state-specific costs.\n\nThe reasonable salary requirement: the IRS requires S-Corp owners who work in the business to pay themselves a 'reasonable salary' before taking distributions. If you pay yourself too little (to maximize the SE tax savings), the IRS can reclassify distributions as wages and hit you with back taxes, penalties, and interest. Use compensation data for your role and industry.",
+      advanced:
+        "C-Corp considerations: the 21% flat corporate rate is attractive when (1) you're reinvesting most profits in the business (avoiding double taxation), (2) you want to use tax-favored fringe benefits (health insurance, education, etc. are deductible by C-Corps), (3) you plan to take advantage of Qualified Small Business Stock (QSBS) -- Section 1202 allows up to $10M in capital gains exclusion on C-Corp stock held 5+ years. QSBS is the reason most VC-backed startups are C-Corps.\n\nHolding company structures: some business owners create a C-Corp parent with S-Corp subsidiaries to capture benefits of both. Others use Series LLCs (available in some states) to isolate liability across multiple business lines without multiple entity filings.\n\nThe entity selection matrix: Freelancer under $40K profit -> Sole prop or single-member LLC. Freelancer $40-100K+ profit -> LLC with S-Corp election. Small business with employees -> LLC or Corp with S-Corp election. Venture-funded startup -> C-Corp (for QSBS and investor preferences). Real estate holding -> LLC (often multi-member for asset protection)."
+    },
+    honestAnalysis:
+      "Entity selection is important but over-debated. Start as an LLC, switch to S-Corp when the tax math works, and don't overthink it. The entity structure matters far less than actually building a profitable business. Don't let formation paralysis stop you from starting.",
+  },
+
+  // ─── Domain 6: Retirement Income (new additions) ──────────────────────
+
+  {
+    id: "c6-04",
+    slug: "rmd-strategies",
+    domainId: "d6",
+    name: "RMD Strategies: Managing Forced Withdrawals",
+    summary:
+      "At 73, the IRS forces you to withdraw from traditional retirement accounts whether you need the money or not. The withdrawals are taxed as income. Poor planning here can cost you tens of thousands.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["roth-conversion-ladder", "social-security-optimization", "safe-withdrawal-rate"],
+    layers: {
+      accessible:
+        "Required Minimum Distributions (RMDs) are the IRS's way of making sure you eventually pay taxes on your traditional retirement accounts. Starting at age 73 (as of SECURE 2.0), you must withdraw a minimum amount each year from traditional IRAs, 401(k)s, 403(b)s, and most other tax-deferred accounts. The amount is based on your account balance divided by a life expectancy factor from the IRS Uniform Lifetime Table.\n\nRoth IRAs have no RMDs (as of SECURE 2.0, Roth 401(k)s are also exempt). This is one of the biggest advantages of Roth accounts -- your money can continue growing tax-free for as long as you want.\n\nIf you fail to take your full RMD, the penalty is 25% of the amount you should have withdrawn (reduced from the previous 50% by SECURE 2.0). This can be reduced to 10% if corrected in a timely manner.",
+      intermediate:
+        "The RMD problem: a $2M traditional IRA at age 73 requires an RMD of approximately $75,000 (balance / 26.5). Combined with Social Security ($30-40K), that's $105-115K in forced taxable income. You might be in the 22-24% bracket whether you need the money or not.\n\nPre-RMD strategies (the 'gap years' between retirement and 73): (1) Roth conversions: convert traditional IRA to Roth during low-income years, 'filling up' the 10% and 12% brackets. Every dollar converted is one less dollar of future RMDs. (2) Qualified Charitable Distributions (QCDs): after age 70.5, you can donate up to $105,000 directly from your IRA to charity. QCDs count toward your RMD but are NOT included in taxable income. This is the most tax-efficient way to give to charity in retirement. (3) Accelerated spending from traditional accounts: spend down traditional accounts first while delaying Social Security and letting Roth accounts grow.\n\nThe IRMAA connection: RMDs that push your income above $103,000 (single) or $206,000 (married) trigger higher Medicare Part B and D premiums. IRMAA surcharges are based on income from two years prior, so a large RMD in 2025 increases your premiums in 2027.",
+      advanced:
+        "Advanced RMD management: (1) Aggregation rules: RMDs from multiple traditional IRAs can be taken from any one IRA (you calculate each account's RMD separately but can withdraw the total from whichever has the worst investments). 401(k) RMDs must be taken from each account separately. (2) The 'still working' exception: if you're still employed and don't own more than 5% of the company, you can delay RMDs from your current employer's 401(k) until you actually retire. Does not apply to IRAs or former employer plans. (3) The Net Unrealized Appreciation (NUA) strategy: if your 401(k) holds employer stock, you can distribute the shares and pay only ordinary income tax on the original cost basis (not current value). The appreciation is taxed at favorable long-term capital gains rates when eventually sold. This can be done before RMDs to reduce the account balance.\n\nProjection modeling: the key to RMD planning is running multi-decade projections that include Social Security, pensions, RMDs, Roth conversions, portfolio growth, IRMAA thresholds, and tax brackets simultaneously. Simple single-variable decisions ('should I convert this year?') often miss the multi-variable interactions. Software tools (Boldin, Pralana, Income Strategy) can model these scenarios."
+    },
+    honestAnalysis:
+      "RMD planning is where most retirement planning actually gets complex. The gap between retirement and age 73 is the most valuable tax planning window most people get -- and most people waste it by doing nothing. Start projecting your RMDs well before retirement.",
+  },
+
+  {
+    id: "c6-05",
+    slug: "bucket-strategy",
+    domainId: "d6",
+    name: "The Bucket Strategy: Organizing Retirement Income",
+    summary:
+      "Divide your retirement savings into short-term (cash), medium-term (bonds), and long-term (stocks) buckets. This prevents you from selling stocks during downturns and provides psychological safety.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["sequence-of-returns-risk", "safe-withdrawal-rate", "asset-allocation"],
+    layers: {
+      accessible:
+        "The biggest risk in early retirement isn't running out of money -- it's selling stocks during a crash to pay your bills. The bucket strategy prevents this by keeping 1-2 years of expenses in cash, 3-5 years in bonds, and the rest in stocks. When markets crash, you live off the cash and bond buckets while stocks recover.\n\nBucket 1 (Now): 1-2 years of expenses in cash/money market. Safe, liquid, boring. This is your 'sleep at night' money.\n\nBucket 2 (Soon): 3-5 years of expenses in bonds, CDs, short-term bond funds. Low volatility, provides income.\n\nBucket 3 (Later): Everything else in stocks/growth investments. This bucket has decades to recover from any crash. You don't touch it until Buckets 1 and 2 need refilling.",
+      intermediate:
+        "The rebalancing mechanism: in good years, sell some stock gains from Bucket 3 to refill Buckets 1 and 2. In bad years, live off Buckets 1 and 2 and let Bucket 3 recover. You're essentially building a buffer that insulates your withdrawals from market timing.\n\nThe psychological benefit is arguably more important than the mathematical benefit. Studies show that retirees using a bucket strategy are less likely to panic sell during market downturns because they can see their short-term expenses are covered regardless of what stocks do. This behavioral advantage can prevent the single most destructive retirement mistake: selling at the bottom.\n\nTax-aware bucket management: Bucket 1 (cash) should be in taxable accounts for easy access. Bucket 2 (bonds) can be in traditional IRAs (since bond income is taxed as ordinary income anyway). Bucket 3 (stocks) should be in Roth accounts when possible (for tax-free growth and no RMDs).",
+      advanced:
+        "The academic critique: mathematically, a bucket strategy produces nearly identical results to a simple total-return approach with annual rebalancing. The 'cash drag' from holding 1-2 years in cash slightly reduces long-term returns. Some researchers argue the bucket strategy is just a mental accounting framework (a behavioral bias) that produces suboptimal returns.\n\nThe counter-argument: the bucket strategy isn't designed to maximize returns -- it's designed to maximize the probability that a retiree stays the course during a crisis. A mathematically superior strategy that leads to panic selling during a 40% drawdown is worse than a slightly suboptimal strategy that keeps you invested. The bucket strategy's value is behavioral, not mathematical.\n\nDynamic bucket management: advanced practitioners adjust bucket sizes based on market valuations. When CAPE ratios are high (expensive markets), increase the cash/bond buckets to 3-4 years. When CAPE is low (cheap markets), reduce to 1 year and increase stock allocation. This adds a modest valuation-timing element without attempting to time the market."
+    },
+  },
+
+  // ─── Domain 7: Investing (new additions) ───────────────────────────────
+
+  {
+    id: "c7-05",
+    slug: "direct-indexing",
+    domainId: "d7",
+    name: "Direct Indexing: The Rich Person's Index Fund",
+    summary:
+      "Instead of buying an S&P 500 index fund, buy all 500 stocks individually. Same exposure, but you can harvest tax losses on individual positions throughout the year. Tax alpha of 1-2% annually.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["tax-loss-harvesting", "asset-allocation", "asset-location"],
+    layers: {
+      accessible:
+        "An index fund owns hundreds of stocks as a single package. Direct indexing owns those same stocks individually. The performance is nearly identical, but owning stocks individually lets you sell specific positions that are down (tax-loss harvesting) while keeping your overall portfolio tracking the index.\n\nIn an index fund, you can only sell the entire fund at a gain or loss. In a direct index portfolio, you might have 50 stocks up and 20 stocks down in any given month. You sell the 20 losers, capture the tax losses, and immediately buy similar (but not identical) stocks to maintain your exposure. The tax savings can add 1-2% per year in after-tax return.",
+      intermediate:
+        "Why this wasn't available to normal people until recently: trading 500+ stocks individually used to be expensive (commissions) and complex (rebalancing). Now, zero-commission brokers and automated platforms (Wealthfront, Aperio, Parametric, Fidelity Managed Accounts) handle it for 0.15-0.40% annual fees.\n\nThe tax alpha calculation: in a typical year, even in a rising market, 30-40% of individual stocks in the S&P 500 are down at any point. Each of those is a tax-loss harvesting opportunity. With daily monitoring and automated trading, direct indexing captures far more losses than quarterly manual harvesting.\n\nCustomization benefits beyond tax: you can exclude specific stocks (ethical/ESG screens), overweight or underweight sectors, or tilt toward factors (value, momentum, quality) without losing the tax harvesting benefits. It's essentially a customized index fund with tax management built in.",
+      advanced:
+        "The diminishing benefit over time: tax-loss harvesting generates the most alpha in the first few years. As your cost basis rises (from replacing sold positions with new purchases), there are fewer losses to harvest. After 10-15 years, a mature direct indexing portfolio has limited remaining tax alpha because all positions have low cost bases.\n\nTransition management: for investors holding highly appreciated concentrated stock positions, direct indexing platforms can tax-efficiently transition into a diversified portfolio by selling losers first and gradually diversifying.\n\nThe minimum account size debate: traditional direct indexing required $250K-1M minimums. Fractional shares have lowered this to $5K-50K at some platforms. However, the tax alpha is most valuable for investors in the highest brackets with significant taxable portfolios. An investor in the 12% bracket benefits minimally compared to someone in the 37%+ bracket.\n\nThe estate planning angle: at death, all positions receive a step-up in basis. The accumulated 'deferred gains' from years of tax-loss harvesting disappear entirely. This makes direct indexing even more powerful for long-term wealth building when combined with estate planning."
+    },
+    honestAnalysis:
+      "Direct indexing is genuinely useful for high-net-worth investors with large taxable accounts. For someone with $50K in a taxable brokerage, the tax savings don't justify the added complexity and fees. It's a tool for the already-wealthy to become wealthier, not a beginner strategy.",
+  },
+
+  // ─── Domain 8: Estate Planning (new additions) ─────────────────────────
+
+  {
+    id: "c8-03",
+    slug: "buy-borrow-die",
+    domainId: "d8",
+    name: "Buy, Borrow, Die: How Billionaires Avoid Taxes Legally",
+    summary:
+      "Buy assets that appreciate. Borrow against them for spending money (no tax on loans). Die with the assets and heirs get a stepped-up basis, erasing the deferred gains. The ultra-wealthy's playbook.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["estate-planning-basics", "beneficiary-designations", "zero-percent-capital-gains"],
+    layers: {
+      accessible:
+        "The 'buy, borrow, die' strategy is how many ultra-wealthy individuals legally avoid paying income or capital gains tax for decades -- sometimes their entire lives.\n\nStep 1: BUY appreciating assets (stocks, real estate, businesses). As long as you don't sell, you don't owe capital gains tax. Your wealth grows, but your taxable income stays low.\n\nStep 2: BORROW against those assets when you need cash. Loans are not taxable income. A billionaire can borrow $10 million against their stock portfolio at 3-5% interest and spend it like income -- with zero tax bill. The interest may even be deductible.\n\nStep 3: DIE with the assets. Under current law, your heirs receive a 'stepped-up' cost basis equal to the fair market value at your death. All the capital gains that accumulated over your lifetime are erased. Your heirs can sell the assets and owe zero tax on the appreciation.",
+      intermediate:
+        "Why loans work: if you have $100M in stock with a $10M cost basis, selling to fund your lifestyle would trigger a $90M capital gain at 23.8% (including NIIT) = $21.4M in tax. Instead, borrowing $5M against the portfolio costs maybe $200K/year in interest. You avoid $21.4M in tax by paying $200K. The math is overwhelming.\n\nMargin loans and securities-based lending: most large brokerages offer portfolio lines of credit at rates of 2-5% above benchmarks, with borrowing limits of 50-70% of portfolio value. The interest rate is almost always lower than the portfolio's expected return, making the loan accretive to net worth.\n\nThe step-up basis eliminates deferred gains at death. If you bought Amazon stock at $10 and it's $200 when you die, your heirs' basis is $200. They can sell immediately and owe nothing. The $190 of appreciation was never taxed -- not when you earned it, not when you borrowed against it, not when your heirs received it.",
+      advanced:
+        "Limitations and risks: (1) Margin calls: if the portfolio drops significantly, the lender may demand repayment or additional collateral. Forced selling during a downturn defeats the entire strategy. Diversified portfolios and conservative LTV ratios (30-40%) mitigate this. (2) Interest rate risk: variable-rate margin loans become expensive in high-rate environments. A 7% margin rate changes the math considerably. (3) Legislative risk: the step-up in basis has been targeted by multiple legislative proposals. Biden's 2021 proposal would have taxed unrealized gains at death above $1M. It failed, but the provision could return.\n\nThe middle-class version: you don't need $100M for this to work. A retiree with a $2M portfolio can borrow $200K at 5% for home renovation instead of selling $200K in appreciated stock (which would trigger $50K+ in capital gains tax). The $10K/year in interest is far less than the tax bill.\n\nThe charitable twist: instead of dying with appreciated assets, you can donate them to charity during your lifetime. You get a deduction for the full fair market value and never pay capital gains tax on the appreciation. This is often more tax-efficient than donating cash."
+    },
+    honestAnalysis:
+      "Buy, borrow, die is a real strategy used by the ultra-wealthy. It's legal, well-documented, and arguably the single biggest driver of wealth inequality in the tax code. Whether you think it's brilliant tax planning or a moral failing depends on your politics. Either way, understanding it is important.",
+  },
+
+  {
+    id: "c8-04",
+    slug: "irrevocable-life-insurance-trust",
+    domainId: "d8",
+    name: "ILIT: Removing Life Insurance from Your Estate",
+    summary:
+      "Life insurance proceeds are income-tax-free but still count in your taxable estate. An Irrevocable Life Insurance Trust (ILIT) removes the death benefit from your estate entirely, saving 40% estate tax.",
+    complexityMin: 3,
+    hasCalculator: false,
+    relatedConceptSlugs: ["estate-planning-basics", "beneficiary-designations", "term-vs-permanent"],
+    layers: {
+      accessible:
+        "Most people know that life insurance death benefits are income-tax-free. What they don't know is that the death benefit IS included in your taxable estate. If you have a $2M life insurance policy and your estate is already near the exemption limit ($13.61M in 2025), that $2M could be taxed at 40%.\n\nAn Irrevocable Life Insurance Trust (ILIT) solves this: the trust owns the policy (not you), so the death benefit is not part of your estate. Your beneficiaries still receive the money -- just through the trust instead of directly.",
+      intermediate:
+        "How an ILIT works: (1) You create an irrevocable trust with a trustee (not you -- typically a trusted family member or institution). (2) The trust purchases a life insurance policy on your life (or you transfer an existing policy, but there's a 3-year look-back rule). (3) You make annual gifts to the trust to pay the premiums (within the annual gift exclusion -- $18,000 per beneficiary in 2025). (4) Crummey letters: the trustee must notify beneficiaries of their right to withdraw each gift contribution (this makes the gift qualify for the annual exclusion). (5) At your death, the trust receives the death benefit and distributes it according to the trust terms.\n\nThe 3-year rule: if you transfer an existing policy to an ILIT and die within 3 years, the death benefit is pulled back into your estate. To avoid this, have the ILIT purchase a new policy. The 3-year rule doesn't apply to policies the ILIT originally purchased.",
+      advanced:
+        "ILIT advanced planning: (1) Second-to-die (survivorship) policies: common for married couples because the estate tax is deferred until the second spouse dies. The ILIT owns a survivorship policy that pays out at the second death, exactly when the estate tax is due. (2) Wealth replacement trust: you donate appreciated assets to charity (getting a tax deduction and avoiding capital gains), then use the tax savings to fund an ILIT that 'replaces' the donated wealth for your heirs. Your family receives the same amount, charity benefits, and you saved on taxes.\n\nDynasty trust variation: in some states (South Dakota, Nevada, Alaska), an ILIT can be structured as a dynasty trust, lasting in perpetuity. The death benefit and subsequent growth are never subject to estate tax across multiple generations.\n\nThe estate tax exemption sunset: the current $13.61M exemption is scheduled to drop to approximately $6-7M on January 1, 2026. If it does, many more estates will face the 40% tax, making ILITs relevant to a much broader population. Estate planning attorneys are recommending that clients establish ILITs now while the higher exemption still exists."
+    },
+    honestAnalysis:
+      "ILITs are essential for high-net-worth estate planning but add significant complexity and cost. They're irrevocable -- once created, you can't easily modify them. If you don't need estate tax planning (your estate is well under the exemption), an ILIT adds cost without benefit.",
+  },
+
+  // ─── Domain 9: Insurance (new additions) ───────────────────────────────
+
+  {
+    id: "c9-04",
+    slug: "disability-insurance",
+    domainId: "d9",
+    name: "Disability Insurance: Protecting Your Most Valuable Asset",
+    summary:
+      "Your ability to earn income is worth millions over your career. A 30-year-old earning $80K has $3M+ in future earnings. Disability insurance protects that -- yet most people skip it.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["term-vs-permanent", "umbrella-insurance", "emergency-fund-optimization"],
+    layers: {
+      accessible:
+        "Most people insure their car ($30K), their home ($300K), and even their phone ($1K). But they don't insure the thing that pays for all of those: their ability to earn income. A 30-year-old earning $80,000/year has over $3 million in future earnings ahead of them. If an injury or illness prevents them from working, that income stream stops.\n\nDisability insurance replaces a portion of your income (typically 60-70%) if you can't work due to illness or injury. The odds aren't small: about 1 in 4 workers will experience a disability lasting more than 90 days before retirement.",
+      intermediate:
+        "Types: (1) Short-term disability (STD): covers the first 3-6 months. Many employers provide this. (2) Long-term disability (LTD): kicks in after STD ends and can last until age 65. This is the critical one. (3) Own-occupation: pays if you can't do YOUR specific job. A surgeon who loses fine motor skills gets paid even if they could work as a teacher. (4) Any-occupation: only pays if you can't do ANY job. Much cheaper but much harder to collect on.\n\nBuying individual vs. employer-provided: employer-provided LTD is better than nothing but has a critical flaw -- benefits are taxable if the employer pays the premium. If your employer provides 60% of salary and benefits are taxed at 30%, you're really getting 42% of your income. Individual policies with after-tax premiums pay TAX-FREE benefits.\n\nCost: typically 1-3% of your income. A $100K earner might pay $100-250/month for a solid own-occupation policy. That's the insurance premium on a $3M+ asset.",
+      advanced:
+        "Policy riders worth considering: (1) COLA (cost of living adjustment): benefits increase with inflation. Essential for long-term claims. (2) Future increase option: lets you increase coverage as your income grows without new medical underwriting. Get this when you're young and healthy. (3) Residual/partial disability: pays a proportional benefit if you can work part-time but not full-time. Important for gradual disability onset.\n\nThe underwriting window: disability insurance requires medical underwriting. If you develop health issues, you may not be able to get coverage at any price. The best time to buy is when you're young and healthy -- even if you think you can't afford it. A basic policy you buy at 28 and upgrade later is infinitely better than discovering at 40 (with a bad back) that you can't qualify.\n\nTax planning: if you pay premiums with after-tax dollars, benefits are tax-free (Section 104(a)(3)). If your employer pays, benefits are taxable. The optimal strategy: have your employer provide group LTD (it's cheap for them), then supplement with an individual own-occupation policy to fill the gap."
+    },
+    honestAnalysis:
+      "Disability insurance is the most under-purchased type of insurance relative to its importance. People vastly underestimate disability risk (it's more likely than death before 65) and overestimate their ability to 'figure it out' if they can't work. If you have dependents or significant financial obligations, own-occupation LTD is not optional.",
+  },
+
+  {
+    id: "c9-05",
+    slug: "long-term-care",
+    domainId: "d9",
+    name: "Long-Term Care: The Risk Nobody Wants to Think About",
+    summary:
+      "The average cost of a private nursing home room is $108K/year. 70% of people over 65 will need some form of long-term care. Medicare doesn't cover it. Medicaid requires you to spend down almost everything.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["term-vs-permanent", "disability-insurance", "estate-planning-basics"],
+    layers: {
+      accessible:
+        "Long-term care (LTC) includes nursing homes, assisted living, in-home care, and adult day services. It's needed when you can't perform basic activities of daily living (bathing, dressing, eating, toileting, continence, transferring). Here's what most people don't know:\n\nMedicare does NOT cover long-term care (except very limited skilled nursing after a hospital stay). Medicaid covers it, but only after you've spent down nearly all your assets (in most states, below $2,000). The average nursing home stay is 2.5 years, costing $270,000 at national average rates.\n\nOptions: (1) Self-insure (save enough to pay out of pocket -- requires $300-500K+ earmarked). (2) Buy LTC insurance. (3) Hybrid policies (life insurance + LTC benefits). (4) Spend down and rely on Medicaid (last resort).",
+      intermediate:
+        "Traditional LTC insurance: premiums are fixed when you buy (but insurers have raised premiums on existing policies significantly over the past 20 years). Typical costs: $2,000-$5,000/year for a couple buying at age 55. Benefits: typically $150-300/day for 3-5 years with inflation protection. The problem: many people buy it and never use it, and premiums over 30+ years can total $100K+.\n\nHybrid policies (the modern answer): combine life insurance with LTC benefits. If you need long-term care, the policy pays for it. If you never need care, your beneficiaries receive the death benefit. If you change your mind, many hybrids allow you to get most of your premium back. This solves the 'use it or lose it' problem of traditional LTC insurance. Common products: OneAmerica, Lincoln MoneyGuard, Pacific Life.\n\nThe age to buy: too early (40s) and you pay premiums for decades, possibly on a policy that becomes outdated. Too late (70s) and it's unaffordable or you're uninsurable. The sweet spot is typically 55-65, after you know your general health trajectory but before premiums become prohibitive.",
+      advanced:
+        "Medicaid planning: for those who didn't plan ahead, Medicaid asset protection strategies include (1) Irrevocable trusts funded 5+ years before needing care (the 5-year look-back period). (2) Spousal impoverishment protections: the healthy spouse can keep the home (up to a certain equity level), a car, and assets up to the Community Spouse Resource Allowance (~$148,620 in 2025). (3) Caregiver child exception: the home may be transferred to a child who lived in the home and provided care for 2+ years. (4) Miller trusts (Qualified Income Trusts) for states with income caps for Medicaid eligibility.\n\nThe partnership program: some states have LTC Partnership Programs where buying a qualified LTC policy allows you to protect additional assets from Medicaid spend-down. If you buy a policy that pays $300K in benefits and exhaust it, you can keep $300K in additional assets and still qualify for Medicaid. This is one of the strongest arguments for buying at least some LTC coverage.\n\nSelf-insurance calculation: if you have $2M+ in liquid assets at retirement, self-insuring is viable. The expected value of LTC costs is roughly $200-400K (probability of needing care x average cost). If your portfolio can absorb that without derailing your retirement plan, you can skip the insurance premiums."
+    },
+    honestAnalysis:
+      "Long-term care planning is uncomfortable and expensive, which is why most people ignore it until it's too late. There's no perfect answer -- every option has significant drawbacks. The worst option is doing nothing and assuming Medicare will cover it (it won't).",
+  },
+
+  // ─── Domain 10: Debt Strategy (new additions) ─────────────────────────
+
+  {
+    id: "c10-04",
+    slug: "mortgage-payoff-vs-invest",
+    domainId: "d10",
+    name: "Pay Off the Mortgage vs Invest: The Math and the Feelings",
+    summary:
+      "If your mortgage rate is 3-4%, investing at 7-10% historically wins. But the math ignores the psychological value of owning your home free and clear. Both sides have a point.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["debt-avalanche-vs-snowball", "buy-vs-rent", "asset-allocation"],
+    layers: {
+      accessible:
+        "The math is simple: if your mortgage rate is 4% and the stock market returns 10% on average, investing your extra money earns 6% more per year than paying off the mortgage. Over 20 years on a $300K mortgage, that's hundreds of thousands of dollars in additional wealth.\n\nBut money isn't just math. A paid-off house means: no monthly mortgage payment (your cost of living drops dramatically), zero risk of foreclosure, massive peace of mind, and flexibility (you can take career risks, retire early, or survive job loss with much lower expenses).\n\nThe compromise most financial planners recommend: invest at least enough to get your full employer 401(k) match, max out tax-advantaged accounts (Roth IRA, HSA), then split remaining money between mortgage prepayment and taxable investing.",
+      intermediate:
+        "The after-tax comparison matters: a 4% mortgage with the standard deduction (no itemized deduction benefit) costs 4% after tax. Stock returns of 10% nominal, minus 15-20% capital gains tax on a portion, might be 8-9% after tax. The spread is still 4-5% -- clearly favoring investing.\n\nBut this changes with higher mortgage rates. At 7%, the after-tax mortgage cost is 7% (or ~5% if you're itemizing). Stock returns after tax might be 8-9%. The spread is only 1-2% -- barely enough to compensate for the risk and uncertainty of stock returns. At 7%+ mortgage rates, aggressive prepayment is mathematically competitive.\n\nRisk-adjusted analysis: paying off a mortgage is a guaranteed return equal to your interest rate. Stock returns are uncertain -- they could be negative for a decade. The 'risk-free rate' comparison suggests that mortgage prepayment at 4-5%+ is equivalent to a pretty good risk-free investment. Treasury bonds currently yield 4-5%, and a mortgage payoff is essentially a tax-free bond at your mortgage rate.",
+      advanced:
+        "The opportunity cost framework: the decision isn't just 'mortgage vs. stocks.' It's 'mortgage vs. best alternative use.' Alternatives include: (1) Funding a backdoor Roth or mega backdoor Roth (tax-free growth forever). (2) Building a taxable brokerage with tax-loss harvesting. (3) Investing in rental property for additional income. (4) Starting or growing a business. Each alternative has different risk/return characteristics.\n\nThe FIRE (Financial Independence) perspective: many early retirees pay off the mortgage specifically to reduce their annual spending number, which directly reduces the portfolio size needed to retire. If your mortgage is $24K/year and you follow the 4% rule, eliminating the mortgage payment means you need $600K less in your portfolio. That could mean retiring 3-5 years earlier.\n\nThe psychological research: behavioral finance research shows that debt, even 'good' low-interest debt, causes measurable stress and reduces life satisfaction. The utility of a debt-free home may exceed the utility of a marginally larger portfolio for many people. This isn't irrational -- it's a legitimate preference for security over optimization."
+    },
+    honestAnalysis:
+      "The purely mathematical answer favors investing over mortgage prepayment at rates below ~5%. But humans aren't spreadsheets. If paying off your home lets you sleep better, take career risks, or retire with confidence, the psychological return may exceed the investment return. There's no wrong answer here -- only wrong reasons (like paying off a 3% mortgage while carrying 18% credit card debt).",
+  },
+
+  {
+    id: "c10-05",
+    slug: "student-loan-strategies",
+    domainId: "d10",
+    name: "Student Loan Strategy: IBR, PSLF, and the Forgiveness Math",
+    summary:
+      "The optimal student loan strategy depends on your career path. High-earning private sector? Pay aggressively. Government or nonprofit? Income-driven repayment + PSLF could save you six figures.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["debt-avalanche-vs-snowball", "mortgage-payoff-vs-invest"],
+    layers: {
+      accessible:
+        "Federal student loans have several repayment plans, and choosing the wrong one can cost you tens of thousands of dollars. The big decision tree:\n\nPath 1: High income, private sector. Pay off loans as fast as possible. Use the avalanche method (highest interest first). Every dollar of interest you avoid is a dollar saved.\n\nPath 2: Government, nonprofit, or qualifying employer. Use an Income-Driven Repayment (IDR) plan to keep payments low, and aim for Public Service Loan Forgiveness (PSLF) after 120 qualifying payments (10 years). The forgiven balance is tax-free.\n\nPath 3: Moderate income, private sector. IDR plan for 20-25 years, then the remaining balance is forgiven (but currently taxable as income -- the 'tax bomb').\n\nThe worst strategy: staying on the standard 10-year plan when you qualify for PSLF (you'd pay everything off before forgiveness kicks in) or paying extra on loans you plan to have forgiven (every extra dollar is wasted).",
+      intermediate:
+        "PSLF in detail: after 120 qualifying monthly payments (10 years) while working full-time for a qualifying employer (government, 501(c)(3) nonprofit, some other nonprofits), your remaining federal loan balance is forgiven tax-free. Qualifying payments must be on an IDR plan or the standard plan.\n\nThe SAVE plan (Saving on a Valuable Education): the newest IDR plan, replacing REPAYE. Payments are capped at 5% of discretionary income for undergraduate loans (10% for graduate). Any remaining balance is forgiven after 20 years (undergraduate) or 25 years (graduate). Interest that exceeds your payment doesn't capitalize (the balance doesn't grow).\n\nThe PSLF optimization strategy: (1) Consolidate all federal loans into Direct Loans (only Direct Loans qualify). (2) Enroll in the IDR plan with the lowest payment. (3) File taxes 'married filing separately' if your spouse has high income (reduces AGI for IDR calculation, though this may increase overall taxes). (4) Maximize pre-tax deductions (401k, HSA) to reduce AGI and therefore your payment. (5) Make 120 payments. (6) Apply for forgiveness. Every dollar you reduce your payment by is a dollar you don't pay.",
+      advanced:
+        "The forgiveness tax bomb for non-PSLF: under current law, loan forgiveness through IDR plans (after 20-25 years) IS taxable as income. If $200K is forgiven, you owe income tax on $200K. At the 24% bracket, that's $48K in taxes due in a single year. However: (1) This is still less than paying the full $200K. (2) You can prepare by saving in a Roth IRA or taxable account. (3) The tax bomb is scheduled to be tax-free through 2025 under the American Rescue Plan, and legislation may extend this.\n\nRefinancing analysis: refinancing federal loans to a private lender at a lower rate can save interest, but you permanently lose access to IDR plans, PSLF, and forgiveness options. Only refinance if: (1) you're certain you won't pursue PSLF, (2) your income is stable and high, (3) the rate savings is significant, and (4) you can pay off the loan in 3-5 years.\n\nThe physician/lawyer optimization: doctors and lawyers with $200-400K in loans and qualifying employer potential have the most to gain from PSLF. A physician earning $250K with $300K in loans might pay $150K over 10 years on an IDR plan and have $250K+ forgiven tax-free. vs. paying $400K+ total on aggressive repayment. The PSLF savings can exceed $200K."
+    },
+    honestAnalysis:
+      "Student loan optimization is one of the few areas where the right strategy can save six figures. But the rules are complex, change frequently, and the programs have had implementation problems. Verify your employer qualifies for PSLF early, track your payments carefully, and don't rely on forgiveness programs that haven't been officially approved for your situation.",
+  },
+
+  // ─── Domain 11: Behavioral Finance (new additions) ─────────────────────
+
+  {
+    id: "c11-04",
+    slug: "mental-accounting",
+    domainId: "d11",
+    name: "Mental Accounting: Why You Treat Money Differently Based on Its Source",
+    summary:
+      "You'd never blow your salary on a risky bet, but you'll gamble with a bonus or inheritance. Mental accounting makes you treat dollars differently based on where they came from -- and it costs you.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["loss-aversion", "recency-bias"],
+    layers: {
+      accessible:
+        "Mental accounting is the tendency to treat money differently based on where it came from or what you've mentally labeled it for. A $1,000 tax refund feels like 'bonus money' so you spend it freely, but you'd agonize over spending $1,000 from your savings account. The money is identical -- a dollar is a dollar -- but your brain treats them differently.\n\nCommon examples: spending a tax refund on something you'd never buy with savings. Keeping money in a savings account earning 1% while carrying credit card debt at 20%. Treating investment gains as 'house money' and taking bigger risks with them. Refusing to sell a losing stock to 'break even' while ignoring better opportunities elsewhere.",
+      intermediate:
+        "How mental accounting costs you: (1) The 'sunk cost' trap: you keep paying for a gym membership you don't use because you 'already invested' in it. (2) Windfall spending: studies show people spend bonuses, tax refunds, and lottery winnings much faster and more frivolously than regular income. The money is identical but labeled differently in your mind. (3) Account segregation: keeping money in a low-yield 'emergency fund' while carrying high-interest debt. The rational move is to pay off the debt and re-borrow if needed (via a credit line), but it feels risky because those accounts are mentally separate.\n\nWhen mental accounting helps: it can be a useful budgeting tool. The 'envelope system' (assigning money to specific categories) is mental accounting deliberately used to control spending. A 'vacation fund' that you refuse to raid for everyday expenses is irrational but effective. The key is to use mental accounting intentionally (as a budgeting tool) rather than letting it happen unconsciously (leading to poor decisions).",
+      advanced:
+        "Richard Thaler (Nobel Prize, 2017) formalized mental accounting as a key component of behavioral economics. The core finding: people evaluate economic outcomes relative to reference points, and those reference points are set by mental accounts rather than by overall wealth.\n\nImplications for investing: (1) Narrow framing: checking your portfolio daily makes you see more losses (short-term volatility) and triggers loss aversion. Checking annually smooths the volatility and lets you see the long-term trend. Your 'return evaluation period' affects your risk tolerance. (2) The disposition effect: investors sell winners too early (to 'lock in' gains) and hold losers too long (to avoid 'realizing' losses). Both are mental accounting errors -- the unrealized gain/loss is already real in economic terms. (3) House money effect: after a gain, investors take more risk (the gains feel like 'the market's money, not mine'). After a loss, they become overly conservative. Neither reaction is rational."
+    },
+    honestAnalysis:
+      "Mental accounting is one of the most pervasive cognitive biases and one of the hardest to overcome because it FEELS rational. The cure is to regularly ask yourself: 'Would I make this same decision if this money came from a different source?' If not, you're mental accounting.",
+  },
+
+  {
+    id: "c11-05",
+    slug: "anchoring-bias",
+    domainId: "d11",
+    name: "Anchoring: Why the First Number You Hear Dominates Your Thinking",
+    summary:
+      "Your salary negotiation, investment decisions, and purchase behavior are all warped by arbitrary 'anchor' numbers. The original price tag, a Zillow estimate, or your stock's purchase price -- none of these should matter, but they do.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["loss-aversion", "mental-accounting"],
+    layers: {
+      accessible:
+        "Anchoring is when the first number you encounter disproportionately influences your judgment, even when that number is irrelevant. Stores mark prices 'down' from $200 to $80 -- the $200 is the anchor that makes $80 feel like a deal, even if the item was always worth $80.\n\nIn investing: you bought a stock at $50. It drops to $30. You refuse to sell because '$50 is what it's worth.' But the stock doesn't know (or care) what you paid. Its value is determined by its future cash flows, not your purchase price. Your anchor to $50 is costing you money if a better investment is available.\n\nIn salary: you make $80K. A new job offers $95K. You feel great -- an $15K raise! But if the market rate for the role is $110K, you're underpaid by $15K. You anchored to your old salary instead of the market rate.",
+      intermediate:
+        "Anchoring in financial decisions: (1) Home prices: sellers anchor to their purchase price or Zillow 'Zestimate.' A house is worth what a buyer will pay, not what the seller paid. (2) Retirement planning: people anchor to round numbers ($1M, $2M) without calculating their actual needs. You might need $1.8M or $3.2M -- the anchored round number could be dangerously wrong in either direction. (3) Donation amounts: charities suggest donation amounts ($25, $50, $100) specifically because the middle option becomes an anchor -- most people choose it. (4) Budgeting: if you've always spent $600/month on groceries, you anchor to that amount even when your situation changes (income drop, kids move out).\n\nDe-anchoring strategies: (1) Always research independently before seeing any number. Check market salary data BEFORE getting an offer. Research home values BEFORE seeing the listing price. (2) Generate your own estimate first. 'What would I pay for this if I didn't know the asking price?' (3) Consider multiple reference points instead of fixating on one number.",
+      advanced:
+        "Kahneman and Tversky's original anchoring experiments showed that even arbitrary numbers (a wheel of fortune spin) influenced subsequent estimates of unrelated quantities (African countries in the UN). The bias persists even when subjects are warned about it. It's one of the most robust findings in behavioral science.\n\nInvestment applications: (1) The 'original cost' anchor leads to tax-loss harvesting resistance. Investors feel selling a loss 'makes it real,' even though the economic loss already occurred. This costs them tax deductions. (2) Analysts anchor to their own prior estimates or consensus estimates, leading to herding behavior and slow reactions to new information. (3) IPO pricing: the initial offering price becomes a powerful anchor that affects trading for months, even though it was set by investment banks (who have their own incentives).\n\nThe power of reframing: instead of thinking 'this stock is down 40% from what I paid,' ask 'if I had this amount in cash today, would I buy this stock?' If not, sell. Your purchase price is sunk cost, not a prediction of future value."
+    },
+    honestAnalysis:
+      "Anchoring is nearly impossible to eliminate entirely -- it's deeply wired into how the brain processes numbers. The best defense is awareness: actively question whether the first number you encountered is influencing your judgment. If you can't shake the anchor, bring in a fresh perspective (advisor, spouse, friend) who isn't anchored to the same number.",
+  },
+
+  // ─── Domain 12: Career Finance (new additions) ─────────────────────────
+
+  {
+    id: "c12-03",
+    slug: "freelance-rate-setting",
+    domainId: "d12",
+    name: "Freelance Rate Setting: Stop Undercharging",
+    summary:
+      "Most freelancers charge too little because they anchor to their old salary divided by hours. The correct calculation accounts for self-employment tax, benefits, unbillable hours, and business expenses.",
+    complexityMin: 1,
+    hasCalculator: false,
+    relatedConceptSlugs: ["total-comp-analysis", "salary-negotiation", "s-corp-optimization"],
+    layers: {
+      accessible:
+        "The biggest mistake new freelancers make: they take their old salary, divide by 2,000 hours, and use that as their hourly rate. If they earned $80K, they charge $40/hour. This is a massive pay cut in disguise.\n\nWhy: as an employee, your employer paid 7.65% FICA tax on your behalf (you now pay the full 15.3% as self-employment tax). They paid for health insurance ($5-20K/year), retirement contributions, paid vacation (you now have zero paid time off), equipment, software, and office space. And you won't bill 2,000 hours -- between marketing, admin, invoicing, and finding clients, you'll be lucky to bill 1,200-1,500 hours.\n\nThe real calculation: take your desired income, add self-employment tax (15.3%), add health insurance ($6-12K), add retirement contributions ($6-20K), add business expenses ($3-10K), divide by realistic billable hours (1,200-1,400). An $80K-equivalent usually means $70-90/hour minimum.",
+      intermediate:
+        "The detailed rate calculation for $80K equivalent:\n- Desired take-home: $80,000\n- Self-employment tax (15.3%): $12,240\n- Health insurance: $8,000\n- Retirement (15% target): $12,000\n- Business expenses: $5,000\n- Required gross: $117,240\n- Billable hours (realistic): 1,300\n- Minimum hourly rate: $90/hour\n\nThat's 2.25x the naive $40/hour calculation. And this doesn't include any profit margin, emergency fund contributions, or the risk premium of inconsistent income.\n\nValue-based pricing: the better approach for established freelancers. Instead of charging by the hour, charge based on the value you deliver. A website redesign that increases a client's revenue by $100K/year is worth $20-50K, regardless of how many hours it takes you. Moving from hourly to project-based or value-based pricing is the single biggest income lever for freelancers.",
+      advanced:
+        "Rate negotiation psychology: (1) Always quote your rate confidently and without explanation. Justifying your rate signals uncertainty. (2) If a client pushes back, don't lower your rate -- reduce scope instead. 'I can do X and Y at this rate, or just X for less.' (3) Raise your rates annually (3-10%). Current clients who value you will stay. Those who leave were price-sensitive clients you'll replace with better ones.\n\nThe S-Corp optimization layer: once your freelance income exceeds $40-50K consistently, forming an LLC with S-Corp election saves 15.3% self-employment tax on distributions above your reasonable salary. Combined with Solo 401(k) contributions (up to $70,000/year in tax-advantaged savings), a well-structured freelance business can be significantly more tax-efficient than employment.\n\nThe portfolio approach: the most financially resilient freelancers have 3+ clients with no single client exceeding 30% of revenue. This reduces concentration risk (losing one client doesn't mean losing all income) and provides negotiating leverage (you're never desperate to keep any single client)."
+    },
+    honestAnalysis:
+      "Most freelancers are dramatically underpriced because they compare their rate to their old salary without accounting for the full cost of self-employment. The market will often pay more than you expect -- you won't know your true rate ceiling until you've been rejected for being too expensive at least a few times.",
+  },
+
+  // ─── Domain 13: International (new additions) ──────────────────────────
+
+  {
+    id: "c13-03",
+    slug: "fbar-fatca",
+    domainId: "d13",
+    name: "FBAR and FATCA: The Foreign Account Reporting You Can't Ignore",
+    summary:
+      "If you have more than $10,000 in foreign financial accounts at any point during the year, you must file an FBAR. The penalties for not filing -- even unintentionally -- can exceed the account balance.",
+    complexityMin: 2,
+    hasCalculator: false,
+    relatedConceptSlugs: ["feie-foreign-tax-credit"],
+    layers: {
+      accessible:
+        "FBAR (FinCEN Form 114): if the total of ALL your foreign financial accounts exceeded $10,000 at any point during the year, you must report every foreign account on an FBAR. This includes bank accounts, investment accounts, pension accounts, and even accounts where you have signature authority (like a company account in another country). The $10,000 threshold is AGGREGATE -- 5 accounts with $2,500 each triggers it.\n\nFATCA (Form 8938): a separate reporting requirement for US taxpayers with foreign financial assets above $50,000 ($200,000 if living abroad). FATCA goes on your tax return; FBAR is filed separately with FinCEN.\n\nThe penalties are terrifying: willful failure to file an FBAR can result in $129,210 per violation per account per year, or 50% of the account balance. Even non-willful failure is $14,489 per account per year. People have had penalties exceeding their total foreign assets.",
+      intermediate:
+        "What counts as a 'foreign financial account': (1) Bank accounts in any foreign country. (2) Securities/brokerage accounts held with a foreign financial institution. (3) Foreign mutual funds. (4) Foreign pension accounts (UK SIPP, Australian superannuation, Canadian RRSP). (5) Foreign life insurance with cash value. (6) Accounts you have signature authority over, even if you don't own them.\n\nWhat does NOT count: foreign real estate (directly held), foreign stock held in a US brokerage account, US-based accounts in foreign currency.\n\nThe aggregation rule: if you have a $6,000 savings account in the UK and a $5,000 checking account in Germany, your aggregate maximum is $11,000 -- above the $10,000 threshold. You must report BOTH accounts.\n\nThe filing deadline: April 15 with an automatic extension to October 15. FBAR is filed electronically through the BSA E-Filing System, NOT with your tax return.",
+      advanced:
+        "The Streamlined Filing Compliance Procedures: if you've been non-compliant (failed to file FBARs for previous years) but it wasn't willful, the IRS offers a way to come into compliance with reduced penalties. Under Streamlined: file the last 3 years of amended tax returns and 6 years of delinquent FBARs. Penalty: 5% of the highest aggregate balance for domestic filers, 0% for those living abroad.\n\nThe voluntary disclosure option: for willful non-compliance (you knew about the requirement and didn't file), the formal IRS Voluntary Disclosure Program is more appropriate. Higher penalties but protects against criminal prosecution.\n\nPFIC trap: foreign mutual funds and ETFs held outside US-qualified accounts are classified as Passive Foreign Investment Companies (PFICs), subject to punitive tax treatment. Gains are taxed at the highest ordinary income rate plus an interest charge. This effectively makes foreign mutual funds toxic for US persons. The solution: hold only US-domiciled funds (even in foreign brokerage accounts) or use 'check the box' elections for certain foreign entities.\n\nThe exit tax: US citizens who renounce their citizenship are subject to an exit tax -- treated as if they sold all worldwide assets on the day before expatriation. This captures unrealized gains and can be a massive tax hit. The covered expatriate threshold is $190,000 in average annual net income tax over 5 years, or $866,000 in net worth."
+    },
+    honestAnalysis:
+      "FBAR/FATCA compliance is one of the most common areas where well-meaning Americans abroad get into serious trouble. The rules are complex, the penalties are wildly disproportionate to the offense, and many tax preparers don't understand international reporting. If you have foreign accounts, find a tax preparer who specializes in expat taxation.",
+  },
 ];
 
 export function getConceptBySlug(slug: string): FinancialConcept | undefined {

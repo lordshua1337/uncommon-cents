@@ -29,7 +29,7 @@ export const domains: Domain[] = [
     description:
       "Bracket management, Roth conversions, tax-loss harvesting, 0% capital gains. The moves that separate the tax-literate from everyone else.",
     icon: "Calculator",
-    conceptCount: 5,
+    conceptCount: 6,
     color: "#2563EB",
   },
   {
@@ -40,7 +40,7 @@ export const domains: Domain[] = [
     description:
       "ISOs, NSOs, RSUs, 83(b) elections, ESPP. What your stock options actually mean and the tax landmines hidden in each.",
     icon: "TrendingUp",
-    conceptCount: 4,
+    conceptCount: 6,
     color: "#7C3AED",
   },
   {
@@ -51,7 +51,7 @@ export const domains: Domain[] = [
     description:
       "Buy vs rent math, rental property analysis, 1031 exchanges, house hacking. Real numbers, not real estate guru fantasies.",
     icon: "Home",
-    conceptCount: 4,
+    conceptCount: 5,
     color: "#B45309",
   },
   {
@@ -62,7 +62,7 @@ export const domains: Domain[] = [
     description:
       "S-Corp optimization, entity selection, self-employment tax, business exit strategies. The tax advantages of being your own boss.",
     icon: "Briefcase",
-    conceptCount: 4,
+    conceptCount: 6,
     color: "#0891B2",
   },
   {
@@ -73,7 +73,7 @@ export const domains: Domain[] = [
     description:
       "Safe withdrawal rates, sequence risk, Social Security optimization, RMDs, bucket strategies. Making your money last longer than you do.",
     icon: "Sunset",
-    conceptCount: 4,
+    conceptCount: 6,
     color: "#DC2626",
   },
   {
@@ -84,7 +84,7 @@ export const domains: Domain[] = [
     description:
       "Asset allocation, factor investing, direct indexing, bond strategies. Evidence-based investing without the Wall Street noise.",
     icon: "BarChart3",
-    conceptCount: 4,
+    conceptCount: 5,
     color: "#059669",
   },
   {
@@ -95,7 +95,7 @@ export const domains: Domain[] = [
     description:
       "Gift tax, step-up basis, trusts, buy-borrow-die. How wealth actually transfers between generations.",
     icon: "Shield",
-    conceptCount: 3,
+    conceptCount: 5,
     color: "#4F46E5",
   },
   {
@@ -106,7 +106,7 @@ export const domains: Domain[] = [
     description:
       "Term vs permanent, IUL (honest analysis), disability, long-term care. What actually protects you vs what enriches the agent.",
     icon: "Umbrella",
-    conceptCount: 3,
+    conceptCount: 5,
     color: "#BE185D",
   },
   {
@@ -117,7 +117,7 @@ export const domains: Domain[] = [
     description:
       "Avalanche vs snowball, mortgage vs invest, student loan strategies, credit optimization. Using debt as a tool, not a trap.",
     icon: "CreditCard",
-    conceptCount: 3,
+    conceptCount: 5,
     color: "#92400E",
   },
   {
@@ -126,9 +126,9 @@ export const domains: Domain[] = [
     name: "Behavioral Finance",
     shortName: "Behavior",
     description:
-      "Loss aversion, recency bias, mental accounting, overconfidence. The psychology that costs you more than bad investments.",
+      "Loss aversion, recency bias, mental accounting, overconfidence, anchoring. The psychology that costs you more than bad investments.",
     icon: "Brain",
-    conceptCount: 3,
+    conceptCount: 5,
     color: "#9333EA",
   },
   {
@@ -139,7 +139,7 @@ export const domains: Domain[] = [
     description:
       "Total comp analysis, negotiation, freelance rate setting, career ROI. Earning more is the most powerful financial tool.",
     icon: "GraduationCap",
-    conceptCount: 2,
+    conceptCount: 3,
     color: "#0D9488",
   },
   {
@@ -150,7 +150,7 @@ export const domains: Domain[] = [
     description:
       "FEIE, foreign tax credit, FBAR/FATCA. The extra rules for Americans living, working, or investing abroad.",
     icon: "Globe",
-    conceptCount: 2,
+    conceptCount: 3,
     color: "#1D4ED8",
   },
 ];
