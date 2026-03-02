@@ -214,7 +214,7 @@ export default function DomainDetailPage() {
             href="/ask"
             className="text-sm text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
           >
-            Ask the Coach <ArrowRight className="w-3.5 h-3.5" />
+            Ask Uncommon Cents <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
