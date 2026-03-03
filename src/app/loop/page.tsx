@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -15,6 +15,25 @@ import {
   Shield,
 } from "lucide-react";
 import { operatingLoop } from "@/lib/operating-loop-data";
+
+const LOOP_STORAGE_KEY = "uc_loop_progress";
+
+function loadLoopProgress(): Set<number> {
+  if (typeof window === "undefined") return new Set();
+  const raw = localStorage.getItem(LOOP_STORAGE_KEY);
+  if (!raw) return new Set();
+  try {
+    const arr = JSON.parse(raw) as number[];
+    return new Set(arr);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveLoopProgress(steps: Set<number>): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(LOOP_STORAGE_KEY, JSON.stringify([...steps]));
+}
 
 const stepIcons = [
   <Brain key="brain" className="w-5 h-5" />,
@@ -43,6 +62,19 @@ const stepLinks: Record<number, { href: string; label: string }[]> = {
 
 export default function LoopPage() {
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [loaded, setLoaded] = useState(false);
+
+  // Load saved progress on mount
+  useEffect(() => {
+    setCompletedSteps(loadLoopProgress());
+    setLoaded(true);
+  }, []);
+
+  // Save whenever steps change (skip initial empty render)
+  useEffect(() => {
+    if (!loaded) return;
+    saveLoopProgress(completedSteps);
+  }, [completedSteps, loaded]);
 
   function toggleStep(order: number) {
     setCompletedSteps((prev) => {
@@ -207,6 +239,8 @@ export default function LoopPage() {
             </li>
           </ul>
         </div>
+
+        <div className="divider-financial my-8" />
 
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
