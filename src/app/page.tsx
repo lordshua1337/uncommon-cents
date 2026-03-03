@@ -17,6 +17,7 @@ import {
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
+import DailyLessonCard from "@/components/daily-lesson";
 
 const iconMap: Record<string, React.ReactNode> = {
   ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
@@ -126,8 +127,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="divider-financial" />
+
       {/* Stats */}
-      <section className="py-10 px-4 border-y border-border-light bg-surface">
+      <section className="py-10 px-4 section-warm">
         <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
           <StatCard value={`${domains.length}`} label="Financial domains" />
           <StatCard value={`${concepts.length}`} label="Concepts" />
@@ -135,6 +138,17 @@ export default function HomePage() {
           <StatCard value="$0" label="Cost to use" />
         </div>
       </section>
+
+      <div className="divider-financial" />
+
+      {/* Daily Money Minute */}
+      <section className="py-12 px-4">
+        <div className="max-w-xl mx-auto">
+          <DailyLessonCard />
+        </div>
+      </section>
+
+      <div className="divider-financial" />
 
       {/* Knowledge Universe */}
       <section className="py-16 px-4">
@@ -287,6 +301,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="divider-financial" />
+
       {/* Strategies grid */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
@@ -311,6 +327,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <div className="divider-financial" />
 
       {/* Features */}
       <section className="py-16 px-4 bg-surface-alt">
@@ -406,19 +424,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-6 px-4">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-text-muted text-sm">
-            <Coins className="w-4 h-4" />
-            Uncommon Cents
-          </div>
-          <p className="text-text-muted text-xs text-center">
-            Educational content only. Not financial, tax, or legal advice.
-            Consult qualified professionals for your specific situation.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
