@@ -26,6 +26,10 @@ import {
 } from "lucide-react";
 import { getDomainBySlug, type Domain } from "@/lib/domains";
 import { getConceptsByDomain, type FinancialConcept } from "@/lib/concepts";
+import {
+  getExpansionCardByDomain,
+  type ExpansionCard,
+} from "@/lib/expansion-cards-data";
 
 const iconMap: Record<string, React.ReactNode> = {
   PiggyBank: <PiggyBank className="w-6 h-6" />,
@@ -104,6 +108,121 @@ function ConceptCard({ concept }: { concept: FinancialConcept }) {
   );
 }
 
+function ExpansionCardBlock({ card }: { card: ExpansionCard }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="bg-surface rounded-xl border-2 border-accent/20 overflow-hidden">
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full text-left p-5 flex items-start justify-between gap-4"
+      >
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-accent-bg text-accent font-medium">
+              Expansion Pack
+            </span>
+            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold/10 text-gold font-medium">
+              Advanced Play
+            </span>
+          </div>
+          <h3 className="text-base font-semibold mb-1">{card.title}</h3>
+          <p className="text-sm text-text-muted italic">{card.tagline}</p>
+        </div>
+        <div className="text-text-muted flex-shrink-0 mt-1">
+          {isExpanded ? (
+            <ChevronUp className="w-4 h-4" />
+          ) : (
+            <ChevronDown className="w-4 h-4" />
+          )}
+        </div>
+      </button>
+
+      {isExpanded && (
+        <div className="px-5 pb-5 border-t border-border-light pt-4 space-y-4 animate-fade-in">
+          <div>
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
+              Core mechanic
+            </p>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {card.coreMechanic}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
+              Why this is uncommon
+            </p>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {card.whyUncommon}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
+              Execution notes
+            </p>
+            <ul className="space-y-1.5">
+              {card.executionNotes.map((note, i) => (
+                <li
+                  key={i}
+                  className="text-sm text-text-secondary leading-relaxed flex items-start gap-2"
+                >
+                  <span className="text-accent font-semibold text-xs mt-0.5">
+                    {i + 1}.
+                  </span>
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-red/5 rounded-lg p-3">
+            <p className="text-xs font-medium text-red uppercase tracking-wider mb-1">
+              Failure mode
+            </p>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {card.failureMode}
+            </p>
+          </div>
+
+          {card.behavioralLink && (
+            <div className="bg-accent-bg rounded-lg p-3">
+              <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
+                Behavioral link
+              </p>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                {card.behavioralLink}
+              </p>
+            </div>
+          )}
+
+          {card.legalBasis.length > 0 && (
+            <div>
+              <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
+                Sources
+              </p>
+              <div className="space-y-1">
+                {card.legalBasis.map((ref, i) => (
+                  <a
+                    key={i}
+                    href={ref.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-xs text-accent hover:text-accent-light transition-colors"
+                  >
+                    {ref.authority}: {ref.reference}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DomainDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -112,6 +231,10 @@ export default function DomainDetailPage() {
   const domain = useMemo(() => getDomainBySlug(slug), [slug]);
   const concepts = useMemo(
     () => (domain ? getConceptsByDomain(domain.id) : []),
+    [domain]
+  );
+  const expansionCard = useMemo(
+    () => (domain ? getExpansionCardByDomain(domain.id) : undefined),
     [domain]
   );
 
@@ -202,6 +325,15 @@ export default function DomainDetailPage() {
                 ? "No matching concepts found."
                 : "No concepts in this domain yet. Check back soon."}
             </p>
+          </div>
+        )}
+
+        {expansionCard && (
+          <div className="mt-8">
+            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-3">
+              Advanced Play
+            </p>
+            <ExpansionCardBlock card={expansionCard} />
           </div>
         )}
 

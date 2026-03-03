@@ -10,6 +10,8 @@ export function Nav() {
   const links = [
     { href: "/explore", label: "Explore" },
     { href: "/learn", label: "Learn" },
+    { href: "/scripts", label: "Scripts" },
+    { href: "/defenses", label: "Defenses" },
     { href: "/calculators", label: "Calculators" },
     { href: "/ask", label: "Ask" },
   ];
