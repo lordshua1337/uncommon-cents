@@ -11,6 +11,7 @@ export function Nav() {
     { href: "/explore", label: "Explore" },
     { href: "/learn", label: "Learn" },
     { href: "/scripts", label: "Scripts" },
+    { href: "/quiz", label: "Quiz" },
     { href: "/defenses", label: "Defenses" },
     { href: "/calculators", label: "Calculators" },
     { href: "/ask", label: "Ask" },
