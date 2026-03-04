@@ -153,6 +153,8 @@ export default function DefensesPage() {
           ))}
         </div>
 
+        <div className="divider-financial my-8" />
+
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link

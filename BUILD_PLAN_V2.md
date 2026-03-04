@@ -234,6 +234,56 @@ Calculator configs with input/output field definitions, formulas, policy limit r
 
 ---
 
+## Phase 7: Expansion Pack (Wealth Strategies + Fraud Defenses + Behavioral Layer)
+
+**Spec:** `uncommon_cents_expansion_pack_spec.md` (in project root)
+
+Four new modules that deepen the financial intelligence platform. This is an EXPANSION -- no existing code is replaced.
+
+### 7a: Money Scripts Behavioral Foundation
+- New module: `MoneyScriptAssessment` -- surfaces BEFORE strategies as an "operating system check"
+- 4 money scripts: Avoidance, Worship, Status, Vigilance (based on Klontz et al. research)
+- Each script: trigger phrase, association (destructive/protective), risk pattern, counter-move intervention
+- 30-day tracking challenge: "Every time you spend, avoid, or panic-check accounts, write the 5-word thought that preceded it"
+- Surfaced as onboarding/orientation flow
+
+### 7b: 12 Ultra-Uncommon Wealth Strategies
+- One advanced strategy per existing card category (maps by `categoryId`)
+- Categories covered: Tax Accounts (Mega Backdoor Roth), Tax Strategy (Basis Reset Year), Equity Comp (Startup Tax Geometry), Real Estate (14-Day Rule), Business (Solo 401k + DB Plan Stack), Retirement (SS Delayed Claiming), Investing (Tax Alpha Engine), Estate Planning (529 Estate Freeze), Insurance (Liability + Income Barbell), Debt (Debt-Service Ratio Attack), Behavior (Friction Protocol), Career (Engineered Low-Income Year)
+- Each card: core mechanic, why uncommon, execution notes, failure mode, legal basis with IRS/SEC/SSA/FTC URLs, behavioral link to money scripts
+- Plugs into existing 12-category navigation as additions, not replacements
+
+### 7c: 10 AI-Era Fraud Defenses
+- Separate navigable module (not in 12-category system)
+- Defenses: Credit Freeze, Phishing-Resistant MFA, Phone Number Lockdown, Sacrificial Spend Card, Push Alert Monitoring, Family Safe-Phrase, Encrypted App Red Flag, No-Go Payment List, Official Recovery Rails, Data Minimization
+- Each defense: threat description, concrete action steps, why it works, regulatory basis (FTC, FBI, CISA, CFPB, FCC citations)
+- Design principle: blast-radius reduction (assume breach happens, minimize damage per incident)
+
+### 7d: The Operating Loop
+- Synthesis dashboard that ties all modules together as a repeatable 6-step system
+- Steps: (1) Identify money script, (2) Eliminate payment fragility, (3) Max tax shelters, (4) Tax-aware investing, (5) Catastrophic insurance, (6) Install fraud armor
+- Each step links to relevant expansion cards
+- Interactive checklist/dashboard format, not wall of text
+
+### New Files
+| File | Action |
+|------|--------|
+| `src/lib/money-scripts.ts` | NEW - 4 scripts + counter-moves + tracking challenge |
+| `src/lib/expansion-cards.ts` | NEW - 12 ultra-uncommon strategy entries |
+| `src/lib/fraud-defenses.ts` | NEW - 10 fraud defense entries |
+| `src/lib/operating-loop.ts` | NEW - 6-step loop with card links |
+| `src/app/money-scripts/page.tsx` | NEW - Assessment/onboarding flow |
+| `src/app/expansion/page.tsx` | NEW - Expansion strategies browse page |
+| `src/app/expansion/[id]/page.tsx` | NEW - Individual expansion card detail |
+| `src/app/fraud-defenses/page.tsx` | NEW - Fraud defenses module page |
+| `src/app/operating-loop/page.tsx` | NEW - Operating loop dashboard |
+| `src/components/legal-reference.tsx` | NEW - Expandable source citation component |
+| `src/components/script-badge.tsx` | NEW - Money script type badge |
+| `src/lib/system-prompt.ts` | UPDATE - Integrate behavioral links + fraud awareness |
+| `src/components/nav.tsx` | UPDATE - Add expansion routes |
+
+---
+
 ## Files to Create/Modify
 
 | File | Action |

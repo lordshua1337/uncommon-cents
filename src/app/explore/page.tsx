@@ -244,7 +244,7 @@ export default function ExplorePage() {
 
         {/* Stats */}
         {!isSearching && (
-          <div className="mt-8 bg-surface border border-border rounded-xl p-6">
+          <div className="mt-8 bg-surface border border-border rounded-xl p-6 card-hover">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div>
                 <p className="text-2xl font-semibold text-accent">{domains.length}</p>

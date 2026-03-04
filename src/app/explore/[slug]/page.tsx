@@ -337,7 +337,8 @@ export default function DomainDetailPage() {
           </div>
         )}
 
-        <div className="mt-10 pt-6 border-t border-border-light flex items-center justify-between">
+        <div className="divider-financial mt-10 mb-6" />
+        <div className="flex items-center justify-between">
           <Link
             href="/explore"
             className="text-sm text-text-muted hover:text-text-secondary transition-colors inline-flex items-center gap-1"

@@ -167,7 +167,7 @@ export default function LearnPage() {
 
               {/* Divider */}
               {index < strategies.length - 1 && (
-                <hr className="mt-12 border-border" />
+                <div className="divider-financial mt-12" />
               )}
             </article>
           ))}
