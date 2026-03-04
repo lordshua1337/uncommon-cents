@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { domains, type Domain } from "@/lib/domains";
 import { concepts, searchConcepts, getConceptsByDomain } from "@/lib/concepts";
+import { loadMastery, getDomainMastery, getOverallMastery, type MasteryState, type DomainMastery } from "@/lib/mastery";
 
 const iconMap: Record<string, React.ReactNode> = {
   PiggyBank: <PiggyBank className="w-5 h-5" />,
@@ -45,10 +46,15 @@ const iconMap: Record<string, React.ReactNode> = {
 function DomainCard({
   domain,
   conceptCount,
+  mastery,
 }: {
   domain: Domain;
   conceptCount: number;
+  mastery: DomainMastery | null;
 }) {
+  const visited = mastery?.visitedConcepts ?? 0;
+  const percent = mastery?.masteryPercent ?? 0;
+
   return (
     <Link
       href={`/explore/${domain.slug}`}
@@ -66,12 +72,12 @@ function DomainCard({
         >
           {iconMap[domain.icon]}
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold leading-tight group-hover:text-accent transition-colors">
             {domain.shortName}
           </h3>
           <p className="text-xs text-text-muted mt-0.5">
-            {conceptCount} {conceptCount === 1 ? "entry" : "entries"}
+            {visited}/{conceptCount} explored
           </p>
         </div>
       </div>
@@ -79,6 +85,24 @@ function DomainCard({
       <p className="text-xs text-text-secondary leading-relaxed line-clamp-3">
         {domain.description}
       </p>
+
+      {/* Mastery progress bar */}
+      <div className="mt-3">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[10px] text-text-muted font-medium">
+            {percent}% mastery
+          </span>
+        </div>
+        <div className="w-full h-1.5 bg-border rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              width: `${percent}%`,
+              backgroundColor: domain.color,
+            }}
+          />
+        </div>
+      </div>
 
       <div className="flex items-center gap-1 text-accent text-xs font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
         Explore <ArrowRight className="w-3 h-3" />
@@ -160,6 +184,11 @@ function ConceptResult({
 
 export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [masteryState, setMasteryState] = useState<MasteryState | null>(null);
+
+  useEffect(() => {
+    setMasteryState(loadMastery());
+  }, []);
 
   const domainConceptCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -168,6 +197,20 @@ export default function ExplorePage() {
     }
     return counts;
   }, []);
+
+  const domainMasteries = useMemo(() => {
+    if (!masteryState) return {};
+    const result: Record<string, DomainMastery> = {};
+    for (const domain of domains) {
+      result[domain.id] = getDomainMastery(masteryState, domain.id);
+    }
+    return result;
+  }, [masteryState]);
+
+  const overall = useMemo(() => {
+    if (!masteryState) return null;
+    return getOverallMastery(masteryState);
+  }, [masteryState]);
 
   const searchResults = useMemo(() => {
     if (searchQuery.trim().length < 2) return [];
@@ -237,6 +280,7 @@ export default function ExplorePage() {
                 key={domain.id}
                 domain={domain}
                 conceptCount={domainConceptCounts[domain.id] || 0}
+                mastery={domainMasteries[domain.id] ?? null}
               />
             ))}
           </div>
@@ -255,12 +299,16 @@ export default function ExplorePage() {
                 <p className="text-xs text-text-muted mt-1">Concepts</p>
               </div>
               <div>
-                <p className="text-2xl font-semibold text-accent">3</p>
-                <p className="text-xs text-text-muted mt-1">Depth Levels</p>
+                <p className="text-2xl font-semibold text-accent">
+                  {overall ? overall.visitedConcepts : 0}
+                </p>
+                <p className="text-xs text-text-muted mt-1">Explored</p>
               </div>
               <div>
-                <p className="text-2xl font-semibold text-accent">{concepts.filter(c => c.hasCalculator).length}</p>
-                <p className="text-xs text-text-muted mt-1">With Calculators</p>
+                <p className="text-2xl font-semibold text-accent">
+                  {overall ? `${overall.overallPercent}%` : "0%"}
+                </p>
+                <p className="text-xs text-text-muted mt-1">Mastery</p>
               </div>
             </div>
           </div>

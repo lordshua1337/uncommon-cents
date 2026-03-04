@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -11,9 +11,18 @@ import {
   Microscope,
   AlertCircle,
   Calculator,
+  CheckCircle2,
 } from "lucide-react";
 import { concepts, getConceptBySlug, getConceptsByDomain, type FinancialConcept } from "@/lib/concepts";
 import { getDomainById } from "@/lib/domains";
+import {
+  loadMastery,
+  saveMastery,
+  recordConceptVisit,
+  getHighestDepth,
+  type MasteryState,
+  type DepthLevel,
+} from "@/lib/mastery";
 
 type DepthTab = "accessible" | "intermediate" | "advanced";
 
@@ -74,16 +83,50 @@ function RelatedConceptCard({ slug }: { slug: string }) {
   );
 }
 
+const DEPTH_LABELS: Record<DepthLevel, string> = {
+  accessible: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+};
+
 export default function ConceptDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const [activeTab, setActiveTab] = useState<DepthTab>("accessible");
+  const [mastery, setMastery] = useState<MasteryState | null>(null);
 
   const concept = useMemo(() => getConceptBySlug(slug), [slug]);
   const domain = useMemo(
     () => (concept ? getDomainById(concept.domainId) : undefined),
     [concept]
   );
+
+  // Load mastery state
+  useEffect(() => {
+    setMastery(loadMastery());
+  }, []);
+
+  // Record visit when tab changes or page loads
+  const recordVisit = useCallback(
+    (layer: DepthLevel) => {
+      if (!concept) return;
+      setMastery((prev) => {
+        const current = prev ?? { concepts: [] };
+        const updated = recordConceptVisit(current, concept.id, layer);
+        saveMastery(updated);
+        return updated;
+      });
+    },
+    [concept],
+  );
+
+  // Record visit on initial load and tab change
+  useEffect(() => {
+    if (!concept) return;
+    recordVisit(activeTab as DepthLevel);
+  }, [concept, activeTab, recordVisit]);
+
+  const highestDepth = mastery && concept ? getHighestDepth(mastery, concept.id) : null;
 
   const { prevConcept, nextConcept } = useMemo(() => {
     if (!concept) return { prevConcept: null, nextConcept: null };
@@ -149,6 +192,11 @@ export default function ConceptDetailPage() {
             {concept.hasCalculator && (
               <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded bg-accent-bg text-accent inline-flex items-center gap-1">
                 <Calculator className="w-3 h-3" /> Calculator Available
+              </span>
+            )}
+            {highestDepth && (
+              <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded bg-accent/10 text-accent inline-flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3" /> {DEPTH_LABELS[highestDepth]}
               </span>
             )}
           </div>
