@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { AchievementToastContainer } from "@/components/achievement-toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -52,6 +53,7 @@ export default function RootLayout({
         <Nav />
         <main>{children}</main>
         <Footer />
+        <AchievementToastContainer />
       </body>
     </html>
   );

@@ -18,6 +18,7 @@ import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
 import DailyLessonCard from "@/components/daily-lesson";
+import { DashboardProgress } from "@/components/dashboard-progress";
 
 const iconMap: Record<string, React.ReactNode> = {
   ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
@@ -138,6 +139,11 @@ export default function HomePage() {
           <StatCard value="$0" label="Cost to use" />
         </div>
       </section>
+
+      <div className="divider-financial" />
+
+      {/* Financial Command Center */}
+      <DashboardProgress />
 
       <div className="divider-financial" />
 

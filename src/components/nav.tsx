@@ -14,6 +14,10 @@ export function Nav() {
     { href: "/quiz", label: "Quiz" },
     { href: "/defenses", label: "Defenses" },
     { href: "/calculators", label: "Calculators" },
+    { href: "/simulator", label: "Simulator" },
+    { href: "/review", label: "Review" },
+    { href: "/action-plan", label: "Action Plan" },
+    { href: "/achievements", label: "Achievements" },
     { href: "/ask", label: "Ask" },
   ];
 
