@@ -18,6 +18,7 @@ export function Nav() {
     { href: "/review", label: "Review" },
     { href: "/action-plan", label: "Action Plan" },
     { href: "/achievements", label: "Achievements" },
+    { href: "/score", label: "Health Score" },
     { href: "/ask", label: "Ask" },
   ];
 

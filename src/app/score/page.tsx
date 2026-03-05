@@ -1,0 +1,388 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowLeft,
+  Activity,
+  ChevronDown,
+  BookOpen,
+  Eye,
+  Flame,
+  Shield,
+  TrendingUp,
+  Lightbulb,
+} from "lucide-react";
+import {
+  calculateHealthScore,
+  saveScoreToHistory,
+  loadScoreHistory,
+  getScoreGrade,
+  type HealthScore,
+  type PillarId,
+  type PillarScore,
+  type HealthScoreHistory,
+} from "@/lib/health-score";
+import { HealthScoreRing, PillarBar } from "@/components/health-score-ring";
+
+// ---------------------------------------------------------------------------
+// Pillar icon map
+// ---------------------------------------------------------------------------
+
+const PILLAR_ICONS: Record<
+  PillarId,
+  React.ComponentType<{ className?: string }>
+> = {
+  knowledge: BookOpen,
+  awareness: Eye,
+  practice: Flame,
+  defense: Shield,
+  growth: TrendingUp,
+};
+
+// ---------------------------------------------------------------------------
+// Pillar Detail Card
+// ---------------------------------------------------------------------------
+
+function PillarCard({ pillar }: { pillar: PillarScore }) {
+  const [open, setOpen] = useState(false);
+  const Icon = PILLAR_ICONS[pillar.id];
+  const grade = getScoreGrade(pillar.score);
+
+  return (
+    <div className="bg-surface border border-border-light rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="w-full flex items-center gap-3 p-4 text-left hover:bg-surface-alt transition-colors"
+      >
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: pillar.color + "18" }}
+        >
+          <span style={{ color: pillar.color }}>
+            <Icon className="w-4 h-4" />
+          </span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold">{pillar.label}</span>
+            <span
+              className="text-xs font-mono font-bold"
+              style={{ color: pillar.color }}
+            >
+              {pillar.score}/100
+            </span>
+          </div>
+          <div className="h-1.5 bg-border-light rounded-full mt-1.5 overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ backgroundColor: pillar.color }}
+              initial={{ width: 0 }}
+              animate={{ width: `${pillar.score}%` }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            />
+          </div>
+        </div>
+        <span
+          className="text-xs font-medium px-2 py-0.5 rounded-full"
+          style={{
+            backgroundColor: grade.color + "15",
+            color: grade.color,
+          }}
+        >
+          {grade.grade}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-text-muted transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 pb-4 border-t border-border-light pt-3 space-y-3">
+              {/* Detail metrics */}
+              {pillar.details.map((detail) => (
+                <div key={detail.label}>
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="text-text-secondary">{detail.label}</span>
+                    <span className="font-mono">{detail.value}</span>
+                  </div>
+                  <div className="h-1 bg-border-light rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{
+                        width: `${detail.percent}%`,
+                        backgroundColor: pillar.color,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              {/* Suggestions */}
+              {pillar.suggestions.length > 0 && (
+                <div className="pt-2">
+                  <p className="text-[10px] uppercase tracking-wide text-text-muted mb-1.5">
+                    How to improve
+                  </p>
+                  <ul className="space-y-1.5">
+                    {pillar.suggestions.map((s) => (
+                      <li
+                        key={s}
+                        className="flex items-start gap-2 text-xs text-text-secondary"
+                      >
+                        <Lightbulb className="w-3 h-3 text-gold mt-0.5 shrink-0" />
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// History Sparkline
+// ---------------------------------------------------------------------------
+
+function ScoreSparkline({ history }: { history: HealthScoreHistory }) {
+  if (history.entries.length < 2) return null;
+
+  const entries = history.entries.slice(-14); // last 14 entries
+  const width = 280;
+  const height = 60;
+  const padding = 4;
+
+  const maxScore = 100;
+  const stepX = (width - padding * 2) / (entries.length - 1);
+
+  const points = entries
+    .map((e, i) => {
+      const x = padding + i * stepX;
+      const y = height - padding - ((e.total / maxScore) * (height - padding * 2));
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  const lastEntry = entries[entries.length - 1];
+  const prevEntry = entries[entries.length - 2];
+  const diff = lastEntry.total - prevEntry.total;
+
+  return (
+    <div className="bg-surface border border-border-light rounded-xl p-4">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs font-medium text-text-secondary">Score History</p>
+        {diff !== 0 && (
+          <span
+            className={`text-xs font-mono ${
+              diff > 0 ? "text-accent" : "text-red"
+            }`}
+          >
+            {diff > 0 ? "+" : ""}
+            {diff} pts
+          </span>
+        )}
+      </div>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full"
+        style={{ maxHeight: 60 }}
+      >
+        <polyline
+          points={points}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Dots at each point */}
+        {entries.map((e, i) => {
+          const x = padding + i * stepX;
+          const y =
+            height - padding - ((e.total / maxScore) * (height - padding * 2));
+          return (
+            <circle
+              key={e.timestamp}
+              cx={x}
+              cy={y}
+              r={i === entries.length - 1 ? 3 : 1.5}
+              fill="var(--color-accent)"
+            />
+          );
+        })}
+      </svg>
+      <div className="flex justify-between mt-1">
+        <span className="text-[9px] text-text-muted">
+          {new Date(entries[0].timestamp).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}
+        </span>
+        <span className="text-[9px] text-text-muted">
+          {new Date(entries[entries.length - 1].timestamp).toLocaleDateString(
+            "en-US",
+            { month: "short", day: "numeric" }
+          )}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
+export default function ScorePage() {
+  const [score, setScore] = useState<HealthScore | null>(null);
+  const [history, setHistory] = useState<HealthScoreHistory>({ entries: [] });
+
+  useEffect(() => {
+    const computed = calculateHealthScore();
+    setScore(computed);
+    const updated = saveScoreToHistory(computed);
+    setHistory(updated);
+  }, []);
+
+  if (!score) {
+    return (
+      <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
+        <p className="text-sm text-text-secondary">
+          Calculating your financial health...
+        </p>
+      </div>
+    );
+  }
+
+  const grade = getScoreGrade(score.total);
+
+  return (
+    <div className="min-h-screen pt-20 pb-16 px-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <Link
+            href="/"
+            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <div>
+            <h1 className="text-xl font-semibold flex items-center gap-2">
+              <Activity className="w-5 h-5 text-accent" />
+              Financial Health Score
+            </h1>
+            <p className="text-xs text-text-secondary mt-0.5">
+              How well-rounded is your financial wellness?
+            </p>
+          </div>
+        </div>
+
+        {/* Score Ring */}
+        <div className="flex flex-col items-center mb-8">
+          <HealthScoreRing score={score} size={200} />
+          <motion.p
+            className="text-sm font-medium mt-3"
+            style={{ color: grade.color }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+          >
+            {grade.grade} -- {grade.label}
+          </motion.p>
+        </div>
+
+        {/* Pillar Overview */}
+        <div className="bg-surface border border-border-light rounded-xl p-5 mb-6">
+          <h2 className="text-sm font-semibold mb-4">Pillar Breakdown</h2>
+          <div className="space-y-3">
+            {score.pillars.map((p) => (
+              <PillarBar
+                key={p.id}
+                label={p.label}
+                score={p.score}
+                color={p.color}
+                weight={p.weight}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* History */}
+        <ScoreSparkline history={history} />
+
+        {/* Pillar Details */}
+        <div className="mt-6 space-y-3">
+          <h2 className="text-sm font-semibold">Detailed Breakdown</h2>
+          {score.pillars.map((p) => (
+            <PillarCard key={p.id} pillar={p} />
+          ))}
+        </div>
+
+        {/* Top Suggestions */}
+        {(() => {
+          const allSuggestions = score.pillars
+            .filter((p) => p.score < 80)
+            .sort((a, b) => a.score - b.score)
+            .flatMap((p) =>
+              p.suggestions.slice(0, 1).map((s) => ({
+                text: s,
+                pillar: p.label,
+                color: p.color,
+              }))
+            )
+            .slice(0, 3);
+
+          if (allSuggestions.length === 0) return null;
+
+          return (
+            <div className="mt-6 bg-accent-bg border border-accent/10 rounded-xl p-5">
+              <h2 className="text-sm font-semibold text-accent mb-3">
+                Top Actions to Improve
+              </h2>
+              <ul className="space-y-2">
+                {allSuggestions.map((s) => (
+                  <li
+                    key={s.text}
+                    className="flex items-start gap-2 text-sm text-text-secondary"
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
+                      style={{ backgroundColor: s.color }}
+                    />
+                    <span>
+                      <span className="font-medium text-text-primary">
+                        {s.pillar}:
+                      </span>{" "}
+                      {s.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
+
+        <p className="text-[10px] text-text-muted text-center mt-8">
+          Score updates every time you visit this page. Not financial advice.
+        </p>
+      </div>
+    </div>
+  );
+}
