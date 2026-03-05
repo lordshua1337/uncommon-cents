@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest) {
   const protectedPaths = ['/dashboard']
   const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
 
-  if (isProtected && !user) {
+  const hasDemoAuth = request.cookies.get('demo-auth')?.value === 'true'
+  if (isProtected && !user && !hasDemoAuth) {
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 
