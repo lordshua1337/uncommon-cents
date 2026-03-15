@@ -28,35 +28,45 @@ export function LessonCard({
 }: LessonCardProps) {
   const lessonNumber = index + 1;
 
+  // Number badge states per DF.CARD.2 spec
   const numberBg = isCompleted
-    ? accentColor
+    ? "#CA8A04"
     : isNext
-      ? `${accentColor}22`
-      : "#F5F5F0";
+      ? "rgba(202,138,4,0.22)"
+      : "#EDE8DC";
 
   const numberColor = isCompleted
     ? "#FFFFFF"
     : isNext
-      ? accentColor
-      : "#888888";
+      ? "#CA8A04"
+      : "#5C6A7A";
 
-  const cardBg = isCompleted ? `${accentColor}06` : "#FFFFFF";
+  const numberOpacity = isLocked && !isCompleted && !isNext ? 0.6 : 1;
+
+  // Card surface states per DF.CARD.2 spec
+  const cardBg = isCompleted
+    ? "rgba(202,138,4,0.06)"
+    : isNext
+      ? "rgba(202,138,4,0.04)"
+      : "#FFFFFF";
 
   const borderColor = isCompleted
     ? `${accentColor}35`
     : isNext
       ? `${accentColor}50`
-      : "#E5E5E0";
+      : "#E8E4DB";
 
   const inner = (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.06, ease: "easeOut" }}
-      className="group relative flex items-center gap-4 p-4 rounded-2xl cursor-pointer"
+      className="group relative flex items-center gap-4 cursor-pointer"
       style={{
         background: cardBg,
         border: `1px solid ${borderColor}`,
+        borderRadius: "0.75rem",
+        padding: "1rem",
         opacity: isLocked ? 0.45 : 1,
         cursor: isLocked ? "not-allowed" : "pointer",
       }}
@@ -74,13 +84,23 @@ export function LessonCard({
     >
       {/* Left: number badge */}
       <div
-        className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-colors"
-        style={{ background: numberBg, color: numberColor, fontFamily: "var(--font-jetbrains)" }}
+        className="flex-shrink-0 flex items-center justify-center text-sm font-bold transition-colors"
+        style={{
+          width: "2.5rem",
+          height: "2.5rem",
+          borderRadius: "0.75rem",
+          background: numberBg,
+          color: numberColor,
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.875rem",
+          fontWeight: 700,
+          opacity: numberOpacity,
+        }}
       >
         {isCompleted ? (
           <CheckCircle2 className="w-5 h-5" style={{ color: "#FFFFFF" }} />
         ) : isLocked ? (
-          <Lock className="w-4 h-4" style={{ color: "#888888" }} />
+          <Lock className="w-4 h-4" style={{ color: "#5C6A7A" }} />
         ) : (
           <span>{lessonNumber}</span>
         )}

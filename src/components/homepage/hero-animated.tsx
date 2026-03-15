@@ -62,7 +62,7 @@ const accentGlowVariants = {
   animate: {
     textShadow: [
       '0 0 0px transparent',
-      '0 0 20px rgba(22, 163, 74, 0.55)',
+      '0 0 24px rgba(202,138,4,0.50)',
       '0 0 0px transparent',
     ],
   },
@@ -82,30 +82,34 @@ export function HeroAnimated() {
       <div className="max-w-3xl mx-auto text-center">
         <div
           aria-label="Financial strategies they don't teach you"
-          className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-6"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
+          style={{ background: 'rgba(202,138,4,0.15)', border: '1px solid rgba(202,138,4,0.30)' }}
         >
-          <Coins className="w-3.5 h-3.5" aria-hidden="true" />
-          Financial strategies they don&apos;t teach you
+          <Coins className="w-3.5 h-3.5 text-[#F4B734]" aria-hidden="true" />
+          <span className="text-[#F4B734]">Financial strategies they don&apos;t teach you</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-5">
+        <h1
+          className="font-heading font-semibold tracking-[-0.03em] leading-[1.1] text-[#FAF8F4] mb-5"
+          style={{ fontSize: 'clamp(2.5rem, 1.75rem + 3.5vw, 3.75rem)' }}
+        >
           The Money Moves That{' '}
           <span
             aria-label="Actually Matter -- emphasis"
-            className="text-accent"
+            className="text-[#CA8A04]"
           >
             Actually Matter
           </span>
         </h1>
 
-        <p className="text-text-secondary text-lg max-w-xl mx-auto mb-4 leading-relaxed">
+        <p style={{ color: 'rgba(250,248,244,0.75)' }} className="text-lg max-w-xl mx-auto mb-4 leading-relaxed">
           Your financial advisor probably hasn&apos;t mentioned half of
           these. Roth conversion ladders, 401k overfunding traps, creditor
           protection through cash value, and the strategies that separate
           the wealthy from everyone else.
         </p>
 
-        <p className="text-text-muted text-sm max-w-lg mx-auto mb-8">
+        <p style={{ color: 'rgba(250,248,244,0.50)' }} className="text-sm max-w-lg mx-auto mb-8">
           No products to sell. No affiliate links. Just the financial
           knowledge that costs six figures to learn the hard way.
         </p>
@@ -113,14 +117,16 @@ export function HeroAnimated() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/learn"
-            className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            className="px-6 py-2.5 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CA8A04] focus-visible:ring-offset-2"
+            style={{ background: 'linear-gradient(90deg, #CA8A04 0%, #A57203 100%)', color: '#0F172A', boxShadow: '0 4px 16px rgba(202,138,4,0.30)' }}
           >
             Start Learning
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
           <Link
             href="/calculators"
-            className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border focus-visible:ring-offset-2"
+            className="text-[#FAF8F4] px-6 py-2.5 rounded-lg font-medium hover:bg-[rgba(250,248,244,0.08)] hover:border-[rgba(250,248,244,0.40)] transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(250,248,244,0.40)] focus-visible:ring-offset-2"
+            style={{ background: 'transparent', border: '1px solid rgba(250,248,244,0.25)' }}
           >
             Calculators
             <Calculator className="w-4 h-4" aria-hidden="true" />
@@ -136,7 +142,8 @@ export function HeroAnimated() {
 
       {/* Badge: slides in from above, scale pulse after landing */}
       <motion.div
-        className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-6"
+        className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
+        style={{ background: 'rgba(202,138,4,0.15)', border: '1px solid rgba(202,138,4,0.30)' }}
         aria-label="Financial strategies they don't teach you"
         variants={badgeVariants}
         initial="initial"
@@ -145,7 +152,7 @@ export function HeroAnimated() {
       >
         {/* Inner wrapper handles the post-landing scale pulse separately */}
         <motion.span
-          className="inline-flex items-center gap-2"
+          className="inline-flex items-center gap-2 text-[#F4B734]"
           variants={badgePulseVariants}
           initial="initial"
           animate="pulse"
@@ -162,7 +169,8 @@ export function HeroAnimated() {
 
       {/* Title: fades up at 0.15s delay */}
       <motion.h1
-        className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-5"
+        className="font-heading font-semibold tracking-[-0.03em] leading-[1.1] text-[#FAF8F4] mb-5"
+        style={{ fontSize: 'clamp(2.5rem, 1.75rem + 3.5vw, 3.75rem)' }}
         variants={titleVariants}
         initial="initial"
         animate="animate"
@@ -172,7 +180,7 @@ export function HeroAnimated() {
         {/* Accent phrase: brief glow pulse after title settles (delay 0.5s from title = 0.65s total) */}
         <motion.span
           aria-label="Actually Matter -- emphasis"
-          className="text-accent"
+          className="text-[#CA8A04]"
           variants={accentGlowVariants}
           initial="initial"
           animate="animate"
@@ -188,7 +196,8 @@ export function HeroAnimated() {
 
       {/* Subtitle: fades up at 0.30s delay */}
       <motion.p
-        className="text-text-secondary text-lg max-w-xl mx-auto mb-4 leading-relaxed"
+        className="text-lg max-w-xl mx-auto mb-4 leading-relaxed"
+        style={{ color: 'rgba(250,248,244,0.75)' }}
         variants={subtitleVariants}
         initial="initial"
         animate="animate"
@@ -202,7 +211,8 @@ export function HeroAnimated() {
 
       {/* Footnote text: fades up at 0.40s delay */}
       <motion.p
-        className="text-text-muted text-sm max-w-lg mx-auto mb-8"
+        className="text-sm max-w-lg mx-auto mb-8"
+        style={{ color: 'rgba(250,248,244,0.50)' }}
         variants={footnoteVariants}
         initial="initial"
         animate="animate"
@@ -223,7 +233,7 @@ export function HeroAnimated() {
         <motion.div
           whileHover={{
             scale: 1.03,
-            boxShadow: '0 6px 20px rgba(22, 163, 74, 0.35)',
+            boxShadow: '0 6px 20px rgba(202,138,4,0.40)',
           }}
           whileTap={{ scale: 0.97 }}
           transition={SPRING_SNAPPY}
@@ -231,7 +241,8 @@ export function HeroAnimated() {
         >
           <Link
             href="/learn"
-            className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full"
+            className="px-6 py-2.5 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CA8A04] focus-visible:ring-offset-2 w-full"
+            style={{ background: 'linear-gradient(90deg, #CA8A04 0%, #A57203 100%)', color: '#0F172A', boxShadow: '0 4px 16px rgba(202,138,4,0.30)' }}
           >
             Start Learning
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -248,7 +259,8 @@ export function HeroAnimated() {
         >
           <Link
             href="/calculators"
-            className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border focus-visible:ring-offset-2 w-full"
+            className="text-[#FAF8F4] px-6 py-2.5 rounded-lg font-medium hover:bg-[rgba(250,248,244,0.08)] hover:border-[rgba(250,248,244,0.40)] transition-colors inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(250,248,244,0.40)] focus-visible:ring-offset-2 w-full"
+            style={{ background: 'transparent', border: '1px solid rgba(250,248,244,0.25)' }}
           >
             Calculators
             <Calculator className="w-4 h-4" aria-hidden="true" />

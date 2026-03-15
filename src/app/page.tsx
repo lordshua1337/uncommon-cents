@@ -26,12 +26,20 @@ import { DashboardProgress } from "@/components/dashboard-progress";
 import { HomepagePathsSection } from "@/components/life-stages/homepage-paths-section";
 
 const iconMap: Record<string, React.ReactNode> = {
-  ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
-  AlertTriangle: <AlertTriangle className="w-5 h-5 text-gold" />,
-  Shield: <Shield className="w-5 h-5 text-accent" />,
-  KeyRound: <KeyRound className="w-5 h-5 text-accent" />,
-  Scissors: <Scissors className="w-5 h-5 text-accent" />,
-  Heart: <Heart className="w-5 h-5 text-accent" />,
+  ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" strokeWidth={1.5} />,
+  AlertTriangle: <AlertTriangle className="w-5 h-5 text-warning" strokeWidth={1.5} />,
+  Shield: <Shield className="w-5 h-5 text-accent" strokeWidth={1.5} />,
+  KeyRound: <KeyRound className="w-5 h-5 text-accent" strokeWidth={1.5} />,
+  Scissors: <Scissors className="w-5 h-5 text-accent" strokeWidth={1.5} />,
+  Heart: <Heart className="w-5 h-5 text-accent" strokeWidth={1.5} />,
+};
+
+// Icon map for the Four Ways alternating blocks
+const fourWaysIconMap: Record<string, React.ReactNode> = {
+  Layers: <Layers className="w-6 h-6 text-[#CA8A04]" strokeWidth={1.5} />,
+  TrendingUp: <TrendingUp className="w-6 h-6 text-[#CA8A04]" strokeWidth={1.5} />,
+  Calculator: <Calculator className="w-6 h-6 text-[#CA8A04]" strokeWidth={1.5} />,
+  MessageCircle: <MessageCircle className="w-6 h-6 text-[#CA8A04]" strokeWidth={1.5} />,
 };
 
 function StrategyPreview({
@@ -53,7 +61,7 @@ function StrategyPreview({
       className="group bg-surface rounded-xl border border-border p-5 card-hover block"
     >
       <div className="flex items-start gap-3 mb-3">
-        <div className="w-9 h-9 rounded-lg bg-accent-bg flex items-center justify-center flex-shrink-0">
+        <div className="w-9 h-9 rounded-lg bg-[#EDE8DC] flex items-center justify-center flex-shrink-0">
           {iconMap[icon]}
         </div>
         <div>
@@ -65,26 +73,43 @@ function StrategyPreview({
         {summary}
       </p>
       <div className="flex items-center gap-1 text-accent text-sm font-medium mt-3 group-hover:gap-2 transition-all">
-        Read more <ArrowRight className="w-3.5 h-3.5" />
+        Read more <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
       </div>
     </Link>
   );
 }
 
-function StatCard({
-  value,
-  label,
-}: {
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="text-center">
-      <p className="text-2xl sm:text-3xl font-semibold text-accent">{value}</p>
-      <p className="text-xs text-text-muted mt-1">{label}</p>
-    </div>
-  );
-}
+// Four Ways alternating block item
+const fourWaysItems = [
+  {
+    icon: 'Layers',
+    href: '/explore',
+    title: 'Explore',
+    description: (domainCount: number) =>
+      `${domainCount} financial domains with concepts at three depth levels. From beginner overview to full advanced analysis.`,
+  },
+  {
+    icon: 'TrendingUp',
+    href: '/learn',
+    title: 'Learn',
+    description: () =>
+      'Deep dives into each strategy with real numbers, common mistakes, and the insight most people miss.',
+  },
+  {
+    icon: 'Calculator',
+    href: '/calculators',
+    title: 'Calculate',
+    description: () =>
+      'Run the numbers on Roth conversions, tax-loss harvesting, and HSA compound growth with your own inputs.',
+  },
+  {
+    icon: 'MessageCircle',
+    href: '/ask',
+    title: 'Ask',
+    description: () =>
+      'Ask specific questions about your situation and get clear answers backed by tax code and financial research.',
+  },
+];
 
 export default function HomePage() {
   return (
@@ -93,14 +118,19 @@ export default function HomePage() {
       {/* HeroAnimated is a 'use client' island. page.tsx remains a server component. */}
       {/* All hero content is server-rendered via SSR (SEO preserved). */}
       {/* The client island hydrates and plays the stagger entrance sequence. */}
-      <section className="pt-28 pb-16 px-4">
+      <section
+        className="min-h-[85vh] flex flex-col items-center justify-center pt-32 pb-24 md:pt-36 md:pb-28 px-6 text-center"
+        style={{ background: 'linear-gradient(160deg, #0F172A 0%, #162C52 45%, #1E3A6E 100%)' }}
+      >
         <HeroAnimated />
       </section>
+      {/* Fade from navy to cream */}
+      <div style={{ background: 'linear-gradient(to bottom, transparent 80%, #FAF8F4 100%)', height: '80px', marginTop: '-80px', pointerEvents: 'none' }} />
 
       <div className="divider-financial" />
 
       {/* Stats */}
-      <section className="py-10 px-4 section-warm">
+      <section className="py-16 md:py-20 px-5 md:px-8 lg:px-12" style={{ background: '#FAF8F4' }}>
         <div
           role="list"
           className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4"
@@ -147,7 +177,7 @@ export default function HomePage() {
 
       {/* Daily Money Minute */}
       <ScrollReveal>
-        <section className="py-12 px-4">
+        <section className="py-20 md:py-28 px-5 md:px-8 lg:px-12" style={{ background: '#F5F1E8' }}>
           <div className="max-w-xl mx-auto">
             <DailyLessonCard />
           </div>
@@ -158,9 +188,9 @@ export default function HomePage() {
 
       {/* Knowledge Universe */}
       <ScrollReveal delay={0.05}>
-      <section className="py-16 px-4">
+      <section className="py-24 md:py-32 px-5 md:px-8 lg:px-12" style={{ background: '#FAF8F4' }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+          <div className="text-center mb-12 md:mb-16">
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Knowledge Base
             </p>
@@ -175,7 +205,7 @@ export default function HomePage() {
 
           <AnimatedCardGrid
             accentColor="#16A34A"
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5"
           >
             {domains.slice(0, 8).map((domain) => (
               <Link
@@ -207,7 +237,7 @@ export default function HomePage() {
               className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
               Explore all {domains.length} domains
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
@@ -216,9 +246,9 @@ export default function HomePage() {
 
       {/* Recently added concepts */}
       <ScrollReveal>
-      <section className="py-12 px-4 bg-surface-alt">
+      <section className="py-20 md:py-28 px-5 md:px-8 lg:px-12" style={{ background: '#F5F1E8' }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
+          <div className="text-center mb-12 md:mb-16">
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Newest Entries
             </p>
@@ -267,7 +297,7 @@ export default function HomePage() {
               className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
               See all {concepts.length} entries
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
@@ -275,7 +305,7 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* Foundations callout */}
-      <section className="py-12 px-4">
+      <section className="py-20 md:py-28 px-5 md:px-8 lg:px-12" style={{ background: '#FAF8F4' }}>
         <div className="max-w-3xl mx-auto">
           <Link
             href="/explore/foundations"
@@ -291,7 +321,7 @@ export default function HomePage() {
                   className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ backgroundColor: "#D9760615", color: "#D97706" }}
                 >
-                  <Compass className="w-6 h-6" />
+                  <Compass className="w-6 h-6" strokeWidth={1.5} />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: "#D97706" }}>
@@ -305,7 +335,7 @@ export default function HomePage() {
                     and academic evidence. The bedrock principles that everything else builds on.
                   </p>
                   <span className="text-accent text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Explore the foundations <ArrowRight className="w-3.5 h-3.5" />
+                    Explore the foundations <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
                   </span>
                 </div>
               </div>
@@ -318,9 +348,9 @@ export default function HomePage() {
 
       {/* Strategies grid */}
       <ScrollReveal delay={0.05}>
-      <section className="py-16 px-4">
+      <section className="py-24 md:py-32 px-5 md:px-8 lg:px-12" style={{ background: '#F5F1E8' }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+          <div className="text-center mb-12 md:mb-16">
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Strategies
             </p>
@@ -336,7 +366,7 @@ export default function HomePage() {
 
           <AnimatedCardGrid
             accentColor="#7C3AED"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
             {strategies.map((s) => (
               <StrategyPreview key={s.id} {...s} />
@@ -348,11 +378,11 @@ export default function HomePage() {
 
       <div className="divider-financial" />
 
-      {/* Features */}
+      {/* Four Ways to Get Smarter -- alternating left/right blocks */}
       <ScrollReveal>
-      <section className="py-16 px-4 bg-surface-alt">
+      <section className="py-24 md:py-32 px-5 md:px-8 lg:px-12" style={{ background: '#FAF8F4' }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+          <div className="text-center mb-16 md:mb-20">
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Tools
             </p>
@@ -361,90 +391,107 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <AnimatedCardGrid
-            accentColor="#0EA5E9"
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            <Link
-              href="/explore"
-              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
-            >
-              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
-                <Layers className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="text-base font-semibold mb-2">Explore</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                {domains.length} financial domains with concepts at three depth levels.
-                From beginner overview to full advanced analysis.
-              </p>
-            </Link>
+          <div className="flex flex-col gap-20 md:gap-28">
+            {fourWaysItems.map((item, index) => {
+              const isEven = index % 2 === 0;
+              const descText = item.icon === 'Layers'
+                ? item.description(domains.length)
+                : item.description(0);
 
-            <Link
-              href="/learn"
-              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
-            >
-              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
-                <TrendingUp className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="text-base font-semibold mb-2">Learn</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Deep dives into each strategy with real numbers, common
-                mistakes, and the insight most people miss.
-              </p>
-            </Link>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+                >
+                  {/* Text block */}
+                  <div className={isEven ? '' : 'lg:order-last'}>
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"
+                      style={{ background: '#FAF3E6', border: '1px solid rgba(202,138,4,0.20)' }}
+                    >
+                      {fourWaysIconMap[item.icon]}
+                    </div>
+                    <h3
+                      className="font-heading font-medium text-[#0F172A] mb-3"
+                      style={{ fontSize: 'clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)', letterSpacing: '-0.015em' }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-text-secondary leading-relaxed mb-4">
+                      {descText}
+                    </p>
+                    <span className="text-accent text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                      Explore <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    </span>
+                  </div>
 
-            <Link
-              href="/calculators"
-              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
-            >
-              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
-                <Calculator className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="text-base font-semibold mb-2">Calculate</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Run the numbers on Roth conversions, tax-loss harvesting, and
-                HSA compound growth with your own inputs.
-              </p>
-            </Link>
-
-            <Link
-              href="/ask"
-              className="group bg-surface rounded-xl border border-border p-6 card-hover block"
-            >
-              <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center mb-4">
-                <MessageCircle className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="text-base font-semibold mb-2">Ask</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Ask specific questions about your situation and get clear
-                answers backed by tax code and financial research.
-              </p>
-            </Link>
-          </AnimatedCardGrid>
+                  {/* Decorative visual */}
+                  <div
+                    className={`rounded-2xl overflow-hidden ${isEven ? '' : 'lg:order-first'}`}
+                    style={{
+                      background: 'linear-gradient(180deg, #FFFDF8 0%, #FAF8F4 100%)',
+                      border: '1px solid #D4CFC4',
+                      padding: '2rem',
+                      minHeight: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                      style={{ background: '#FAF3E6', border: '1px solid rgba(202,138,4,0.20)' }}
+                    >
+                      {fourWaysIconMap[item.icon]}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
       </ScrollReveal>
 
-      {/* Disclaimer / CTA */}
+      {/* CTA Section -- navy dark break */}
       <ScrollReveal delay={0.05}>
-      <section className="py-16 px-4">
-        <div className="max-w-xl mx-auto text-center">
-          <Coins className="w-8 h-8 text-accent mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold tracking-tight mb-3">
-            Knowledge Is the Best Investment
-          </h2>
-          <p className="text-text-secondary text-sm mb-8 leading-relaxed">
-            This is education, not financial advice. Every situation is
-            different. But understanding these strategies puts you years
-            ahead of people who don&apos;t.
-          </p>
-          <Link
-            href="/learn"
-            className="bg-accent text-white px-8 py-3 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center gap-2"
-          >
-            Start With Strategy #1
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+      <section style={{ background: '#0F172A' }}>
+        <div className="py-24 md:py-32 px-6 text-center">
+          <div className="max-w-[680px] mx-auto">
+            <Coins className="w-10 h-10 text-[#CA8A04] mx-auto mb-6" strokeWidth={1.5} />
+            <p className="font-sans text-xs font-medium tracking-[0.06em] uppercase text-[#CA8A04] mb-4">
+              Start Here
+            </p>
+            <h2
+              className="font-heading font-semibold text-[#FAF8F4] mb-4"
+              style={{ fontSize: 'clamp(1.75rem, 1.5rem + 1.5vw, 2.25rem)', letterSpacing: '-0.025em', lineHeight: 1.1 }}
+            >
+              Knowledge Is the Best Investment
+            </h2>
+            <p className="font-sans font-normal mb-8 leading-[1.65]" style={{ color: 'rgba(250,248,244,0.70)' }}>
+              This is education, not financial advice. Every situation is
+              different. But understanding these strategies puts you years
+              ahead of people who don&apos;t.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/learn"
+                className="px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
+                style={{ background: 'linear-gradient(90deg, #CA8A04 0%, #A57203 100%)', color: '#0F172A', fontWeight: 500, boxShadow: '0 4px 16px rgba(202,138,4,0.30)' }}
+              >
+                Start With Strategy #1
+                <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+              </Link>
+              <Link
+                href="/explore"
+                className="px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
+                style={{ background: 'transparent', border: '1px solid rgba(250,248,244,0.25)', color: '#FAF8F4' }}
+              >
+                Explore Domains
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
       </ScrollReveal>

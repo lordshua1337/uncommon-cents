@@ -41,8 +41,11 @@ export function AnimatedCardGrid({
     };
   }, []);
 
-  const color = accentColor ?? "#16A34A";
+  const color = accentColor ?? "#CA8A04";
   const hoverBoxShadow = `0 8px 24px ${color}28, 0 2px 8px ${color}14`;
+
+  // Stagger cap: items beyond index 7 wait no longer than item 7 (320ms max)
+  const STAGGER_CAP = 7;
 
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
@@ -55,7 +58,7 @@ export function AnimatedCardGrid({
           key={index}
           initial={{ opacity: 0, y: 16 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ ...SPRING_GENTLE, delay: index * STAGGER_FAST }}
+          transition={{ ...SPRING_GENTLE, delay: Math.min(index, STAGGER_CAP) * STAGGER_FAST }}
           whileHover={{
             scale: 1.02,
             y: -2,

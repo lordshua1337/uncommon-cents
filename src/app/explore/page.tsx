@@ -40,20 +40,20 @@ import { SPRING_GENTLE } from "@/lib/animation-constants";
 // ---------------------------------------------------------------------------
 
 const iconMap: Record<string, React.ReactNode> = {
-  PiggyBank: <PiggyBank className="w-5 h-5" />,
-  Calculator: <Calculator className="w-5 h-5" />,
-  TrendingUp: <TrendingUp className="w-5 h-5" />,
-  Home: <Home className="w-5 h-5" />,
-  Briefcase: <Briefcase className="w-5 h-5" />,
-  Sunset: <Sunset className="w-5 h-5" />,
-  BarChart3: <BarChart3 className="w-5 h-5" />,
-  Shield: <Shield className="w-5 h-5" />,
-  Umbrella: <Umbrella className="w-5 h-5" />,
-  CreditCard: <CreditCard className="w-5 h-5" />,
-  Brain: <Brain className="w-5 h-5" />,
-  GraduationCap: <GraduationCap className="w-5 h-5" />,
-  Globe: <Globe className="w-5 h-5" />,
-  Compass: <Compass className="w-5 h-5" />,
+  PiggyBank: <PiggyBank className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Calculator: <Calculator className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  TrendingUp: <TrendingUp className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Home: <Home className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Briefcase: <Briefcase className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Sunset: <Sunset className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  BarChart3: <BarChart3 className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Shield: <Shield className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Umbrella: <Umbrella className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  CreditCard: <CreditCard className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Brain: <Brain className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  GraduationCap: <GraduationCap className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Globe: <Globe className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
+  Compass: <Compass className="w-5 h-5 text-[#0F172A]" strokeWidth={1.5} />,
 };
 
 // ---------------------------------------------------------------------------
@@ -100,9 +100,9 @@ function ConceptResult({
         </div>
         <div className="text-text-muted flex-shrink-0 mt-1">
           {isExpanded ? (
-            <ChevronUp className="w-4 h-4" />
+            <ChevronUp className="w-4 h-4" strokeWidth={1.5} />
           ) : (
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4" strokeWidth={1.5} />
           )}
         </div>
       </button>
@@ -117,7 +117,7 @@ function ConceptResult({
               href={`/concepts/${concept.slug}`}
               className="text-accent text-xs font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
-              Read full entry <ArrowRight className="w-3 h-3" />
+              Read full entry <ArrowRight className="w-3 h-3" strokeWidth={1.5} />
             </Link>
             {concept.relatedConceptSlugs.length > 0 && (
               <span className="text-xs text-text-muted">
@@ -161,7 +161,7 @@ function DomainGrid({
       variants={gridContainerVariants}
       initial="initial"
       animate="animate"
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
       role="list"
       aria-label="Financial domains"
     >
@@ -169,9 +169,14 @@ function DomainGrid({
         const mastery = domainMasteries[domain.id] ?? null;
         const conceptCount = domainConceptCounts[domain.id] ?? 0;
         const completedCount = mastery?.visitedConcepts ?? 0;
+        const isFeatured = i % 5 === 0;
 
         return (
-          <div key={domain.id} role="listitem">
+          <div
+            key={domain.id}
+            role="listitem"
+            className={isFeatured ? "col-span-2 row-span-1" : ""}
+          >
             <DomainCardAnimated
               name={domain.shortName}
               description={domain.description}
@@ -181,6 +186,7 @@ function DomainGrid({
               href={`/explore/${domain.slug}`}
               index={i}
               icon={iconMap[domain.icon]}
+              featured={isFeatured}
             />
           </div>
         );
@@ -231,7 +237,7 @@ export default function ExplorePage() {
   const isSearching = searchQuery.trim().length >= 2;
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-32 pb-0 px-4" style={{ background: '#FAF8F4' }}>
       <div className="max-w-5xl mx-auto">
 
         {/* Page header: fades in first, before the card cascade */}
@@ -257,9 +263,9 @@ export default function ExplorePage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...SPRING_GENTLE, delay: 0.08 }}
-          className="relative max-w-md mx-auto mb-10"
+          className="relative max-w-md mx-auto mb-12 md:mb-16"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.5} />
           <input
             type="text"
             value={searchQuery}
@@ -352,14 +358,14 @@ export default function ExplorePage() {
               className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
               Run the numbers with calculators
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
             </Link>
             <Link
               href="/learn"
               className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
             >
               Deep dive strategies
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
             </Link>
           </div>
         )}

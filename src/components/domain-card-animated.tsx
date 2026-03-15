@@ -24,6 +24,7 @@ export interface DomainCardAnimatedProps {
   readonly href: string;
   readonly index: number;
   readonly icon?: React.ReactNode;
+  readonly featured?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -46,7 +47,7 @@ const cardVariants = {
 // ---------------------------------------------------------------------------
 function buildHoverShadow(accentColor: string): string {
   // Append 28 (alpha ~16%) and 14 (alpha ~8%) to create a brand-tinted glow
-  const base = accentColor.startsWith("#") ? accentColor : "#10b981";
+  const base = accentColor.startsWith("#") ? accentColor : "#CA8A04";
   return `0 8px 24px ${base}28, 0 2px 8px ${base}14`;
 }
 
@@ -63,6 +64,7 @@ export function DomainCardAnimated({
   href,
   index,
   icon,
+  featured = false,
 }: DomainCardAnimatedProps) {
   const prefersReduced = useReducedMotion();
 
@@ -88,17 +90,33 @@ export function DomainCardAnimated({
     return (
       <Link
         href={href}
-        className="block rounded-2xl p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
         style={{
-          backgroundColor: isComplete
-            ? `${accentColor}10`
-            : hasProgress
-              ? `${accentColor}08`
-              : undefined,
-          border: `1px solid ${isComplete ? `${accentColor}40` : `${accentColor}20`}`,
+          background: featured
+            ? "#FFFFFF"
+            : "linear-gradient(180deg, #FFFDF8 0%, #FAF8F4 100%)",
+          border: "1px solid #D4CFC4",
+          borderRadius: "1rem",
+          boxShadow: "0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04)",
+          padding: featured ? "2rem" : "1.25rem",
+          position: "relative",
+          overflow: "hidden",
         }}
         aria-label={`${name}. ${conceptCount} concepts. ${completionPercent} percent complete.`}
       >
+        {/* Left-edge accent bar */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: 0,
+            top: "12px",
+            bottom: "12px",
+            width: "3px",
+            borderRadius: "0 2px 2px 0",
+            background: accentColor,
+          }}
+        />
         <StaticCardBody
           name={name}
           description={description}
@@ -107,6 +125,7 @@ export function DomainCardAnimated({
           accentColor={accentColor}
           isComplete={isComplete}
           icon={icon}
+          featured={featured}
         />
       </Link>
     );
@@ -134,23 +153,39 @@ export function DomainCardAnimated({
     >
       <Link
         href={href}
-        className="block rounded-2xl p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 h-full domain-card-link"
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 h-full domain-card-link"
         style={{
-          backgroundColor: isComplete
-            ? `${accentColor}10`
-            : hasProgress
-              ? `${accentColor}08`
-              : undefined,
-          border: `1px solid ${isComplete ? `${accentColor}40` : `${accentColor}20`}`,
-          // CSS variable drives the hover shadow below (declared inline for specificity)
+          background: featured
+            ? "#FFFFFF"
+            : "linear-gradient(180deg, #FFFDF8 0%, #FAF8F4 100%)",
+          border: "1px solid #D4CFC4",
+          borderRadius: "1rem",
+          boxShadow: "0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04)",
+          padding: featured ? "2rem" : "1.25rem",
+          position: "relative",
+          overflow: "hidden",
         }}
         aria-label={`${name}. ${conceptCount} concepts. ${completionPercent} percent complete.`}
       >
+        {/* Left-edge accent bar */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: 0,
+            top: "12px",
+            bottom: "12px",
+            width: "3px",
+            borderRadius: "0 2px 2px 0",
+            background: accentColor,
+          }}
+        />
+
         {/* Domain icon + name row */}
         <div className="flex items-start gap-3 mb-3">
           {icon && (
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+              className={`${featured ? "w-12 h-12" : "w-9 h-9"} rounded-lg flex items-center justify-center flex-shrink-0`}
               style={{
                 backgroundColor: `${accentColor}15`,
                 color: accentColor,
@@ -182,6 +217,7 @@ export function DomainCardAnimated({
               <CheckCircle2
                 className="w-5 h-5 flex-shrink-0"
                 style={{ color: accentColor }}
+                strokeWidth={1.5}
               />
             </motion.div>
           )}
@@ -189,7 +225,7 @@ export function DomainCardAnimated({
 
         {/* Description */}
         <p
-          className="text-xs leading-relaxed line-clamp-3 mb-3"
+          className={`text-xs leading-relaxed mb-3 ${featured ? "" : "line-clamp-3"} hidden sm:block`}
           style={{ color: "#64748b" }}
         >
           {description}
@@ -264,6 +300,7 @@ interface StaticCardBodyProps {
   readonly accentColor: string;
   readonly isComplete: boolean;
   readonly icon?: React.ReactNode;
+  readonly featured?: boolean;
 }
 
 function StaticCardBody({
@@ -274,13 +311,14 @@ function StaticCardBody({
   accentColor,
   isComplete,
   icon,
+  featured = false,
 }: StaticCardBodyProps) {
   return (
     <>
       <div className="flex items-start gap-3 mb-3">
         {icon && (
           <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+            className={`${featured ? "w-12 h-12" : "w-9 h-9"} rounded-lg flex items-center justify-center flex-shrink-0`}
             style={{ backgroundColor: `${accentColor}15`, color: accentColor }}
           >
             {icon}
@@ -295,11 +333,11 @@ function StaticCardBody({
           </p>
         </div>
         {isComplete && (
-          <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: accentColor }} aria-label="Complete" />
+          <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: accentColor }} strokeWidth={1.5} aria-label="Complete" />
         )}
       </div>
 
-      <p className="text-xs leading-relaxed line-clamp-3 mb-3" style={{ color: "#64748b" }}>
+      <p className={`text-xs leading-relaxed mb-3 ${featured ? "" : "line-clamp-3"} hidden sm:block`} style={{ color: "#64748b" }}>
         {description}
       </p>
 

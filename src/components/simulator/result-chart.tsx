@@ -167,7 +167,7 @@ export function ResultChart({ result, scenarioSlug, scenarioCategory, animate = 
       className="mt-4"
     >
       {/* Section heading */}
-      <p className="text-sm font-semibold text-slate-300 mb-3">
+      <p className="text-sm font-semibold mb-3" style={{ color: "#334155" }}>
         How it plays out over time
       </p>
 

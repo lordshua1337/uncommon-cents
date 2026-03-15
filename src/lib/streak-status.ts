@@ -72,7 +72,7 @@ export const WARMTH_COLORS: Readonly<Record<number, string>> = {
   14: "#F59E0B",
   30: "#F97316",
   60: "#EF4444",
-  100: "#16A34A",
+  100: "#DC2626",
 } as const;
 
 export function getWarmthColor(streak: number): string {

@@ -66,40 +66,51 @@ export function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border-light">
+      <nav
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{ background: 'rgba(250,248,244,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #E8E4DB' }}
+      >
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <Coins className="w-5 h-5 text-accent group-hover:text-accent-light transition-colors" />
-            <span className="text-base font-semibold tracking-tight">
+            <Coins className="w-5 h-5 text-[#CA8A04] group-hover:opacity-80 transition-opacity" strokeWidth={1.5} />
+            <span
+              className="font-heading font-semibold"
+              style={{ letterSpacing: '-0.01em', color: '#0F172A', fontSize: '1.125rem' }}
+            >
               Uncommon Cents
             </span>
           </Link>
 
           {/* Desktop: primary links + More dropdown + Ask CTA */}
           <div className="hidden md:flex items-center gap-6">
-            {primaryLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm transition-colors ${
-                  pathname === link.href || pathname.startsWith(link.href)
-                    ? "text-accent font-medium"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {primaryLinks.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`font-sans text-sm transition-colors ${
+                    isActive
+                      ? "font-medium text-[#0F172A] border-b-2 border-[#CA8A04] pb-0.5"
+                      : "text-[#334155] hover:text-[#0F172A]"
+                  }`}
+                  style={{ letterSpacing: '0.02em' }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             {/* More dropdown */}
             <div ref={moreRef} className="relative">
               <button
                 onClick={() => setMoreOpen(!moreOpen)}
-                className={`text-sm transition-colors ${
+                className={`font-sans text-sm transition-colors ${
                   isSecondaryActive
-                    ? "text-accent font-medium"
-                    : "text-text-secondary hover:text-text-primary"
+                    ? "font-medium text-[#0F172A] border-b-2 border-[#CA8A04] pb-0.5"
+                    : "text-[#334155] hover:text-[#0F172A]"
                 }`}
+                style={{ letterSpacing: '0.02em' }}
               >
                 More
               </button>
@@ -113,8 +124,8 @@ export function Nav() {
                         href={link.href}
                         className={`block px-4 py-2 text-sm transition-colors ${
                           isActive
-                            ? "text-accent bg-accent-bg"
-                            : "text-text-secondary hover:text-text-primary hover:bg-surface-alt"
+                            ? "text-[#CA8A04] bg-accent-bg font-medium"
+                            : "text-[#334155] hover:text-[#0F172A] hover:bg-surface-alt"
                         }`}
                       >
                         {link.label}
@@ -127,7 +138,7 @@ export function Nav() {
 
             <Link
               href="/ask"
-              className="text-sm bg-accent text-white px-4 py-1.5 rounded-lg hover:bg-accent-light transition-colors"
+              className="text-sm bg-[#0F172A] text-[#FAF8F4] px-4 py-1.5 rounded-lg hover:bg-[#334155] transition-colors"
             >
               Ask a Question
             </Link>
@@ -135,16 +146,16 @@ export function Nav() {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-text-secondary hover:text-text-primary"
+            className="md:hidden p-2 text-[#334155] hover:text-[#0F172A]"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isOpen ? <X className="w-5 h-5" strokeWidth={1.5} /> : <Menu className="w-5 h-5" strokeWidth={1.5} />}
           </button>
         </div>
 
         {/* Mobile hamburger dropdown */}
         {isOpen && (
-          <div className="md:hidden border-t border-border-light bg-background/95 backdrop-blur-md">
+          <div className="md:hidden border-t border-[#E8E4DB]" style={{ background: 'rgba(250,248,244,0.97)', backdropFilter: 'blur(16px)' }}>
             <div className="px-4 py-4 flex flex-col gap-3">
               {allLinks.map((link) => (
                 <Link
@@ -153,8 +164,8 @@ export function Nav() {
                   onClick={() => setIsOpen(false)}
                   className={`text-base py-2 transition-colors ${
                     pathname === link.href || pathname.startsWith(link.href)
-                      ? "text-accent font-medium"
-                      : "text-text-secondary hover:text-text-primary"
+                      ? "text-[#CA8A04] font-medium"
+                      : "text-[#334155] hover:text-[#0F172A]"
                   }`}
                 >
                   {link.label}
@@ -166,14 +177,18 @@ export function Nav() {
       </nav>
 
       {/* Mobile bottom tabs */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur-md border-t border-border-light pb-[env(safe-area-inset-bottom)]" aria-label="Mobile navigation">
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-50 md:hidden pb-[env(safe-area-inset-bottom)]"
+        style={{ background: 'rgba(250,248,244,0.95)', backdropFilter: 'blur(16px)', borderTop: '1px solid #E8E4DB' }}
+        aria-label="Mobile navigation"
+      >
         <div className="flex items-center justify-around h-14">
           {[
-            { href: "/explore", label: "Explore", icon: <Compass className="w-5 h-5" /> },
-            { href: "/learn", label: "Learn", icon: <BookOpen className="w-5 h-5" /> },
-            { href: "/paths", label: "Paths", icon: <Map className="w-5 h-5" /> },
-            { href: "/ask", label: "Ask", icon: <MessageCircle className="w-5 h-5" /> },
-            { href: "#more", label: "More", icon: <MoreHorizontal className="w-5 h-5" />, action: true },
+            { href: "/explore", label: "Explore", icon: <Compass className="w-5 h-5" strokeWidth={1.5} /> },
+            { href: "/learn", label: "Learn", icon: <BookOpen className="w-5 h-5" strokeWidth={1.5} /> },
+            { href: "/paths", label: "Paths", icon: <Map className="w-5 h-5" strokeWidth={1.5} /> },
+            { href: "/ask", label: "Ask", icon: <MessageCircle className="w-5 h-5" strokeWidth={1.5} /> },
+            { href: "#more", label: "More", icon: <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />, action: true },
           ].map((tab) => {
             const isActive = tab.href !== "#more" && (
               pathname === tab.href || pathname.startsWith(tab.href)
@@ -195,7 +210,7 @@ export function Nav() {
                 key={tab.href}
                 href={tab.href}
                 className={`flex flex-col items-center gap-0.5 transition-colors ${
-                  isActive ? "text-accent" : "text-text-muted"
+                  isActive ? "text-[#CA8A04]" : "text-text-muted"
                 }`}
               >
                 <span>{tab.icon}</span>

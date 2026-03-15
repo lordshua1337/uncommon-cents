@@ -16,17 +16,57 @@ function DefenseCard({ defense }: { defense: FraudDefense }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden">
+    <div
+      style={{
+        background: "#FFFDF8",
+        border: "1px solid #D4CFC4",
+        borderRadius: "0.75rem",
+        boxShadow: "0 1px 3px rgba(15,23,42,0.05)",
+        overflow: "hidden",
+      }}
+    >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full text-left p-5 flex items-start justify-between gap-3"
+        className="defense-card-trigger w-full text-left p-5 flex items-start justify-between gap-3 focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ outlineColor: "#0F172A" } as React.CSSProperties}
       >
         <div className="min-w-0">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-xs font-mono text-accent font-semibold">
-              #{defense.number}
-            </span>
-            <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded-full bg-red/10 text-red">
+            {/* Sequence number */}
+            <div
+              style={{
+                width: "1.75rem",
+                height: "1.75rem",
+                borderRadius: "0.25rem",
+                background: "#EEF1F7",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.875rem",
+                  fontWeight: 700,
+                  color: "#0F172A",
+                }}
+              >
+                {defense.number}
+              </span>
+            </div>
+            {/* Threat badge */}
+            <span
+              style={{
+                background: "#FEE2E2",
+                color: "#DC2626",
+                borderRadius: "999px",
+                fontSize: "0.6875rem",
+                fontWeight: 500,
+                padding: "3px 8px",
+              }}
+            >
               {defense.threat.split(" ").slice(0, 3).join(" ")}
             </span>
           </div>
@@ -35,9 +75,9 @@ function DefenseCard({ defense }: { defense: FraudDefense }) {
         </div>
         <div className="text-text-muted flex-shrink-0 mt-1">
           {isExpanded ? (
-            <ChevronUp className="w-4 h-4" />
+            <ChevronUp className="w-4 h-4" strokeWidth={1.5} />
           ) : (
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4" strokeWidth={1.5} />
           )}
         </div>
       </button>
@@ -69,7 +109,14 @@ function DefenseCard({ defense }: { defense: FraudDefense }) {
             </ul>
           </div>
 
-          <div className="bg-accent-bg rounded-lg p-4">
+          {/* Why it works -- brass-tinted insight panel */}
+          <div
+            style={{
+              background: "#FAF3E6",
+              borderRadius: "0.5rem",
+              padding: "0.875rem",
+            }}
+          >
             <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
               Why it works
             </p>
@@ -92,7 +139,7 @@ function DefenseCard({ defense }: { defense: FraudDefense }) {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-xs text-accent hover:text-accent-light transition-colors"
                   >
-                    <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                    <ExternalLink className="w-3 h-3 flex-shrink-0" strokeWidth={1.5} />
                     <span>
                       {ref.authority}: {ref.reference}
                     </span>
@@ -109,12 +156,12 @@ function DefenseCard({ defense }: { defense: FraudDefense }) {
 
 export default function DefensesPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen pt-24 pb-32 md:pb-32 px-4" style={{ background: '#FAF8F4' }}>
+      <div className="max-w-[720px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-10 py-8 rounded-2xl" style={{ background: '#F5F1E8', border: '1px solid #D4CFC4' }}>
           <div className="inline-flex items-center gap-2 bg-red/10 text-red px-3 py-1 rounded-full text-xs font-medium mb-4">
-            <Shield className="w-3.5 h-3.5" />
+            <Shield className="w-3.5 h-3.5" strokeWidth={1.5} />
             AI-Era Fraud Defenses
           </div>
 
@@ -131,8 +178,8 @@ export default function DefensesPage() {
         {/* Design principle */}
         <div className="bg-surface border border-border rounded-xl p-5 mb-8">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-red/10 flex items-center justify-center flex-shrink-0">
-              <AlertTriangle className="w-4 h-4 text-red" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#FEE2E2' }}>
+              <AlertTriangle className="w-4 h-4 text-red" strokeWidth={1.5} />
             </div>
             <div>
               <p className="text-sm font-semibold mb-1">Design Principle</p>
@@ -147,7 +194,7 @@ export default function DefensesPage() {
         </div>
 
         {/* Defense cards */}
-        <div className="space-y-3 mb-10">
+        <div className="space-y-4 md:space-y-5 mb-10">
           {fraudDefenses.map((defense) => (
             <DefenseCard key={defense.id} defense={defense} />
           ))}
@@ -159,16 +206,17 @@ export default function DefensesPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/loop"
-            className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center gap-2"
+            className="px-6 py-2.5 rounded-lg font-medium transition-colors inline-flex items-center gap-2"
+            style={{ background: 'linear-gradient(90deg, #CA8A04 0%, #A57203 100%)', color: '#0F172A', boxShadow: '0 4px 16px rgba(202,138,4,0.30)' }}
           >
             See the Operating Loop
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
           </Link>
           <Link
             href="/scripts"
             className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
           >
-            Money Scripts <ArrowRight className="w-3.5 h-3.5" />
+            Money Scripts <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
           </Link>
         </div>
       </div>

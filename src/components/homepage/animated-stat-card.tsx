@@ -85,8 +85,15 @@ export function AnimatedStatCard({
       ref={ref}
       role="listitem"
       aria-label={`${prefix ?? ""}${value}${suffix ?? ""} ${label}`}
-      className={`rounded-2xl bg-slate-800/50 border border-slate-700/40 p-5 flex flex-col gap-1 cursor-default ${className}`}
-      style={{ borderLeftColor: accentColor, borderLeftWidth: 2 }}
+      className={`flex flex-col gap-1 cursor-default ${className}`}
+      style={{
+        background: "rgba(30,41,59,0.6)",
+        backdropFilter: "blur(8px)",
+        border: "1px solid rgba(250,248,244,0.10)",
+        borderLeft: "2px solid #CA8A04",
+        borderRadius: "0.875rem",
+        padding: "1.25rem",
+      }}
       initial={prefersReduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       animate={cardAnimate}
       transition={cardTransition}
@@ -100,17 +107,41 @@ export function AnimatedStatCard({
       {/* Number row */}
       <div className="flex items-baseline gap-0.5">
         {prefix && (
-          <span className="text-xl text-slate-400 font-semibold select-none">
+          <span
+            className="select-none"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "1.125rem",
+              fontWeight: 500,
+              color: "rgba(250,248,244,0.55)",
+            }}
+          >
             {prefix}
           </span>
         )}
         <AnimatedCounter
           value={isVisible ? value : 0}
           format="integer"
-          className="text-3xl sm:text-4xl font-bold text-white"
+          className="tabular-nums"
+          style={{
+            fontFamily: "var(--font-heading)",
+            fontSize: "clamp(1.75rem, 1.5rem + 1.5vw, 2.25rem)",
+            fontWeight: 600,
+            color: "#FAF8F4",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.1,
+          }}
         />
         {suffix && (
-          <span className="text-xl text-slate-400 font-semibold select-none">
+          <span
+            className="select-none"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "1.125rem",
+              fontWeight: 500,
+              color: "rgba(250,248,244,0.55)",
+            }}
+          >
             {suffix}
           </span>
         )}
@@ -118,7 +149,15 @@ export function AnimatedStatCard({
 
       {/* Label -- fades in 100ms after number starts */}
       <motion.p
-        className="text-xs sm:text-sm text-slate-500 mt-1 uppercase tracking-wider font-semibold"
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.6875rem",
+          fontWeight: 500,
+          color: "rgba(250,248,244,0.50)",
+          textTransform: "uppercase",
+          letterSpacing: "0.10em",
+          marginTop: "0.375rem",
+        }}
         initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={labelTransition}

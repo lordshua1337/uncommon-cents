@@ -58,14 +58,35 @@ function BarTooltip({ label, value, formatValue }: TooltipProps) {
       className="absolute -top-16 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
     >
       <div
-        className="bg-slate-800 border border-slate-700/60 rounded-lg px-3 py-2 shadow-lg whitespace-nowrap"
-        style={{ boxShadow: "0 4px 16px rgba(22,163,74,0.15)" }}
+        className="rounded-lg px-3 py-2 whitespace-nowrap"
+        style={{
+          background: "#FFFDF8",
+          border: "1px solid #E8E4DB",
+          boxShadow: "0 4px 16px rgba(15,23,42,0.10)",
+        }}
       >
-        <p className="text-[10px] text-slate-500 uppercase tracking-wide">{label}</p>
-        <p className="text-sm font-bold font-mono text-slate-100">{formatValue(value)}</p>
+        <p
+          className="text-[10px] uppercase"
+          style={{ color: "#5C6A7A", letterSpacing: "0.06em" }}
+        >
+          {label}
+        </p>
+        <p
+          className="text-sm"
+          style={{
+            color: "#0F172A",
+            fontWeight: 600,
+            fontFamily: "var(--font-sans)",
+          }}
+        >
+          {formatValue(value)}
+        </p>
       </div>
       {/* Tooltip arrow */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-slate-700/60" />
+      <div
+        className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent"
+        style={{ borderTopColor: "#E8E4DB" }}
+      />
     </motion.div>
   );
 }
@@ -87,11 +108,16 @@ export function AnimatedBarChart({
   if (bars.length === 0) {
     return (
       <div
-        className={`rounded-xl bg-slate-800/40 border border-slate-700/30 p-4 ${className}`}
+        className={`rounded-xl p-4 ${className}`}
+        style={{
+          background: "rgba(255,253,248,0.6)",
+          border: "1px solid #E8E4DB",
+          borderRadius: "0.75rem",
+        }}
         role="img"
         aria-label="No chart data available"
       >
-        <p className="text-xs text-slate-500 text-center py-8">No data</p>
+        <p className="text-xs text-center py-8" style={{ color: "#5C6A7A" }}>No data</p>
       </div>
     );
   }
@@ -101,7 +127,13 @@ export function AnimatedBarChart({
       initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...SPRING_GENTLE, delay: 0.6 }}
-      className={`rounded-xl bg-slate-800/40 border border-slate-700/30 p-4 overflow-hidden ${className}`}
+      className={`rounded-xl overflow-hidden ${className}`}
+      style={{
+        background: "rgba(255,253,248,0.6)",
+        border: "1px solid #E8E4DB",
+        borderRadius: "0.75rem",
+        padding: "1rem",
+      }}
       role="img"
       aria-label={ariaLabel ?? "Bar chart comparing options"}
     >
@@ -178,7 +210,10 @@ export function AnimatedBarChart({
               </div>
 
               {/* Label */}
-              <span className="text-[10px] text-slate-400 text-center leading-tight mt-1 max-w-full truncate px-1">
+              <span
+                className="text-[10px] text-center leading-tight mt-1 max-w-full truncate px-1"
+                style={{ color: "#5C6A7A" }}
+              >
                 {bar.sublabel ?? bar.label}
               </span>
             </div>
@@ -191,8 +226,8 @@ export function AnimatedBarChart({
         {bars.map((bar, index) => (
           <p
             key={index}
-            className="flex-1 text-center text-[11px] font-mono font-semibold tabular-nums"
-            style={{ color: accentColor }}
+            className="flex-1 text-center text-[11px] font-semibold"
+            style={{ fontFamily: "var(--font-sans)", fontVariantNumeric: "tabular-nums", color: accentColor }}
           >
             {formatValue(bar.value)}
           </p>

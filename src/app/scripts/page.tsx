@@ -24,7 +24,29 @@ function ScriptCard({ script }: { script: MoneyScript }) {
   const counterMove = counterMoves.find((c) => c.scriptId === script.id);
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden">
+    <div
+      style={{
+        background: "#FFFDF8",
+        border: "1px solid #D4CFC4",
+        borderRadius: "0.75rem",
+        boxShadow: "0 1px 3px rgba(15,23,42,0.05)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Top navy rule */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "3px",
+          background: "#0F172A",
+          borderRadius: "0.75rem 0.75rem 0 0",
+        }}
+      />
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full text-left p-5 flex items-start justify-between gap-3"
