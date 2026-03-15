@@ -10,6 +10,7 @@ import { loadQuizResult } from "./quiz-engine";
 import { getConceptProgress } from "./daily-lesson";
 import { loadSavedSimulations } from "./simulator/types";
 import { fraudDefenses } from "./fraud-defenses-data";
+import { loadStageProgress, getGraduatedCount } from "./life-stages/progress";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -90,11 +91,18 @@ function scoreKnowledge(): PillarScore {
   const overall = getOverallMastery(mastery);
   const domains = getAllDomainMastery(mastery);
   const conceptProgress = getConceptProgress();
+  const stageState = loadStageProgress();
+  const graduatedCount = getGraduatedCount(stageState);
 
   // 60% domain mastery, 40% concept coverage
   const domainScore = overall.overallPercent;
   const coverageScore = conceptProgress;
-  const score = clamp(Math.round(domainScore * 0.6 + coverageScore * 0.4), 0, 100);
+  const baseScore = Math.round(domainScore * 0.6 + coverageScore * 0.4);
+
+  // Stage completion bonus: +10 points for completing 1+ stages (practical application),
+  // capped so total remains 0-100
+  const stageBonus = graduatedCount >= 1 ? 10 : 0;
+  const score = clamp(baseScore + stageBonus, 0, 100);
 
   const domainsStarted = domains.filter((d) => d.visitedConcepts > 0).length;
   const domainsMastered = domains.filter((d) => d.masteryPercent >= 80).length;
@@ -136,6 +144,11 @@ function scoreKnowledge(): PillarScore {
         percent: domains.length > 0
           ? Math.round((domainsStarted / domains.length) * 100)
           : 0,
+      },
+      {
+        label: "Paths graduated",
+        value: `${graduatedCount}`,
+        percent: clamp(graduatedCount * 12, 0, 100), // 8 stages = max display
       },
     ],
     suggestions,

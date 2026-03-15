@@ -12,6 +12,7 @@ import {
   Search,
   ArrowRight,
 } from "lucide-react";
+import { DashboardStageCard } from "@/components/life-stages/dashboard-stage-card";
 import {
   loadAchievementState,
   checkAchievements,
@@ -152,6 +153,9 @@ export function DashboardProgress() {
             </p>
           </Link>
         </div>
+
+        {/* Life Path widget */}
+        <DashboardStageCard />
 
         {/* Domain mastery grid */}
         <div className="bg-surface border border-border-light rounded-xl p-5 mb-6">

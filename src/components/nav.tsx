@@ -3,14 +3,18 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Coins, Compass, BookOpen, Calculator, MessageCircle, MoreHorizontal } from "lucide-react";
+import { Menu, X, Coins, Compass, BookOpen, Calculator, MessageCircle, MoreHorizontal, Map } from "lucide-react";
 
 const primaryLinks = [
   { href: "/explore", label: "Explore" },
   { href: "/learn", label: "Learn" },
+  { href: "/paths", label: "Paths" },
   { href: "/calculators", label: "Calculators" },
 ];
 
+// secondaryLinks appear in the "More" dropdown on desktop.
+// Calculators moved here since it's now in the primary nav -- it stays in More as well
+// so users coming from deep links still have a path, but is not the source of isSecondaryActive.
 const secondaryLinks = [
   { href: "/scripts", label: "Scripts" },
   { href: "/quiz", label: "Quiz" },
@@ -22,7 +26,16 @@ const secondaryLinks = [
   { href: "/score", label: "Health Score" },
 ];
 
+// Additional links that appear in the More dropdown but are NOT used for isSecondaryActive
+// (they are already surfaced in primary nav or elsewhere)
+const moreDropdownExtras = [
+  { href: "/calculators", label: "Calculators" },
+];
+
+const allMoreLinks = [...secondaryLinks, ...moreDropdownExtras];
+
 const allLinks = [...primaryLinks, ...secondaryLinks, { href: "/ask", label: "Ask" }];
+
 
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,7 +105,7 @@ export function Nav() {
               </button>
               {moreOpen && (
                 <div className="absolute top-full right-0 mt-2 w-44 bg-surface border border-border rounded-xl shadow-lg py-2 z-50">
-                  {secondaryLinks.map((link) => {
+                  {allMoreLinks.map((link) => {
                     const isActive = pathname === link.href || pathname.startsWith(link.href);
                     return (
                       <Link
@@ -158,7 +171,7 @@ export function Nav() {
           {[
             { href: "/explore", label: "Explore", icon: <Compass className="w-5 h-5" /> },
             { href: "/learn", label: "Learn", icon: <BookOpen className="w-5 h-5" /> },
-            { href: "/calculators", label: "Calculate", icon: <Calculator className="w-5 h-5" /> },
+            { href: "/paths", label: "Paths", icon: <Map className="w-5 h-5" /> },
             { href: "/ask", label: "Ask", icon: <MessageCircle className="w-5 h-5" /> },
             { href: "#more", label: "More", icon: <MoreHorizontal className="w-5 h-5" />, action: true },
           ].map((tab) => {

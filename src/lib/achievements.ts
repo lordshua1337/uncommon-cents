@@ -5,6 +5,13 @@ import { loadQuizResult } from "@/lib/quiz-engine";
 import { loadSavedSimulations } from "@/lib/simulator/types";
 import { loadReviewState, getReviewStats } from "@/lib/spaced-repetition/engine";
 import { loadActionPlan, getActionPlanProgress } from "@/lib/action-plan";
+import {
+  loadStageProgress,
+  getGraduatedCount,
+  getTotalLessonsCompleted,
+  getQuickWinsCompleted,
+  getBossLessonsCompleted,
+} from "@/lib/life-stages/progress";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -17,7 +24,8 @@ export type AchievementCategory =
   | "review"
   | "quiz"
   | "action"
-  | "explorer";
+  | "explorer"
+  | "path";
 
 export interface AchievementDef {
   readonly id: string;
@@ -53,6 +61,12 @@ export interface AchievementContext {
   readonly reviewSessionsDone: number; // cards reviewed total
   readonly actionsCompleted: number;
   readonly uniqueDomainsExplored: number;
+  // Life stage path data
+  readonly stagesStarted: number;
+  readonly stagesCompleted: number;
+  readonly stageTotalLessons: number;
+  readonly stageQuickWinsCompleted: number;
+  readonly stageBossLessonsCompleted: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -133,6 +147,16 @@ export const ACHIEVEMENTS: readonly AchievementDef[] = [
   { id: "first_action", title: "Taking Action", description: "Complete your first action plan item.", category: "action", icon: "CheckCircle", xp: 15, check: (c) => c.actionsCompleted >= 1 },
   { id: "five_actions", title: "Action Hero", description: "Complete 5 action plan items.", category: "action", icon: "Zap", xp: 40, check: (c) => c.actionsCompleted >= 5 },
   { id: "all_actions", title: "Mission Complete", description: "Complete all action plan items.", category: "action", icon: "Flag", xp: 100, check: (c) => c.actionsCompleted >= 8 },
+
+  // Life Stage Paths
+  { id: "first_stage_started", title: "Path Finder", description: "Start your first life stage path.", category: "path", icon: "Map", xp: 15, check: (c) => c.stagesStarted >= 1 },
+  { id: "first_stage_complete", title: "Stage Graduate", description: "Complete all lessons in a life stage path.", category: "path", icon: "GraduationCap", xp: 100, check: (c) => c.stagesCompleted >= 1 },
+  { id: "three_stages", title: "Life Architect", description: "Graduate from 3 life stage paths.", category: "path", icon: "Layers", xp: 150, check: (c) => c.stagesCompleted >= 3 },
+  { id: "all_stages", title: "Uncommon Life", description: "Complete all 8 life stage paths.", category: "path", icon: "Crown", xp: 300, check: (c) => c.stagesCompleted >= 8 },
+  { id: "quick_win_streak", title: "Quick Wins", description: "Complete the quick-win lesson in 3 different paths.", category: "path", icon: "Zap", xp: 25, check: (c) => c.stageQuickWinsCompleted >= 3 },
+  { id: "boss_rush", title: "Boss Rush", description: "Complete the boss lesson in 2 different paths.", category: "path", icon: "Swords", xp: 50, check: (c) => c.stageBossLessonsCompleted >= 2 },
+  { id: "speed_run", title: "Speed Run", description: "Complete 5 path lessons in a single day.", category: "path", icon: "Timer", xp: 40, check: (c) => c.stageTotalLessons >= 5 },
+  { id: "stage_streak", title: "Path Committed", description: "Complete lessons across 3 different paths.", category: "path", icon: "Route", xp: 60, check: (c) => c.stagesStarted >= 3 },
 ];
 
 // ---------------------------------------------------------------------------
@@ -149,6 +173,7 @@ export function buildAchievementContext(): AchievementContext {
   const actionProgress = actionPlan ? getActionPlanProgress(actionPlan) : null;
   const domainMasteries = getAllDomainMastery(mastery);
   const overall = getOverallMastery(mastery);
+  const stageState = loadStageProgress();
 
   const conceptsAtAdvanced = mastery.concepts.filter((c) =>
     c.visitedLayers.includes("advanced")
@@ -172,6 +197,12 @@ export function buildAchievementContext(): AchievementContext {
     reviewSessionsDone: reviewState.cards.reduce((sum, c) => sum + c.repetitions, 0),
     actionsCompleted: actionProgress?.completed ?? 0,
     uniqueDomainsExplored: uniqueDomains.size,
+    // Life stage path data
+    stagesStarted: stageState.stages.length,
+    stagesCompleted: getGraduatedCount(stageState),
+    stageTotalLessons: getTotalLessonsCompleted(stageState),
+    stageQuickWinsCompleted: getQuickWinsCompleted(stageState),
+    stageBossLessonsCompleted: getBossLessonsCompleted(stageState),
   };
 }
 

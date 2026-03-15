@@ -19,6 +19,7 @@ import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
 import DailyLessonCard from "@/components/daily-lesson";
 import { DashboardProgress } from "@/components/dashboard-progress";
+import { HomepagePathsSection } from "@/components/life-stages/homepage-paths-section";
 
 const iconMap: Record<string, React.ReactNode> = {
   ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
@@ -144,6 +145,11 @@ export default function HomePage() {
 
       {/* Financial Command Center */}
       <DashboardProgress />
+
+      <div className="divider-financial" />
+
+      {/* Life Stage Paths section */}
+      <HomepagePathsSection />
 
       <div className="divider-financial" />
 

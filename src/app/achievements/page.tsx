@@ -49,6 +49,10 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Globe: Compass,
   TrendingUp: Zap,
   Flag: CheckCircle,
+  Map: Compass,
+  Swords: Zap,
+  Timer: Zap,
+  Route: Compass,
 };
 
 const CATEGORY_META: Record<
@@ -62,6 +66,7 @@ const CATEGORY_META: Record<
   review: { label: "Review", color: "text-pink-400", bg: "bg-pink-400/10" },
   action: { label: "Action", color: "text-green-400", bg: "bg-green-400/10" },
   streak: { label: "Streak", color: "text-orange-400", bg: "bg-orange-400/10" },
+  path: { label: "Life Path", color: "text-indigo-400", bg: "bg-indigo-400/10" },
 };
 
 // ---------------------------------------------------------------------------
