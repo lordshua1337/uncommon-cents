@@ -15,6 +15,7 @@ import {
   Compass,
 } from "lucide-react";
 import { HeroAnimated } from "@/components/homepage/hero-animated";
+import { AnimatedStatCard } from "@/components/homepage/animated-stat-card";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
@@ -98,11 +99,31 @@ export default function HomePage() {
 
       {/* Stats */}
       <section className="py-10 px-4 section-warm">
-        <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
-          <StatCard value={`${domains.length}`} label="Financial domains" />
-          <StatCard value={`${concepts.length}`} label="Concepts" />
-          <StatCard value="10" label="Calculators" />
-          <StatCard value="$0" label="Cost to use" />
+        <div
+          role="list"
+          className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4"
+        >
+          <AnimatedStatCard
+            value={domains.length}
+            label="Financial domains"
+            index={0}
+          />
+          <AnimatedStatCard
+            value={concepts.length}
+            label="Concepts"
+            index={1}
+          />
+          <AnimatedStatCard
+            value={10}
+            label="Calculators"
+            index={2}
+          />
+          <AnimatedStatCard
+            value={0}
+            label="Cost to use"
+            prefix="$"
+            index={3}
+          />
         </div>
       </section>
 

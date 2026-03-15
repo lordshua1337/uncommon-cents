@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   Activity,
@@ -24,7 +24,7 @@ import {
   type HealthScoreHistory,
 } from "@/lib/health-score";
 import { HealthScoreRing, PillarBar, getGradeColor } from "@/components/health-score-ring";
-import { SPRING_GENTLE } from "@/lib/animation-constants";
+import { SPRING_GENTLE, SPRING_SNAPPY, STAGGER_MEDIUM } from "@/lib/animation-constants";
 
 // ---------------------------------------------------------------------------
 // Pillar icon map
@@ -45,16 +45,45 @@ const PILLAR_ICONS: Record<
 // Pillar Detail Card
 // ---------------------------------------------------------------------------
 
-function PillarCard({ pillar }: { pillar: PillarScore }) {
+function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number }) {
   const [open, setOpen] = useState(false);
+  const [ariaExpanded, setAriaExpanded] = useState(false);
+  const prefersReduced = useReducedMotion();
   const Icon = PILLAR_ICONS[pillar.id];
   const grade = getScoreGrade(pillar.score);
 
+  // Clamp score defensively
+  const clampedScore = Math.min(100, Math.max(0, pillar.score));
+
+  const cardDelay = index * STAGGER_MEDIUM;
+  const barDelay = cardDelay + 0.15;
+
+  const cardInitial = prefersReduced ? undefined : { opacity: 0, y: 16 };
+  const cardAnimate = prefersReduced ? undefined : { opacity: 1, y: 0 };
+  const cardTransition = prefersReduced
+    ? { duration: 0 }
+    : { ...SPRING_GENTLE, delay: cardDelay };
+
+  function handleToggle() {
+    setOpen((prev) => !prev);
+    setAriaExpanded((prev) => !prev);
+  }
+
   return (
-    <div className="bg-surface border border-border-light rounded-xl overflow-hidden">
+    <motion.div
+      className="bg-surface border border-border-light rounded-xl overflow-hidden"
+      initial={cardInitial}
+      animate={cardAnimate}
+      transition={cardTransition}
+      whileHover={prefersReduced ? undefined : { scale: 1.005, y: -1 }}
+      layout
+    >
       <button
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={handleToggle}
         className="w-full flex items-center gap-3 p-4 text-left hover:bg-surface-alt transition-colors"
+        role="button"
+        aria-expanded={ariaExpanded}
+        aria-controls={`pillar-detail-${pillar.id}`}
       >
         <div
           className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
@@ -68,19 +97,33 @@ function PillarCard({ pillar }: { pillar: PillarScore }) {
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold">{pillar.label}</span>
             <span
-              className="text-xs font-mono font-bold"
+              className="text-xs font-mono font-bold tabular-nums"
               style={{ color: pillar.color }}
+              aria-label={`${pillar.label} score: ${clampedScore} out of 100`}
             >
-              {pillar.score}/100
+              {clampedScore}/100
             </span>
           </div>
-          <div className="h-1.5 bg-border-light rounded-full mt-1.5 overflow-hidden">
+          <div
+            className="h-1.5 bg-border-light rounded-full mt-1.5 overflow-hidden"
+            role="progressbar"
+            aria-valuenow={clampedScore}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label={`${pillar.label} health bar`}
+          >
             <motion.div
               className="h-full rounded-full"
-              style={{ backgroundColor: pillar.color }}
-              initial={{ width: 0 }}
-              animate={{ width: `${pillar.score}%` }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              style={{
+                background: `linear-gradient(90deg, ${pillar.color} 0%, ${pillar.color}cc 100%)`,
+              }}
+              initial={prefersReduced ? undefined : { width: "0%" }}
+              animate={{ width: `${clampedScore}%` }}
+              transition={
+                prefersReduced
+                  ? { duration: 0 }
+                  : { ...SPRING_GENTLE, delay: barDelay }
+              }
             />
           </div>
         </div>
@@ -93,23 +136,35 @@ function PillarCard({ pillar }: { pillar: PillarScore }) {
         >
           {grade.grade}
         </span>
-        <ChevronDown
-          className={`w-4 h-4 text-text-muted transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
-        />
+        <motion.div
+          animate={prefersReduced ? undefined : { rotate: open ? 180 : 0 }}
+          transition={prefersReduced ? { duration: 0 } : SPRING_SNAPPY}
+        >
+          <ChevronDown className="w-4 h-4 text-text-muted" />
+        </motion.div>
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            id={`pillar-detail-${pillar.id}`}
+            initial={prefersReduced ? undefined : { height: 0, opacity: 0 }}
+            animate={prefersReduced ? undefined : { height: "auto", opacity: 1 }}
+            exit={prefersReduced ? undefined : { height: 0, opacity: 0 }}
+            transition={
+              prefersReduced
+                ? { duration: 0 }
+                : {
+                    height: { ...SPRING_GENTLE },
+                    opacity: { duration: 0.2 },
+                  }
+            }
             className="overflow-hidden"
           >
-            <div className="px-4 pb-4 border-t border-border-light pt-3 space-y-3">
+            <div
+              className="px-4 pb-4 pt-3 space-y-3"
+              style={{ borderTop: `1px solid ${pillar.color}20` }}
+            >
               {/* Detail metrics */}
               {pillar.details.map((detail) => (
                 <div key={detail.label}>
@@ -152,7 +207,7 @@ function PillarCard({ pillar }: { pillar: PillarScore }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
@@ -352,20 +407,36 @@ export default function ScorePage() {
           </div>
 
           {/* Pillar Overview */}
-          <div className="bg-surface border border-border-light rounded-xl p-5 mb-6">
-            <h2 className="text-sm font-semibold mb-4">Pillar Breakdown</h2>
+          <motion.div
+            className="bg-surface border border-border-light rounded-xl p-5 mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ ...SPRING_GENTLE, delay: 0.4 }}
+          >
+            <motion.h2
+              className="text-sm font-semibold mb-4"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...SPRING_GENTLE, delay: 0.3 }}
+            >
+              What makes up your score
+            </motion.h2>
+            <p className="text-xs text-text-secondary mb-4 -mt-2">
+              Your score is built from five areas. Tap any pillar to see what&apos;s inside.
+            </p>
             <div className="space-y-3">
-              {score.pillars.map((p) => (
+              {score.pillars.map((p, i) => (
                 <PillarBar
                   key={p.id}
                   label={p.label}
                   score={p.score}
                   color={p.color}
                   weight={p.weight}
+                  index={i}
                 />
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* History */}
           <ScoreSparkline history={history} />
@@ -373,8 +444,8 @@ export default function ScorePage() {
           {/* Pillar Details */}
           <div className="mt-6 space-y-3">
             <h2 className="text-sm font-semibold">Detailed Breakdown</h2>
-            {score.pillars.map((p) => (
-              <PillarCard key={p.id} pillar={p} />
+            {score.pillars.map((p, i) => (
+              <PillarCard key={p.id} pillar={p} index={i} />
             ))}
           </div>
 

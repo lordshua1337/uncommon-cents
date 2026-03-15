@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -30,6 +30,12 @@ import {
   getExpansionCardByDomain,
   type ExpansionCard,
 } from "@/lib/expansion-cards-data";
+import { getDomainMastery, loadMastery } from "@/lib/mastery";
+import {
+  DomainMasteryCelebration,
+  hasDomainCelebrationSeen,
+  markDomainCelebrationSeen,
+} from "@/components/domain-mastery-celebration";
 
 const iconMap: Record<string, React.ReactNode> = {
   PiggyBank: <PiggyBank className="w-6 h-6" />,
@@ -227,6 +233,8 @@ export default function DomainDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const [searchQuery, setSearchQuery] = useState("");
+  const [showCelebration, setShowCelebration] = useState(false);
+  const celebrationChecked = useRef(false);
 
   const domain = useMemo(() => getDomainBySlug(slug), [slug]);
   const concepts = useMemo(
@@ -237,6 +245,27 @@ export default function DomainDetailPage() {
     () => (domain ? getExpansionCardByDomain(domain.id) : undefined),
     [domain]
   );
+
+  // Check for domain mastery celebration on mount.
+  // Only triggers if:
+  //   1. Domain exists
+  //   2. mastery is exactly 100%
+  //   3. The celebration has NOT been shown before (localStorage guard)
+  // Does NOT trigger on every render -- runs once per slug mount via ref guard.
+  useEffect(() => {
+    if (!domain) return;
+    if (celebrationChecked.current) return;
+    celebrationChecked.current = true;
+
+    if (hasDomainCelebrationSeen(domain.name)) return;
+
+    const mastery = getDomainMastery(loadMastery(), domain.id);
+    if (mastery.masteryPercent !== 100) return;
+
+    // Small delay so the page renders before the overlay appears
+    const timer = setTimeout(() => setShowCelebration(true), 800);
+    return () => clearTimeout(timer);
+  }, [domain]);
 
   const filteredConcepts = useMemo(() => {
     if (!searchQuery.trim()) return concepts;
@@ -266,6 +295,20 @@ export default function DomainDetailPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      {/* Domain mastery celebration overlay */}
+      {domain && (
+        <DomainMasteryCelebration
+          visible={showCelebration}
+          domainName={domain.shortName}
+          conceptCount={concepts.length}
+          accentColor={domain.color}
+          onDismiss={() => {
+            markDomainCelebrationSeen(domain.name);
+            setShowCelebration(false);
+          }}
+        />
+      )}
+
       <div className="max-w-3xl mx-auto">
         <Link
           href="/explore"

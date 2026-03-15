@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { AnimatedCounter } from "@/components/streak/animated-counter";
-import { SPRING_GENTLE } from "@/lib/animation-constants";
+import { SPRING_GENTLE, STAGGER_MEDIUM } from "@/lib/animation-constants";
 import type { HealthScore } from "@/lib/health-score";
 import { getScoreGrade } from "@/lib/health-score";
 
@@ -241,11 +241,44 @@ interface PillarBarProps {
   readonly score: number;
   readonly color: string;
   readonly weight: number;
+  readonly index?: number;
 }
 
-export function PillarBar({ label, score, color, weight }: PillarBarProps) {
+export function PillarBar({ label, score, color, weight, index = 0 }: PillarBarProps) {
+  const prefersReduced = useReducedMotion();
+
+  // Clamp score defensively to [0, 100]
+  const clampedScore = Math.min(100, Math.max(0, score));
+  const cardDelay = index * STAGGER_MEDIUM;
+  const barDelay = cardDelay + 0.15;
+
+  // Bar fill: animate from 0 unless reduced motion
+  const barAnimate = { width: `${clampedScore}%` };
+  const barInitial = prefersReduced ? undefined : { width: "0%" };
+
+  const barTransition = prefersReduced
+    ? { duration: 0 }
+    : { ...SPRING_GENTLE, delay: barDelay };
+
+  // Card entrance: skip animation for reduced motion
+  const cardInitial = prefersReduced ? undefined : { opacity: 0, y: 16 };
+  const cardAnimate = prefersReduced ? undefined : { opacity: 1, y: 0 };
+  const cardTransition = prefersReduced
+    ? { duration: 0 }
+    : { ...SPRING_GENTLE, delay: cardDelay };
+
+  // Zero-score bar: dashed track treatment
+  const isZero = clampedScore === 0;
+
   return (
-    <div className="flex items-center gap-3">
+    <motion.div
+      className="flex items-center gap-3"
+      initial={cardInitial}
+      animate={cardAnimate}
+      transition={cardTransition}
+      whileHover={prefersReduced ? undefined : { y: -1 }}
+      style={prefersReduced ? undefined : { willChange: "opacity, transform" }}
+    >
       <div
         className="w-2.5 h-2.5 rounded-full shrink-0"
         style={{ backgroundColor: color }}
@@ -253,23 +286,49 @@ export function PillarBar({ label, score, color, weight }: PillarBarProps) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1">
           <span className="text-sm font-medium">{label}</span>
-          <span className="text-sm font-mono" style={{ color }}>
-            {score}
+          <span
+            className="text-sm font-semibold font-mono tabular-nums"
+            style={{ color }}
+            aria-label={`${label} score: ${clampedScore} out of 100`}
+          >
+            {prefersReduced ? (
+              clampedScore
+            ) : (
+              <AnimatedCounter
+                value={clampedScore}
+                aria-hidden={true}
+              />
+            )}
           </span>
         </div>
-        <div className="h-1.5 bg-border-light rounded-full overflow-hidden">
-          <motion.div
-            className="h-full rounded-full"
-            style={{ backgroundColor: color }}
-            initial={{ width: 0 }}
-            animate={{ width: `${score}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
+        <div
+          className={`h-1.5 rounded-full overflow-hidden ${isZero ? "border-2 border-dashed" : ""}`}
+          style={{
+            backgroundColor: isZero ? "transparent" : `${color}20`,
+            borderColor: isZero ? `${color}60` : undefined,
+          }}
+          role="progressbar"
+          aria-valuenow={clampedScore}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`${label} health bar`}
+        >
+          {!isZero && (
+            <motion.div
+              className="h-full rounded-full"
+              style={{
+                background: `linear-gradient(90deg, ${color} 0%, ${color}cc 100%)`,
+              }}
+              initial={barInitial}
+              animate={barAnimate}
+              transition={barTransition}
+            />
+          )}
         </div>
       </div>
       <span className="text-[10px] text-text-muted w-8 text-right shrink-0">
         {Math.round(weight * 100)}%
       </span>
-    </div>
+    </motion.div>
   );
 }

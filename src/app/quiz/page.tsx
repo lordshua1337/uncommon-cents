@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, useAnimate } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,6 +13,7 @@ import {
   Target,
   Eye,
   BookOpen,
+  Check,
 } from "lucide-react";
 import { SPRING_SNAPPY, SPRING_BOUNCY, SPRING_GENTLE, STAGGER_FAST, STAGGER_MEDIUM } from "@/lib/animation-constants";
 import {
@@ -157,6 +158,173 @@ function ProgressBar({
 }
 
 // ---------------------------------------------------------------------------
+// LikertOption -- single answer button with spring micro-interaction
+// Extracted so each option can own its own useAnimate scope for the
+// selection pulse without polluting the parent's animation context.
+// ---------------------------------------------------------------------------
+
+function LikertOption({
+  label,
+  val,
+  total,
+  isSelected,
+  hasSelection,
+  reducedMotion,
+  entranceDelay,
+  onSelect,
+}: {
+  readonly label: string;
+  readonly val: number;
+  readonly total: number;
+  readonly isSelected: boolean;
+  readonly hasSelection: boolean;
+  readonly reducedMotion: boolean;
+  readonly entranceDelay: number;
+  readonly onSelect: (v: number) => void;
+}) {
+  // useAnimate gives us imperative control over the selection pulse sequence.
+  // We keep it separate from the declarative animate/whileTap props so the
+  // entrance stagger and the selection pulse never conflict.
+  const [scope, animate] = useAnimate();
+
+  const handleClick = () => {
+    onSelect(val);
+
+    // Spring scale pulse: compress -> overshoot -> settle
+    // Gives a physical "button press" sensation.
+    // Reduced motion: skip the scale entirely.
+    if (!reducedMotion && scope.current) {
+      animate(
+        scope.current,
+        { scale: [1, 0.95, 1.03, 1] },
+        { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }
+      );
+    }
+  };
+
+  // Entrance: slide up + fade in with stagger delay.
+  // Reduced motion: fade only, no y translation.
+  const optionInitial = reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 };
+  const optionAnimate = {
+    opacity: 1,
+    y: 0,
+    transition: reducedMotion
+      ? { duration: 0.1 }
+      : { ...SPRING_SNAPPY, delay: entranceDelay },
+  };
+
+  // Box shadow drives the selection glow via Framer.
+  // CSS transitions can't animate box-shadow reliably for the branded ring,
+  // so we use Framer Motion's animate prop instead.
+  const glowShadow = isSelected
+    ? "0 0 0 2px var(--color-accent), 0 0 16px rgba(22,163,74,0.25)"
+    : "0 0 0 1px transparent";
+
+  // Dimming of unselected options after a choice is made.
+  // We use Framer animate so opacity transitions smoothly rather than jumping.
+  const dimOpacity = hasSelection && !isSelected ? 0.55 : 1;
+
+  // Hover effect only makes sense before any selection; once locked in,
+  // hovering an unselected option shouldn't mislead the user.
+  const hoverProps =
+    reducedMotion || hasSelection ? {} : { scale: 1.01, x: 3 };
+
+  return (
+    <motion.button
+      ref={scope}
+      key={val}
+      type="button"
+      initial={optionInitial}
+      animate={{
+        ...optionAnimate,
+        opacity: dimOpacity,
+        boxShadow: glowShadow,
+      }}
+      role="radio"
+      aria-checked={isSelected}
+      aria-label={isSelected ? `Selected: ${label}` : `${label}, option ${val} of ${total}`}
+      onClick={handleClick}
+      whileHover={hoverProps}
+      whileTap={reducedMotion ? {} : { scale: 0.97 }}
+      transition={SPRING_SNAPPY}
+      // overflow-visible ensures the ring glow is never clipped by a parent
+      // container that has overflow-hidden. relative + isolate keeps stacking
+      // context clean so the checkmark badge sits on top.
+      className="relative overflow-visible isolate flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left min-h-[52px] w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 cursor-pointer"
+      style={{
+        background: isSelected
+          ? "var(--color-accent-bg)"
+          : "var(--color-surface)",
+        borderColor: isSelected
+          ? "var(--color-accent)"
+          : "var(--color-border)",
+        // Accent left-border treatment on selected option
+        borderLeft: isSelected ? "4px solid var(--color-accent)" : undefined,
+      }}
+    >
+      {/* Radio dot indicator */}
+      <div
+        className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors"
+        style={{
+          borderColor: isSelected
+            ? "var(--color-accent)"
+            : "var(--color-border)",
+        }}
+      >
+        {isSelected && (
+          <div
+            className="w-2.5 h-2.5 rounded-full"
+            style={{ background: "var(--color-accent)" }}
+          />
+        )}
+      </div>
+
+      {/* Option label text -- semibold when selected for non-color signal (WCAG) */}
+      <span
+        className={`text-sm transition-colors ${isSelected ? "font-semibold" : "font-medium"}`}
+        style={{
+          color: isSelected
+            ? "var(--color-accent-dark)"
+            : "var(--color-text-secondary)",
+        }}
+      >
+        {label}
+      </span>
+
+      {/*
+        Checkmark badge -- springs in on selection, springs out on deselection.
+        aria-hidden: the selection state is already communicated via aria-checked.
+        Positioned absolute at right edge, vertically centered.
+      */}
+      <AnimatePresence>
+        {isSelected && (
+          <motion.span
+            key="checkmark"
+            aria-hidden="true"
+            className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full"
+            style={{ background: "var(--color-accent)" }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={
+              reducedMotion
+                ? { scale: 1, opacity: 1 }
+                : { scale: [0, 1.25, 1], opacity: 1 }
+            }
+            exit={{ scale: 0, opacity: 0 }}
+            transition={reducedMotion ? { duration: 0 } : { ...SPRING_SNAPPY }}
+          >
+            <Check
+              className="w-3 h-3"
+              style={{ color: "#fff" }}
+              strokeWidth={3}
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Animated Likert Scale
 // Stagger: options arrive at 0.12s, 0.16s, 0.20s, 0.24s, 0.28s after mount
 // Key on the parent forces a full remount on each question change,
@@ -185,74 +353,18 @@ function LikertScale({
           const val = i + 1;
           const isSelected = value === val;
 
-          // Each option has its own stagger delay calculated inline.
-          // reducedMotion: no y translation, no stagger -- all appear at once.
-          const optionInitial = reducedMotion
-            ? { opacity: 0 }
-            : { opacity: 0, y: 8 };
-
-          const optionAnimate = {
-            opacity: 1,
-            y: 0,
-            transition: reducedMotion
-              ? { duration: 0.1 }
-              : { ...SPRING_SNAPPY, delay: 0.12 + i * STAGGER_FAST },
-          };
-
           return (
-            <motion.button
+            <LikertOption
               key={val}
-              initial={optionInitial}
-              animate={optionAnimate}
-              role="radio"
-              aria-checked={isSelected}
-              aria-label={`${label}, option ${val} of ${LIKERT_LABELS.length}`}
-              onClick={() => onChange(val)}
-              whileHover={reducedMotion ? {} : { scale: 1.01, x: 4 }}
-              whileTap={reducedMotion ? {} : { scale: 0.98 }}
-              transition={SPRING_SNAPPY}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl border transition-colors text-left min-h-[52px] w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2"
-              style={{
-                background: isSelected
-                  ? "var(--color-accent-bg)"
-                  : "var(--color-surface)",
-                borderColor: isSelected
-                  ? "var(--color-accent)"
-                  : "var(--color-border)",
-                // Accent left-border treatment on selected option
-                borderLeft: isSelected
-                  ? "4px solid var(--color-accent)"
-                  : undefined,
-                // Unselected options dim after a choice is made
-                opacity: hasSelection && !isSelected ? 0.65 : 1,
-              }}
-            >
-              <div
-                className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                style={{
-                  borderColor: isSelected
-                    ? "var(--color-accent)"
-                    : "var(--color-border)",
-                }}
-              >
-                {isSelected && (
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ background: "var(--color-accent)" }}
-                  />
-                )}
-              </div>
-              <span
-                className="text-sm font-medium transition-colors"
-                style={{
-                  color: isSelected
-                    ? "var(--color-accent-dark)"
-                    : "var(--color-text-secondary)",
-                }}
-              >
-                {label}
-              </span>
-            </motion.button>
+              label={label}
+              val={val}
+              total={LIKERT_LABELS.length}
+              isSelected={isSelected}
+              hasSelection={hasSelection}
+              reducedMotion={reducedMotion}
+              entranceDelay={0.12 + i * STAGGER_FAST}
+              onSelect={onChange}
+            />
           );
         })}
     </div>

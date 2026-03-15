@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import {
   motion,
   AnimatePresence,
   useReducedMotion,
+  useAnimate,
 } from "framer-motion";
 import {
   ArrowLeft,
   Brain,
   RotateCcw,
+  Check,
   CheckCircle,
   XCircle,
   BookOpen,
@@ -110,6 +113,30 @@ const masteryHighlightVariants = {
   initial: { opacity: 0, scale: 0.95 },
   animate: { opacity: 1, scale: 1 },
 };
+
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
+
+// Returns a hex color for each self-rate rating value (0-5)
+function getRatingColor(rating: number): string {
+  const palette: Record<number, string> = {
+    0: "#DC2626",
+    1: "#F87171",
+    2: "#F59E0B",
+    3: "#EAB308",
+    4: "#16A34A",
+    5: "#15803D",
+  };
+  return palette[rating] ?? "#94a3b8";
+}
+
+// Returns the scale a selected rating button settles at
+function getSelectedScale(rating: number): number {
+  if (rating >= 4) return 1.05;
+  if (rating >= 2) return 1.02;
+  return 1.0;
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -418,13 +445,17 @@ function SelfRateCard({
   cardKey: string;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const prefersReduced = useReducedMotion();
   const concept = concepts.find((c) => c.id === card.conceptId);
   const ariaRef = useRef<HTMLDivElement>(null);
+  const ratingLiveRef = useRef<HTMLDivElement>(null);
 
-  // Reset flip state when card changes
+  // Reset flip and selection state when card changes
   useEffect(() => {
     setFlipped(false);
+    setSelectedRating(null);
   }, [cardKey]);
 
   // Announce flip to screen readers
@@ -437,37 +468,19 @@ function SelfRateCard({
   if (!concept) return null;
 
   const ratings = [
-    {
-      value: 0,
-      label: "Blackout",
-      color: "bg-red-500/10 text-red-400 border-red-500/20",
-    },
-    {
-      value: 1,
-      label: "Wrong",
-      color: "bg-red-400/10 text-red-400 border-red-400/20",
-    },
-    {
-      value: 2,
-      label: "Hard",
-      color: "bg-amber-400/10 text-amber-400 border-amber-400/20",
-    },
-    {
-      value: 3,
-      label: "OK",
-      color: "bg-yellow-400/10 text-yellow-400 border-yellow-400/20",
-    },
-    {
-      value: 4,
-      label: "Good",
-      color: "bg-green-400/10 text-green-400 border-green-400/20",
-    },
-    {
-      value: 5,
-      label: "Easy",
-      color: "bg-green-500/10 text-green-400 border-green-500/20",
-    },
+    { value: 0, label: "Blackout" },
+    { value: 1, label: "Blank" },
+    { value: 2, label: "Hard" },
+    { value: 3, label: "Got it" },
+    { value: 4, label: "Easy" },
+    { value: 5, label: "Nailed it" },
   ];
+
+  function handleRate(value: number) {
+    setSelectedRating(value);
+    // Fire the parent handler immediately -- animation runs in parallel
+    onRate(value);
+  }
 
   // For reduced motion: simple opacity toggle, no rotateY
   if (prefersReduced) {
@@ -555,16 +568,36 @@ function SelfRateCard({
                 <p className="text-[10px] text-text-secondary mb-2 text-center">
                   How well did you remember this?
                 </p>
-                <div className="grid grid-cols-6 gap-1.5">
-                  {ratings.map((r) => (
-                    <button
-                      key={r.value}
-                      onClick={() => onRate(r.value)}
-                      className={`py-2 rounded-lg border text-[10px] font-medium transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 ${r.color}`}
-                    >
-                      {r.label}
-                    </button>
-                  ))}
+                {/* Screen reader live region for selection announcement */}
+                <div ref={ratingLiveRef} aria-live="polite" aria-atomic="true" className="sr-only">
+                  {selectedRating !== null
+                    ? `Rated ${selectedRating}: ${ratings[selectedRating]?.label ?? ""}. Moving to next card.`
+                    : ""}
+                </div>
+                <div className="flex flex-wrap gap-1.5 justify-center">
+                  {ratings.map((r) => {
+                    const color = getRatingColor(r.value);
+                    const isSelected = selectedRating === r.value;
+                    const style: CSSProperties = isSelected
+                      ? { borderColor: color, backgroundColor: `${color}22` }
+                      : { borderColor: "rgba(161,161,170,0.3)" };
+                    return (
+                      <button
+                        key={r.value}
+                        onClick={() => handleRate(r.value)}
+                        disabled={selectedRating !== null}
+                        aria-label={isSelected ? `Selected rating: ${r.label}` : `Rate this card: ${r.label}`}
+                        aria-pressed={isSelected}
+                        style={style}
+                        className="min-w-[44px] min-h-[44px] px-2 py-1 rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:focus-visible:ring-zinc-600 disabled:cursor-not-allowed flex flex-col items-center justify-center"
+                      >
+                        <span className="block text-sm font-semibold font-mono" style={{ color }}>
+                          {r.value}
+                        </span>
+                        <span className="block text-[9px] text-zinc-600 dark:text-zinc-400 leading-tight">{r.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -699,24 +732,213 @@ function SelfRateCard({
               <p className="text-[10px] text-text-secondary mb-2 text-center">
                 How well did you remember this?
               </p>
-              <div className="grid grid-cols-6 gap-1.5">
-                {ratings.map((r) => (
-                  <motion.button
-                    key={r.value}
-                    onClick={() => onRate(r.value)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`py-2 rounded-lg border text-[10px] font-medium transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 ${r.color}`}
-                  >
-                    {r.label}
-                  </motion.button>
-                ))}
+              {/* Screen reader live region for selection announcement */}
+              <div aria-live="polite" aria-atomic="true" className="sr-only">
+                {selectedRating !== null
+                  ? `Rated ${selectedRating}: ${ratings[selectedRating]?.label ?? ""}. Moving to next card.`
+                  : ""}
+              </div>
+              <div className="flex flex-wrap gap-1.5 justify-center relative">
+                {ratings.map((r) => {
+                  const color = getRatingColor(r.value);
+                  const isSelected = selectedRating === r.value;
+                  const hasSelection = selectedRating !== null;
+                  const settledScale = getSelectedScale(r.value);
+
+                  const boxShadowSelected = `0 0 0 2px ${color}, 0 0 12px ${color}40`;
+
+                  return (
+                    <div key={r.value} className="relative">
+                      {/* Tooltip label on hover */}
+                      <AnimatePresence>
+                        {hoveredRating === r.value && !hasSelection && (
+                          <motion.div
+                            key={`tooltip-${r.value}`}
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.12 }}
+                            className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium px-1.5 py-0.5 rounded bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 pointer-events-none z-10"
+                          >
+                            {r.label}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <motion.button
+                        onClick={() => handleRate(r.value)}
+                        onHoverStart={() => setHoveredRating(r.value)}
+                        onHoverEnd={() => setHoveredRating(null)}
+                        disabled={hasSelection}
+                        aria-label={isSelected ? `Selected rating: ${r.label}` : `Rate this card: ${r.label}`}
+                        aria-pressed={isSelected}
+                        whileTap={hasSelection ? {} : { scale: 0.92, transition: { ...SPRING_SNAPPY } }}
+                        animate={{
+                          scale: isSelected ? settledScale : hasSelection ? 1.0 : 1.0,
+                          opacity: hasSelection && !isSelected ? 0.45 : 1,
+                          boxShadow: isSelected ? boxShadowSelected : "0 0 0 0px transparent",
+                        }}
+                        transition={{ ...SPRING_SNAPPY }}
+                        style={{
+                          backgroundColor: `${color}${isSelected ? "22" : "14"}`,
+                          borderColor: isSelected ? color : "rgba(161,161,170,0.4)",
+                        }}
+                        className="min-w-[44px] min-h-[44px] px-2 py-1.5 rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:focus-visible:ring-zinc-600 disabled:cursor-not-allowed flex flex-col items-center justify-center"
+                        data-testid={`rating-btn-${r.value}`}
+                      >
+                        <span
+                          className="block text-sm font-semibold font-mono leading-none"
+                          style={{ color }}
+                        >
+                          {r.value}
+                        </span>
+                        <span className="block text-[9px] text-zinc-600 dark:text-zinc-400 leading-tight mt-0.5">
+                          {r.label}
+                        </span>
+                      </motion.button>
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           </div>
         </motion.div>
       </div>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Quiz Answer Button with animated correct/wrong states
+// ---------------------------------------------------------------------------
+
+function QuizAnswerButton({
+  option,
+  index,
+  revealed,
+  selected,
+  correctIndex,
+  onSelect,
+  prefersReduced,
+}: {
+  option: string;
+  index: number;
+  revealed: boolean;
+  selected: number | null;
+  correctIndex: number;
+  onSelect: (i: number) => void;
+  prefersReduced: boolean | null;
+}) {
+  const [scope, animate] = useAnimate();
+  const isCorrect = index === correctIndex;
+  const isSelected = index === selected;
+  const isWrong = revealed && isSelected && !isCorrect;
+  const isRevealedCorrect = revealed && isCorrect;
+
+  // Run shake on wrong answer
+  useEffect(() => {
+    if (!isWrong || prefersReduced) return;
+    const shakeValues = [-4, 4, -3, 3, -2, 2, 0];
+    void animate(scope.current, { x: shakeValues }, { duration: 0.35, ease: "easeInOut" });
+  }, [isWrong, prefersReduced, animate, scope]);
+
+  let borderColor = "rgba(161,161,170,0.3)";
+  let bgColor = "transparent";
+  if (isRevealedCorrect) {
+    borderColor = "#16A34A";
+    bgColor = "rgba(22,163,74,0.12)";
+  } else if (isWrong) {
+    borderColor = "rgba(161,161,170,0.3)";
+    bgColor = "transparent";
+  }
+
+  const boxShadow = isRevealedCorrect && !prefersReduced
+    ? "0 0 0 2px #16A34A, 0 0 16px rgba(22,163,74,0.25)"
+    : "none";
+
+  return (
+    <motion.button
+      ref={scope}
+      onClick={() => onSelect(index)}
+      disabled={revealed}
+      aria-label={
+        isRevealedCorrect
+          ? `Correct answer: ${option}`
+          : isWrong
+            ? `Incorrect answer: ${option}`
+            : option
+      }
+      animate={
+        prefersReduced
+          ? {}
+          : {
+              boxShadow,
+              backgroundColor: bgColor,
+              borderColor,
+              opacity: revealed && !isSelected && !isCorrect ? 0.5 : 1,
+            }
+      }
+      style={
+        prefersReduced
+          ? { borderColor, backgroundColor: bgColor }
+          : undefined
+      }
+      whileTap={revealed || prefersReduced ? {} : { scale: 0.97, transition: { ...SPRING_SNAPPY } }}
+      transition={{ duration: 0.2 }}
+      className="w-full text-left px-4 py-3 rounded-xl border-2 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:focus-visible:ring-zinc-600 disabled:cursor-not-allowed relative overflow-hidden"
+    >
+      {/* Brief red tint overlay on wrong -- fades out */}
+      <AnimatePresence>
+        {isWrong && !prefersReduced && (
+          <motion.span
+            key="wrong-tint"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            className="absolute inset-0 rounded-xl pointer-events-none"
+            style={{ backgroundColor: "rgba(239,68,68,0.08)" }}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-center gap-2">
+        {/* Spring-in checkmark on correct answer */}
+        <AnimatePresence>
+          {isRevealedCorrect && (
+            <motion.span
+              key="checkmark"
+              initial={prefersReduced ? { opacity: 1 } : { scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={prefersReduced ? { duration: 0 } : { ...SPRING_SNAPPY, delay: 0.08 }}
+              className="shrink-0"
+              aria-hidden="true"
+            >
+              <Check className="w-3.5 h-3.5 text-green-500 dark:text-green-400" />
+            </motion.span>
+          )}
+        </AnimatePresence>
+
+        {/* XCircle for wrong (accessible -- screen readers get aria-label) */}
+        {isWrong && (
+          <XCircle className="w-3.5 h-3.5 text-red-400 shrink-0" aria-hidden="true" />
+        )}
+
+        <span
+          className={
+            isRevealedCorrect
+              ? "text-green-700 dark:text-green-300 font-medium"
+              : isWrong
+                ? "text-zinc-500 dark:text-zinc-400"
+                : "text-zinc-800 dark:text-zinc-200"
+          }
+        >
+          {option}
+        </span>
+      </div>
+    </motion.button>
   );
 }
 
@@ -733,6 +955,8 @@ function QuizCard({
 }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const prefersReduced = useReducedMotion();
+  const quizAriaRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = useCallback(
     (idx: number) => {
@@ -746,11 +970,20 @@ function QuizCard({
     [revealed, question.correctIndex, onAnswer]
   );
 
+  const isCorrect = selected !== null && selected === question.correctIndex;
+  const isWrong = selected !== null && selected !== question.correctIndex;
+
   return (
     <div
       className="bg-white dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-2xl p-6"
       style={{ minHeight: 280 }}
     >
+      {/* Screen reader live region for quiz result */}
+      <div ref={quizAriaRef} aria-live="polite" aria-atomic="true" className="sr-only">
+        {revealed && isCorrect && "Correct!"}
+        {revealed && isWrong && `Incorrect. The correct answer was: ${question.options[question.correctIndex] ?? ""}`}
+      </div>
+
       <motion.p
         {...conceptNameVariants}
         className="text-[10px] text-accent uppercase tracking-wider mb-2"
@@ -765,39 +998,18 @@ function QuizCard({
       </motion.h3>
 
       <div className="space-y-2">
-        {question.options.map((option, i) => {
-          let optionClass = "border-zinc-200/60 hover:border-accent/30";
-          if (revealed) {
-            if (i === question.correctIndex) {
-              optionClass = "border-green-400/50 bg-green-400/5";
-            } else if (i === selected) {
-              optionClass = "border-red-400/50 bg-red-400/5";
-            }
-          } else if (i === selected) {
-            optionClass = "border-accent/50 bg-accent/5";
-          }
-
-          return (
-            <button
-              key={i}
-              onClick={() => handleSelect(i)}
-              disabled={revealed}
-              className={`w-full text-left px-4 py-3 rounded-xl border text-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 disabled:cursor-not-allowed ${optionClass}`}
-            >
-              <div className="flex items-center gap-2">
-                {revealed && i === question.correctIndex && (
-                  <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
-                )}
-                {revealed &&
-                  i === selected &&
-                  i !== question.correctIndex && (
-                    <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                  )}
-                <span>{option}</span>
-              </div>
-            </button>
-          );
-        })}
+        {question.options.map((option, i) => (
+          <QuizAnswerButton
+            key={i}
+            option={option}
+            index={i}
+            revealed={revealed}
+            selected={selected}
+            correctIndex={question.correctIndex}
+            onSelect={handleSelect}
+            prefersReduced={prefersReduced ?? false}
+          />
+        ))}
       </div>
 
       {revealed && (

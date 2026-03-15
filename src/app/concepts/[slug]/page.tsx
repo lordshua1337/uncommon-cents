@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -80,6 +80,39 @@ const sectionVariants = {
 const relatedCardVariants = {
   hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
+}
+
+// Depth order for directional slide calculation
+const DEPTH_ORDER: Record<DepthTab, number> = {
+  accessible: 0,
+  intermediate: 1,
+  advanced: 2,
+}
+
+// Tab content variants -- direction (+1 = going deeper, -1 = going shallower)
+// custom(direction) receives the direction value passed via AnimatePresence
+const tabContentVariants = {
+  initial: (direction: number) => ({
+    opacity: 0,
+    x: direction >= 0 ? 32 : -32,
+  }),
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: SPRING_SNAPPY,
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction >= 0 ? -32 : 32,
+    transition: { duration: 0.15, ease: "easeIn" as const },
+  }),
+}
+
+// Reduced-motion tab content variants -- opacity only, no slide
+const tabContentVariantsReduced = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.12 } },
+  exit: { opacity: 0, transition: { duration: 0.08 } },
 }
 
 // Stagger container for related concept cards
@@ -173,6 +206,13 @@ export default function ConceptDetailPage() {
   const slug = params.slug as string;
   const [activeTab, setActiveTab] = useState<DepthTab>("accessible");
   const [mastery, setMastery] = useState<MasteryState | null>(null);
+  // Direction of last tab switch: positive = going deeper, negative = going shallower
+  const [tabDirection, setTabDirection] = useState<number>(1);
+  // Track whether a first-visit pulse should play for current tab
+  const [pulseKey, setPulseKey] = useState<number>(0);
+  const shouldPulseRef = useRef<boolean>(false);
+  // Per-session set of already-visited deeper tabs (keyed by slug+level)
+  const visitedDepthsRef = useRef<Set<string>>(new Set());
 
   const prefersReduced = useReducedMotion();
 
@@ -218,6 +258,48 @@ export default function ConceptDetailPage() {
       nextConcept: idx < domainConcepts.length - 1 ? domainConcepts[idx + 1] : null,
     };
   }, [concept]);
+
+  // Handle tab change: track direction and first-visit pulse
+  const handleTabChange = useCallback(
+    (tab: DepthTab) => {
+      if (tab === activeTab) return;
+      const direction = DEPTH_ORDER[tab] - DEPTH_ORDER[activeTab];
+      setTabDirection(direction);
+
+      // First-visit pulse for deeper tabs (Intermediate or Advanced)
+      if (tab === "intermediate" || tab === "advanced") {
+        const visitKey = `${slug}-${tab}`;
+        let isFirstVisit = false;
+        // Check session-level memory first
+        if (!visitedDepthsRef.current.has(visitKey)) {
+          isFirstVisit = true;
+          visitedDepthsRef.current.add(visitKey);
+        }
+        // Check localStorage for cross-session memory
+        if (isFirstVisit) {
+          try {
+            const stored = localStorage.getItem(`depth_visited_${visitKey}`);
+            if (stored) {
+              isFirstVisit = false;
+            } else {
+              localStorage.setItem(`depth_visited_${visitKey}`, "1");
+            }
+          } catch {
+            // Private browsing or quota exceeded -- treat as first visit
+          }
+        }
+        shouldPulseRef.current = isFirstVisit && !prefersReduced;
+        if (isFirstVisit && !prefersReduced) {
+          setPulseKey((k) => k + 1);
+        }
+      } else {
+        shouldPulseRef.current = false;
+      }
+
+      setActiveTab(tab);
+    },
+    [activeTab, slug, prefersReduced],
+  );
 
   if (!concept || !domain) {
     return (
@@ -334,29 +416,78 @@ export default function ConceptDetailPage() {
         {/* ---------------------------------------------------------------- */}
         {/* Depth Tabs                                                        */}
         {/* ---------------------------------------------------------------- */}
-        <motion.div
+        <motion.nav
           initial={prefersReduced ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...SPRING_GENTLE, delay: 0.2 }}
-          className="flex gap-1 bg-surface rounded-xl border border-border p-1 mb-6"
+          aria-label="Concept depth tabs"
+          className="mb-2"
         >
-          {(Object.keys(depthConfig) as DepthTab[]).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-accent/60
-                ${
-                  activeTab === tab
-                    ? "bg-accent text-white shadow-sm"
-                    : "text-text-muted hover:text-text-secondary hover:bg-surface-alt"
-                }`}
-            >
-              {depthConfig[tab].icon}
-              <span className="hidden sm:inline">{depthConfig[tab].label}</span>
-            </button>
-          ))}
-        </motion.div>
+          {/* Tab bar with shared-layout pill indicator */}
+          <div
+            className="flex gap-1 bg-[#f1f5f9] dark:bg-zinc-800/60 rounded-xl p-1 overflow-x-auto border-b border-zinc-200/60 dark:border-zinc-700/60"
+            role="tablist"
+            aria-label="Depth level"
+          >
+            {(Object.keys(depthConfig) as DepthTab[]).map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <motion.button
+                  key={tab}
+                  role="tab"
+                  id={`tab-${tab}`}
+                  aria-selected={isActive}
+                  aria-controls={`depth-panel-${tab}`}
+                  onClick={() => handleTabChange(tab)}
+                  whileHover={prefersReduced ? {} : { y: -1, transition: { ...SPRING_SNAPPY } }}
+                  whileTap={prefersReduced ? {} : { scale: 0.96, transition: { ...SPRING_SNAPPY } }}
+                  className="relative flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium
+                    min-h-[44px] min-w-[80px]
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--domain-accent,#16A34A)]/50
+                    transition-colors duration-100"
+                  style={{
+                    color: isActive
+                      ? (domain?.color ?? "#0f172a")
+                      : undefined,
+                    '--domain-accent': domain?.color,
+                  } as React.CSSProperties}
+                >
+                  {/* Shared-layout background pill (active indicator) */}
+                  {isActive && !prefersReduced && (
+                    <motion.span
+                      layoutId={`tab-indicator-${slug}`}
+                      className="absolute inset-0 rounded-lg bg-white dark:bg-zinc-700 shadow-[0_1px_4px_rgba(15,23,42,0.12)]"
+                      style={{ zIndex: 0 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      aria-label={`Currently viewing ${depthConfig[tab].label} level`}
+                    />
+                  )}
+                  {/* Non-animated indicator for reduced motion */}
+                  {isActive && prefersReduced && (
+                    <span
+                      className="absolute inset-0 rounded-lg bg-white dark:bg-zinc-700 shadow-[0_1px_4px_rgba(15,23,42,0.12)]"
+                      style={{ zIndex: 0 }}
+                    />
+                  )}
+                  {/* Tab icon and label sit above the indicator */}
+                  <motion.span
+                    animate={{ opacity: isActive ? 1 : 0.65 }}
+                    transition={{ duration: 0.12 }}
+                    className="relative z-10 flex items-center gap-2"
+                  >
+                    {depthConfig[tab].icon}
+                    <span
+                      className={`hidden sm:inline ${isActive ? "font-semibold" : "font-medium"}`}
+                      style={{ color: isActive ? (domain?.color ?? "#0f172a") : "#64748b" }}
+                    >
+                      {depthConfig[tab].label}
+                    </span>
+                  </motion.span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.nav>
 
         <motion.p
           initial={prefersReduced ? false : { opacity: 0 }}
@@ -367,23 +498,74 @@ export default function ConceptDetailPage() {
           {depthConfig[activeTab].description}
         </motion.p>
 
+        {/* Live region for screen reader announcements on tab change */}
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          className="sr-only"
+        >
+          Showing {depthConfig[activeTab].label} depth for {concept.name}
+        </div>
+
         {/* ---------------------------------------------------------------- */}
         {/* Main content body                                                 */}
         {/* ---------------------------------------------------------------- */}
-        <motion.div
-          initial={prefersReduced ? false : sectionVariants.hidden}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...SPRING_GENTLE, delay: 0.3 }}
-          className="bg-surface rounded-xl border border-border p-6 sm:p-8 mb-8"
-        >
-          {concept.layers[activeTab].split("\n\n").map((paragraph, i) => (
-            <p
-              key={i}
-              className="text-text-secondary leading-relaxed mb-4 last:mb-0"
+        <motion.div layout className="mb-8">
+          <AnimatePresence
+            mode="wait"
+            custom={tabDirection}
+          >
+            <motion.div
+              key={activeTab}
+              custom={tabDirection}
+              variants={prefersReduced ? tabContentVariantsReduced : tabContentVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              role="tabpanel"
+              id={`depth-panel-${activeTab}`}
+              aria-labelledby={`tab-${activeTab}`}
+              className="bg-surface rounded-xl border border-border p-6 sm:p-8
+                border-l-2"
+              style={{
+                borderLeftColor: `${domain.color}4d`,
+              }}
             >
-              {paragraph}
-            </p>
-          ))}
+              {/* First-visit pulse wrapper: re-keyed on pulseKey to replay */}
+              <motion.div
+                key={pulseKey}
+                animate={
+                  shouldPulseRef.current && !prefersReduced
+                    ? { scale: [1, 1.015, 1] }
+                    : {}
+                }
+                transition={
+                  shouldPulseRef.current && !prefersReduced
+                    ? { duration: 0.35, delay: 0.15, ease: "easeOut" }
+                    : {}
+                }
+                onAnimationComplete={() => {
+                  shouldPulseRef.current = false;
+                }}
+              >
+                {/* Heading inside tab content */}
+                <motion.div
+                  initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...SPRING_GENTLE, delay: 0.05 }}
+                >
+                  {concept.layers[activeTab].split("\n\n").map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="text-text-secondary leading-relaxed mb-4 last:mb-0"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
 
         {/* ---------------------------------------------------------------- */}
