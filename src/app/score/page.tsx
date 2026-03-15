@@ -31,6 +31,7 @@ import {
   hasGradeCelebrationSeen,
   markGradeCelebrationSeen,
 } from "@/components/grade-celebration";
+import { ScoreTrend } from "@/components/score-trend";
 
 // ---------------------------------------------------------------------------
 // Grade ordering (ascending)
@@ -323,6 +324,7 @@ function ScoreSparkline({ history }: { history: HealthScoreHistory }) {
 export default function ScorePage() {
   const [score, setScore] = useState<HealthScore | null>(null);
   const [history, setHistory] = useState<HealthScoreHistory>({ entries: [] });
+  const [delta, setDelta] = useState<number>(0);
   const [ariaAnnouncement, setAriaAnnouncement] = useState("Score loading...");
   const [celebrationVisible, setCelebrationVisible] = useState(false);
   const [previousGrade, setPreviousGrade] = useState<string>("");
@@ -336,12 +338,19 @@ export default function ScorePage() {
     const updated = saveScoreToHistory(computed);
     setHistory(updated);
 
+    // Compute score delta from the most recent prior history entry
+    const priorEntries = priorHistory.entries;
+    const previousScore =
+      priorEntries.length > 0
+        ? priorEntries[priorEntries.length - 1].total
+        : computed.total;
+    setDelta(computed.total - previousScore);
+
     const newGradeInfo = getScoreGrade(computed.total);
     const newGrade = newGradeInfo.grade;
     setCurrentGrade(newGrade);
 
     // Determine if grade improved compared to the most recent prior entry
-    const priorEntries = priorHistory.entries;
     if (priorEntries.length > 0) {
       const lastEntry = priorEntries[priorEntries.length - 1];
       const prevGradeInfo = getScoreGrade(lastEntry.total);
@@ -441,7 +450,7 @@ export default function ScorePage() {
               <HealthScoreRing score={score} size={200} />
             </div>
 
-            {/* Grade badge -- fades in after ring completes */}
+            {/* Grade badge + trend indicator -- fades in after ring completes */}
             <motion.div
               className="mt-4 flex items-center gap-2"
               initial={{ opacity: 0, y: 8 }}
@@ -458,6 +467,7 @@ export default function ScorePage() {
               >
                 {grade.grade} &mdash; {grade.label}
               </span>
+              <ScoreTrend delta={delta} />
             </motion.div>
           </div>
 

@@ -17,6 +17,7 @@ import {
 import { HeroAnimated } from "@/components/homepage/hero-animated";
 import { AnimatedStatCard } from "@/components/homepage/animated-stat-card";
 import { ScrollReveal } from "@/components/homepage/scroll-reveal";
+import { AnimatedCardGrid } from "@/components/homepage/animated-card-grid";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
@@ -172,7 +173,10 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <AnimatedCardGrid
+            accentColor="#16A34A"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"
+          >
             {domains.slice(0, 8).map((domain) => (
               <Link
                 key={domain.id}
@@ -195,7 +199,7 @@ export default function HomePage() {
                 </p>
               </Link>
             ))}
-          </div>
+          </AnimatedCardGrid>
 
           <div className="text-center mt-6">
             <Link
@@ -330,11 +334,14 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AnimatedCardGrid
+            accentColor="#7C3AED"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
             {strategies.map((s) => (
               <StrategyPreview key={s.id} {...s} />
             ))}
-          </div>
+          </AnimatedCardGrid>
         </div>
       </section>
       </ScrollReveal>
@@ -354,7 +361,10 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <AnimatedCardGrid
+            accentColor="#0EA5E9"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
             <Link
               href="/explore"
               className="group bg-surface rounded-xl border border-border p-6 card-hover block"
@@ -410,7 +420,7 @@ export default function HomePage() {
                 answers backed by tax code and financial research.
               </p>
             </Link>
-          </div>
+          </AnimatedCardGrid>
         </div>
       </section>
       </ScrollReveal>
