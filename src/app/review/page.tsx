@@ -12,9 +12,7 @@ import {
 import {
   ArrowLeft,
   Brain,
-  RotateCcw,
   Check,
-  CheckCircle,
   XCircle,
   BookOpen,
   Trophy,
@@ -1038,6 +1036,7 @@ export default function ReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [sessionStats, setSessionStats] = useState<SessionStats | null>(null);
+  const [masteryCard, setMasteryCard] = useState<{ conceptName: string; updatedState: ReviewState; isLastCard: boolean } | null>(null);
   const prefersReduced = useReducedMotion();
 
   // Ref to track if rating was already submitted for current card (prevent duplicates)
@@ -1094,6 +1093,40 @@ export default function ReviewPage() {
     setState(updatedState);
   }, []);
 
+  // Dismiss mastery overlay and advance to next card / finish session
+  const handleMasteryDismiss = useCallback(() => {
+    if (!masteryCard) return;
+    const { updatedState, isLastCard } = masteryCard;
+    setMasteryCard(null);
+    if (isLastCard) {
+      finishSession(updatedState);
+    } else {
+      setState(updatedState);
+      setCurrentIndex((i) => i + 1);
+    }
+  }, [masteryCard, finishSession]);
+
+  // Auto-dismiss mastery overlay after 3s, and handle ESC key
+  useEffect(() => {
+    if (!masteryCard) return;
+
+    const timer = setTimeout(() => {
+      handleMasteryDismiss();
+    }, 3000);
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        handleMasteryDismiss();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [masteryCard, handleMasteryDismiss]);
+
   const handleSelfRate = useCallback(
     (rating: number) => {
       if (!state || !currentCard) return;
@@ -1104,10 +1137,15 @@ export default function ReviewPage() {
       sessionReviewedRef.current += 1;
       if (rating >= 3) sessionCorrectRef.current += 1;
 
-      // Track mastery: card crosses interval >= 21
       const updatedCard = updated.cards.find(
         (c) => c.conceptId === currentCard.conceptId
       );
+
+      const crossedMastery =
+        updatedCard !== undefined &&
+        updatedCard.interval >= 21 &&
+        currentCard.interval < 21;
+
       if (updatedCard && updatedCard.interval >= 21) {
         masteredThisSessionRef.current = new Set([
           ...masteredThisSessionRef.current,
@@ -1116,7 +1154,15 @@ export default function ReviewPage() {
       }
 
       const isLastCard = currentIndex + 1 >= dueCards.length;
-      if (isLastCard) {
+
+      if (crossedMastery && updatedCard) {
+        const concept = concepts.find((c) => c.id === currentCard.conceptId);
+        setMasteryCard({
+          conceptName: concept?.name ?? currentCard.conceptId,
+          updatedState: updated,
+          isLastCard,
+        });
+      } else if (isLastCard) {
         finishSession(updated);
       } else {
         setState(updated);
@@ -1137,10 +1183,15 @@ export default function ReviewPage() {
       sessionReviewedRef.current += 1;
       if (correct) sessionCorrectRef.current += 1;
 
-      // Track mastery: card crosses interval >= 21
       const updatedCard = updated.cards.find(
         (c) => c.conceptId === currentCard.conceptId
       );
+
+      const crossedMastery =
+        updatedCard !== undefined &&
+        updatedCard.interval >= 21 &&
+        currentCard.interval < 21;
+
       if (updatedCard && updatedCard.interval >= 21) {
         masteredThisSessionRef.current = new Set([
           ...masteredThisSessionRef.current,
@@ -1149,14 +1200,26 @@ export default function ReviewPage() {
       }
 
       const isLastCard = currentIndex + 1 >= dueCards.length;
-      setTimeout(() => {
-        if (isLastCard) {
-          finishSession(updated);
-        } else {
-          setState(updated);
-          setCurrentIndex((i) => i + 1);
-        }
-      }, 500);
+
+      if (crossedMastery && updatedCard) {
+        const concept = concepts.find((c) => c.id === currentCard.conceptId);
+        setTimeout(() => {
+          setMasteryCard({
+            conceptName: concept?.name ?? currentCard.conceptId,
+            updatedState: updated,
+            isLastCard,
+          });
+        }, 500);
+      } else {
+        setTimeout(() => {
+          if (isLastCard) {
+            finishSession(updated);
+          } else {
+            setState(updated);
+            setCurrentIndex((i) => i + 1);
+          }
+        }, 500);
+      }
     },
     [state, currentCard, currentIndex, dueCards.length, finishSession]
   );
@@ -1356,29 +1419,98 @@ export default function ReviewPage() {
             </div>
 
             {/* Card with directional slide transitions */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={cardAnimationKey}
-                custom={prefersReduced ?? false}
-                variants={cardVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              >
-                {mode === "self-rate" ? (
-                  <SelfRateCard
-                    card={currentCard}
-                    onRate={handleSelfRate}
-                    cardKey={cardAnimationKey}
-                  />
-                ) : currentQuestion ? (
-                  <QuizCard
-                    question={currentQuestion}
-                    onAnswer={handleQuizAnswer}
-                  />
-                ) : null}
-              </motion.div>
-            </AnimatePresence>
+            {/* Mastery confetti -- fires when overlay is visible */}
+            {!prefersReduced && (
+              <LessonConfetti
+                visible={masteryCard !== null}
+                accentColor="#16A34A"
+                count={CONFETTI_COUNTS.minor}
+              />
+            )}
+
+            <div style={{ position: "relative" }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={cardAnimationKey}
+                  custom={prefersReduced ?? false}
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  {mode === "self-rate" ? (
+                    <SelfRateCard
+                      card={currentCard}
+                      onRate={handleSelfRate}
+                      cardKey={cardAnimationKey}
+                    />
+                  ) : currentQuestion ? (
+                    <QuizCard
+                      question={currentQuestion}
+                      onAnswer={handleQuizAnswer}
+                    />
+                  ) : null}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Mastery celebration overlay */}
+              <AnimatePresence>
+                {masteryCard !== null && (
+                  prefersReduced ? (
+                    <div
+                      key="mastery-overlay-reduced"
+                      onClick={handleMasteryDismiss}
+                      className="absolute inset-0 rounded-[inherit] z-10 flex flex-col items-center justify-center cursor-pointer"
+                      style={{
+                        backgroundColor: "rgba(240, 253, 244, 0.95)",
+                        border: "2px solid #16A34A",
+                      }}
+                      role="status"
+                      aria-label="Mastered! This concept is now in long-term memory"
+                    >
+                      <Trophy
+                        className="w-10 h-10 mb-3"
+                        style={{ color: "#16A34A" }}
+                        aria-hidden="true"
+                      />
+                      <p className="text-2xl font-bold text-green-700">Mastered!</p>
+                      <p className="text-sm font-medium text-green-800 mt-1">{masteryCard.conceptName}</p>
+                      <p className="text-xs text-green-600 mt-2">This concept is now in long-term memory</p>
+                    </div>
+                  ) : (
+                    <motion.div
+                      key="mastery-overlay"
+                      initial={{ opacity: 0, scale: 0.94 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.94 }}
+                      transition={{ ...SPRING_BOUNCY }}
+                      onClick={handleMasteryDismiss}
+                      className="absolute inset-0 rounded-[inherit] z-10 flex flex-col items-center justify-center cursor-pointer"
+                      style={{ backgroundColor: "rgba(240, 253, 244, 0.95)" }}
+                      role="status"
+                      aria-label="Mastered! This concept is now in long-term memory"
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, -8, 8, -4, 4, 0] }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                      >
+                        <Trophy
+                          className="w-10 h-10 mb-3"
+                          style={{
+                            color: "#16A34A",
+                            filter: "drop-shadow(0 0 8px #16A34A80)",
+                          }}
+                          aria-hidden="true"
+                        />
+                      </motion.div>
+                      <p className="text-2xl font-bold text-green-700">Mastered!</p>
+                      <p className="text-sm font-medium text-green-800 mt-1">{masteryCard.conceptName}</p>
+                      <p className="text-xs text-green-600 mt-2">This concept is now in long-term memory</p>
+                    </motion.div>
+                  )
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         )}
 

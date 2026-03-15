@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { HeroAnimated } from "@/components/homepage/hero-animated";
 import { AnimatedStatCard } from "@/components/homepage/animated-stat-card";
+import { ScrollReveal } from "@/components/homepage/scroll-reveal";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
@@ -130,25 +131,32 @@ export default function HomePage() {
       <div className="divider-financial" />
 
       {/* Financial Command Center */}
-      <DashboardProgress />
+      <ScrollReveal>
+        <DashboardProgress />
+      </ScrollReveal>
 
       <div className="divider-financial" />
 
       {/* Life Stage Paths section */}
-      <HomepagePathsSection />
+      <ScrollReveal delay={0.05}>
+        <HomepagePathsSection />
+      </ScrollReveal>
 
       <div className="divider-financial" />
 
       {/* Daily Money Minute */}
-      <section className="py-12 px-4">
-        <div className="max-w-xl mx-auto">
-          <DailyLessonCard />
-        </div>
-      </section>
+      <ScrollReveal>
+        <section className="py-12 px-4">
+          <div className="max-w-xl mx-auto">
+            <DailyLessonCard />
+          </div>
+        </section>
+      </ScrollReveal>
 
       <div className="divider-financial" />
 
       {/* Knowledge Universe */}
+      <ScrollReveal delay={0.05}>
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
@@ -200,8 +208,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* Recently added concepts */}
+      <ScrollReveal>
       <section className="py-12 px-4 bg-surface-alt">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
@@ -258,6 +268,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* Foundations callout */}
       <section className="py-12 px-4">
@@ -302,6 +313,7 @@ export default function HomePage() {
       <div className="divider-financial" />
 
       {/* Strategies grid */}
+      <ScrollReveal delay={0.05}>
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
@@ -325,10 +337,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       <div className="divider-financial" />
 
       {/* Features */}
+      <ScrollReveal>
       <section className="py-16 px-4 bg-surface-alt">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
@@ -399,8 +413,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* Disclaimer / CTA */}
+      <ScrollReveal delay={0.05}>
       <section className="py-16 px-4">
         <div className="max-w-xl mx-auto text-center">
           <Coins className="w-8 h-8 text-accent mx-auto mb-4" />
@@ -421,6 +437,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+      </ScrollReveal>
 
     </div>
   );

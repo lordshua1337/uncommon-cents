@@ -18,6 +18,7 @@ import {
   calculateHealthScore,
   saveScoreToHistory,
   getScoreGrade,
+  loadScoreHistory,
   type HealthScore,
   type PillarId,
   type PillarScore,
@@ -25,6 +26,21 @@ import {
 } from "@/lib/health-score";
 import { HealthScoreRing, PillarBar, getGradeColor } from "@/components/health-score-ring";
 import { SPRING_GENTLE, SPRING_SNAPPY, STAGGER_MEDIUM } from "@/lib/animation-constants";
+import {
+  GradeCelebration,
+  hasGradeCelebrationSeen,
+  markGradeCelebrationSeen,
+} from "@/components/grade-celebration";
+
+// ---------------------------------------------------------------------------
+// Grade ordering (ascending)
+// ---------------------------------------------------------------------------
+
+const GRADE_ORDER = ["F", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"] as const;
+
+function getGradeIndex(grade: string): number {
+  return GRADE_ORDER.indexOf(grade as typeof GRADE_ORDER[number]);
+}
 
 // ---------------------------------------------------------------------------
 // Pillar icon map
@@ -308,18 +324,46 @@ export default function ScorePage() {
   const [score, setScore] = useState<HealthScore | null>(null);
   const [history, setHistory] = useState<HealthScoreHistory>({ entries: [] });
   const [ariaAnnouncement, setAriaAnnouncement] = useState("Score loading...");
+  const [celebrationVisible, setCelebrationVisible] = useState(false);
+  const [previousGrade, setPreviousGrade] = useState<string>("");
+  const [currentGrade, setCurrentGrade] = useState<string>("");
 
   useEffect(() => {
     const computed = calculateHealthScore();
     setScore(computed);
+
+    const priorHistory = loadScoreHistory();
     const updated = saveScoreToHistory(computed);
     setHistory(updated);
 
+    const newGradeInfo = getScoreGrade(computed.total);
+    const newGrade = newGradeInfo.grade;
+    setCurrentGrade(newGrade);
+
+    // Determine if grade improved compared to the most recent prior entry
+    const priorEntries = priorHistory.entries;
+    if (priorEntries.length > 0) {
+      const lastEntry = priorEntries[priorEntries.length - 1];
+      const prevGradeInfo = getScoreGrade(lastEntry.total);
+      const prevGrade = prevGradeInfo.grade;
+      setPreviousGrade(prevGrade);
+
+      const prevIndex = getGradeIndex(prevGrade);
+      const newIndex = getGradeIndex(newGrade);
+
+      const isImprovement = newIndex > prevIndex;
+      const alreadySeen = hasGradeCelebrationSeen(prevGrade, newGrade);
+
+      if (isImprovement && !alreadySeen) {
+        markGradeCelebrationSeen(prevGrade, newGrade);
+        setCelebrationVisible(true);
+      }
+    }
+
     // Announce score to screen readers after animation completes
     const announceTimer = setTimeout(() => {
-      const grade = getScoreGrade(computed.total);
       setAriaAnnouncement(
-        `Your score: ${computed.total}. Grade: ${grade.grade}.`
+        `Your score: ${computed.total}. Grade: ${newGrade}.`
       );
     }, 1500);
 
@@ -341,6 +385,17 @@ export default function ScorePage() {
 
   return (
     <>
+      {/* Grade improvement celebration toast */}
+      {celebrationVisible && previousGrade && currentGrade && (
+        <GradeCelebration
+          visible={celebrationVisible}
+          previousGrade={previousGrade}
+          newGrade={currentGrade}
+          accentColor={gradeColor}
+          onDismiss={() => setCelebrationVisible(false)}
+        />
+      )}
+
       {/* Screen reader live region */}
       <p className="sr-only" aria-live="polite" aria-atomic="true">
         {ariaAnnouncement}
