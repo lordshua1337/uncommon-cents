@@ -1,0 +1,454 @@
+{
+  "project": "uncommon-cents",
+  "lastUpdated": "2026-03-15",
+  "coreFeatures": [
+    {
+      "id": "life-stage-paths",
+      "name": "Life Stage Learning Paths",
+      "description": "Tiered learning journeys organized by life stages (Move Out, Career, Marriage, House, Kid, Business, Retirement, Legacy)",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "Base concept system with 132 concepts across 14 domains, mastery tracking, quiz system"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "localStorage + Supabase sync, achievement system (25 achievements), health score with 5 pillars, streak tracking, XP/levels"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-14",
+          "asanaCards": ["D3.1", "D3.2", "D3.3", "D3.4", "D3.5"],
+          "asanaProject": "1213651210833399",
+          "evidence": "8 life stages with 73 lessons, Journey Map hub (/paths), stage detail pages (/paths/[slug]), lesson views (/paths/[slug]/[lessonId]), confetti celebrations, graduation ceremonies, 8 new achievements, nav + homepage + dashboard integration"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No performance optimization (lazy loading stages, code splitting lesson routes). No adaptive difficulty based on user knowledge. No retention analytics per stage."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No intelligent stage recommendations based on user profile. No predictive completio date estimates. No ML-driven learning path sequencing."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "concept-learning",
+      "name": "Concept Learning System",
+      "description": "132 financial concepts across 14 domains with mastery tracking, search, and domain browsing",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "Concept pages at /concepts/[slug], domain pages at /domains/[slug], concept search, breadcrumb navigation"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "Mastery tracking (visit-based), progress persistence (localStorage + Supabase), domain completion percentages"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.1", "D3.2", "D3.3", "D3.4"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Concept page entrance animations (fadeUp + spring physics), depth tab transitions with AnimatePresence, mastery progress micro-interactions, domain 100% completion celebration with confetti + trophy animation"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive concept ordering based on prerequisite structure. No reading time estimates. No engagement heatmaps showing which concepts users struggle with."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-generated related concept suggestions. No personalized concept difficulty scoring based on user profile. No predictive 'next concept you should learn' logic."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "quiz-system",
+      "name": "Quiz & Assessment System",
+      "description": "Interactive quizzes with multiple question types, scoring, and streak integration",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "Quiz page at /quiz/page.tsx with multiple choice questions, scoring, results display, money scripts framework"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "Streak tracking, XP awards, achievement integration (quiz_complete, 25 XP), money script classification (dominant/secondary), action plan generation from quiz results"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.5", "D3.6", "D3.7", "D3.8"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Quiz completion celebration with confetti, answer selection micro-interactions (spring scale, checkmark, dimming), progress bar animations, staggered option entrance, quiz results reveal with AnimatePresence"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive question difficulty based on user responses. No time-based performance tracking. No retention analytics on quiz patterns."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven personalized money coaching based on script results. No predictive behavioral analysis. No script mutation predictions."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "gamification",
+      "name": "Gamification & Progress System",
+      "description": "Achievements, XP, levels, streaks, health score -- the engagement engine",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "Basic achievement definitions (33 total), XP tracking, level system with 8 tiers (Financial Novice → Uncommon)"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "25 achievements across categories, streak system with grace period (1 day freeze, 2 day reset), health score with 5 pillars, level progression with milestone system"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-14",
+          "evidence": "33 achievements (8 new path-category achievements), stage graduation ceremonies with confetti, achievement toast notifications with animations, Knowledge pillar bonus for stage completion, seeded particle system for reproducible confetti sequences"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive achievement difficulty based on user engagement patterns. No personalized achievement recommendations. No social leaderboards or comparative metrics."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven achievement bundling based on playstyle. No predictive milestone alerting. No dynamic XP scaling based on effort required."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "health-score",
+      "name": "Financial Health Score System",
+      "description": "5-pillar composite score (0-100) measuring Knowledge, Awareness, Practice, Defense, Growth",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "scoreKnowledge() using mastery (60%) + concept coverage (40%), scoreAwareness() from quiz results, scorePractice() from streak + action plan + daily engagement, scoreDefense() from fraud concepts + simulator usage, scoreGrowth() from review mastery + achievements + consistency"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "localStorage history tracking (max 30 entries), one-per-day persistence, pillar detail breakdown with percent contributions, actionable suggestions per pillar, grade function (A+ through F), stage completion bonus (+10 Knowledge points)"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.9", "D3.10", "D3.11", "D3.12"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Health score ring entrance animation, pillar bar stagger fill with spring physics, grade threshold celebration (confetti on grade improvement), score trend indicator with animated delta counter and directional arrows"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No predictive health score forecasting. No personalized improvement pathways. No comparative health metrics (e.g., 'your Knowledge is 45% above average')."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven holistic financial wellness recommendations. No predictive financial outcome modeling based on health score. No intelligent pillar prioritization based on user goals."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "daily-engagement",
+      "name": "Daily Engagement & Streak System",
+      "description": "Habit tracking with grace period logic, milestones, daily lesson cards, and streak visualization",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "localStorage-backed StreakState with currentStreak, longestStreak, lastActiveDate, totalDaysActive, completedToday tracking. completeToday() method updates streaks. Grace period logic: missing 1 day freezes, missing 2 resets."
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "Milestone system at 3, 7, 14, 30, 60, 100 days. getReachedMilestone() and getNextMilestone() helpers. DailyLessonCard component on homepage. Streak display on dashboard. Integration with practice pillar (40% of score)."
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.1", "D3.2", "D3.3", "D3.4", "D3.5"],
+          "asanaProject": "1213651308028697",
+          "evidence": "StreakFlame component with 7-tier warmth palette and custom SVG, MilestoneCelebration with LessonConfetti (16-80 particles), AnimatedCounter with spring physics, 5 grace period visual states (active/grace/at-risk/broken/dormant), AnimatePresence phase transitions, staggered quiz options, shake/scale answer feedback, animated progress bar, 4 streak achievements wired"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive reminder system based on user timezone and active hours. No predictive streak break alerts. No engagement burn-out detection."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven engagement optimization based on user patterns. No predictive retention modeling. No personalized incentive generation."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "spaced-repetition",
+      "name": "Spaced Repetition Review System",
+      "description": "SM-2 algorithm implementation for long-term concept retention with review scheduling",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "ReviewCard interface with conceptId, easeFactor (2.5 base, 1.3 min), interval (days), repetitions, nextReviewDate. addCard() initializes. processReview() implements SM-2 algorithm with rating scale 0-5."
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "SM-2 math properly implemented: easeFactor = max(1.3, easeFactor + (0.1 - (5-rating)*(0.08+(5-rating)*0.02))). Failed cards reset to interval 1; passed cards progress 1→6→interval*easeFactor. getDueCards() handles date-based scheduling. localStorage persistence with /review page integration."
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.13", "D3.14", "D3.15", "D3.16"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Review card entrance animations with stagger, rating button micro-interactions (spring scale + haptic feedback), card mastery celebration at interval>=21 (trophy overlay + confetti + auto-dismiss), ease factor progress visualization"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive difficulty based on user accuracy trends. No predicted retention scores. No smart review scheduling based on user availability patterns."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven concept grouping for optimal review sessions. No personalized difficulty scaling. No predictive mastery timeline forecasting."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "action-plan",
+      "name": "Personalized Action Plan System",
+      "description": "Context-aware generation from quiz results, mastery gaps, simulators, and review suggestions",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "ActionItem interface with id, title, description, category (learn|do|review|simulate), priority, linkedConcept/Simulator/Quiz, status (not_started|in_progress|completed|skipped). generateActionPlan() creates items from 4 sources."
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "Money-script-specific action generation (e.g., avoidance → 'set up auto transfers', worship → 'calculate your number'). Mastery gap detection suggests top 3 unmastured domains. Simulator source suggests unrun scenarios (Roth, rent-vs-buy, debt payoff, early retirement, HSA, tax-loss harvest). Review suggestion for due flashcards. Immutable state updates. getActionPlanProgress() tracks completion rate."
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.17", "D3.18", "D3.19", "D3.20"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Action completion checkmark micro-interactions with spring scale, progress bar fill animations, action plan 100% completion celebration with confetti, category section stagger entrance animations"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive action difficulty scaling. No predictive timeline for plan completion. No deadline-based scheduling."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven prioritization based on financial impact analysis. No predictive financial outcome from completed actions. No behavioral coaching during action execution."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "financial-simulators",
+      "name": "Financial Scenario Simulators",
+      "description": "6 interactive calculators: Roth conversion, rent-vs-buy, debt payoff, early retirement, HSA compound growth, tax-loss harvesting",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "/simulator/page.tsx hub, /simulator/[slug]/page.tsx detail pages for each scenario. Form inputs for user parameters, calculation logic, results display."
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "Saved simulations tracked in localStorage (loadSavedSimulations), counted in achievements (all_sims achievement at 6 total, 20 XP per sim). Defense pillar uses simulator count (40% of defense score). Action plan suggests unrun simulators."
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.21", "D3.22", "D3.23", "D3.24"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Simulator page entrance animations, animated counter transitions for calculation results, first simulator completion celebration, result reveal animations with spring physics, simulator hub card stagger entrance"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No scenario comparison UI (compare 2+ simulation results side-by-side). No sensitivity analysis (what-if ranges). No export/PDF generation for results."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven scenario recommendations based on user profile. No predictive financial outcome modeling. No personalized risk analysis."
+        }
+      },
+      "depthScore": 3.0
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat & Question System",
+      "description": "Ask specific financial questions and receive answers backed by research and tax code",
+      "currentLayer": 1,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "/ask/page.tsx exists with chat interface. Placeholder/basic implementation."
+        },
+        "2": {
+          "status": "incomplete",
+          "gaps": "No persistent conversation history. No localStorage chat memory. No achievement integration. No action plan generation from chat insights."
+        },
+        "3": {
+          "status": "incomplete",
+          "gaps": "No message animation entrance. No typing indicator animations. No citation UI for research references."
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No context awareness (user profile, current stage, health score). No session memory across page reloads."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No personalized financial coaching. No predictive follow-up questions. No research-backed citations with sources."
+        }
+      },
+      "depthScore": 1.0
+    },
+    {
+      "id": "financial-calculators",
+      "name": "Financial Calculator Suite",
+      "description": "10 standalone calculators for financial planning and analysis",
+      "currentLayer": 1,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "/calculators/page.tsx exists with links to calculator grid. Individual calculators accessible."
+        },
+        "2": {
+          "status": "incomplete",
+          "gaps": "No localStorage persistence for calculator inputs/results. No result history. No achievement integration."
+        },
+        "3": {
+          "status": "incomplete",
+          "gaps": "No entrance animations. No animated result reveals. No chart animations for multi-variable outputs."
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No scenario comparison. No input validation feedback. No error state handling."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven personalized recommendation generation. No predictive scenario modeling."
+        }
+      },
+      "depthScore": 1.0
+    },
+    {
+      "id": "fraud-defenses",
+      "name": "Fraud Defense Learning System",
+      "description": "Defensive financial strategies and fraud prevention concepts integrated with health score",
+      "currentLayer": 1,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "/defenses/page.tsx hub page with fraud defense concepts. Integration with Concept Learning System. fraudDefenses data file with defense definitions."
+        },
+        "2": {
+          "status": "incomplete",
+          "gaps": "No interactive defense exploration (compare threats vs actions). No achievement integration beyond concept visits. No simulator connection (e.g., 'test this defense against scenario')."
+        },
+        "3": {
+          "status": "incomplete",
+          "gaps": "No entrance animations. No threat/action comparison UI with animations. No celebratory moment when completing all defenses."
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No adaptive difficulty based on threat profile. No scenario-based defense recommendations."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven threat assessment. No personalized defense prioritization based on user risk profile."
+        }
+      },
+      "depthScore": 1.0
+    },
+    {
+      "id": "homepage",
+      "name": "Homepage & Landing Experience",
+      "description": "Public-facing hero, value prop, domains/concepts showcase, strategies grid, feature overview",
+      "currentLayer": 3,
+      "layers": {
+        "1": {
+          "status": "complete",
+          "evidence": "/app/page.tsx with hero section, stats grid, domain browser, strategies section, features grid, CTA buttons"
+        },
+        "2": {
+          "status": "complete",
+          "evidence": "DashboardProgress integration, HomepagePathsSection integration, DailyLessonCard integration, responsive grid layouts, Tailwind styling"
+        },
+        "3": {
+          "status": "complete",
+          "completedDate": "2026-03-15",
+          "asanaCards": ["D3.25", "D3.26", "D3.27", "D3.28"],
+          "asanaProject": "1213651606404932",
+          "evidence": "Hero fadeIn entrance animation, animated stat cards with scroll-triggered counters, ScrollReveal component wrapping all sections, AnimatedCardGrid with spring-physics hover (brand-tinted shadows, stagger cascade), IntersectionObserver for scroll-triggered entrances"
+        },
+        "4": {
+          "status": "incomplete",
+          "gaps": "No personalized hero message based on auth state. No adaptive content ordering based on user interests."
+        },
+        "5": {
+          "status": "incomplete",
+          "gaps": "No AI-driven content personalization. No predictive path recommendations."
+        }
+      },
+      "depthScore": 3.0
+    }
+  ],
+  "analysis": {
+    "totalFeatures": 13,
+    "averageDepthScore": 2.54,
+    "layerDistribution": {
+      "layer1": 3,
+      "layer2": 0,
+      "layer3": 10,
+      "layer4": 0,
+      "layer5": 0
+    },
+    "completionStatus": {
+      "layer1": "13/13 (100%)",
+      "layer2": "10/13 (77%)",
+      "layer3": "10/13 (77%)",
+      "layer4": "0/13 (0%)",
+      "layer5": "0/13 (0%)"
+    }
+  },
+  "recommendation": {
+    "priority": "Deepen Daily Engagement & Streak System from Layer 2 → Layer 3",
+    "reasoning": "The Daily Engagement & Streak System is foundational to the entire engagement loop. It directly feeds into the Practice pillar (20% of health score weight) and drives 4 separate achievements. Currently at Layer 2 (functional), it lacks the delightfulness that Layer 3 requires. Adding milestone celebration animations (confetti at 7, 14, 30 days), streak counter animations on dashboard, and grace period visual feedback would have immediate psychological impact on user retention. This is high-leverage: minimal code changes, maximum user engagement lift.",
+    "impactFactors": [
+      "Streak System feeds into Practice pillar (20% of health score)",
+      "4 achievements depend on streak milestones (three_day, seven_day, thirty_day streaks)",
+      "DailyLessonCard on homepage must display engaging streak counters",
+      "Grace period state (frozen vs active) needs visual distinction",
+      "Milestones at 3, 7, 14, 30, 60, 100 days provide 6 celebration moments"
+    ],
+    "estimatedEffort": "Medium (2-3 days)",
+    "requiredWork": [
+      "Add confetti animation component for milestone celebrations (reference: graduation-celebration.tsx, lesson-confetti.tsx)",
+      "Implement seeded particle system for reproducible confetti sequences",
+      "Add animated counter transitions to dashboard streak display (spring physics)",
+      "Visual indicator for grace period state (frozen icon vs active icon)",
+      "Toast notifications for milestone achievement (reference: achievement-toast.tsx)",
+      "Entrance animations for streak card on first-load"
+    ]
+  },
+  "nextHighestImpact": {
+    "feature": "Spaced Repetition Review System",
+    "currentLayer": 2,
+    "reason": "SM-2 algorithm is properly implemented (Layer 2), but lacks Layer 3 delightfulness. Mastering review cards (interval >= 21) represents a significant cognitive achievement that deserves celebration. Adding confetti on card mastery, animated ease factor bars, and retention progress visualization would make the review loop psychologically rewarding. This directly improves Growth pillar (30% of health score)."
+  }
+}
