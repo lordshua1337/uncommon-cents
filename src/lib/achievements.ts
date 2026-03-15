@@ -12,6 +12,7 @@ import {
   getQuickWinsCompleted,
   getBossLessonsCompleted,
 } from "@/lib/life-stages/progress";
+import { loadStreak } from "@/lib/daily-streak";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -67,6 +68,8 @@ export interface AchievementContext {
   readonly stageTotalLessons: number;
   readonly stageQuickWinsCompleted: number;
   readonly stageBossLessonsCompleted: number;
+  // Daily streak
+  readonly currentStreak: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -148,6 +151,12 @@ export const ACHIEVEMENTS: readonly AchievementDef[] = [
   { id: "five_actions", title: "Action Hero", description: "Complete 5 action plan items.", category: "action", icon: "Zap", xp: 40, check: (c) => c.actionsCompleted >= 5 },
   { id: "all_actions", title: "Mission Complete", description: "Complete all action plan items.", category: "action", icon: "Flag", xp: 100, check: (c) => c.actionsCompleted >= 8 },
 
+  // Streak
+  { id: "three_day", title: "Hat Trick", description: "Complete 3 days in a row.", category: "streak", icon: "Flame", xp: 15, check: (c) => c.currentStreak >= 3 },
+  { id: "seven_day", title: "Week of Wealth", description: "Complete 7 days in a row.", category: "streak", icon: "Flame", xp: 25, check: (c) => c.currentStreak >= 7 },
+  { id: "thirty_day", title: "Monthly Maven", description: "Complete 30 days in a row.", category: "streak", icon: "Flame", xp: 75, check: (c) => c.currentStreak >= 30 },
+  { id: "century", title: "Century Club", description: "Complete 100 days in a row.", category: "streak", icon: "Flame", xp: 200, check: (c) => c.currentStreak >= 100 },
+
   // Life Stage Paths
   { id: "first_stage_started", title: "Path Finder", description: "Start your first life stage path.", category: "path", icon: "Map", xp: 15, check: (c) => c.stagesStarted >= 1 },
   { id: "first_stage_complete", title: "Stage Graduate", description: "Complete all lessons in a life stage path.", category: "path", icon: "GraduationCap", xp: 100, check: (c) => c.stagesCompleted >= 1 },
@@ -174,6 +183,7 @@ export function buildAchievementContext(): AchievementContext {
   const domainMasteries = getAllDomainMastery(mastery);
   const overall = getOverallMastery(mastery);
   const stageState = loadStageProgress();
+  const streakState = loadStreak();
 
   const conceptsAtAdvanced = mastery.concepts.filter((c) =>
     c.visitedLayers.includes("advanced")
@@ -203,6 +213,8 @@ export function buildAchievementContext(): AchievementContext {
     stageTotalLessons: getTotalLessonsCompleted(stageState),
     stageQuickWinsCompleted: getQuickWinsCompleted(stageState),
     stageBossLessonsCompleted: getBossLessonsCompleted(stageState),
+    // Daily streak
+    currentStreak: streakState.currentStreak,
   };
 }
 

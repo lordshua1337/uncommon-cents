@@ -23,6 +23,7 @@ interface Particle {
 interface LessonConfettiProps {
   visible: boolean;
   accentColor: string;
+  count?: number;
   onDone?: () => void;
 }
 
@@ -80,6 +81,7 @@ function getParticleClass(shape: Particle["shape"]): string {
 export function LessonConfetti({
   visible,
   accentColor,
+  count = 24,
   onDone,
 }: LessonConfettiProps) {
   const prefersReduced = useReducedMotion();
@@ -87,7 +89,6 @@ export function LessonConfetti({
 
   // Use a stable seed so particles don't shift on re-render
   const seed = 12345;
-  const count = 24;
   const particles = buildParticles(accentColor, count, seed);
 
   useEffect(() => {

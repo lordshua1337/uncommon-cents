@@ -2,12 +2,96 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import { calculateHealthScore, saveScoreToHistory, getScoreGrade, type HealthScore } from '@/lib/health-score'
 import { loadMastery, getAllDomainMastery, type DomainMastery } from '@/lib/mastery'
 import { domains } from '@/lib/domains'
 import { loadStreak } from '@/lib/daily-streak'
 import { loadQuizResult, type QuizResult } from '@/lib/quiz-engine'
 import { loadActionPlan, getActionPlanProgress } from '@/lib/action-plan'
+import { AnimatedCounter } from '@/components/streak/animated-counter'
+import { StreakFlame } from '@/components/streak/streak-flame'
+import { getStreakStatus, getWarmthColor } from '@/lib/streak-status'
+
+// ---------------------------------------------------------------------------
+// StreakStatsRow -- extracted to keep DashboardPage under 50 lines
+// ---------------------------------------------------------------------------
+
+interface StreakStatsRowProps {
+  readonly streak: { currentStreak: number; longestStreak: number; completedToday: boolean; totalDaysActive: number };
+  readonly actionProgress: { completed: number; total: number; completionRate: number } | null;
+}
+
+function StreakStatsRow({ streak, actionProgress }: StreakStatsRowProps) {
+  const status = getStreakStatus({
+    currentStreak: streak.currentStreak,
+    longestStreak: streak.longestStreak,
+    completedToday: streak.completedToday,
+    totalDaysActive: streak.totalDaysActive,
+    lastActiveDate: '',
+    correctAnswers: 0,
+    totalAnswers: 0,
+  })
+  const warmthColor = getWarmthColor(streak.currentStreak)
+
+  const borderColor = streak.currentStreak > 0 ? `${warmthColor}50` : '#1E3A1E'
+  const shadowColor = streak.currentStreak > 0 ? `${warmthColor}15` : 'transparent'
+
+  return (
+    <div className="grid grid-cols-3 gap-4 mb-6">
+      {/* Streak cell */}
+      <div
+        className="bg-[#111811] rounded-xl p-5 text-center transition-all duration-500"
+        style={{
+          border: `1px solid ${borderColor}`,
+          boxShadow: `0 0 16px 0 ${shadowColor}`,
+        }}
+      >
+        <div className="flex justify-center mb-1">
+          <StreakFlame streak={streak.currentStreak} status={status} size="md" />
+        </div>
+        <p className="text-3xl font-bold" style={{ color: warmthColor }}>
+          <AnimatedCounter value={streak.currentStreak} />
+        </p>
+        <p className="text-xs text-gray-500 mt-1">Day Streak</p>
+        <AnimatePresence>
+          {streak.completedToday && (
+            <motion.span
+              key="active-today"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.3 }}
+              className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full"
+              style={{
+                backgroundColor: `${warmthColor}20`,
+                color: warmthColor,
+              }}
+            >
+              Active Today
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Total days cell */}
+      <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
+        <p className="text-3xl font-bold text-[#16A34A]">
+          <AnimatedCounter value={streak.totalDaysActive} />
+        </p>
+        <p className="text-xs text-gray-500 mt-1">Total Days</p>
+      </div>
+
+      {/* Action plan cell */}
+      <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
+        <p className="text-3xl font-bold text-[#16A34A]">
+          {actionProgress ? `${actionProgress.completed}/${actionProgress.total}` : '--'}
+        </p>
+        <p className="text-xs text-gray-500 mt-1">Action Plan</p>
+      </div>
+    </div>
+  )
+}
 
 export default function DashboardPage() {
   const [healthScore, setHealthScore] = useState<HealthScore | null>(null)
@@ -133,27 +217,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Streak + Stats Row */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#16A34A]">{streak.currentStreak}</p>
-            <p className="text-xs text-gray-500 mt-1">Day Streak</p>
-            {streak.completedToday && (
-              <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full bg-[#16A34A20] text-[#16A34A]">
-                Active Today
-              </span>
-            )}
-          </div>
-          <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#16A34A]">{streak.totalDaysActive}</p>
-            <p className="text-xs text-gray-500 mt-1">Total Days</p>
-          </div>
-          <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#16A34A]">
-              {actionProgress ? `${actionProgress.completed}/${actionProgress.total}` : '--'}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">Action Plan</p>
-          </div>
-        </div>
+        <StreakStatsRow streak={streak} actionProgress={actionProgress} />
 
         {/* Domain Mastery */}
         <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-6 mb-6">
