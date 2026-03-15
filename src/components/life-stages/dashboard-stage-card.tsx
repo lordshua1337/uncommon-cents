@@ -165,10 +165,10 @@ function ActiveStageState({ stageState }: { stageState: LifeStageState }) {
       {/* Current stage row */}
       <div className="flex items-center gap-3">
         <div
-          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border"
           style={{
-            background: "#FAF3E6",
-            border: "1px solid rgba(202,138,4,0.20)",
+            backgroundColor: `${activeStage.accentColor}18`,
+            borderColor: `${activeStage.accentColor}40`,
           }}
         >
           <IconComponent className="w-4 h-4" style={{ color: activeStage.accentColor }} />
@@ -293,31 +293,11 @@ export function DashboardStageCard() {
       variants={widgetVariants}
       initial="hidden"
       animate="visible"
-      className="mb-6"
+      className="bg-surface border border-[#EFEFEA] rounded-xl p-5 mb-6"
       style={{
-        background: "#FFFDF8",
-        border: "1px solid #D4CFC4",
-        borderRadius: "0.875rem",
-        boxShadow: "0 2px 8px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.04)",
-        padding: "1.25rem",
-        position: "relative",
-        overflow: "hidden",
+        boxShadow: "0 4px 16px rgba(22,163,74,0.06)",
       }}
     >
-      {/* Top accent bar */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "2px",
-          background: "var(--color-accent)",
-          borderRadius: "0.875rem 0.875rem 0 0",
-        }}
-      />
-
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">

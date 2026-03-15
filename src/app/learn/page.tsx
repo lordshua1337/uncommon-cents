@@ -19,27 +19,27 @@ import {
 import { strategies } from "@/lib/strategies-data";
 
 const iconMap: Record<string, React.ReactNode> = {
-  ArrowUpDown: <ArrowUpDown className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  AlertTriangle: <AlertTriangle className="w-6 h-6 text-warning" strokeWidth={1.5} />,
-  Shield: <Shield className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  KeyRound: <KeyRound className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  Scissors: <Scissors className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  Heart: <Heart className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  Clock: <Clock className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  Landmark: <Landmark className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  BarChart3: <BarChart3 className="w-6 h-6 text-accent" strokeWidth={1.5} />,
-  GraduationCap: <GraduationCap className="w-6 h-6 text-accent" strokeWidth={1.5} />,
+  ArrowUpDown: <ArrowUpDown className="w-6 h-6 text-accent" />,
+  AlertTriangle: <AlertTriangle className="w-6 h-6 text-gold" />,
+  Shield: <Shield className="w-6 h-6 text-accent" />,
+  KeyRound: <KeyRound className="w-6 h-6 text-accent" />,
+  Scissors: <Scissors className="w-6 h-6 text-accent" />,
+  Heart: <Heart className="w-6 h-6 text-accent" />,
+  Clock: <Clock className="w-6 h-6 text-accent" />,
+  Landmark: <Landmark className="w-6 h-6 text-accent" />,
+  BarChart3: <BarChart3 className="w-6 h-6 text-accent" />,
+  GraduationCap: <GraduationCap className="w-6 h-6 text-accent" />,
 };
 
 export default function LearnPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4" style={{ background: '#FAF8F4' }}>
+    <div className="min-h-screen pt-24 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
         <Link
           href="/"
           className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-secondary mb-8 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
+          <ArrowLeft className="w-4 h-4" />
           Home
         </Link>
 
@@ -142,7 +142,7 @@ export default function LearnPage() {
               {/* Common mistake */}
               <div className="mt-6 bg-red/5 border border-red/10 rounded-lg p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <AlertCircle className="w-4 h-4 text-red" strokeWidth={1.5} />
+                  <AlertCircle className="w-4 h-4 text-red" />
                   <p className="text-sm font-semibold text-red">
                     Common Mistake
                   </p>
@@ -155,7 +155,7 @@ export default function LearnPage() {
               {/* Uncommon insight */}
               <div className="mt-4 bg-accent-bg border border-accent/10 rounded-lg p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="w-4 h-4 text-accent" strokeWidth={1.5} />
+                  <Lightbulb className="w-4 h-4 text-accent" />
                   <p className="text-sm font-semibold text-accent">
                     Uncommon Insight
                   </p>
@@ -174,7 +174,7 @@ export default function LearnPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center rounded-xl p-8" style={{ background: '#F5F1E8', border: '1px solid #D4CFC4' }}>
+        <div className="mt-16 text-center bg-surface-alt rounded-xl p-8">
           <h3 className="text-xl font-semibold mb-3">
             Ready to Run the Numbers?
           </h3>
@@ -185,15 +185,13 @@ export default function LearnPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/calculators"
-              className="px-6 py-2.5 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(90deg, #CA8A04 0%, #A57203 100%)', color: '#0F172A', boxShadow: '0 4px 16px rgba(202,138,4,0.30)' }}
+              className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors"
             >
               Open Calculators
             </Link>
             <Link
               href="/ask"
-              className="px-6 py-2.5 rounded-lg font-medium transition-colors"
-              style={{ border: '1px solid #D4CFC4', color: '#0F172A', background: 'transparent' }}
+              className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors"
             >
               Ask a Question
             </Link>

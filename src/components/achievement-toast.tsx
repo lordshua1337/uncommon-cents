@@ -51,40 +51,22 @@ export function AchievementToastContainer() {
   const current = queue[0] ?? null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 pointer-events-none">
+    <div className="fixed top-20 right-4 z-50 pointer-events-none">
       <AnimatePresence>
         {current && (
           <motion.div
             key={current.id}
-            initial={{ opacity: 0, x: 80, scale: 0.92 }}
+            initial={{ opacity: 0, x: 100, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 80, scale: 0.92 }}
-            className="max-w-xs pointer-events-auto p-4"
-            style={{
-              background: "#FFFDF8",
-              border: "1px solid rgba(202,138,4,0.30)",
-              borderRadius: "0.875rem",
-              boxShadow: "0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(15,23,42,0.06)",
-            }}
+            exit={{ opacity: 0, x: 100, scale: 0.9 }}
+            className="bg-surface border border-accent/30 rounded-xl p-4 shadow-lg shadow-accent/10 max-w-xs pointer-events-auto"
           >
             <div className="flex items-center gap-3">
-              <div
-                className="flex items-center justify-center shrink-0"
-                style={{
-                  background: "linear-gradient(135deg, #FAF3E6 0%, #F7E7C5 100%)",
-                  border: "1px solid rgba(202,138,4,0.25)",
-                  borderRadius: "50%",
-                  width: "2.5rem",
-                  height: "2.5rem",
-                }}
-              >
-                <Trophy className="w-5 h-5 text-[#CA8A04]" />
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                <Trophy className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p
-                  className="text-[10px] uppercase font-medium text-[#CA8A04]"
-                  style={{ letterSpacing: "0.06em" }}
-                >
+                <p className="text-[10px] text-accent uppercase tracking-wider font-medium">
                   Achievement Unlocked
                 </p>
                 <p className="text-sm font-semibold">

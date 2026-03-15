@@ -87,56 +87,22 @@ function AchievementCard({
 
   return (
     <div
-      style={
+      className={`bg-surface border rounded-xl p-4 transition-all ${
         unlocked
-          ? {
-              background: "linear-gradient(135deg, #FFFDF8 0%, #FAF3E6 100%)",
-              border: "1px solid rgba(202,138,4,0.25)",
-              borderRadius: "1rem",
-              boxShadow: "0 2px 8px rgba(202,138,4,0.12)",
-              padding: "1rem",
-            }
-          : {
-              background: "#F5F1E8",
-              border: "1px solid #E8E4DB",
-              borderRadius: "1rem",
-              opacity: 0.55,
-              padding: "1rem",
-            }
-      }
+          ? "border-accent/20"
+          : "border-border-light opacity-50"
+      }`}
     >
       <div className="flex items-start gap-3">
         <div
-          style={
-            unlocked
-              ? {
-                  background: "linear-gradient(135deg, #FAF3E6 0%, #F7E7C5 100%)",
-                  border: "1px solid rgba(202,138,4,0.30)",
-                  borderRadius: "50%",
-                  width: "3rem",
-                  height: "3rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }
-              : {
-                  background: "#EDE8DC",
-                  borderRadius: "50%",
-                  width: "3rem",
-                  height: "3rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  opacity: 0.5,
-                }
-          }
+          className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+            unlocked ? "bg-accent/10" : "bg-surface"
+          }`}
         >
           {unlocked ? (
-            <Icon className="w-5 h-5 text-[#CA8A04]" />
+            <Icon className="w-5 h-5 text-accent" />
           ) : (
-            <Lock className="w-4 h-4 text-[#5C6A7A]" />
+            <Lock className="w-4 h-4 text-text-secondary" />
           )}
         </div>
         <div className="flex-1 min-w-0">

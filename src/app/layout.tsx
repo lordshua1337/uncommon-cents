@@ -1,26 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { AchievementToastContainer } from "@/components/achievement-toast";
 
-const cormorantGaramond = Cormorant_Garamond({
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  variable: "--font-heading",
-  weight: ["500", "600", "700"],
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600"],
 });
 
 const jetbrains = JetBrains_Mono({
-  variable: "--font-mono",
+  variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -45,7 +37,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0F172A",
+  themeColor: "#16A34A",
 };
 
 export default function RootLayout({
@@ -56,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cormorantGaramond.variable} ${dmSans.variable} ${jetbrains.variable} font-sans antialiased paper-texture`}
+        className={`${inter.variable} ${jetbrains.variable} font-sans antialiased paper-texture`}
       >
         <Nav />
         <main>{children}</main>

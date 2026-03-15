@@ -139,7 +139,7 @@ export default function PathsPage() {
           width: "100%",
           minHeight: "200px",
           paddingTop: "112px",
-          paddingBottom: "64px",
+          paddingBottom: "48px",
           paddingLeft: "16px",
           paddingRight: "16px",
           background:
@@ -242,7 +242,7 @@ export default function PathsPage() {
         style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "48px 16px 96px",
+          padding: "40px 16px 80px",
         }}
       >
         <JourneyMap stages={stages} />

@@ -15,7 +15,7 @@ export function ScrollReveal({
   children,
   className,
   delay = 0,
-  threshold = 0.12,
+  threshold = 0.15,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -33,7 +33,7 @@ export function ScrollReveal({
           observer.disconnect();
         }
       },
-      { threshold, rootMargin: "0px 0px -40px 0px" }
+      { threshold }
     );
 
     observer.observe(el);
@@ -51,8 +51,8 @@ export function ScrollReveal({
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: 12 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 32 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
       transition={{ ...SPRING_GENTLE, delay }}
     >
       {children}

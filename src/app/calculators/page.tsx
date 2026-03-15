@@ -38,10 +38,10 @@ function RothConversionCalc() {
   const rothFV = futureValue;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <ArrowUpDown className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <ArrowUpDown className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Roth Conversion Calculator</h3>
@@ -121,7 +121,7 @@ function RothConversionCalc() {
       </div>
 
       {/* Results */}
-      <div className="calc-result-panel space-y-3" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-text-secondary">Tax paid on conversion now</span>
           <span className="font-medium text-red">{formatCurrency(taxNow)}</span>
@@ -189,10 +189,10 @@ function HSAGrowthCalc() {
   const totalTaxBenefit = taxSavingsOnContributions + taxSavingsOnGrowth;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <Heart className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <Heart className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">HSA Growth Calculator</h3>
@@ -268,7 +268,7 @@ function HSAGrowthCalc() {
         </div>
       </div>
 
-      <div className="calc-result-panel space-y-3" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-text-secondary">Total contributions</span>
           <span className="font-medium">{formatCurrency(totalContributions)}</span>
@@ -336,10 +336,10 @@ function CompoundInterestCalc() {
   const doublingYears = annualRate > 0 ? 72 / annualRate : 0;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <DollarSign className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <DollarSign className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Compound Interest Calculator</h3>
@@ -396,7 +396,7 @@ function CompoundInterestCalc() {
         </div>
       </div>
 
-      <div className="calc-result-panel space-y-3" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-text-secondary">Total contributions</span>
           <span className="font-medium">{formatCurrency(totalContributions)}</span>
@@ -494,10 +494,10 @@ function BuyVsRentCalc() {
   const rentNetWealth = investedSavings;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <Calculator className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <Calculator className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Buy vs Rent Calculator</h3>
@@ -593,7 +593,7 @@ function BuyVsRentCalc() {
         </div>
       </div>
 
-      <div className="calc-result-panel space-y-3" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-text-secondary">Home value after {years}yr</span>
           <span className="font-medium">{formatCurrency(homeValueAtEnd)}</span>
@@ -701,10 +701,10 @@ function OverfundingCalc() {
   const isOverfunded = firstRmd && parseFloat(firstRmd.bracket) >= 24;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <AlertTriangle className="w-5 h-5 text-warning" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <AlertTriangle className="w-5 h-5 text-gold" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">401(k) Overfunding Calculator</h3>
@@ -807,7 +807,7 @@ function OverfundingCalc() {
         </div>
       )}
 
-      <div className="calc-result-panel space-y-3 mb-4" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
         <div className="flex justify-between text-sm">
           <span className="text-text-secondary">Balance at retirement (age {retirementAge})</span>
           <span className="font-medium">{formatCurrency(balanceAtRetirement)}</span>
@@ -937,10 +937,10 @@ function TaxLossHarvestingCalc() {
   const yearsOfCarryforward = carryforward > 0 ? Math.ceil(carryforward / 3000) : 0;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <ArrowUpDown className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <ArrowUpDown className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Tax-Loss Harvesting Calculator</h3>
@@ -1008,7 +1008,7 @@ function TaxLossHarvestingCalc() {
         </div>
       </div>
 
-      <div className="calc-result-panel space-y-3 mb-4" style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", color: "#FAF8F4", borderRadius: "0.75rem", padding: "1.25rem" }}>
+      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
         <p className="text-xs font-medium text-text-muted uppercase tracking-wider">
           How Your {formatCurrency(lossAmount)} Loss Gets Applied
         </p>
@@ -1102,10 +1102,10 @@ function MarginalVsEffectiveCalc() {
     breakdown.length > 0 ? breakdown[breakdown.length - 1].rate : 10;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <Calculator className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <Calculator className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Marginal vs Effective Tax Rate</h3>
@@ -1228,10 +1228,10 @@ function BackdoorRothCalc() {
   const taxFreeSavings = futureValue * 0.22;
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 flex items-center justify-center" style={{ background: "#FAF3E6", borderRadius: "0.625rem" }}>
-          <ArrowUpDown className="w-5 h-5 text-accent" strokeWidth={1.5} />
+        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
+          <ArrowUpDown className="w-5 h-5 text-accent" />
         </div>
         <div>
           <h3 className="text-lg font-semibold">Backdoor Roth IRA Calculator</h3>
@@ -1367,7 +1367,7 @@ function BackdoorRothCalc() {
       {/* Pro-rata warning */}
       {hasProRataIssue && (
         <div className="mt-4 bg-red/5 border border-red/10 rounded-lg p-3 flex items-start gap-2">
-          <AlertTriangle className="w-4 h-4 text-red flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+          <AlertTriangle className="w-4 h-4 text-red flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-semibold text-red mb-1">
               Pro-Rata Rule Warning
@@ -1386,7 +1386,7 @@ function BackdoorRothCalc() {
 
       {!hasProRataIssue && (
         <div className="mt-4 bg-accent-bg border border-accent/10 rounded-lg p-3 flex items-start gap-2">
-          <Heart className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+          <Heart className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
           <p className="text-xs text-text-secondary leading-relaxed">
             No existing Traditional IRA balance -- your Backdoor Roth conversion
             will be clean and essentially tax-free. Contribute after-tax to
@@ -1438,9 +1438,9 @@ function DCAvsLumpSumCalc() {
   }
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex items-center gap-2 mb-1 text-accent">
-        <ArrowUpDown className="w-4 h-4" strokeWidth={1.5} />
+        <ArrowUpDown className="w-4 h-4" />
         <p className="text-xs uppercase tracking-widest font-medium">
           DCA vs. Lump Sum
         </p>
@@ -1590,7 +1590,7 @@ function EmergencyFundCalc() {
   const progressPct = Math.min(100, (currentSavings / targetAmount) * 100);
 
   return (
-    <div style={{ background: "#FFFDF8", border: "1px solid #D4CFC4", borderRadius: "0.875rem", boxShadow: "0 2px 12px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.05)", padding: "1.5rem" }}>
+    <div className="bg-surface rounded-xl border border-border p-6">
       <h3 className="text-lg font-semibold mb-1">Emergency Fund</h3>
       <p className="text-sm text-text-muted mb-5">
         How long until you have a real safety net?
@@ -1671,7 +1671,7 @@ function EmergencyFundCalc() {
                   ? "var(--color-green, #16a34a)"
                   : progressPct >= 50
                     ? "var(--color-accent)"
-                    : "var(--color-accent, #CA8A04)",
+                    : "var(--color-gold, #eab308)",
             }}
           />
         </div>
@@ -1722,13 +1722,13 @@ export default function CalculatorsPage() {
           href="/"
           className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-secondary mb-8 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
+          <ArrowLeft className="w-4 h-4" />
           Home
         </Link>
 
         <div className="mb-10">
           <div className="inline-flex items-center gap-2 text-accent mb-2">
-            <Calculator className="w-4 h-4" strokeWidth={1.5} />
+            <Calculator className="w-4 h-4" />
             <p className="text-xs uppercase tracking-widest font-medium">
               Calculators
             </p>
@@ -1757,7 +1757,7 @@ export default function CalculatorsPage() {
 
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
-            <DollarSign className="w-4 h-4" strokeWidth={1.5} />
+            <DollarSign className="w-4 h-4" />
             More coming: Social Security Timing, Asset Location, IRMAA Planning
           </div>
         </div>
