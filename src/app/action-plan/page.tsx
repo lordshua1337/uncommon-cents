@@ -1,20 +1,21 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   Target,
   BookOpen,
-  CheckCircle,
+  CheckCircle2,
   Circle,
   Clock,
-  SkipForward,
+  MinusCircle,
   Calculator,
   Brain,
   RefreshCw,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import {
   loadActionPlan,
@@ -25,40 +26,189 @@ import {
   type ActionItem,
   type ActionStatus,
 } from "@/lib/action-plan";
+import { SPRING_GENTLE, SPRING_SNAPPY, SPRING_BOUNCY, STAGGER_FAST } from "@/lib/animation-constants";
+import { ActionProgressBar } from "@/components/action-progress-bar";
+import {
+  ActionPlanCelebration,
+  hasActionPlanCelebrationSeen,
+  markActionPlanCelebrationSeen,
+} from "@/components/action-plan-celebration";
 
 // ---------------------------------------------------------------------------
 // Category config
 // ---------------------------------------------------------------------------
 
-const CATEGORY_CONFIG = {
-  learn: { icon: BookOpen, color: "text-blue-400", bg: "bg-blue-400/10", label: "Learn" },
-  do: { icon: Target, color: "text-green-400", bg: "bg-green-400/10", label: "Do" },
-  review: { icon: Brain, color: "text-purple-400", bg: "bg-purple-400/10", label: "Review" },
-  simulate: { icon: Calculator, color: "text-amber-400", bg: "bg-amber-400/10", label: "Simulate" },
-} as const;
+const CATEGORY_ORDER = ["learn", "do", "review", "simulate"] as const;
+type Category = (typeof CATEGORY_ORDER)[number];
 
-const STATUS_CONFIG = {
+const CATEGORY_CONFIG: Record<
+  Category,
+  {
+    icon: React.ElementType;
+    color: string;
+    borderColor: string;
+    bgColor: string;
+    label: string;
+    accentRgb: string;
+  }
+> = {
+  learn: {
+    icon: BookOpen,
+    color: "text-blue-600",
+    borderColor: "border-l-blue-500",
+    bgColor: "bg-blue-50/60",
+    label: "Learn",
+    accentRgb: "59,130,246",
+  },
+  do: {
+    icon: Zap,
+    color: "text-emerald-600",
+    borderColor: "border-l-emerald-500",
+    bgColor: "bg-emerald-50/60",
+    label: "Do",
+    accentRgb: "16,185,129",
+  },
+  review: {
+    icon: Brain,
+    color: "text-violet-600",
+    borderColor: "border-l-violet-500",
+    bgColor: "bg-violet-50/60",
+    label: "Review",
+    accentRgb: "139,92,246",
+  },
+  simulate: {
+    icon: Calculator,
+    color: "text-amber-600",
+    borderColor: "border-l-amber-500",
+    bgColor: "bg-amber-50/60",
+    label: "Simulate",
+    accentRgb: "245,158,11",
+  },
+};
+
+const STATUS_CONFIG: Record<
+  ActionStatus,
+  { icon: React.ElementType; color: string }
+> = {
   not_started: { icon: Circle, color: "text-text-secondary" },
-  in_progress: { icon: Clock, color: "text-amber-400" },
-  completed: { icon: CheckCircle, color: "text-green-400" },
-  skipped: { icon: SkipForward, color: "text-text-secondary" },
-} as const;
+  in_progress: { icon: Clock, color: "text-amber-500" },
+  completed: { icon: CheckCircle2, color: "text-emerald-500" },
+  skipped: { icon: MinusCircle, color: "text-slate-400" },
+};
 
 // ---------------------------------------------------------------------------
-// Action Item Card
+// Group items by category in canonical order
+// ---------------------------------------------------------------------------
+
+function groupByCategory(
+  items: readonly ActionItem[]
+): Array<{ category: Category; items: ActionItem[] }> {
+  const map = new Map<Category, ActionItem[]>();
+  for (const cat of CATEGORY_ORDER) {
+    map.set(cat, []);
+  }
+  for (const item of items) {
+    const cat = item.category as Category;
+    if (map.has(cat)) {
+      map.get(cat)!.push(item as ActionItem);
+    }
+  }
+  return CATEGORY_ORDER.filter((cat) => (map.get(cat)?.length ?? 0) > 0).map(
+    (cat) => ({ category: cat, items: map.get(cat)! })
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Sort items within a category: active first, done last (preserving priority)
+// ---------------------------------------------------------------------------
+
+function sortCategoryItems(items: ActionItem[]): ActionItem[] {
+  return [...items].sort((a, b) => {
+    const aDone = a.status === "completed" || a.status === "skipped" ? 1 : 0;
+    const bDone = b.status === "completed" || b.status === "skipped" ? 1 : 0;
+    if (aDone !== bDone) return aDone - bDone;
+    return a.priority - b.priority;
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Completion pulse hook -- transient flag that auto-resets after durationMs
+// ---------------------------------------------------------------------------
+
+function useCompletionPulse(durationMs: number) {
+  const [active, setActive] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const trigger = useCallback(() => {
+    setActive(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setActive(false), durationMs);
+  }, [durationMs]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  return { active, trigger };
+}
+
+// ---------------------------------------------------------------------------
+// Action Item Card — D3.19 completion micro-interactions
+// Spring-physics checkbox, green pulse, animated strikethrough, card settle,
+// layout reorder via Framer Motion layout prop, useReducedMotion guard.
 // ---------------------------------------------------------------------------
 
 function ActionItemCard({
   item,
   onStatusChange,
+  prefersReduced,
+  ariaLiveRef,
 }: {
   item: ActionItem;
   onStatusChange: (status: ActionStatus) => void;
+  prefersReduced: boolean;
+  ariaLiveRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const catConfig = CATEGORY_CONFIG[item.category];
+  const catConfig = CATEGORY_CONFIG[item.category as Category];
   const CatIcon = catConfig.icon;
   const statusConfig = STATUS_CONFIG[item.status];
   const StatusIcon = statusConfig.icon;
+
+  // Detect status transitions to fire animation sequences
+  const prevStatusRef = useRef<ActionStatus>(item.status);
+  // Changing iconKey re-mounts the motion.div, replaying the spring
+  const [iconKey, setIconKey] = useState(0);
+
+  const completedPulse = useCompletionPulse(600);
+  const skippedPulse = useCompletionPulse(500);
+
+  useEffect(() => {
+    const prev = prevStatusRef.current;
+    const next = item.status;
+    if (prev === next) return;
+
+    if (next === "completed" && !prefersReduced) {
+      completedPulse.trigger();
+      setIconKey((k) => k + 1);
+      // Announce for screen readers
+      if (ariaLiveRef.current) {
+        ariaLiveRef.current.textContent = `${item.title} marked complete`;
+      }
+    } else if (next === "skipped" && !prefersReduced) {
+      skippedPulse.trigger();
+      setIconKey((k) => k + 1);
+      if (ariaLiveRef.current) {
+        ariaLiveRef.current.textContent = `${item.title} skipped`;
+      }
+    }
+    prevStatusRef.current = next;
+  }, [item.status, item.title, prefersReduced, completedPulse, skippedPulse, ariaLiveRef]);
+
+  const isCompleted = item.status === "completed";
+  const isSkipped = item.status === "skipped";
+  const isTerminal = isCompleted || isSkipped;
 
   const nextStatus: ActionStatus =
     item.status === "not_started"
@@ -77,69 +227,248 @@ function ActionItemCard({
           ? "/review"
           : null;
 
+  // Background flash: category-appropriate success or skip color
+  const pulseBackground = completedPulse.active
+    ? "rgba(34,197,94,0.12)"
+    : skippedPulse.active
+      ? "rgba(148,163,184,0.10)"
+      : undefined;
+
+  // Card opacity dims in completed/skipped state
+  const cardOpacity = isCompleted ? 0.72 : isSkipped ? 0.48 : 1;
+
   return (
-    <div
-      className={`bg-surface border rounded-xl p-4 transition-all ${
-        item.status === "completed"
-          ? "border-green-400/20 opacity-60"
-          : item.status === "skipped"
-            ? "border-border-light opacity-40"
-            : "border-border-light"
-      }`}
+    // layout="position" enables Framer Motion to smoothly animate this card
+    // to its new position when the sorted order changes after completion.
+    <motion.div
+      layout="position"
+      animate={{
+        opacity: cardOpacity,
+        ...(pulseBackground ? { backgroundColor: pulseBackground } : {}),
+        // Card settle: brief scale dip then spring back to 1
+        ...(completedPulse.active && !prefersReduced
+          ? { scale: [1, 0.98, 1.005, 1] }
+          : skippedPulse.active && !prefersReduced
+            ? { scale: [1, 0.97, 1] }
+            : {}),
+      }}
+      transition={
+        completedPulse.active || skippedPulse.active
+          ? { ...SPRING_SNAPPY, delay: 0.1 }
+          : SPRING_GENTLE
+      }
+      className={[
+        "group relative flex items-start gap-3 p-4 rounded-xl border border-l-2 overflow-hidden",
+        catConfig.borderColor,
+        isTerminal
+          ? "border-border-light bg-surface/40"
+          : `${catConfig.bgColor} border-border-light`,
+      ].join(" ")}
+      whileHover={
+        prefersReduced || isTerminal
+          ? {}
+          : {
+              y: -2,
+              boxShadow: `0 8px 24px rgba(${catConfig.accentRgb},0.12), 0 0 0 1px rgba(${catConfig.accentRgb},0.08)`,
+            }
+      }
+      whileTap={prefersReduced || isTerminal ? {} : { scale: 0.99 }}
+      role="listitem"
     >
-      <div className="flex items-start gap-3">
-        {/* Status toggle */}
-        <button
-          onClick={() => onStatusChange(nextStatus)}
-          className={`mt-0.5 shrink-0 ${statusConfig.color} hover:opacity-70 transition-opacity`}
-          disabled={item.status === "completed" || item.status === "skipped"}
+      {/* Status icon — springs in on completion/skip transition */}
+      <button
+        onClick={() => {
+          if (!isTerminal) onStatusChange(nextStatus);
+        }}
+        disabled={isTerminal}
+        aria-label={`${item.title} — ${
+          isCompleted
+            ? "Done"
+            : isSkipped
+              ? "Skipped"
+              : item.status === "in_progress"
+                ? "In progress"
+                : "Not started"
+        }. ${isTerminal ? "" : "Click to advance."}`}
+        className={[
+          "mt-0.5 shrink-0 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 rounded",
+          statusConfig.color,
+          isTerminal
+            ? "opacity-60 cursor-not-allowed pointer-events-none"
+            : "hover:opacity-70",
+        ].join(" ")}
+      >
+        {/* key prop re-mounts this element, replaying the spring animation */}
+        <motion.div
+          key={iconKey}
+          aria-hidden="true"
+          animate={
+            prefersReduced
+              ? {}
+              : isCompleted
+                ? { scale: [0, 1.3, 1], opacity: [0, 1, 1] }
+                : isSkipped
+                  ? { scale: [0, 1.15, 1], opacity: [0, 1, 1] }
+                  : {}
+          }
+          transition={
+            isCompleted
+              ? { ...SPRING_BOUNCY, duration: 0.3 }
+              : isSkipped
+                ? {
+                    duration: 0.25,
+                    ease: [0.25, 0.46, 0.45, 0.94] as [
+                      number,
+                      number,
+                      number,
+                      number,
+                    ],
+                  }
+                : {}
+          }
+          style={{ display: "inline-flex", overflow: "visible" }}
         >
           <StatusIcon className="w-5 h-5" />
-        </button>
+        </motion.div>
+      </button>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span
-              className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${catConfig.bg} ${catConfig.color}`}
-            >
-              {catConfig.label}
-            </span>
-            <span className="text-[10px] text-text-secondary">
-              #{item.priority}
-            </span>
-          </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <CatIcon
+            className={`w-3.5 h-3.5 ${catConfig.color} shrink-0`}
+            strokeWidth={1.5}
+          />
+          <span
+            className={`text-[10px] font-semibold uppercase tracking-wide ${catConfig.color}`}
+          >
+            {catConfig.label}
+          </span>
+          <span className="text-[10px] text-text-secondary">
+            #{item.priority}
+          </span>
+        </div>
+
+        {/* Title with animated strikethrough line on completion */}
+        <div className="relative">
           <p
-            className={`text-sm font-medium ${
-              item.status === "completed" ? "line-through text-text-secondary" : ""
-            }`}
+            className={[
+              "text-sm font-medium leading-snug transition-colors duration-300",
+              isCompleted
+                ? "text-text-secondary"
+                : isSkipped
+                  ? "text-text-muted"
+                  : "text-text-primary",
+            ].join(" ")}
           >
             {item.title}
           </p>
-          <p className="text-xs text-text-secondary mt-0.5">
-            {item.description}
-          </p>
+          {/* Animated strikethrough: line draws left-to-right, category-colored at 45% */}
+          <AnimatePresence>
+            {isCompleted && !prefersReduced && (
+              <motion.div
+                key="strikethrough"
+                initial={{ width: "0%", opacity: 1 }}
+                animate={{ width: "100%", opacity: 1 }}
+                exit={{ width: "0%", opacity: 0 }}
+                transition={{ duration: 0.35, delay: 0.05, ease: "easeOut" }}
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: 0,
+                  height: "1px",
+                  backgroundColor: `rgba(${catConfig.accentRgb},0.45)`,
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none",
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </div>
 
-          <div className="flex items-center gap-2 mt-2">
-            {linkHref && (
-              <Link
-                href={linkHref}
-                className="text-[10px] text-accent hover:text-accent-light transition-colors"
-              >
-                Go to {item.category} --&gt;
-              </Link>
-            )}
-            {item.status !== "skipped" && item.status !== "completed" && (
-              <button
-                onClick={() => onStatusChange("skipped")}
-                className="text-[10px] text-text-secondary hover:text-text-primary transition-colors ml-auto"
-              >
-                Skip
-              </button>
-            )}
-          </div>
+        <p className="text-xs text-text-secondary mt-0.5 leading-relaxed">
+          {item.description}
+        </p>
+
+        <div className="flex items-center gap-2 mt-2">
+          {linkHref && (
+            <Link
+              href={linkHref}
+              className={`text-[10px] font-medium ${catConfig.color} hover:opacity-70 transition-opacity`}
+            >
+              Go to {catConfig.label} &rarr;
+            </Link>
+          )}
+          {!isTerminal && (
+            <button
+              onClick={() => onStatusChange("skipped")}
+              className="text-[10px] text-text-secondary hover:text-text-primary transition-colors ml-auto focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400/50 rounded"
+            >
+              Skip
+            </button>
+          )}
         </div>
       </div>
-    </div>
+    </motion.div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Empty state
+// ---------------------------------------------------------------------------
+
+function EmptyState({ prefersReduced }: { prefersReduced: boolean }) {
+  return (
+    <motion.div
+      initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ ...SPRING_GENTLE, delay: 0.1 }}
+      className="border border-border-light rounded-xl p-10 text-center bg-surface"
+    >
+      <Target className="w-10 h-10 text-text-secondary mx-auto mb-3" />
+      <p className="text-sm font-medium text-text-primary mb-1">
+        Your plan is being built.
+      </p>
+      <p className="text-xs text-text-secondary mb-4 max-w-xs mx-auto">
+        Complete the money script quiz to generate your personalized action
+        plan.
+      </p>
+      <Link
+        href="/quiz"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:text-accent-dark transition-colors"
+      >
+        Take the quiz &rarr;
+      </Link>
+    </motion.div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// All-skipped/completed state
+// ---------------------------------------------------------------------------
+
+function AllSkippedState({ prefersReduced }: { prefersReduced: boolean }) {
+  return (
+    <motion.div
+      initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ ...SPRING_GENTLE, delay: 0.1 }}
+      className="border border-border-light rounded-xl p-10 text-center bg-surface"
+    >
+      <RefreshCw className="w-10 h-10 text-text-secondary mx-auto mb-3" />
+      <p className="text-sm font-medium text-text-primary mb-1">
+        Nothing left to act on.
+      </p>
+      <p className="text-xs text-text-secondary mb-4 max-w-xs mx-auto">
+        {"You've skipped or completed everything. Retake the quiz to generate a fresh plan."}
+      </p>
+      <Link
+        href="/quiz"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:text-accent-dark transition-colors"
+      >
+        Retake quiz &rarr;
+      </Link>
+    </motion.div>
   );
 }
 
@@ -149,15 +478,39 @@ function ActionItemCard({
 
 export default function ActionPlanPage() {
   const [plan, setPlan] = useState<ActionPlanState | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
+  // Track if this is the initial mount so we don't replay entrance on re-renders
+  const hasAnimated = useRef(false);
+  const prefersReduced = useReducedMotion() ?? false;
+  // aria-live region ref -- passed to each ActionItemCard so it can announce
+  const ariaLiveRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const existing = loadActionPlan();
-    if (existing) {
-      setPlan(existing);
-    } else {
-      setPlan(generateActionPlan());
-    }
+    setPlan(existing ?? generateActionPlan());
+    hasAnimated.current = false;
   }, []);
+
+  // After entrance stagger completes, mark as done so re-renders don't replay
+  useEffect(() => {
+    if (plan && !hasAnimated.current) {
+      const timer = setTimeout(() => {
+        hasAnimated.current = true;
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [plan]);
+
+  // Detect full plan completion and trigger D3.20 celebration
+  useEffect(() => {
+    if (!plan) return;
+    const nonSkipped = plan.items.filter((i) => i.status !== "skipped");
+    if (nonSkipped.length === 0) return;
+    const allComplete = nonSkipped.every((i) => i.status === "completed");
+    if (allComplete && !hasActionPlanCelebrationSeen()) {
+      setShowCelebration(true);
+    }
+  }, [plan]);
 
   const handleStatusChange = useCallback(
     (actionId: string, status: ActionStatus) => {
@@ -169,13 +522,17 @@ export default function ActionPlanPage() {
   );
 
   const handleRegenerate = useCallback(() => {
+    hasAnimated.current = false;
+    markActionPlanCelebrationSeen();
+    setShowCelebration(false);
     setPlan(generateActionPlan());
   }, []);
 
+  // Loading skeleton
   if (!plan) {
     return (
       <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-text-secondary animate-pulse">
           Building your action plan...
         </p>
       </div>
@@ -183,88 +540,196 @@ export default function ActionPlanPage() {
   }
 
   const progress = getActionPlanProgress(plan);
+  const grouped = groupByCategory(plan.items);
+  const allDoneOrSkipped =
+    plan.items.length > 0 &&
+    plan.items.every((i) => i.status === "completed" || i.status === "skipped");
+
+  // Pre-compute stagger delays for entrance animation
+  let globalCardIndex = 0;
+  const groupDelays = grouped.map((group) => {
+    const headerDelay = prefersReduced ? 0 : globalCardIndex * STAGGER_FAST + 0.1;
+    const firstCardDelay = prefersReduced ? 0 : headerDelay + 0.1;
+    globalCardIndex += group.items.length + 1;
+    return { ...group, headerDelay, firstCardDelay };
+  });
+
+  const shouldAnimate = !hasAnimated.current && !prefersReduced;
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4">
+    <div
+      className="min-h-screen pt-20 pb-16 px-4"
+      role="main"
+      aria-label="Your personalized action plan"
+    >
+      {/* Screen reader live region for completion announcements */}
+      <div
+        ref={ariaLiveRef}
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      />
+
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        {/* Page header */}
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0 }}
+          className="flex items-center justify-between mb-6"
+        >
           <div className="flex items-center gap-3">
             <Link
               href="/"
               className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+              aria-label="Back to home"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
-            <div>
-              <h1 className="text-xl font-semibold flex items-center gap-2">
+            <div className="space-y-0.5">
+              <h1 className="text-2xl font-bold text-text-primary tracking-tight flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-accent" />
-                Action Plan
+                Your Action Plan
               </h1>
-              <p className="text-xs text-text-secondary mt-0.5">
-                Personalized next steps based on your progress
+              <p className="text-sm text-text-secondary font-normal">
+                Personalized next steps based on your money script, knowledge
+                gaps, and simulator activity.
               </p>
             </div>
           </div>
           <button
             onClick={handleRegenerate}
-            className="p-2 rounded-lg text-text-secondary hover:text-accent hover:bg-surface transition-colors"
+            className="p-2 rounded-lg text-text-secondary hover:text-accent hover:bg-surface transition-colors focus-visible:ring-2 focus-visible:ring-accent/30"
             title="Regenerate plan"
+            aria-label="Regenerate action plan"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
-        </div>
+        </motion.div>
 
-        {/* Progress bar */}
-        <div className="bg-surface border border-border-light rounded-xl p-4 mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-text-secondary">
-              {progress.completed} of {progress.total} actions completed
-            </p>
-            <p className="text-xs font-mono text-accent">
-              {Math.round(progress.completionRate * 100)}%
-            </p>
-          </div>
-          <div className="h-2 bg-background rounded-full">
-            <motion.div
-              className="h-full bg-accent rounded-full"
-              initial={{ width: 0 }}
-              animate={{
-                width: `${progress.completionRate * 100}%`,
-              }}
-              transition={{ duration: 0.5 }}
-            />
-          </div>
-        </div>
-
-        {/* Action items */}
-        <div className="space-y-3">
-          {plan.items.map((item) => (
-            <ActionItemCard
-              key={item.id}
-              item={item}
-              onStatusChange={(status) => handleStatusChange(item.id, status)}
-            />
-          ))}
-        </div>
+        {/* Animated progress bar (D3.18) */}
+        <motion.div
+          initial={
+            shouldAnimate ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }
+          }
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: shouldAnimate ? 0.1 : 0 }}
+        >
+          <ActionProgressBar
+            completed={progress.completed}
+            total={progress.total}
+            className="mb-8"
+          />
+        </motion.div>
 
         {/* Empty state */}
         {plan.items.length === 0 && (
-          <div className="bg-surface border border-border-light rounded-xl p-8 text-center">
-            <Target className="w-10 h-10 text-text-secondary mx-auto mb-3" />
-            <p className="text-sm text-text-secondary">
-              No actions generated. Take the quiz and explore some concepts
-              first.
-            </p>
+          <EmptyState prefersReduced={prefersReduced} />
+        )}
+
+        {/* All done/skipped state */}
+        {allDoneOrSkipped && plan.items.length > 0 && (
+          <AllSkippedState prefersReduced={prefersReduced} />
+        )}
+
+        {/* Category-grouped action items */}
+        {!allDoneOrSkipped && plan.items.length > 0 && (
+          <div className="flex flex-col gap-6">
+            {groupDelays.map(({ category, items, headerDelay, firstCardDelay }) => {
+              const catConfig = CATEGORY_CONFIG[category];
+              const CatIcon = catConfig.icon;
+              // Sort: active items first, completed/skipped last -- reorder
+              // triggered by status changes drives Framer Motion layout animation
+              const sorted = sortCategoryItems(items);
+
+              return (
+                <section
+                  key={category}
+                  role="group"
+                  aria-label={`${catConfig.label} actions`}
+                >
+                  {/* Category header */}
+                  <motion.div
+                    initial={
+                      shouldAnimate
+                        ? { opacity: 0, x: -8 }
+                        : { opacity: 1, x: 0 }
+                    }
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ ...SPRING_GENTLE, delay: headerDelay }}
+                    className="flex items-center gap-2 mb-3"
+                  >
+                    <CatIcon
+                      className={`w-3.5 h-3.5 ${catConfig.color}`}
+                      strokeWidth={1.5}
+                    />
+                    <span
+                      className={`text-xs font-semibold uppercase tracking-widest ${catConfig.color}`}
+                    >
+                      {catConfig.label}
+                    </span>
+                    <span className="text-[10px] text-text-secondary">
+                      {items.length} {items.length === 1 ? "action" : "actions"}
+                    </span>
+                  </motion.div>
+
+                  {/* Card list -- LayoutGroup scopes layout animations to this
+                      category so completed cards only reorder within their group */}
+                  <LayoutGroup id={`category-${category}`}>
+                    <div className="flex flex-col gap-2.5" role="list">
+                      {sorted.map((item, cardIndex) => (
+                        <motion.div
+                          key={item.id}
+                          // layout="position" on this wrapper enables the
+                          // category-scoped reorder animation. When sortCategoryItems
+                          // changes order after a completion, Framer Motion
+                          // interpolates each card to its new position.
+                          layout="position"
+                          initial={
+                            shouldAnimate
+                              ? { opacity: 0, y: 16 }
+                              : { opacity: 1, y: 0 }
+                          }
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            layout: SPRING_GENTLE,
+                            ...SPRING_GENTLE,
+                            delay: shouldAnimate
+                              ? firstCardDelay + cardIndex * STAGGER_FAST
+                              : 0,
+                          }}
+                        >
+                          <ActionItemCard
+                            item={item}
+                            onStatusChange={(status) =>
+                              handleStatusChange(item.id, status)
+                            }
+                            prefersReduced={prefersReduced}
+                            ariaLiveRef={ariaLiveRef}
+                          />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </LayoutGroup>
+                </section>
+              );
+            })}
           </div>
         )}
 
         {/* Disclaimer */}
-        <p className="text-[10px] text-text-secondary text-center mt-8">
+        <p className="text-[10px] text-text-secondary text-center mt-10">
           Actions are generated from your quiz results, mastery progress, and
           simulator usage. Not financial advice.
         </p>
       </div>
+
+      {/* Full plan completion celebration overlay (D3.20) */}
+      <ActionPlanCelebration
+        visible={showCelebration}
+        completedCount={plan.items.filter((i) => i.status === "completed").length}
+        onDismiss={() => setShowCelebration(false)}
+      />
     </div>
   );
 }

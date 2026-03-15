@@ -1,18 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { AnimatedCounter } from "@/components/streak/animated-counter";
+import { SPRING_GENTLE } from "@/lib/animation-constants";
 import type { HealthScore } from "@/lib/health-score";
 import { getScoreGrade } from "@/lib/health-score";
 
 // ---------------------------------------------------------------------------
-// Ring Component
+// Ring constants
 // ---------------------------------------------------------------------------
 
 const RING_SIZE = 200;
 const STROKE_WIDTH = 14;
 const RADIUS = (RING_SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+// ---------------------------------------------------------------------------
+// Grade color utility (exported for use in score/page.tsx)
+// ---------------------------------------------------------------------------
+
+export function getGradeColor(score: number): string {
+  return getScoreGrade(score).color;
+}
+
+// ---------------------------------------------------------------------------
+// Ring Component
+// ---------------------------------------------------------------------------
 
 interface HealthScoreRingProps {
   readonly score: HealthScore;
@@ -26,12 +40,39 @@ export function HealthScoreRing({
   showGrade = true,
 }: HealthScoreRingProps) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [glowActive, setGlowActive] = useState(false);
+  const glowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prefersReduced = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+    return () => {
+      if (glowTimer.current) clearTimeout(glowTimer.current);
+    };
+  }, []);
+
+  // Fire the glow pulse once the ring animation completes (~1.2s)
+  useEffect(() => {
+    if (!mounted) return;
+    if (score.total === 0) return; // no glow for empty ring
+
+    const delay = prefersReduced ? 0 : 1300;
+    glowTimer.current = setTimeout(() => {
+      setGlowActive(true);
+      // Remove glow after one cycle
+      setTimeout(() => setGlowActive(false), 800);
+    }, delay);
+
+    return () => {
+      if (glowTimer.current) clearTimeout(glowTimer.current);
+    };
+  }, [mounted, score.total, prefersReduced]);
 
   const scale = size / RING_SIZE;
   const radius = RADIUS;
   const circumference = CIRCUMFERENCE;
   const grade = getScoreGrade(score.total);
+  const gradeColor = grade.color;
 
   // Build segmented ring -- each pillar gets a proportional arc
   const segments = score.pillars.map((pillar) => {
@@ -52,26 +93,47 @@ export function HealthScoreRing({
     return { ...seg, offset: currentOffset };
   });
 
+  // Transition config: instant for reduced motion, spring + 1.2s duration otherwise
+  const arcTransition = prefersReduced
+    ? { duration: 0 }
+    : { ...SPRING_GENTLE, duration: 1.2 };
+
+  // Grade letter animation
+  const gradeLetterVariants = {
+    initial: { opacity: 0, scale: 0.8 as number },
+    animate: {
+      opacity: 1,
+      scale: 1 as number,
+      transition: prefersReduced
+        ? { duration: 0 }
+        : { ...SPRING_GENTLE, delay: 0.9 },
+    },
+  };
+
   return (
-    <div className="relative inline-flex items-center justify-center">
+    <div
+      className="relative inline-flex items-center justify-center"
+      role="img"
+      aria-label={`Financial health score ring showing ${score.total}%`}
+    >
       <svg
         width={size}
         height={size}
         viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
         className="transform -rotate-90"
+        aria-hidden="true"
       >
-        {/* Background track */}
+        {/* Background track -- tinted to grade color for depth */}
         <circle
           cx={RING_SIZE / 2}
           cy={RING_SIZE / 2}
           r={radius}
           fill="none"
-          stroke="currentColor"
+          stroke={gradeColor + "18"}
           strokeWidth={STROKE_WIDTH}
-          className="text-border-light"
         />
 
-        {/* Pillar segments */}
+        {/* Pillar segments -- animated from empty to full */}
         {mounted &&
           arcs.map((arc) => (
             <motion.circle
@@ -85,38 +147,87 @@ export function HealthScoreRing({
               strokeLinecap="round"
               strokeDasharray={`${arc.length} ${circumference - arc.length}`}
               strokeDashoffset={-arc.offset}
-              initial={{ strokeDasharray: `0 ${circumference}` }}
+              initial={
+                prefersReduced
+                  ? undefined
+                  : { strokeDasharray: `0 ${circumference}` }
+              }
               animate={{
                 strokeDasharray: `${arc.length} ${circumference - arc.length}`,
               }}
-              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              transition={arcTransition}
             />
           ))}
+
+        {/* Glow pulse layer -- a blurred sibling circle that pulses once on completion */}
+        {mounted && score.total > 0 && (
+          <motion.circle
+            cx={RING_SIZE / 2}
+            cy={RING_SIZE / 2}
+            r={radius}
+            fill="none"
+            stroke={gradeColor}
+            strokeWidth={6}
+            strokeDasharray={`${(score.total / 100) * circumference} ${circumference}`}
+            animate={
+              glowActive
+                ? { opacity: [0, 0.55, 0] }
+                : { opacity: 0 }
+            }
+            transition={{ duration: 0.7, ease: "easeInOut" }}
+            style={{ filter: "blur(6px)" }}
+            aria-hidden="true"
+          />
+        )}
       </svg>
 
       {/* Center text */}
       {showGrade && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <motion.span
-            className="text-4xl font-bold"
-            style={{ color: grade.color, fontSize: 36 * scale }}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            {score.total}
-          </motion.span>
-          <motion.span
-            className="text-xs text-text-secondary"
-            style={{ fontSize: 11 * scale }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            {grade.label}
-          </motion.span>
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center"
+          aria-hidden="true"
+        >
+          {/* Subtle backing circle to separate numbers from ring */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              width: size * 0.58,
+              height: size * 0.58,
+              background: "var(--color-surface, rgba(255,255,255,0.5))",
+              opacity: 0.5,
+            }}
+          />
+
+          {/* Score number -- AnimatedCounter counts 0 to score */}
+          <div className="relative flex flex-col items-center">
+            <AnimatedCounter
+              value={score.total}
+              className="font-bold tabular-nums"
+              style={{
+                color: gradeColor,
+                fontSize: 36 * scale,
+                fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+              }}
+            />
+
+            {/* Grade letter -- fades in after counter (~0.9s) */}
+            <motion.span
+              className="font-bold tracking-tight"
+              style={{ color: gradeColor, fontSize: 11 * scale }}
+              variants={gradeLetterVariants}
+              initial="initial"
+              animate="animate"
+            >
+              {grade.grade}
+            </motion.span>
+          </div>
         </div>
       )}
+
+      {/* Screen reader announcement -- hidden from visual rendering */}
+      <span className="sr-only">
+        Financial health score: {score.total} out of 100. Grade: {grade.grade}.
+      </span>
     </div>
   );
 }

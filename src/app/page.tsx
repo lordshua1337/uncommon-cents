@@ -14,6 +14,7 @@ import {
   Layers,
   Compass,
 } from "lucide-react";
+import { HeroAnimated } from "@/components/homepage/hero-animated";
 import { strategies } from "@/lib/strategies-data";
 import { domains } from "@/lib/domains";
 import { concepts } from "@/lib/concepts";
@@ -86,47 +87,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
+      {/* HeroAnimated is a 'use client' island. page.tsx remains a server component. */}
+      {/* All hero content is server-rendered via SSR (SEO preserved). */}
+      {/* The client island hydrates and plays the stagger entrance sequence. */}
       <section className="pt-28 pb-16 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-6">
-            <Coins className="w-3.5 h-3.5" />
-            Financial strategies they don&apos;t teach you
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-5">
-            The Money Moves That{" "}
-            <span className="text-accent">Actually Matter</span>
-          </h1>
-
-          <p className="text-text-secondary text-lg max-w-xl mx-auto mb-4 leading-relaxed">
-            Your financial advisor probably hasn&apos;t mentioned half of
-            these. Roth conversion ladders, 401k overfunding traps, creditor
-            protection through cash value, and the strategies that separate
-            the wealthy from everyone else.
-          </p>
-
-          <p className="text-text-muted text-sm max-w-lg mx-auto mb-8">
-            No products to sell. No affiliate links. Just the financial
-            knowledge that costs six figures to learn the hard way.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/learn"
-              className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center justify-center gap-2"
-            >
-              Start Learning
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/calculators"
-              className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors inline-flex items-center justify-center gap-2"
-            >
-              Calculators
-              <Calculator className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
+        <HeroAnimated />
       </section>
 
       <div className="divider-financial" />

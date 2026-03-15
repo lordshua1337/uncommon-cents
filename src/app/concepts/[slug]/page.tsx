@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,7 +14,7 @@ import {
   Calculator,
   CheckCircle2,
 } from "lucide-react";
-import { concepts, getConceptBySlug, getConceptsByDomain, type FinancialConcept } from "@/lib/concepts";
+import { getConceptBySlug, getConceptsByDomain } from "@/lib/concepts";
 import { getDomainById } from "@/lib/domains";
 import {
   loadMastery,
@@ -23,6 +24,11 @@ import {
   type MasteryState,
   type DepthLevel,
 } from "@/lib/mastery";
+import { SPRING_GENTLE, SPRING_SNAPPY, STAGGER_FAST } from "@/lib/animation-constants";
+
+// ---------------------------------------------------------------------------
+// Types & constants
+// ---------------------------------------------------------------------------
 
 type DepthTab = "accessible" | "intermediate" | "advanced";
 
@@ -47,15 +53,75 @@ const depthConfig: Record<
   },
 };
 
-function RelatedConceptCard({ slug }: { slug: string }) {
+const DEPTH_LABELS: Record<DepthLevel, string> = {
+  accessible: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+};
+
+// ---------------------------------------------------------------------------
+// Animation variants
+// These are intentionally defined outside the component so they are stable
+// references and do not cause unnecessary re-renders.
+// ---------------------------------------------------------------------------
+
+const heroVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { ...SPRING_GENTLE } },
+}
+
+// Each content section gets this variant plus a custom delay via transition override
+const sectionVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0 },
+}
+
+// Related concept cards use a tighter y-offset
+const relatedCardVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0 },
+}
+
+// Stagger container for related concept cards
+const relatedContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: STAGGER_FAST,
+      delayChildren: 0.3,
+    },
+  },
+}
+
+// ---------------------------------------------------------------------------
+// RelatedConceptCard
+// ---------------------------------------------------------------------------
+
+interface RelatedConceptCardProps {
+  slug: string
+  index: number
+  prefersReduced: boolean
+  domainColor: string
+}
+
+function RelatedConceptCard({ slug, index, prefersReduced, domainColor }: RelatedConceptCardProps) {
   const concept = getConceptBySlug(slug);
   if (!concept) return null;
   const domain = getDomainById(concept.domainId);
 
-  return (
+  const cardContent = (
     <Link
       href={`/concepts/${concept.slug}`}
-      className="group bg-surface rounded-lg border border-border p-4 card-hover block"
+      className="group bg-surface rounded-xl ring-1 ring-zinc-200/60 dark:ring-zinc-700/60 p-4 block
+        transition-[box-shadow,border-color] duration-200
+        hover:ring-[var(--domain-accent,#16A34A)]/40
+        hover:shadow-[0_4px_20px_var(--domain-accent-shadow,rgba(22,163,74,0.10))]
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+        focus-visible:ring-[var(--domain-accent,#16A34A)]/60"
+      style={{
+        '--domain-accent': domainColor,
+        '--domain-accent-shadow': `${domainColor}1a`,
+      } as React.CSSProperties}
     >
       <div className="flex items-center gap-2 mb-1.5">
         {domain && (
@@ -80,20 +146,35 @@ function RelatedConceptCard({ slug }: { slug: string }) {
         {concept.summary}
       </p>
     </Link>
-  );
+  )
+
+  if (prefersReduced) {
+    return cardContent
+  }
+
+  return (
+    <motion.div
+      variants={relatedCardVariants}
+      transition={{ ...SPRING_GENTLE, delay: 0.3 + index * STAGGER_FAST }}
+      whileHover={{ scale: 1.015, y: -2, transition: { ...SPRING_SNAPPY } }}
+      whileTap={{ scale: 0.98, transition: { ...SPRING_SNAPPY } }}
+    >
+      {cardContent}
+    </motion.div>
+  )
 }
 
-const DEPTH_LABELS: Record<DepthLevel, string> = {
-  accessible: "Beginner",
-  intermediate: "Intermediate",
-  advanced: "Advanced",
-};
+// ---------------------------------------------------------------------------
+// Main page component
+// ---------------------------------------------------------------------------
 
 export default function ConceptDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const [activeTab, setActiveTab] = useState<DepthTab>("accessible");
   const [mastery, setMastery] = useState<MasteryState | null>(null);
+
+  const prefersReduced = useReducedMotion();
 
   const concept = useMemo(() => getConceptBySlug(slug), [slug]);
   const domain = useMemo(
@@ -155,10 +236,24 @@ export default function ConceptDetailPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div
+      className="min-h-screen pt-24 pb-16 px-4"
+      // Domain hue wash: very subtle radial gradient anchored top-right
+      style={{
+        background: `radial-gradient(ellipse at 60% 0%, ${domain.color}0d 0%, transparent 60%), var(--color-background)`,
+      }}
+    >
       <div className="max-w-3xl mx-auto">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-text-muted mb-6">
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Breadcrumb -- appears instantly (no stagger, informational only) */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0 }}
+          className="flex items-center gap-2 text-sm text-text-muted mb-6"
+        >
           <Link
             href="/explore"
             className="hover:text-text-secondary transition-colors"
@@ -175,11 +270,25 @@ export default function ConceptDetailPage() {
           </Link>
           <span>/</span>
           <span className="text-text-secondary truncate">{concept.name}</span>
-        </div>
+        </motion.div>
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-3">
+        {/* ---------------------------------------------------------------- */}
+        {/* Hero -- domain badge, title, summary                             */}
+        {/* Badge-then-title sequence within the hero block                  */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : heroVariants.hidden}
+          animate={heroVariants.visible}
+          className="mb-8"
+          aria-label={`Concept: ${concept.name}. Domain: ${domain.name}. Depth: ${highestDepth ? DEPTH_LABELS[highestDepth] : 'not started'}.`}
+        >
+          {/* Domain badge row */}
+          <motion.div
+            initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SPRING_GENTLE, delay: 0 }}
+            className="flex items-center gap-2 mb-3"
+          >
             <span
               className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded"
               style={{
@@ -199,39 +308,74 @@ export default function ConceptDetailPage() {
                 <CheckCircle2 className="w-3 h-3" /> {DEPTH_LABELS[highestDepth]}
               </span>
             )}
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-            {concept.name}
-          </h1>
-          <p className="text-text-secondary leading-relaxed">
-            {concept.summary}
-          </p>
-        </div>
+          </motion.div>
 
-        {/* Depth Tabs */}
-        <div className="flex gap-1 bg-surface rounded-xl border border-border p-1 mb-6">
+          {/* Concept title */}
+          <motion.h1
+            initial={prefersReduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SPRING_GENTLE, delay: 0.05 }}
+            className="text-2xl sm:text-3xl font-bold tracking-tight mb-3"
+          >
+            {concept.name}
+          </motion.h1>
+
+          {/* Summary */}
+          <motion.p
+            initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SPRING_GENTLE, delay: 0.12 }}
+            className="text-text-secondary leading-relaxed"
+          >
+            {concept.summary}
+          </motion.p>
+        </motion.div>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Depth Tabs                                                        */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.2 }}
+          className="flex gap-1 bg-surface rounded-xl border border-border p-1 mb-6"
+        >
           {(Object.keys(depthConfig) as DepthTab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === tab
-                  ? "bg-accent text-white shadow-sm"
-                  : "text-text-muted hover:text-text-secondary hover:bg-surface-alt"
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-accent/60
+                ${
+                  activeTab === tab
+                    ? "bg-accent text-white shadow-sm"
+                    : "text-text-muted hover:text-text-secondary hover:bg-surface-alt"
+                }`}
             >
               {depthConfig[tab].icon}
               <span className="hidden sm:inline">{depthConfig[tab].label}</span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
-        <p className="text-xs text-text-muted mb-4">
+        <motion.p
+          initial={prefersReduced ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.22 }}
+          className="text-xs text-text-muted mb-4"
+        >
           {depthConfig[activeTab].description}
-        </p>
+        </motion.p>
 
-        {/* Content */}
-        <div className="bg-surface rounded-xl border border-border p-6 sm:p-8 mb-8 animate-fade-in">
+        {/* ---------------------------------------------------------------- */}
+        {/* Main content body                                                 */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : sectionVariants.hidden}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.3 }}
+          className="bg-surface rounded-xl border border-border p-6 sm:p-8 mb-8"
+        >
           {concept.layers[activeTab].split("\n\n").map((paragraph, i) => (
             <p
               key={i}
@@ -240,11 +384,18 @@ export default function ConceptDetailPage() {
               {paragraph}
             </p>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Honest Analysis */}
+        {/* ---------------------------------------------------------------- */}
+        {/* Honest Analysis                                                   */}
+        {/* ---------------------------------------------------------------- */}
         {concept.honestAnalysis && (
-          <div className="bg-surface-alt rounded-xl border border-border p-5 sm:p-6 mb-8">
+          <motion.div
+            initial={prefersReduced ? false : sectionVariants.hidden}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SPRING_GENTLE, delay: 0.38 }}
+            className="bg-surface-alt rounded-xl border border-border p-5 sm:p-6 mb-8"
+          >
             <div className="flex items-center gap-2 mb-3">
               <AlertCircle className="w-4 h-4 text-gold" />
               <h3 className="text-sm font-semibold">Honest Analysis</h3>
@@ -252,38 +403,75 @@ export default function ConceptDetailPage() {
             <p className="text-sm text-text-secondary leading-relaxed">
               {concept.honestAnalysis}
             </p>
-          </div>
+          </motion.div>
         )}
 
-        {/* Related Concepts */}
+        {/* ---------------------------------------------------------------- */}
+        {/* Related Concepts -- cascade last                                  */}
+        {/* ---------------------------------------------------------------- */}
         {concept.relatedConceptSlugs.length > 0 && (
-          <div className="mb-8">
-            <h3 className="text-sm font-semibold mb-3 text-text-muted uppercase tracking-wider">
+          <motion.div
+            initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SPRING_GENTLE, delay: 0.46 }}
+            className="mb-8"
+          >
+            <h3
+              className="text-sm font-medium tracking-widest uppercase mb-3"
+              style={{ color: domain.color }}
+            >
               Related Concepts
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {concept.relatedConceptSlugs.map((relSlug) => (
-                <RelatedConceptCard key={relSlug} slug={relSlug} />
+            <motion.div
+              variants={prefersReduced ? undefined : relatedContainerVariants}
+              initial={prefersReduced ? false : "hidden"}
+              animate={prefersReduced ? undefined : "visible"}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+            >
+              {concept.relatedConceptSlugs.map((relSlug, index) => (
+                <RelatedConceptCard
+                  key={relSlug}
+                  slug={relSlug}
+                  index={index}
+                  prefersReduced={prefersReduced ?? false}
+                  domainColor={domain.color}
+                />
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
 
-        {/* Ask about this */}
-        <div className="bg-surface rounded-xl border border-border p-5 text-center">
+        {/* ---------------------------------------------------------------- */}
+        {/* Ask CTA                                                           */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.54 }}
+          className="bg-surface rounded-xl border border-border p-5 text-center"
+        >
           <p className="text-sm text-text-secondary mb-3">
             Want to run the numbers for your situation?
           </p>
           <Link
             href={`/ask?topic=${encodeURIComponent(concept.name)}`}
-            className="inline-flex items-center gap-2 bg-accent text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-accent-light transition-colors"
+            className="inline-flex items-center gap-2 bg-accent text-white text-sm font-medium px-5 py-2.5 rounded-lg
+              hover:bg-accent-light transition-colors
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent/60"
           >
             Ask Uncommon Cents <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </div>
+        </motion.div>
 
-        {/* Bottom nav */}
-        <div className="mt-8 pt-6 border-t border-border-light flex items-center justify-between">
+        {/* ---------------------------------------------------------------- */}
+        {/* Bottom nav                                                        */}
+        {/* ---------------------------------------------------------------- */}
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.6 }}
+          className="mt-8 pt-6 border-t border-border-light flex items-center justify-between"
+        >
           <div className="flex flex-col gap-2">
             <Link
               href={`/explore/${domain.slug}`}
@@ -308,7 +496,7 @@ export default function ConceptDetailPage() {
               {nextConcept.name} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

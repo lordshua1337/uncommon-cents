@@ -83,6 +83,52 @@
   100% { background-position: -200% 0; }
 }
 
+@keyframes quiz-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes action-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.action-shimmer-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: action-shimmer 1.5s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-shimmer-overlay {
+    animation: none;
+  }
+}
+
+.quiz-shimmer-bar {
+  animation: quiz-shimmer 2s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-shimmer-bar {
+    animation: none;
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -156,9 +202,37 @@
   width: 100%;
 }
 
+/* ── DOMAIN CARD ANIMATED -- motion wrapper hover shadow ── */
+/* Framer Motion handles scale via whileHover; CSS handles shadow for performance */
+.domain-card-motion-wrapper {
+  transition: box-shadow 0.25s ease;
+}
+.domain-card-motion-wrapper:hover {
+  /* --hover-shadow is a brand-tinted shadow set inline per card in DomainCardAnimated */
+  box-shadow: var(--hover-shadow, 0 8px 24px rgba(16,185,129,0.14));
+}
+
+/* CTA arrow row: hidden by default, slides in on hover */
+.domain-card-cta {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.domain-card-motion-wrapper:hover .domain-card-cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Also reveal on keyboard focus for accessibility */
+.domain-card-link:focus-visible .domain-card-cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   .card-hover { transition: none; }
   .animate-fade-in { animation: none; opacity: 1; }
   .link-animated::after { transition: none; }
+  .domain-card-motion-wrapper { transition: none; }
+  .domain-card-cta { transition: none; opacity: 1; transform: none; }
 }
