@@ -70,7 +70,7 @@ export function Nav() {
     (l) => pathname === l.href || pathname.startsWith(l.href)
   );
 
-  // On homepage before scroll: transparent over dark hero
+  // On homepage before scroll: transparent over dark forest hero
   // After scroll or on other pages: solid background
   const navTransparent = isHome && !scrolled && !isOpen;
 
@@ -81,22 +81,22 @@ export function Nav() {
         style={{
           background: navTransparent
             ? 'transparent'
-            : 'rgba(248, 246, 241, 0.92)',
+            : 'rgba(245, 245, 243, 0.92)',
           backdropFilter: navTransparent ? 'none' : 'blur(12px)',
           borderBottom: navTransparent
             ? '1px solid transparent'
-            : '1px solid rgba(221, 217, 208, 0.6)',
+            : '1px solid rgba(196, 206, 188, 0.6)',
         }}
       >
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             <Coins
               className="w-5 h-5 transition-colors"
-              style={{ color: navTransparent ? '#4ADE80' : '#0D6B3D' }}
+              style={{ color: '#22C55E' }}
             />
             <span
               className="text-base font-semibold tracking-tight transition-colors"
-              style={{ color: navTransparent ? '#F8F6F1' : '#2C2C2A' }}
+              style={{ color: navTransparent ? '#F8F6F1' : '#1B1B18' }}
             >
               Uncommon Cents
             </span>
@@ -113,8 +113,8 @@ export function Nav() {
                   className="text-sm transition-colors"
                   style={{
                     color: isActive
-                      ? (navTransparent ? '#4ADE80' : '#0D6B3D')
-                      : (navTransparent ? 'rgba(248,246,241,0.7)' : '#5A5A55'),
+                      ? (navTransparent ? '#22C55E' : '#1A7A45')
+                      : (navTransparent ? 'rgba(200,220,200,0.7)' : '#4A4A46'),
                     fontWeight: isActive ? 500 : 400,
                   }}
                 >
@@ -130,8 +130,8 @@ export function Nav() {
                 className="text-sm transition-colors"
                 style={{
                   color: isSecondaryActive
-                    ? (navTransparent ? '#4ADE80' : '#0D6B3D')
-                    : (navTransparent ? 'rgba(248,246,241,0.7)' : '#5A5A55'),
+                    ? (navTransparent ? '#22C55E' : '#1A7A45')
+                    : (navTransparent ? 'rgba(200,220,200,0.7)' : '#4A4A46'),
                   fontWeight: isSecondaryActive ? 500 : 400,
                 }}
               >
@@ -163,8 +163,9 @@ export function Nav() {
               href="/ask"
               className="text-sm px-4 py-1.5 rounded-lg transition-all duration-200"
               style={{
-                background: navTransparent ? 'rgba(13,107,61,0.8)' : '#0D6B3D',
-                color: '#F8F6F1',
+                background: navTransparent ? 'rgba(34, 197, 94, 0.15)' : '#1A7A45',
+                color: navTransparent ? '#22C55E' : '#F8F6F1',
+                border: navTransparent ? '1px solid rgba(34, 197, 94, 0.25)' : '1px solid transparent',
               }}
             >
               Ask a Question
@@ -175,7 +176,7 @@ export function Nav() {
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 transition-colors"
             aria-label="Toggle menu"
-            style={{ color: navTransparent ? '#F8F6F1' : '#5A5A55' }}
+            style={{ color: navTransparent ? '#F8F6F1' : '#4A4A46' }}
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

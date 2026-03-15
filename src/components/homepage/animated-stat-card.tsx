@@ -80,43 +80,46 @@ export function AnimatedStatCard({
       ref={ref}
       role="listitem"
       aria-label={`${prefix ?? ""}${value}${suffix ?? ""} ${label}`}
-      className={`rounded-xl bg-surface border border-border p-5 text-center cursor-default ${className}`}
+      className={`rounded-xl bg-surface border border-border overflow-hidden cursor-default shadow-sm ${className}`}
       initial={prefersReduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       animate={cardAnimate}
       transition={cardTransition}
       whileHover={
         prefersReduced
           ? undefined
-          : { y: -2, boxShadow: "0 6px 20px rgba(27,27,24,0.08)" }
+          : { y: -2, boxShadow: "0 6px 20px rgba(26,122,69,0.1)" }
       }
       whileTap={prefersReduced ? undefined : { scale: 0.99 }}
     >
-      <div className="flex items-baseline gap-0.5 justify-center">
-        {prefix && (
-          <span className="text-xl text-text-muted font-semibold select-none">
-            {prefix}
-          </span>
-        )}
-        <AnimatedCounter
-          value={isVisible ? value : 0}
-          format="integer"
-          className="text-3xl sm:text-4xl font-bold text-accent"
-        />
-        {suffix && (
-          <span className="text-xl text-text-muted font-semibold select-none">
-            {suffix}
-          </span>
-        )}
-      </div>
+      <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, #1A7A45, #22C55E)' }} />
+      <div className="p-5 text-center">
+        <div className="flex items-baseline gap-0.5 justify-center">
+          {prefix && (
+            <span className="text-xl text-accent font-semibold select-none">
+              {prefix}
+            </span>
+          )}
+          <AnimatedCounter
+            value={isVisible ? value : 0}
+            format="integer"
+            className="text-3xl sm:text-4xl font-bold text-accent"
+          />
+          {suffix && (
+            <span className="text-xl text-accent font-semibold select-none">
+              {suffix}
+            </span>
+          )}
+        </div>
 
-      <motion.p
-        className="text-xs text-text-muted mt-1 uppercase tracking-wider font-medium"
-        initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
-        animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={labelTransition}
-      >
-        {label}
-      </motion.p>
+        <motion.p
+          className="text-xs text-text-muted mt-1 uppercase tracking-wider font-medium"
+          initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
+          animate={{ opacity: isVisible ? 1 : 0 }}
+          transition={labelTransition}
+        >
+          {label}
+        </motion.p>
+      </div>
     </motion.div>
   );
 }
