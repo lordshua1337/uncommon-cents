@@ -89,7 +89,7 @@ export function DashboardProgress() {
           <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
             Your Progress
           </p>
-          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+          <h2 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight">
             Financial Command Center
           </h2>
         </div>

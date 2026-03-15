@@ -181,7 +181,7 @@ export function HomepagePathsSection() {
             <p className="text-[10px] uppercase tracking-widest text-accent font-medium mb-2">
               New
             </p>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight leading-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight leading-tight">
               Learn finance at every stage of life.
             </h2>
             <p className="text-sm text-[#555555] leading-relaxed max-w-sm mt-3">

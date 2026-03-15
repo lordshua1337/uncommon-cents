@@ -1,24 +1,31 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #FAFAF8;
+  --color-background: #F8F6F1;
   --color-surface: #FFFFFF;
-  --color-surface-alt: #F5F5F0;
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #555555;
-  --color-text-muted: #888888;
-  --color-accent: #16A34A;
-  --color-accent-light: #22C55E;
-  --color-accent-dark: #15803D;
-  --color-accent-bg: #F0FDF4;
-  --color-gold: #CA8A04;
-  --color-gold-light: #EAB308;
+  --color-surface-alt: #F0EDE6;
+  --color-surface-dark: #1B1B18;
+  --color-surface-dark-mid: #2A2A26;
+  --color-text-primary: #2C2C2A;
+  --color-text-secondary: #5A5A55;
+  --color-text-muted: #8A8A84;
+  --color-text-inverse: #F8F6F1;
+  --color-accent: #0D6B3D;
+  --color-accent-light: #12875A;
+  --color-accent-dark: #0A5530;
+  --color-accent-bg: #E8F5EE;
+  --color-warm: #B8860B;
+  --color-warm-light: #D4A017;
+  --color-warm-bg: #FAF3E0;
+  --color-gold: #B8860B;
+  --color-gold-light: #D4A017;
   --color-blue: #2563EB;
   --color-red: #DC2626;
-  --color-border: #E5E5E0;
-  --color-border-light: #EFEFEA;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --color-border: #DDD9D0;
+  --color-border-light: #EAE7E0;
+  --font-sans: "var(--font-dm-sans)", "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-heading: "var(--font-playfair)", "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-mono: "var(--font-jetbrains)", "JetBrains Mono", "Fira Code", monospace;
 }
 
 @layer base {
@@ -133,56 +140,53 @@
   animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* ── CARD HOVER -- spring physics ── */
+/* -- FONT HEADING UTILITY -- */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+/* -- CARD HOVER -- refined lift -- */
 .card-hover {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
-  border-color: var(--color-accent-light);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(27, 27, 24, 0.08), 0 2px 8px rgba(27, 27, 24, 0.04);
+  border-color: var(--color-border);
 }
 
-/* ── GRADIENT DIVIDER -- financial green/gold ── */
+/* -- GRADIENT DIVIDER -- subtle warm -- */
 .divider-financial {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(22,163,74,0.2), rgba(202,138,4,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(13,107,61,0.15), rgba(184,134,11,0.15), transparent);
 }
 
-/* ── SECTION ALTERNATE ── */
+/* -- SECTION ALTERNATE -- */
 .section-warm {
-  background: linear-gradient(180deg, #FAFAF8 0%, #F5F5F0 50%, #FAFAF8 100%);
+  background: linear-gradient(180deg, #F8F6F1 0%, #F0EDE6 50%, #F8F6F1 100%);
 }
 
-/* ── PAPER TEXTURE OVERLAY ── */
+/* -- PAPER TEXTURE OVERLAY -- */
 .paper-texture::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.02;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px;
 }
 
-/* ── FOOTER ELEVATED ── */
+/* -- FOOTER ELEVATED -- */
 .footer-elevated {
   position: relative;
-  background: linear-gradient(180deg, #FAFAF8 0%, #F0F0EA 40%, #EAEAE2 100%);
-}
-.footer-elevated::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 5%;
-  right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(22,163,74,0.25) 30%, rgba(202,138,4,0.25) 70%, transparent);
+  background: var(--color-surface-dark);
+  color: var(--color-text-inverse);
 }
 
-/* ── LINK ANIMATED UNDERLINE ── */
+/* -- LINK ANIMATED UNDERLINE -- */
 .link-animated {
   position: relative;
   text-decoration: none;
@@ -194,7 +198,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+  background: linear-gradient(90deg, var(--color-accent), var(--color-warm));
   border-radius: 1px;
   transition: width 0.3s ease;
 }
@@ -202,14 +206,12 @@
   width: 100%;
 }
 
-/* ── DOMAIN CARD ANIMATED -- motion wrapper hover shadow ── */
-/* Framer Motion handles scale via whileHover; CSS handles shadow for performance */
+/* -- DOMAIN CARD ANIMATED -- motion wrapper hover shadow -- */
 .domain-card-motion-wrapper {
   transition: box-shadow 0.25s ease;
 }
 .domain-card-motion-wrapper:hover {
-  /* --hover-shadow is a brand-tinted shadow set inline per card in DomainCardAnimated */
-  box-shadow: var(--hover-shadow, 0 8px 24px rgba(16,185,129,0.14));
+  box-shadow: var(--hover-shadow, 0 8px 24px rgba(13,107,61,0.10));
 }
 
 /* CTA arrow row: hidden by default, slides in on hover */
@@ -222,13 +224,12 @@
   opacity: 1;
   transform: translateX(0);
 }
-/* Also reveal on keyboard focus for accessibility */
 .domain-card-link:focus-visible .domain-card-cta {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* ── REDUCED MOTION ── */
+/* -- REDUCED MOTION -- */
 @media (prefers-reduced-motion: reduce) {
   .card-hover { transition: none; }
   .animate-fade-in { animation: none; opacity: 1; }

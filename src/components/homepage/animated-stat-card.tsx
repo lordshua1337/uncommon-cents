@@ -14,9 +14,6 @@ export interface AnimatedStatCardProps {
   readonly className?: string;
 }
 
-// Accent colors for each card index (domains, concepts, calculators, free)
-const ACCENT_COLORS = ["#3b82f6", "#10b981", "#a855f7", "#f59e0b"] as const;
-
 export function AnimatedStatCard({
   value,
   label,
@@ -39,7 +36,6 @@ export function AnimatedStatCard({
     const el = ref.current;
     if (!el) return;
 
-    // Fall back to immediate trigger if IntersectionObserver is unavailable
     if (typeof IntersectionObserver === "undefined") {
       setIsVisible(true);
       return;
@@ -65,7 +61,6 @@ export function AnimatedStatCard({
     };
   }, [prefersReduced]);
 
-  const accentColor = ACCENT_COLORS[index % ACCENT_COLORS.length];
   const cardDelay = index * STAGGER_FAST;
 
   const cardAnimate = isVisible
@@ -85,40 +80,37 @@ export function AnimatedStatCard({
       ref={ref}
       role="listitem"
       aria-label={`${prefix ?? ""}${value}${suffix ?? ""} ${label}`}
-      className={`rounded-2xl bg-slate-800/50 border border-slate-700/40 p-5 flex flex-col gap-1 cursor-default ${className}`}
-      style={{ borderLeftColor: accentColor, borderLeftWidth: 2 }}
+      className={`rounded-xl bg-surface border border-border p-5 text-center cursor-default ${className}`}
       initial={prefersReduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       animate={cardAnimate}
       transition={cardTransition}
       whileHover={
         prefersReduced
           ? undefined
-          : { y: -2, boxShadow: "0 6px 20px rgba(0,0,0,0.3)", borderColor: "rgba(148,163,184,0.6)" }
+          : { y: -2, boxShadow: "0 6px 20px rgba(27,27,24,0.08)" }
       }
       whileTap={prefersReduced ? undefined : { scale: 0.99 }}
     >
-      {/* Number row */}
-      <div className="flex items-baseline gap-0.5">
+      <div className="flex items-baseline gap-0.5 justify-center">
         {prefix && (
-          <span className="text-xl text-slate-400 font-semibold select-none">
+          <span className="text-xl text-text-muted font-semibold select-none">
             {prefix}
           </span>
         )}
         <AnimatedCounter
           value={isVisible ? value : 0}
           format="integer"
-          className="text-3xl sm:text-4xl font-bold text-white"
+          className="text-3xl sm:text-4xl font-bold text-accent"
         />
         {suffix && (
-          <span className="text-xl text-slate-400 font-semibold select-none">
+          <span className="text-xl text-text-muted font-semibold select-none">
             {suffix}
           </span>
         )}
       </div>
 
-      {/* Label -- fades in 100ms after number starts */}
       <motion.p
-        className="text-xs sm:text-sm text-slate-500 mt-1 uppercase tracking-wider font-semibold"
+        className="text-xs text-text-muted mt-1 uppercase tracking-wider font-medium"
         initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
         transition={labelTransition}

@@ -27,7 +27,7 @@ import { HomepagePathsSection } from "@/components/life-stages/homepage-paths-se
 
 const iconMap: Record<string, React.ReactNode> = {
   ArrowUpDown: <ArrowUpDown className="w-5 h-5 text-accent" />,
-  AlertTriangle: <AlertTriangle className="w-5 h-5 text-gold" />,
+  AlertTriangle: <AlertTriangle className="w-5 h-5 text-warm" />,
   Shield: <Shield className="w-5 h-5 text-accent" />,
   KeyRound: <KeyRound className="w-5 h-5 text-accent" />,
   Scissors: <Scissors className="w-5 h-5 text-accent" />,
@@ -71,36 +71,44 @@ function StrategyPreview({
   );
 }
 
-function StatCard({
-  value,
-  label,
-}: {
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="text-center">
-      <p className="text-2xl sm:text-3xl font-semibold text-accent">{value}</p>
-      <p className="text-xs text-text-muted mt-1">{label}</p>
-    </div>
-  );
-}
-
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      {/* HeroAnimated is a 'use client' island. page.tsx remains a server component. */}
-      {/* All hero content is server-rendered via SSR (SEO preserved). */}
-      {/* The client island hydrates and plays the stagger entrance sequence. */}
-      <section className="pt-28 pb-16 px-4">
-        <HeroAnimated />
+      {/* Hero -- dark editorial */}
+      <section
+        className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 overflow-hidden"
+        style={{
+          background: 'linear-gradient(165deg, #1B1B18 0%, #1F2A1F 40%, #1B1B18 100%)',
+        }}
+      >
+        {/* Subtle radial glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 40%, rgba(13,107,61,0.08) 0%, transparent 70%)',
+          }}
+        />
+        {/* Fine grid overlay for texture */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(248,246,241,0.5) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(248,246,241,0.5) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+          }}
+        />
+        <div className="relative z-10 pt-20 pb-16">
+          <HeroAnimated />
+        </div>
+        {/* Bottom fade to page background */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, transparent, #F8F6F1)' }}
+        />
       </section>
 
-      <div className="divider-financial" />
-
       {/* Stats */}
-      <section className="py-10 px-4 section-warm">
+      <section className="py-12 px-4 section-warm">
         <div
           role="list"
           className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4"
@@ -164,44 +172,42 @@ export default function HomePage() {
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Knowledge Base
             </p>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight">
               {domains.length} Domains. {concepts.length} Concepts. Three Depths.
             </h2>
-            <p className="text-text-secondary text-sm mt-2 max-w-lg mx-auto">
+            <p className="text-text-secondary text-sm mt-3 max-w-lg mx-auto">
               From tax accounts to behavioral finance. Each concept at
               three levels -- from quick overview to full analysis.
             </p>
           </div>
 
           <AnimatedCardGrid
-            accentColor="#16A34A"
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"
+            accentColor="#0D6B3D"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"
           >
             {domains.slice(0, 8).map((domain) => (
               <Link
                 key={domain.id}
                 href={`/explore/${domain.slug}`}
-                className="group bg-surface rounded-lg border border-border p-3 card-hover block"
+                className="group bg-surface rounded-xl border border-border p-4 card-hover block"
               >
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center mb-2"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center mb-3 text-sm font-semibold"
                   style={{
-                    backgroundColor: `${domain.color}15`,
+                    backgroundColor: `${domain.color}12`,
                     color: domain.color,
                   }}
                 >
-                  <span className="text-sm">
-                    {domain.shortName.charAt(0)}
-                  </span>
+                  {domain.shortName.charAt(0)}
                 </div>
-                <p className="text-xs font-semibold group-hover:text-accent transition-colors">
+                <p className="text-sm font-semibold group-hover:text-accent transition-colors">
                   {domain.shortName}
                 </p>
               </Link>
             ))}
           </AnimatedCardGrid>
 
-          <div className="text-center mt-6">
+          <div className="text-center mt-8">
             <Link
               href="/explore"
               className="text-accent font-medium text-sm hover:text-accent-light transition-colors inline-flex items-center gap-1"
@@ -216,13 +222,13 @@ export default function HomePage() {
 
       {/* Recently added concepts */}
       <ScrollReveal>
-      <section className="py-12 px-4 bg-surface-alt">
+      <section className="py-14 px-4 bg-surface-alt">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+            <p className="text-xs text-warm uppercase tracking-widest font-medium mb-2">
               Newest Entries
             </p>
-            <h2 className="text-2xl font-semibold tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight">
               Recently Added
             </h2>
             <p className="text-text-secondary text-sm mt-2">
@@ -236,14 +242,14 @@ export default function HomePage() {
                 <Link
                   key={concept.id}
                   href={`/concepts/${concept.slug}`}
-                  className="group bg-surface rounded-lg border border-border p-4 card-hover block"
+                  className="group bg-surface rounded-xl border border-border p-5 card-hover block"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     {domain && (
                       <span
                         className="text-[10px] font-medium px-2 py-0.5 rounded-full"
                         style={{
-                          backgroundColor: `${domain.color}15`,
+                          backgroundColor: `${domain.color}12`,
                           color: domain.color,
                         }}
                       >
@@ -275,7 +281,7 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* Foundations callout */}
-      <section className="py-12 px-4">
+      <section className="py-14 px-4">
         <div className="max-w-3xl mx-auto">
           <Link
             href="/explore/foundations"
@@ -283,21 +289,21 @@ export default function HomePage() {
           >
             <div
               className="h-1 w-full"
-              style={{ backgroundColor: "#D97706" }}
+              style={{ background: 'linear-gradient(90deg, #B8860B, #D4A017)' }}
             />
             <div className="p-6 sm:p-8">
               <div className="flex items-start gap-4">
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "#D9760615", color: "#D97706" }}
+                  style={{ backgroundColor: "rgba(184,134,11,0.08)", color: "#B8860B" }}
                 >
                   <Compass className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: "#D97706" }}>
+                  <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: "#B8860B" }}>
                     Start Here
                   </p>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-accent transition-colors">
+                  <h3 className="font-heading text-xl font-semibold mb-2 group-hover:text-accent transition-colors">
                     Foundations for Financial Freedom
                   </h3>
                   <p className="text-sm text-text-secondary leading-relaxed mb-3">
@@ -324,10 +330,10 @@ export default function HomePage() {
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Strategies
             </p>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight">
               The Uncommon Playbook
             </h2>
-            <p className="text-text-secondary text-sm mt-2 max-w-lg mx-auto">
+            <p className="text-text-secondary text-sm mt-3 max-w-lg mx-auto">
               Each of these strategies is legal, well-documented, and used
               by financially literate people every day. Most people just
               don&apos;t know about them.
@@ -335,7 +341,7 @@ export default function HomePage() {
           </div>
 
           <AnimatedCardGrid
-            accentColor="#7C3AED"
+            accentColor="#0D6B3D"
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {strategies.map((s) => (
@@ -356,13 +362,13 @@ export default function HomePage() {
             <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
               Tools
             </p>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight">
               Four Ways to Get Smarter
             </h2>
           </div>
 
           <AnimatedCardGrid
-            accentColor="#0EA5E9"
+            accentColor="#0D6B3D"
             className="grid grid-cols-1 sm:grid-cols-2 gap-4"
           >
             <Link
@@ -425,22 +431,47 @@ export default function HomePage() {
       </section>
       </ScrollReveal>
 
-      {/* Disclaimer / CTA */}
+      {/* Disclaimer / CTA -- dark editorial */}
       <ScrollReveal delay={0.05}>
-      <section className="py-16 px-4">
-        <div className="max-w-xl mx-auto text-center">
-          <Coins className="w-8 h-8 text-accent mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold tracking-tight mb-3">
+      <section
+        className="py-20 px-4 relative overflow-hidden"
+        style={{ background: 'linear-gradient(165deg, #1B1B18 0%, #1F2A1F 50%, #1B1B18 100%)' }}
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(13,107,61,0.06) 0%, transparent 70%)',
+          }}
+        />
+        <div className="max-w-xl mx-auto text-center relative z-10">
+          <div
+            className="w-12 h-12 rounded-xl mx-auto mb-6 flex items-center justify-center"
+            style={{ background: 'rgba(13,107,61,0.12)' }}
+          >
+            <Coins className="w-6 h-6" style={{ color: '#4ADE80' }} />
+          </div>
+          <h2
+            className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight mb-4"
+            style={{ color: '#F8F6F1' }}
+          >
             Knowledge Is the Best Investment
           </h2>
-          <p className="text-text-secondary text-sm mb-8 leading-relaxed">
+          <p
+            className="text-sm mb-10 leading-relaxed"
+            style={{ color: 'rgba(248,246,241,0.55)' }}
+          >
             This is education, not financial advice. Every situation is
             different. But understanding these strategies puts you years
             ahead of people who don&apos;t.
           </p>
           <Link
             href="/learn"
-            className="bg-accent text-white px-8 py-3 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center gap-2"
+            className="px-8 py-3 rounded-lg font-medium inline-flex items-center gap-2 transition-all duration-200"
+            style={{
+              background: '#0D6B3D',
+              color: '#F8F6F1',
+              boxShadow: '0 2px 12px rgba(13,107,61,0.3)',
+            }}
           >
             Start With Strategy #1
             <ArrowRight className="w-4 h-4" />

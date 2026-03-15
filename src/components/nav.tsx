@@ -12,9 +12,6 @@ const primaryLinks = [
   { href: "/calculators", label: "Calculators" },
 ];
 
-// secondaryLinks appear in the "More" dropdown on desktop.
-// Calculators moved here since it's now in the primary nav -- it stays in More as well
-// so users coming from deep links still have a path, but is not the source of isSecondaryActive.
 const secondaryLinks = [
   { href: "/scripts", label: "Scripts" },
   { href: "/quiz", label: "Quiz" },
@@ -26,8 +23,6 @@ const secondaryLinks = [
   { href: "/score", label: "Health Score" },
 ];
 
-// Additional links that appear in the More dropdown but are NOT used for isSecondaryActive
-// (they are already surfaced in primary nav or elsewhere)
 const moreDropdownExtras = [
   { href: "/calculators", label: "Calculators" },
 ];
@@ -40,13 +35,24 @@ const allLinks = [...primaryLinks, ...secondaryLinks, { href: "/ask", label: "As
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     setIsOpen(false);
     setMoreOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 40);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -64,42 +70,70 @@ export function Nav() {
     (l) => pathname === l.href || pathname.startsWith(l.href)
   );
 
+  // On homepage before scroll: transparent over dark hero
+  // After scroll or on other pages: solid background
+  const navTransparent = isHome && !scrolled && !isOpen;
+
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border-light">
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: navTransparent
+            ? 'transparent'
+            : 'rgba(248, 246, 241, 0.92)',
+          backdropFilter: navTransparent ? 'none' : 'blur(12px)',
+          borderBottom: navTransparent
+            ? '1px solid transparent'
+            : '1px solid rgba(221, 217, 208, 0.6)',
+        }}
+      >
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <Coins className="w-5 h-5 text-accent group-hover:text-accent-light transition-colors" />
-            <span className="text-base font-semibold tracking-tight">
+            <Coins
+              className="w-5 h-5 transition-colors"
+              style={{ color: navTransparent ? '#4ADE80' : '#0D6B3D' }}
+            />
+            <span
+              className="text-base font-semibold tracking-tight transition-colors"
+              style={{ color: navTransparent ? '#F8F6F1' : '#2C2C2A' }}
+            >
               Uncommon Cents
             </span>
           </Link>
 
           {/* Desktop: primary links + More dropdown + Ask CTA */}
           <div className="hidden md:flex items-center gap-6">
-            {primaryLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm transition-colors ${
-                  pathname === link.href || pathname.startsWith(link.href)
-                    ? "text-accent font-medium"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {primaryLinks.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm transition-colors"
+                  style={{
+                    color: isActive
+                      ? (navTransparent ? '#4ADE80' : '#0D6B3D')
+                      : (navTransparent ? 'rgba(248,246,241,0.7)' : '#5A5A55'),
+                    fontWeight: isActive ? 500 : 400,
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             {/* More dropdown */}
             <div ref={moreRef} className="relative">
               <button
                 onClick={() => setMoreOpen(!moreOpen)}
-                className={`text-sm transition-colors ${
-                  isSecondaryActive
-                    ? "text-accent font-medium"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
+                className="text-sm transition-colors"
+                style={{
+                  color: isSecondaryActive
+                    ? (navTransparent ? '#4ADE80' : '#0D6B3D')
+                    : (navTransparent ? 'rgba(248,246,241,0.7)' : '#5A5A55'),
+                  fontWeight: isSecondaryActive ? 500 : 400,
+                }}
               >
                 More
               </button>
@@ -127,7 +161,11 @@ export function Nav() {
 
             <Link
               href="/ask"
-              className="text-sm bg-accent text-white px-4 py-1.5 rounded-lg hover:bg-accent-light transition-colors"
+              className="text-sm px-4 py-1.5 rounded-lg transition-all duration-200"
+              style={{
+                background: navTransparent ? 'rgba(13,107,61,0.8)' : '#0D6B3D',
+                color: '#F8F6F1',
+              }}
             >
               Ask a Question
             </Link>
@@ -135,8 +173,9 @@ export function Nav() {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-text-secondary hover:text-text-primary"
+            className="md:hidden p-2 transition-colors"
             aria-label="Toggle menu"
+            style={{ color: navTransparent ? '#F8F6F1' : '#5A5A55' }}
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
