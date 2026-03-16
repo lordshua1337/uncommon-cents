@@ -80,39 +80,40 @@ export function AnimatedStatCard({
       ref={ref}
       role="listitem"
       aria-label={`${prefix ?? ""}${value}${suffix ?? ""} ${label}`}
-      className={`rounded-xl bg-surface border border-border overflow-hidden cursor-default shadow-sm ${className}`}
+      className={`uc-metric overflow-hidden cursor-default ${className}`}
       initial={prefersReduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       animate={cardAnimate}
       transition={cardTransition}
       whileHover={
         prefersReduced
           ? undefined
-          : { y: -2, boxShadow: "0 6px 20px rgba(26,122,69,0.1)" }
+          : { y: -2, boxShadow: "0 6px 20px rgba(44,95,124,0.15)" }
       }
       whileTap={prefersReduced ? undefined : { scale: 0.99 }}
     >
-      <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, #1A7A45, #22C55E)' }} />
       <div className="p-5 text-center">
         <div className="flex items-baseline gap-0.5 justify-center">
           {prefix && (
-            <span className="text-xl text-accent font-semibold select-none">
+            <span className="text-xl font-bold select-none" style={{ color: '#E05A1B' }}>
               {prefix}
             </span>
           )}
           <AnimatedCounter
             value={isVisible ? value : 0}
             format="integer"
-            className="text-3xl sm:text-4xl font-bold text-accent"
+            className="text-3xl sm:text-4xl font-bold font-heading"
+            style={{ color: '#F5EDE0' }}
           />
           {suffix && (
-            <span className="text-xl text-accent font-semibold select-none">
+            <span className="text-xl font-bold select-none" style={{ color: '#E05A1B' }}>
               {suffix}
             </span>
           )}
         </div>
 
         <motion.p
-          className="text-xs text-text-muted mt-1 uppercase tracking-wider font-medium"
+          className="text-xs mt-1 uppercase tracking-wider font-semibold"
+          style={{ color: 'rgba(245, 237, 224, 0.6)' }}
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
           transition={labelTransition}

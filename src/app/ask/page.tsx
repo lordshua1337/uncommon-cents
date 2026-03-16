@@ -122,7 +122,7 @@ function AskPageContent() {
 
       setMessages([...updatedMessages, assistantMessage]);
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("[ask] Chat send failed:", error instanceof Error ? error.message : error);
       setMessages([
         ...updatedMessages,
         {

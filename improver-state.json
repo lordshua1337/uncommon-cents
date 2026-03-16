@@ -1,0 +1,51 @@
+{
+  "iteration": 1,
+  "session": 1,
+  "project_profile": {
+    "type": "web-app",
+    "stack": ["Next.js 16", "React 19", "TypeScript", "Supabase", "Tailwind 4", "Framer Motion", "Zod 4"],
+    "architecture": "app-router",
+    "maturity": "mid-stage",
+    "test_framework": "none",
+    "conventions": {
+      "naming": "camelCase",
+      "component_pattern": "functional-hooks",
+      "state_management": "useState-useCallback",
+      "api_style": "manual-route-handlers",
+      "css_approach": "tailwind-css-variables"
+    },
+    "critical_paths": [
+      "src/app/api/chat/route.ts",
+      "src/lib/concepts.ts",
+      "src/lib/config.ts",
+      "src/lib/life-stages/stages.ts"
+    ],
+    "known_weak_areas": [
+      "No tests",
+      "No error logging infrastructure",
+      "No Sentry",
+      "concepts.ts at 2874 lines",
+      "review/page.tsx at 1533 lines",
+      "calculators/page.tsx at 1767 lines",
+      "quiz/page.tsx at 1100 lines",
+      "life-stages/stages.ts at 1133 lines",
+      "15 files over 400 lines",
+      "No rate limiting on API routes"
+    ]
+  },
+  "improvement_velocity": {
+    "cleanup": { "attempts": 2, "successes": 2, "velocity": "high" },
+    "structural": { "attempts": 0, "successes": 0, "velocity": "unknown" },
+    "feature": { "attempts": 1, "successes": 1, "velocity": "high" }
+  },
+  "locked_domains": [],
+  "deferred_domains": [],
+  "blocked_items": [],
+  "last_changed_files": [
+    ".env.example",
+    ".gitignore",
+    "src/app/api/chat/route.ts",
+    "src/app/ask/page.tsx"
+  ],
+  "failure_streak": 0
+}
