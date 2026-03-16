@@ -42,7 +42,7 @@ const SCRIPT_COLORS: Record<ScriptId, string> = {
   avoidance: "#DC2626",
   worship: "#CA8A04",
   status: "#7C3AED",
-  vigilance: "#16A34A",
+  vigilance: "#2E7D4A",
 };
 
 const SCRIPT_ICONS: Record<ScriptId, typeof Shield> = {
@@ -53,14 +53,14 @@ const SCRIPT_ICONS: Record<ScriptId, typeof Shield> = {
 };
 
 // Fallback color if script ID lookup fails
-const FALLBACK_COLOR = "#16A34A";
+const FALLBACK_COLOR = "#2E7D4A";
 
 // ---------------------------------------------------------------------------
 // Progress Bar
 // ---------------------------------------------------------------------------
 
-// Brand accent for the quiz progress fill (green, matching --color-accent)
-const QUIZ_ACCENT = "#16A34A";
+// Brand accent for the quiz progress fill (green, matching brand tokens)
+const QUIZ_ACCENT = "#2E7D4A";
 
 function ProgressBar({
   current,
@@ -84,7 +84,7 @@ function ProgressBar({
 
   // Completion glow: a branded shadow that replaces the shimmer at 100%
   const completionGlow = isComplete
-    ? { boxShadow: `0 0 10px rgba(22,163,74,0.45), 0 0 4px rgba(22,163,74,0.25)` }
+    ? { boxShadow: `0 0 10px rgba(46,125,74,0.45), 0 0 4px rgba(46,125,74,0.25)` }
     : {};
 
   return (
@@ -95,12 +95,13 @@ function ProgressBar({
           initial={shouldReduceMotion ? false : { opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.15 }}
-          className="text-xs text-text-muted font-mono"
+          style={{ color: '#555555' }}
+          className="text-xs font-mono"
           aria-hidden="true"
         >
           Q {current} of {total}
         </motion.span>
-        <span className="text-xs text-text-muted font-mono" aria-hidden="true">
+        <span className="text-xs font-mono" style={{ color: '#555555' }} aria-hidden="true">
           {pct}%
         </span>
       </div>
@@ -116,7 +117,7 @@ function ProgressBar({
         aria-valuemax={total}
         aria-label={`Quiz progress: ${current} of ${total} questions answered`}
         className="h-1.5 md:h-2 rounded-full overflow-hidden relative"
-        style={{ background: "rgba(0,0,0,0.08)" }}
+        style={{ background: "rgba(44,95,124,0.10)" }}
       >
         {/*
           Fill: motion.div so Framer Motion owns the width animation.
@@ -217,7 +218,7 @@ function LikertOption({
   // CSS transitions can't animate box-shadow reliably for the branded ring,
   // so we use Framer Motion's animate prop instead.
   const glowShadow = isSelected
-    ? "0 0 0 2px var(--color-accent), 0 0 16px rgba(22,163,74,0.25)"
+    ? "0 0 0 2px #2E7D4A, 0 0 16px rgba(46,125,74,0.25)"
     : "0 0 0 1px transparent";
 
   // Dimming of unselected options after a choice is made.
@@ -250,31 +251,25 @@ function LikertOption({
       // overflow-visible ensures the ring glow is never clipped by a parent
       // container that has overflow-hidden. relative + isolate keeps stacking
       // context clean so the checkmark badge sits on top.
-      className="relative overflow-visible isolate flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left min-h-[52px] w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 cursor-pointer"
+      className="relative overflow-visible isolate flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left min-h-[52px] w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer"
       style={{
-        background: isSelected
-          ? "var(--color-accent-bg)"
-          : "var(--color-surface)",
-        borderColor: isSelected
-          ? "var(--color-accent)"
-          : "var(--color-border)",
-        // Accent left-border treatment on selected option
-        borderLeft: isSelected ? "4px solid var(--color-accent)" : undefined,
+        background: isSelected ? "rgba(46,125,74,0.07)" : "#FFFFFF",
+        borderColor: isSelected ? "#2E7D4A" : "rgba(196,166,122,0.3)",
+        borderLeft: isSelected ? "4px solid #2E7D4A" : undefined,
+        boxShadow: "0 1px 4px rgba(44,95,124,0.06)",
       }}
     >
       {/* Radio dot indicator */}
       <div
         className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors"
         style={{
-          borderColor: isSelected
-            ? "var(--color-accent)"
-            : "var(--color-border)",
+          borderColor: isSelected ? "#2E7D4A" : "rgba(196,166,122,0.4)",
         }}
       >
         {isSelected && (
           <div
             className="w-2.5 h-2.5 rounded-full"
-            style={{ background: "var(--color-accent)" }}
+            style={{ background: "#2E7D4A" }}
           />
         )}
       </div>
@@ -283,9 +278,7 @@ function LikertOption({
       <span
         className={`text-sm transition-colors ${isSelected ? "font-semibold" : "font-medium"}`}
         style={{
-          color: isSelected
-            ? "var(--color-accent-dark)"
-            : "var(--color-text-secondary)",
+          color: isSelected ? "#1E3F2E" : "#555555",
         }}
       >
         {label}
@@ -302,7 +295,7 @@ function LikertOption({
             key="checkmark"
             aria-hidden="true"
             className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full"
-            style={{ background: "var(--color-accent)" }}
+            style={{ background: "#2E7D4A" }}
             initial={{ scale: 0, opacity: 0 }}
             animate={
               reducedMotion
@@ -392,7 +385,8 @@ function ScoreBar({
 
   return (
     <motion.div
-      className="bg-surface border border-border rounded-xl p-4"
+      className="uc-card rounded-xl p-4"
+      style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...SPRING_BOUNCY, delay: animationDelay }}
@@ -413,13 +407,13 @@ function ScoreBar({
           {label}
         </span>
       </div>
-      <div className="h-2 bg-border rounded-full overflow-hidden">
+      <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(44,95,124,0.10)" }}>
         <div
           className="h-full rounded-full transition-all duration-700 ease-out"
           style={{ width: `${normalized}%`, background: color }}
         />
       </div>
-      <p className="text-[10px] text-text-muted mt-1 text-right font-mono">
+      <p className="text-[10px] mt-1 text-right font-mono" style={{ color: '#555555' }}>
         {normalized}/100
       </p>
     </motion.div>
@@ -485,17 +479,17 @@ function ResultsView({
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...SPRING_GENTLE, delay: cardDelay(0) }}
             >
-              <p className="text-xs text-text-muted font-mono uppercase tracking-widest mb-2">
+              <p className="text-label mb-2" style={{ color: '#555555' }}>
                 Quiz Complete
               </p>
               <h1
-                className="text-2xl font-bold mb-1"
+                className="font-heading text-2xl font-bold mb-1"
                 ref={dominantHeadingRef}
                 tabIndex={-1}
               >
                 {"Here\u2019s how you think about money."}
               </h1>
-              <p className="text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
+              <p className="text-sm max-w-md mx-auto leading-relaxed" style={{ color: '#555555' }}>
                 {
                   "Everyone has a money script \u2014 the beliefs quietly running their financial decisions. Yours shapes how you earn, spend, save, and stress."
                 }
@@ -575,7 +569,7 @@ function ResultsView({
                   <p className="text-sm font-medium mb-2" style={{ color }}>
                     This is your strongest pattern.
                   </p>
-                  <p className="text-sm text-text-secondary leading-relaxed">
+                  <p className="text-sm text-[#555555] leading-relaxed">
                     {interp.headline}
                   </p>
                 </div>
@@ -594,21 +588,21 @@ function ResultsView({
               }}
             >
               <h2 className="text-sm font-semibold mb-3">What This Means</h2>
-              <p className="text-sm text-text-secondary leading-relaxed mb-4">
+              <p className="text-sm text-[#555555] leading-relaxed mb-4">
                 {interp.description}
               </p>
 
-              <h3 className="text-xs font-semibold text-text-primary mb-1.5">
+              <h3 className="text-xs font-semibold text-[#1A1A1A] mb-1.5">
                 Watch For:
               </h3>
-              <p className="text-xs text-text-secondary leading-relaxed mb-4">
+              <p className="text-xs text-[#555555] leading-relaxed mb-4">
                 {interp.watchFor}
               </p>
 
-              <h3 className="text-xs font-semibold text-text-primary mb-1.5">
+              <h3 className="text-xs font-semibold text-[#1A1A1A] mb-1.5">
                 Your Strength:
               </h3>
-              <p className="text-xs text-text-secondary leading-relaxed">
+              <p className="text-xs text-[#555555] leading-relaxed">
                 {interp.strength}
               </p>
             </motion.div>
@@ -616,19 +610,20 @@ function ResultsView({
             {/* Counter-move */}
             {counterMove && (
               <motion.div
-                className="bg-surface border border-border rounded-2xl p-5 mb-5"
+                className="uc-card rounded-2xl p-5 mb-5"
+                style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
                 initial={{ opacity: 0, y: 20, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ ...SPRING_BOUNCY, delay: cardDelay(3) }}
               >
                 <h2 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                  <Target className="w-4 h-4 text-accent" />
+                  <Target className="w-4 h-4" style={{ color: '#2C5F7C' }} />
                   Your Counter-Move
                 </h2>
-                <p className="text-sm font-medium text-accent mb-2">
+                <p className="text-sm font-medium mb-2" style={{ color: '#2C5F7C' }}>
                   {counterMove.intervention}
                 </p>
-                <p className="text-xs text-text-secondary leading-relaxed">
+                <p className="text-xs text-[#555555] leading-relaxed">
                   {counterMove.mechanism}
                 </p>
               </motion.div>
@@ -657,7 +652,7 @@ function ResultsView({
                     {getScriptById(result.secondary)?.name}
                   </span>
                 </p>
-                <p className="text-xs text-text-secondary leading-relaxed">
+                <p className="text-xs text-[#555555] leading-relaxed">
                   {"This one shows up when your primary pattern isn\u2019t enough. "}
                   {"You also scored high on "}
                   <span
@@ -681,7 +676,7 @@ function ResultsView({
               transition={{ ...SPRING_GENTLE, delay: cardDelay(5) }}
             >
               <h2 className="text-sm font-semibold mb-1">How your scores break down</h2>
-              <p className="text-xs text-text-muted mb-4 leading-relaxed">
+              <p className="text-xs text-[#555555] mb-4 leading-relaxed">
                 {"The quiz measures four money scripts. Here\u2019s how yours scored."}
               </p>
               <div className="flex flex-col gap-3">
@@ -714,7 +709,8 @@ function ResultsView({
               </Link>
               <button
                 onClick={() => setRetakeConfirm(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold border border-border text-text-secondary hover:text-text-primary hover:bg-surface-alt transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-colors"
+                style={{ border: "1px solid rgba(196,166,122,0.3)", color: '#555555' }}
               >
                 <RotateCcw className="w-4 h-4" />
                 Retake quiz
@@ -725,14 +721,15 @@ function ResultsView({
             <AnimatePresence>
               {retakeConfirm && (
                 <motion.div
-                  className="bg-surface border border-border rounded-2xl p-5 mb-6"
+                  className="uc-card rounded-2xl p-5 mb-6"
+                  style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.2 }}
                 >
                   <h3 className="text-sm font-semibold mb-1">Retake the quiz?</h3>
-                  <p className="text-xs text-text-secondary mb-4">
+                  <p className="text-xs text-[#555555] mb-4">
                     Your current results will be replaced. Your progress and streak stay the same.
                   </p>
                   <div className="flex gap-2">
@@ -745,7 +742,8 @@ function ResultsView({
                     </button>
                     <button
                       onClick={() => setRetakeConfirm(false)}
-                      className="flex-1 px-4 py-2 text-sm font-semibold rounded-lg border border-border text-text-secondary hover:bg-surface-alt transition-colors"
+                      className="flex-1 px-4 py-2 text-sm font-semibold rounded-lg transition-colors hover:bg-[rgba(44,95,124,0.06)]"
+                      style={{ border: "1px solid rgba(196,166,122,0.3)", color: '#555555' }}
                     >
                       Keep my results
                     </button>
@@ -756,7 +754,7 @@ function ResultsView({
 
             {/* Disclaimer */}
             <motion.p
-              className="text-[10px] text-text-muted text-center leading-relaxed"
+              className="text-[10px] text-[#555555] text-center leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: cardDelay(7) }}
@@ -975,13 +973,14 @@ export default function QuizPage() {
         <div className="flex items-center gap-3 mb-2">
           <Link
             href="/scripts"
-            className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-alt transition-colors"
+            className="p-2 rounded-lg hover:bg-[rgba(44,95,124,0.06)] transition-colors"
+            style={{ color: '#555555' }}
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <h1 className="text-lg font-bold">Money Script Quiz</h1>
         </div>
-        <p className="text-xs text-text-muted mb-6 pl-11">
+        <p className="text-xs text-[#555555] mb-6 pl-11">
           16 questions. Takes about 3 minutes. Be honest -- there are no wrong answers.
         </p>
 
@@ -1006,7 +1005,8 @@ export default function QuizPage() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="bg-surface ring-1 ring-zinc-200/60 rounded-xl p-6"
+              className="uc-card rounded-xl p-6"
+              style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
             >
               {/* Question counter -- keyed separately so it fades in sync with question */}
               <AnimatePresence mode="wait" initial={false}>
@@ -1015,7 +1015,7 @@ export default function QuizPage() {
                   variants={counterVariants}
                   initial="initial"
                   animate="animate"
-                  className="block text-xs text-text-muted font-mono tabular-nums mb-3"
+                  className="block text-xs text-[#555555] font-mono tabular-nums mb-3"
                   aria-hidden="true"
                 >
                   {currentIndex + 1} of {questions.length}
@@ -1056,7 +1056,8 @@ export default function QuizPage() {
             whileHover={reducedMotion ? {} : { scale: 1.02 }}
             whileTap={reducedMotion ? {} : { scale: 0.96 }}
             transition={SPRING_SNAPPY}
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-alt transition-colors disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2"
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg hover:bg-[rgba(44,95,124,0.06)] transition-colors disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            style={{ color: '#555555' }}
           >
             <ChevronLeft className="w-3.5 h-3.5" />
             Previous
@@ -1068,7 +1069,8 @@ export default function QuizPage() {
               whileHover={reducedMotion ? {} : { scale: 1.02 }}
               whileTap={reducedMotion ? {} : { scale: 0.96 }}
               transition={SPRING_SNAPPY}
-              className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-xl bg-accent text-white hover:bg-accent-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2"
+              className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{ background: '#E05A1B', color: '#fff' }}
             >
               See My Results
               <ArrowRight className="w-4 h-4" />
@@ -1082,7 +1084,8 @@ export default function QuizPage() {
               whileHover={reducedMotion ? {} : { scale: 1.02 }}
               whileTap={reducedMotion ? {} : { scale: 0.96 }}
               transition={SPRING_SNAPPY}
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-alt transition-colors disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg hover:bg-[rgba(44,95,124,0.06)] transition-colors disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{ color: '#555555' }}
             >
               Next
               <ArrowRight className="w-3.5 h-3.5" />
@@ -1091,7 +1094,7 @@ export default function QuizPage() {
         </div>
 
         {/* Answer count */}
-        <p className="text-[10px] text-text-muted text-center mt-6">
+        <p className="text-[10px] text-[#555555] text-center mt-6">
           {answeredCount} of {questions.length} answered
         </p>
       </div>

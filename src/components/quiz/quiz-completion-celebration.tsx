@@ -144,7 +144,8 @@ export function QuizCompletionCelebration({
 
             {/* Semi-dark scrim for legibility */}
             <div
-              className="absolute inset-0 bg-[#0f172a]/60 backdrop-blur-sm"
+              className="absolute inset-0 backdrop-blur-sm"
+              style={{ background: 'rgba(26,26,26,0.65)' }}
               aria-hidden="true"
             />
 
@@ -166,7 +167,7 @@ export function QuizCompletionCelebration({
                 }}
               >
                 {/* Inner card */}
-                <div className="rounded-[22px] p-8 bg-[#FAFAF8] dark:bg-[#0f172a] flex flex-col items-center text-center">
+                <div className="rounded-[22px] p-8 flex flex-col items-center text-center" style={{ background: '#F5EDE0' }}>
                   {/* Overline */}
                   <p
                     className="text-[10px] uppercase tracking-widest font-mono mb-5"
@@ -192,10 +193,10 @@ export function QuizCompletionCelebration({
                   </motion.div>
 
                   {/* Celebration headline */}
-                  <h2 className="text-2xl font-bold text-[#1A1A1A] dark:text-white mb-1">
+                  <h2 className="font-heading text-2xl font-bold mb-1" style={{ color: '#1A1A1A' }}>
                     You finished the quiz!
                   </h2>
-                  <p className="text-sm text-[#555555] dark:text-[#aaaaaa] mb-6">
+                  <p className="text-sm mb-6" style={{ color: '#555555' }}>
                     Your money profile is ready.
                   </p>
 

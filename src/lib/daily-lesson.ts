@@ -100,7 +100,7 @@ export function getDailyLesson(): DailyLesson {
   return {
     concept,
     domainName: domain?.shortName ?? "Finance",
-    domainColor: domain?.color ?? "#16A34A",
+    domainColor: domain?.color ?? "#2C5F7C",
     question,
     options,
     explanation,

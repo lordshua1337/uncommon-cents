@@ -59,7 +59,7 @@ function getParticleColor(
   index: number,
   accentColor: string,
 ): string {
-  const palette = [accentColor, "#16A34A", "#CA8A04", "#FAFAF8"];
+  const palette = [accentColor, "#1E3F2E", "#C4A67A", "#F5EDE0"];
   return palette[index % palette.length];
 }
 

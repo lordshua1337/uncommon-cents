@@ -84,12 +84,15 @@ export function DashboardProgress() {
 
   return (
     <section className="py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-[960px] mx-auto">
         <div className="text-center mb-8">
-          <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+          <p
+            className="text-label uppercase tracking-widest font-medium mb-2"
+            style={{ color: "#E05A1B" }}
+          >
             Your Progress
           </p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight">
+          <h2 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight" style={{ color: "#1A1A1A" }}>
             Financial Command Center
           </h2>
         </div>
@@ -99,12 +102,13 @@ export function DashboardProgress() {
           {/* Overall mastery */}
           <Link
             href="/explore"
-            className="bg-surface border border-border-light rounded-xl p-4 text-center card-hover block"
+            className="uc-card p-4 text-center block transition-all"
+            style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
           >
-            <p className="text-2xl font-bold font-mono text-accent">
+            <p className="text-2xl font-bold font-mono" style={{ color: "#2C5F7C" }}>
               {data.overallPercent}%
             </p>
-            <p className="text-[10px] text-text-secondary mt-1">
+            <p className="text-[10px] mt-1" style={{ color: "#555555" }}>
               Overall Mastery
             </p>
           </Link>
@@ -112,43 +116,46 @@ export function DashboardProgress() {
           {/* Due reviews */}
           <Link
             href="/review"
-            className="bg-surface border border-border-light rounded-xl p-4 text-center card-hover block"
+            className="uc-card p-4 text-center block transition-all"
+            style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
           >
             <div className="flex items-center justify-center gap-1.5">
-              <Brain className="w-4 h-4 text-amber-400" />
-              <p className="text-2xl font-bold font-mono text-amber-400">
+              <Brain className="w-4 h-4" style={{ color: "#C4A67A" }} />
+              <p className="text-2xl font-bold font-mono" style={{ color: "#C4A67A" }}>
                 {data.dueReviews}
               </p>
             </div>
-            <p className="text-[10px] text-text-secondary mt-1">Due Reviews</p>
+            <p className="text-[10px] mt-1" style={{ color: "#555555" }}>Due Reviews</p>
           </Link>
 
           {/* Simulations */}
           <Link
             href="/simulator"
-            className="bg-surface border border-border-light rounded-xl p-4 text-center card-hover block"
+            className="uc-card p-4 text-center block transition-all"
+            style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
           >
             <div className="flex items-center justify-center gap-1.5">
-              <Calculator className="w-4 h-4 text-blue-400" />
-              <p className="text-2xl font-bold font-mono text-blue-400">
+              <Calculator className="w-4 h-4" style={{ color: "#2C5F7C" }} />
+              <p className="text-2xl font-bold font-mono" style={{ color: "#2C5F7C" }}>
                 {data.simulationsRun}/6
               </p>
             </div>
-            <p className="text-[10px] text-text-secondary mt-1">Simulations</p>
+            <p className="text-[10px] mt-1" style={{ color: "#555555" }}>Simulations</p>
           </Link>
 
           {/* Achievements */}
           <Link
             href="/achievements"
-            className="bg-surface border border-border-light rounded-xl p-4 text-center card-hover block"
+            className="uc-card p-4 text-center block transition-all"
+            style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
           >
             <div className="flex items-center justify-center gap-1.5">
-              <Trophy className="w-4 h-4 text-accent" />
-              <p className="text-2xl font-bold font-mono">
+              <Trophy className="w-4 h-4" style={{ color: "#E05A1B" }} />
+              <p className="text-2xl font-bold font-mono" style={{ color: "#1A1A1A" }}>
                 {data.achievements.unlocked.length}
               </p>
             </div>
-            <p className="text-[10px] text-text-secondary mt-1">
+            <p className="text-[10px] mt-1" style={{ color: "#555555" }}>
               Achievements
             </p>
           </Link>
@@ -158,15 +165,19 @@ export function DashboardProgress() {
         <DashboardStageCard />
 
         {/* Domain mastery grid */}
-        <div className="bg-surface border border-border-light rounded-xl p-5 mb-6">
+        <div
+          className="uc-card p-5 mb-6"
+          style={{ boxShadow: "0 2px 16px rgba(44,95,124,0.08)" }}
+        >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-accent" />
+            <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: "#1A1A1A" }}>
+              <Sparkles className="w-4 h-4" style={{ color: "#E05A1B" }} />
               Domain Mastery
             </h3>
             <Link
               href="/explore"
-              className="text-[10px] text-accent hover:text-accent-light transition-colors"
+              className="text-[10px] transition-colors"
+              style={{ color: "#2C5F7C" }}
             >
               View all
             </Link>
@@ -175,14 +186,14 @@ export function DashboardProgress() {
             {data.domainProgress.map((d) => (
               <div key={d.domainId} className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium truncate">
+                  <span className="text-[10px] font-medium truncate" style={{ color: "#1A1A1A" }}>
                     {d.name}
                   </span>
-                  <span className="text-[10px] font-mono text-text-secondary">
+                  <span className="text-[10px] font-mono" style={{ color: "#555555" }}>
                     {d.percent}%
                   </span>
                 </div>
-                <div className="h-1.5 bg-background rounded-full">
+                <div className="h-1.5 rounded-full" style={{ backgroundColor: "rgba(44,95,124,0.1)" }}>
                   <motion.div
                     className="h-full rounded-full"
                     style={{ backgroundColor: d.color }}
@@ -201,32 +212,34 @@ export function DashboardProgress() {
           {/* Action plan progress */}
           <Link
             href="/action-plan"
-            className="bg-surface border border-border-light rounded-xl p-5 card-hover block"
+            className="uc-card p-5 block transition-all"
+            style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Target className="w-4 h-4 text-green-400" />
-              <h3 className="text-sm font-semibold">Action Plan</h3>
+              <Target className="w-4 h-4" style={{ color: "#1E3F2E" }} />
+              <h3 className="text-sm font-semibold" style={{ color: "#1A1A1A" }}>Action Plan</h3>
             </div>
             {data.actionsTotal > 0 ? (
               <>
-                <p className="text-xs text-text-secondary mb-2">
+                <p className="text-xs mb-2" style={{ color: "#555555" }}>
                   {data.actionsCompleted} of {data.actionsTotal} completed
                 </p>
-                <div className="h-2 bg-background rounded-full">
+                <div className="h-2 rounded-full" style={{ backgroundColor: "rgba(44,95,124,0.1)" }}>
                   <div
-                    className="h-full bg-green-400 rounded-full transition-all"
+                    className="h-full rounded-full transition-all"
                     style={{
+                      backgroundColor: "#1E3F2E",
                       width: `${(data.actionsCompleted / data.actionsTotal) * 100}%`,
                     }}
                   />
                 </div>
               </>
             ) : (
-              <p className="text-xs text-text-secondary">
+              <p className="text-xs" style={{ color: "#555555" }}>
                 Generate your personalized action plan
               </p>
             )}
-            <span className="text-[10px] text-accent mt-2 inline-flex items-center gap-1">
+            <span className="text-[10px] mt-2 inline-flex items-center gap-1" style={{ color: "#2C5F7C" }}>
               View plan <ArrowRight className="w-3 h-3" />
             </span>
           </Link>
@@ -234,19 +247,29 @@ export function DashboardProgress() {
           {/* Level badge */}
           <Link
             href="/achievements"
-            className="bg-surface border border-accent/20 rounded-xl p-5 card-hover block"
+            className="uc-card p-5 block transition-all"
+            style={{
+              border: "1px solid rgba(224,90,27,0.2)",
+              boxShadow: "0 2px 12px rgba(44,95,124,0.08)",
+            }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center">
-                <span className="text-lg font-bold text-accent">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgba(224,90,27,0.08)",
+                  border: "2px solid rgba(224,90,27,0.25)",
+                }}
+              >
+                <span className="text-lg font-bold" style={{ color: "#E05A1B" }}>
                   {data.achievements.level}
                 </span>
               </div>
               <div>
-                <p className="text-sm font-semibold">
+                <p className="text-sm font-semibold" style={{ color: "#1A1A1A" }}>
                   {data.achievements.levelTitle}
                 </p>
-                <p className="text-[10px] text-text-secondary font-mono">
+                <p className="text-[10px] font-mono" style={{ color: "#555555" }}>
                   {data.achievements.totalXp} XP
                 </p>
               </div>
@@ -258,10 +281,11 @@ export function DashboardProgress() {
         <div className="mt-6">
           <Link
             href="/search"
-            className="flex items-center gap-3 bg-surface border border-border-light rounded-xl px-4 py-3 hover:border-accent/30 transition-colors"
+            className="flex items-center gap-3 uc-card px-4 py-3 transition-colors"
+            style={{ boxShadow: "0 2px 8px rgba(44,95,124,0.06)" }}
           >
-            <Search className="w-4 h-4 text-text-secondary" />
-            <span className="text-sm text-text-secondary">
+            <Search className="w-4 h-4" style={{ color: "#555555" }} />
+            <span className="text-sm" style={{ color: "#555555" }}>
               Search concepts, simulators, strategies...
             </span>
           </Link>

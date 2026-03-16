@@ -23,20 +23,20 @@ interface ActionProgressBarProps {
 // ---------------------------------------------------------------------------
 
 function getStageColor(percent: number): string {
-  if (percent >= 75) return "#16A34A"; // green
-  if (percent >= 50) return "#CA8A04"; // yellow/gold
-  if (percent >= 25) return "#D97706"; // amber
-  return "#DC2626"; // red
+  if (percent >= 75) return "#1E3F2E";
+  if (percent >= 50) return "#2C5F7C";
+  if (percent >= 25) return "#C4A67A";
+  return "#E05A1B";
 }
 
 function getStageGradient(percent: number): string {
   if (percent >= 75)
-    return "linear-gradient(90deg, #15803D 0%, #22C55E 100%)";
+    return "linear-gradient(90deg, #1E3F2E 0%, #2C5F7C 100%)";
   if (percent >= 50)
-    return "linear-gradient(90deg, #CA8A04 0%, #EAB308 100%)";
+    return "linear-gradient(90deg, #2C5F7C 0%, #4A7F9C 100%)";
   if (percent >= 25)
-    return "linear-gradient(90deg, #D97706 0%, #F59E0B 100%)";
-  return "linear-gradient(90deg, #DC2626 0%, #EF4444 100%)";
+    return "linear-gradient(90deg, #C4A67A 0%, #D4B68A 100%)";
+  return "linear-gradient(90deg, #E05A1B 0%, #F07040 100%)";
 }
 
 // ---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ export function ActionProgressBar({
           <p className="text-sm font-medium text-[#1A1A1A]">Your Progress</p>
           <div className="flex items-center gap-1.5">
             {isComplete && (
-              <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+              <CheckCircle className="w-4 h-4 text-[#1E3F2E] shrink-0" />
             )}
             <span
               className="text-2xl font-bold font-mono tabular-nums"
@@ -145,7 +145,7 @@ export function ActionProgressBar({
               animate={{ opacity: 1, scale: 1 }}
               transition={{ ...SPRING_GENTLE, delay: 0.6 }}
             >
-              <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+              <CheckCircle className="w-4 h-4 text-[#1E3F2E] shrink-0" />
             </motion.div>
           )}
           <span

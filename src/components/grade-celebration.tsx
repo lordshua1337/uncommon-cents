@@ -60,7 +60,7 @@ export function GradeCelebration({
   visible,
   previousGrade,
   newGrade,
-  accentColor = "#16A34A",
+  accentColor = "#2C5F7C",
   onDismiss,
 }: GradeCelebrationProps) {
   const prefersReduced = useReducedMotion();

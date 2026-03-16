@@ -77,9 +77,9 @@ function FlowingLine({ containerRef }: { readonly containerRef: React.RefObject<
       >
         <defs>
           <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#16A34A" />
-            <stop offset="50%" stopColor="#CA8A04" />
-            <stop offset="100%" stopColor="#06B6D4" />
+            <stop offset="0%" stopColor="#1E3F2E" />
+            <stop offset="50%" stopColor="#2C5F7C" />
+            <stop offset="100%" stopColor="#C4A67A" />
           </linearGradient>
         </defs>
         {/* Background track */}
@@ -124,7 +124,7 @@ function MobileFlowingLine() {
         style={{
           width: "2px",
           height: "100%",
-          background: "linear-gradient(to bottom, #16A34A 0%, #CA8A04 50%, #06B6D4 100%)",
+          background: "linear-gradient(to bottom, #1E3F2E 0%, #2C5F7C 50%, #C4A67A 100%)",
           opacity: 0.3,
         }}
       />

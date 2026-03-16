@@ -145,12 +145,12 @@ function RelatedConceptCard({ slug, index, prefersReduced, domainColor }: Relate
   const cardContent = (
     <Link
       href={`/concepts/${concept.slug}`}
-      className="group bg-surface rounded-xl ring-1 ring-zinc-200/60 dark:ring-zinc-700/60 p-4 block
+      className="group uc-card p-4 block
         transition-[box-shadow,border-color] duration-200
-        hover:ring-[var(--domain-accent,#16A34A)]/40
-        hover:shadow-[0_4px_20px_var(--domain-accent-shadow,rgba(22,163,74,0.10))]
+        hover:ring-[var(--domain-accent,#2C5F7C)]/40
+        hover:shadow-[0_4px_20px_var(--domain-accent-shadow,rgba(44,95,124,0.12))]
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-        focus-visible:ring-[var(--domain-accent,#16A34A)]/60"
+        focus-visible:ring-[var(--domain-accent,#2C5F7C)]/60"
       style={{
         '--domain-accent': domainColor,
         '--domain-accent-shadow': `${domainColor}1a`,
@@ -169,13 +169,13 @@ function RelatedConceptCard({ slug, index, prefersReduced, domainColor }: Relate
           </span>
         )}
         {concept.hasCalculator && (
-          <Calculator className="w-3 h-3 text-accent" />
+          <Calculator className="w-3 h-3" style={{ color: '#E05A1B' }} />
         )}
       </div>
-      <h4 className="text-sm font-semibold group-hover:text-accent transition-colors">
+      <h4 className="text-sm font-semibold transition-colors group-hover:text-[#E05A1B]">
         {concept.name}
       </h4>
-      <p className="text-xs text-text-secondary mt-1 line-clamp-2">
+      <p className="text-xs mt-1 line-clamp-2" style={{ color: '#555555' }}>
         {concept.summary}
       </p>
     </Link>
@@ -304,11 +304,12 @@ export default function ConceptDetailPage() {
   if (!concept || !domain) {
     return (
       <div className="min-h-screen pt-24 pb-16 px-4">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-[960px] mx-auto text-center">
           <h1 className="text-2xl font-bold mb-4">Concept not found</h1>
           <Link
             href="/explore"
-            className="text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            className="inline-flex items-center gap-1 transition-colors"
+            style={{ color: '#E05A1B' }}
           >
             <ArrowLeft className="w-4 h-4" /> Back to Explore
           </Link>
@@ -322,10 +323,10 @@ export default function ConceptDetailPage() {
       className="min-h-screen pt-24 pb-16 px-4"
       // Domain hue wash: very subtle radial gradient anchored top-right
       style={{
-        background: `radial-gradient(ellipse at 60% 0%, ${domain.color}0d 0%, transparent 60%), var(--color-background)`,
+        background: `radial-gradient(ellipse at 60% 0%, ${domain.color}0d 0%, transparent 60%), #F5EDE0`,
       }}
     >
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-[960px] mx-auto">
 
         {/* ---------------------------------------------------------------- */}
         {/* Breadcrumb -- appears instantly (no stagger, informational only) */}
@@ -334,24 +335,26 @@ export default function ConceptDetailPage() {
           initial={prefersReduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...SPRING_GENTLE, delay: 0 }}
-          className="flex items-center gap-2 text-sm text-text-muted mb-6"
+          className="flex items-center gap-2 text-sm mb-6"
+          style={{ color: '#555555' }}
         >
           <Link
             href="/explore"
-            className="hover:text-text-secondary transition-colors"
+            className="transition-colors hover:opacity-80"
+            style={{ color: '#555555' }}
           >
             Explore
           </Link>
           <span>/</span>
           <Link
             href={`/explore/${domain.slug}`}
-            className="hover:text-text-secondary transition-colors"
+            className="transition-colors hover:opacity-80"
             style={{ color: domain.color }}
           >
             {domain.shortName}
           </Link>
           <span>/</span>
-          <span className="text-text-secondary truncate">{concept.name}</span>
+          <span style={{ color: '#1A1A1A' }} className="truncate">{concept.name}</span>
         </motion.div>
 
         {/* ---------------------------------------------------------------- */}
@@ -381,12 +384,18 @@ export default function ConceptDetailPage() {
               {domain.shortName}
             </span>
             {concept.hasCalculator && (
-              <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded bg-accent-bg text-accent inline-flex items-center gap-1">
+              <span
+                className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded inline-flex items-center gap-1"
+                style={{ backgroundColor: 'rgba(224,90,27,0.1)', color: '#E05A1B' }}
+              >
                 <Calculator className="w-3 h-3" /> Calculator Available
               </span>
             )}
             {highestDepth && (
-              <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded bg-accent/10 text-accent inline-flex items-center gap-1">
+              <span
+                className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded inline-flex items-center gap-1"
+                style={{ backgroundColor: 'rgba(224,90,27,0.1)', color: '#E05A1B' }}
+              >
                 <CheckCircle2 className="w-3 h-3" /> {DEPTH_LABELS[highestDepth]}
               </span>
             )}
@@ -397,7 +406,8 @@ export default function ConceptDetailPage() {
             initial={prefersReduced ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...SPRING_GENTLE, delay: 0.05 }}
-            className="text-2xl sm:text-3xl font-bold tracking-tight mb-3"
+            className="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-3"
+            style={{ color: '#1A1A1A' }}
           >
             {concept.name}
           </motion.h1>
@@ -407,7 +417,8 @@ export default function ConceptDetailPage() {
             initial={prefersReduced ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...SPRING_GENTLE, delay: 0.12 }}
-            className="text-text-secondary leading-relaxed"
+            className="leading-relaxed"
+            style={{ color: '#555555' }}
           >
             {concept.summary}
           </motion.p>
@@ -425,7 +436,11 @@ export default function ConceptDetailPage() {
         >
           {/* Tab bar with shared-layout pill indicator */}
           <div
-            className="flex gap-1 bg-[#f1f5f9] dark:bg-zinc-800/60 rounded-xl p-1 overflow-x-auto border-b border-zinc-200/60 dark:border-zinc-700/60"
+            className="flex gap-1 rounded-xl p-1 overflow-x-auto"
+            style={{
+              backgroundColor: 'rgba(196,166,122,0.15)',
+              borderBottom: '1px solid rgba(196,166,122,0.3)',
+            }}
             role="tablist"
             aria-label="Depth level"
           >
@@ -443,11 +458,11 @@ export default function ConceptDetailPage() {
                   whileTap={prefersReduced ? {} : { scale: 0.96, transition: { ...SPRING_SNAPPY } }}
                   className="relative flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium
                     min-h-[44px] min-w-[80px]
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--domain-accent,#16A34A)]/50
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--domain-accent,#2C5F7C)]/50
                     transition-colors duration-100"
                   style={{
                     color: isActive
-                      ? (domain?.color ?? "#0f172a")
+                      ? (domain?.color ?? '#2C5F7C')
                       : undefined,
                     '--domain-accent': domain?.color,
                   } as React.CSSProperties}
@@ -456,8 +471,12 @@ export default function ConceptDetailPage() {
                   {isActive && !prefersReduced && (
                     <motion.span
                       layoutId={`tab-indicator-${slug}`}
-                      className="absolute inset-0 rounded-lg bg-white dark:bg-zinc-700 shadow-[0_1px_4px_rgba(15,23,42,0.12)]"
-                      style={{ zIndex: 0 }}
+                      className="absolute inset-0 rounded-lg"
+                      style={{
+                        zIndex: 0,
+                        backgroundColor: '#FFFFFF',
+                        boxShadow: '0_1px_4px_rgba(44,95,124,0.14)',
+                      }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       aria-label={`Currently viewing ${depthConfig[tab].label} level`}
                     />
@@ -465,8 +484,12 @@ export default function ConceptDetailPage() {
                   {/* Non-animated indicator for reduced motion */}
                   {isActive && prefersReduced && (
                     <span
-                      className="absolute inset-0 rounded-lg bg-white dark:bg-zinc-700 shadow-[0_1px_4px_rgba(15,23,42,0.12)]"
-                      style={{ zIndex: 0 }}
+                      className="absolute inset-0 rounded-lg"
+                      style={{
+                        zIndex: 0,
+                        backgroundColor: '#FFFFFF',
+                        boxShadow: '0 1px 4px rgba(44,95,124,0.14)',
+                      }}
                     />
                   )}
                   {/* Tab icon and label sit above the indicator */}
@@ -478,7 +501,7 @@ export default function ConceptDetailPage() {
                     {depthConfig[tab].icon}
                     <span
                       className={`hidden sm:inline ${isActive ? "font-semibold" : "font-medium"}`}
-                      style={{ color: isActive ? (domain?.color ?? "#0f172a") : "#64748b" }}
+                      style={{ color: isActive ? (domain?.color ?? '#2C5F7C') : '#555555' }}
                     >
                       {depthConfig[tab].label}
                     </span>
@@ -493,7 +516,8 @@ export default function ConceptDetailPage() {
           initial={prefersReduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ...SPRING_GENTLE, delay: 0.22 }}
-          className="text-xs text-text-muted mb-4"
+          className="text-xs mb-4"
+          style={{ color: '#555555' }}
         >
           {depthConfig[activeTab].description}
         </motion.p>
@@ -525,8 +549,7 @@ export default function ConceptDetailPage() {
               role="tabpanel"
               id={`depth-panel-${activeTab}`}
               aria-labelledby={`tab-${activeTab}`}
-              className="bg-surface rounded-xl border border-border p-6 sm:p-8
-                border-l-2"
+              className="uc-card p-6 sm:p-8 border-l-2"
               style={{
                 borderLeftColor: `${domain.color}4d`,
               }}
@@ -557,7 +580,8 @@ export default function ConceptDetailPage() {
                   {concept.layers[activeTab].split("\n\n").map((paragraph, i) => (
                     <p
                       key={i}
-                      className="text-text-secondary leading-relaxed mb-4 last:mb-0"
+                      className="leading-relaxed mb-4 last:mb-0"
+                      style={{ color: '#555555' }}
                     >
                       {paragraph}
                     </p>
@@ -576,13 +600,13 @@ export default function ConceptDetailPage() {
             initial={prefersReduced ? false : sectionVariants.hidden}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...SPRING_GENTLE, delay: 0.38 }}
-            className="bg-surface-alt rounded-xl border border-border p-5 sm:p-6 mb-8"
+            className="uc-section p-5 sm:p-6 mb-8"
           >
             <div className="flex items-center gap-2 mb-3">
-              <AlertCircle className="w-4 h-4 text-gold" />
-              <h3 className="text-sm font-semibold">Honest Analysis</h3>
+              <AlertCircle className="w-4 h-4" style={{ color: '#C4A67A' }} />
+              <h3 className="text-sm font-semibold" style={{ color: '#F5EDE0' }}>Honest Analysis</h3>
             </div>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: '#F5EDE0', opacity: 0.85 }}>
               {concept.honestAnalysis}
             </p>
           </motion.div>
@@ -599,7 +623,7 @@ export default function ConceptDetailPage() {
             className="mb-8"
           >
             <h3
-              className="text-sm font-medium tracking-widest uppercase mb-3"
+              className="text-label mb-3"
               style={{ color: domain.color }}
             >
               Related Concepts
@@ -630,16 +654,14 @@ export default function ConceptDetailPage() {
           initial={prefersReduced ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...SPRING_GENTLE, delay: 0.54 }}
-          className="bg-surface rounded-xl border border-border p-5 text-center"
+          className="uc-card p-5 text-center"
         >
-          <p className="text-sm text-text-secondary mb-3">
+          <p className="text-sm mb-3" style={{ color: '#555555' }}>
             Want to run the numbers for your situation?
           </p>
           <Link
             href={`/ask?topic=${encodeURIComponent(concept.name)}`}
-            className="inline-flex items-center gap-2 bg-accent text-white text-sm font-medium px-5 py-2.5 rounded-lg
-              hover:bg-accent-light transition-colors
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent/60"
+            className="uc-button uc-button-primary inline-flex items-center gap-2"
           >
             Ask Uncommon Cents <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -652,19 +674,22 @@ export default function ConceptDetailPage() {
           initial={prefersReduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ...SPRING_GENTLE, delay: 0.6 }}
-          className="mt-8 pt-6 border-t border-border-light flex items-center justify-between"
+          className="mt-8 pt-6 flex items-center justify-between"
+          style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}
         >
           <div className="flex flex-col gap-2">
             <Link
               href={`/explore/${domain.slug}`}
-              className="text-sm text-text-muted hover:text-text-secondary transition-colors inline-flex items-center gap-1"
+              className="text-sm inline-flex items-center gap-1 transition-colors hover:opacity-80"
+              style={{ color: '#555555' }}
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to {domain.shortName}
             </Link>
             {prevConcept && (
               <Link
                 href={`/concepts/${prevConcept.slug}`}
-                className="text-sm text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
+                className="text-sm inline-flex items-center gap-1 transition-colors"
+                style={{ color: '#E05A1B' }}
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> {prevConcept.name}
               </Link>
@@ -673,7 +698,8 @@ export default function ConceptDetailPage() {
           {nextConcept && (
             <Link
               href={`/concepts/${nextConcept.slug}`}
-              className="text-sm text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1"
+              className="text-sm inline-flex items-center gap-1 transition-colors"
+              style={{ color: '#E05A1B' }}
             >
               {nextConcept.name} <ArrowRight className="w-3.5 h-3.5" />
             </Link>

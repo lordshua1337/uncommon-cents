@@ -55,20 +55,20 @@ function EmptyState() {
           width: "56px",
           height: "56px",
           borderRadius: "16px",
-          background: "var(--color-accent-bg)",
+          background: "rgba(44,95,124,0.1)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           marginBottom: "20px",
         }}
       >
-        <BookOpen style={{ width: "24px", height: "24px", color: "var(--color-accent)" }} />
+        <BookOpen style={{ width: "24px", height: "24px", color: "#2C5F7C" }} />
       </div>
       <div
         style={{
           fontSize: "18px",
           fontWeight: 700,
-          color: "var(--color-text-primary)",
+          color: "#1A1A1A",
           marginBottom: "8px",
         }}
       >
@@ -77,7 +77,7 @@ function EmptyState() {
       <div
         style={{
           fontSize: "14px",
-          color: "var(--color-text-muted)",
+          color: "#555555",
           maxWidth: "320px",
         }}
       >
@@ -98,18 +98,16 @@ export default function PathsPage() {
     stages = buildStageNodeData();
   } catch {
     return (
-      <div className="min-h-screen pt-24 pb-16 px-4">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen pt-24 pb-16 px-4" style={{ background: "#F5EDE0" }}>
+        <div className="max-w-[960px] mx-auto">
           <div
+            className="uc-card"
             style={{
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "16px",
               padding: "32px",
               textAlign: "center",
             }}
           >
-            <p style={{ color: "var(--color-text-secondary)", fontSize: "14px" }}>
+            <p style={{ color: "#555555", fontSize: "14px" }}>
               Unable to load your learning paths. Please refresh.
             </p>
           </div>
@@ -120,8 +118,8 @@ export default function PathsPage() {
 
   if (stages.length === 0) {
     return (
-      <div className="min-h-screen pt-24 pb-16 px-4">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen pt-24 pb-16 px-4" style={{ background: "#F5EDE0" }}>
+        <div className="max-w-[960px] mx-auto">
           <EmptyState />
         </div>
       </div>
@@ -130,8 +128,8 @@ export default function PathsPage() {
 
   return (
     <div
-      className="min-h-screen paper-texture"
-      style={{ background: "var(--color-background)" }}
+      className="min-h-screen linen-texture"
+      style={{ background: "#F5EDE0" }}
     >
       {/* Hero banner */}
       <div
@@ -143,7 +141,7 @@ export default function PathsPage() {
           paddingLeft: "16px",
           paddingRight: "16px",
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(22,163,74,0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(44,95,124,0.08) 0%, transparent 70%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -152,12 +150,9 @@ export default function PathsPage() {
       >
         {/* Overline */}
         <p
+          className="text-label"
           style={{
-            fontSize: "10px",
-            fontWeight: 600,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--color-accent)",
+            color: "#2C5F7C",
             marginBottom: "12px",
           }}
         >
@@ -166,11 +161,12 @@ export default function PathsPage() {
 
         {/* H1 */}
         <h1
+          className="font-heading"
           style={{
             fontSize: "clamp(24px, 5vw, 40px)",
             fontWeight: 800,
             letterSpacing: "-0.03em",
-            color: "var(--color-text-primary)",
+            color: "#1A1A1A",
             lineHeight: 1.1,
             maxWidth: "600px",
             margin: "0 auto",
@@ -178,14 +174,14 @@ export default function PathsPage() {
         >
           Everything you need to know
           <br />
-          <span style={{ color: "var(--color-accent)" }}>before life gets expensive</span>
+          <span style={{ color: "#2C5F7C" }}>before life gets expensive</span>
         </h1>
 
         {/* Subtitle */}
         <p
           style={{
             fontSize: "15px",
-            color: "var(--color-text-secondary)",
+            color: "#555555",
             maxWidth: "420px",
             marginTop: "16px",
             lineHeight: 1.6,
@@ -209,9 +205,9 @@ export default function PathsPage() {
             style={{
               fontSize: "12px",
               fontWeight: 600,
-              color: "var(--color-text-muted)",
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
+              color: "#555555",
+              background: "#FFFFFF",
+              border: "1px solid rgba(196,166,122,0.3)",
               borderRadius: "20px",
               padding: "5px 14px",
             }}
@@ -222,9 +218,9 @@ export default function PathsPage() {
             style={{
               fontSize: "12px",
               fontWeight: 600,
-              color: "var(--color-text-muted)",
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
+              color: "#555555",
+              background: "#FFFFFF",
+              border: "1px solid rgba(196,166,122,0.3)",
               borderRadius: "20px",
               padding: "5px 14px",
             }}
@@ -240,7 +236,7 @@ export default function PathsPage() {
       {/* Main content */}
       <div
         style={{
-          maxWidth: "900px",
+          maxWidth: "960px",
           margin: "0 auto",
           padding: "40px 16px 80px",
         }}
@@ -251,22 +247,22 @@ export default function PathsPage() {
       {/* Bottom CTA band */}
       <div
         style={{
-          borderTop: "1px solid var(--color-border-light)",
+          borderTop: "1px solid rgba(196,166,122,0.3)",
           padding: "40px 16px",
           textAlign: "center",
-          background: "var(--color-surface-alt)",
+          background: "#FFFFFF",
         }}
       >
         <p
           style={{
             fontSize: "13px",
-            color: "var(--color-text-muted)",
+            color: "#555555",
             maxWidth: "480px",
             margin: "0 auto",
             lineHeight: 1.6,
           }}
         >
-          <strong style={{ color: "var(--color-text-secondary)" }}>Pick your stage. Get the real playbook.</strong>
+          <strong style={{ color: "#1A1A1A" }}>Pick your stage. Get the real playbook.</strong>
           {" "}Not a lecture. Not 40 generic tips.
           The exact things you need to know, in the order you need to know them.
         </p>

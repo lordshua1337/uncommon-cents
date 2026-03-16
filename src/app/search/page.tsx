@@ -19,9 +19,9 @@ const TYPE_CONFIG: Record<
   SearchResult["type"],
   { icon: React.ComponentType<{ className?: string }>; color: string; label: string }
 > = {
-  concept: { icon: BookOpen, color: "text-blue-400", label: "Concept" },
-  simulator: { icon: Calculator, color: "text-amber-400", label: "Simulator" },
-  strategy: { icon: Layers, color: "text-green-400", label: "Strategy" },
+  concept: { icon: BookOpen, color: "text-[#2C5F7C]", label: "Concept" },
+  simulator: { icon: Calculator, color: "text-[#C4A67A]", label: "Simulator" },
+  strategy: { icon: Layers, color: "text-[#1E3F2E]", label: "Strategy" },
 };
 
 // ---------------------------------------------------------------------------
@@ -34,22 +34,23 @@ export default function SearchPage() {
   const results = useMemo(() => searchAll(query), [query]);
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen linen-texture pt-20 pb-16 px-4">
+      <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Link
             href="/"
-            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+            className="p-2 rounded-lg transition-colors hover:bg-white/60"
+            style={{ color: "#555555" }}
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl font-semibold flex items-center gap-2">
-              <Search className="w-5 h-5 text-accent" />
+            <h1 className="font-heading text-xl font-semibold flex items-center gap-2" style={{ color: "#1A1A1A" }}>
+              <Search className="w-5 h-5" style={{ color: "#E05A1B" }} />
               Search
             </h1>
-            <p className="text-xs text-text-secondary">
+            <p className="text-xs" style={{ color: "#555555" }}>
               Find concepts, simulators, and strategies
             </p>
           </div>
@@ -57,13 +58,27 @@ export default function SearchPage() {
 
         {/* Search input */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+            style={{ color: "#555555" }}
+          />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for anything..."
-            className="w-full bg-surface border border-border-light rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-accent/50 transition-colors"
+            className="w-full bg-white border rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none transition-colors"
+            style={{
+              borderColor: "rgba(196,166,122,0.3)",
+              color: "#1A1A1A",
+              boxShadow: "0 2px 12px rgba(44,95,124,0.06)",
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "rgba(224,90,27,0.4)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "rgba(196,166,122,0.3)";
+            }}
             autoFocus
           />
         </div>
@@ -71,7 +86,7 @@ export default function SearchPage() {
         {/* Results */}
         {query.length >= 2 && (
           <div className="space-y-2">
-            <p className="text-xs text-text-secondary mb-3">
+            <p className="text-xs mb-3" style={{ color: "#555555" }}>
               {results.length} result{results.length !== 1 ? "s" : ""}
             </p>
             {results.map((result) => {
@@ -81,7 +96,17 @@ export default function SearchPage() {
                 <Link
                   key={`${result.type}_${result.href}`}
                   href={result.href}
-                  className="block bg-surface border border-border-light rounded-xl p-4 hover:border-accent/30 transition-colors"
+                  className="block uc-card p-4 transition-all hover:shadow-md"
+                  style={{
+                    border: "1px solid rgba(196,166,122,0.2)",
+                    boxShadow: "0 2px 8px rgba(44,95,124,0.06)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(224,90,27,0.3)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(196,166,122,0.2)";
+                  }}
                 >
                   <div className="flex items-start gap-3">
                     <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${config.color}`} />
@@ -93,8 +118,8 @@ export default function SearchPage() {
                           {config.label}
                         </span>
                       </div>
-                      <p className="text-sm font-medium">{result.title}</p>
-                      <p className="text-xs text-text-secondary mt-0.5 line-clamp-2">
+                      <p className="text-sm font-medium" style={{ color: "#1A1A1A" }}>{result.title}</p>
+                      <p className="text-xs mt-0.5 line-clamp-2" style={{ color: "#555555" }}>
                         {result.description}
                       </p>
                     </div>
@@ -103,8 +128,11 @@ export default function SearchPage() {
               );
             })}
             {results.length === 0 && (
-              <div className="bg-surface border border-border-light rounded-xl p-8 text-center">
-                <p className="text-sm text-text-secondary">
+              <div
+                className="uc-card p-8 text-center"
+                style={{ border: "1px solid rgba(196,166,122,0.2)" }}
+              >
+                <p className="text-sm" style={{ color: "#555555" }}>
                   No results found for &ldquo;{query}&rdquo;
                 </p>
               </div>
@@ -113,9 +141,15 @@ export default function SearchPage() {
         )}
 
         {query.length < 2 && (
-          <div className="bg-surface border border-border-light rounded-xl p-8 text-center">
-            <Search className="w-8 h-8 text-text-secondary mx-auto mb-3" />
-            <p className="text-sm text-text-secondary">
+          <div
+            className="uc-card p-8 text-center"
+            style={{
+              border: "1px solid rgba(196,166,122,0.2)",
+              boxShadow: "0 2px 12px rgba(44,95,124,0.06)",
+            }}
+          >
+            <Search className="w-8 h-8 mx-auto mb-3" style={{ color: "#555555" }} />
+            <p className="text-sm" style={{ color: "#555555" }}>
               Type at least 2 characters to search across all content.
             </p>
           </div>

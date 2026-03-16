@@ -20,7 +20,7 @@ import {
 const STORAGE_KEY = "uc-action-plan-celebrated";
 const DISMISS_LOCK_MS = 2000;
 const AUTO_DISMISS_MS = 5000;
-const ACCENT = "#16A34A";
+const ACCENT = "#2C5F7C";
 
 // ---------------------------------------------------------------------------
 // localStorage helpers

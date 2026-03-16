@@ -95,43 +95,53 @@ export default function LoopPage() {
   const progress = completedSteps.size / operatingLoop.steps.length;
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen linen-texture pt-24 pb-16 px-4">
+      <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-4">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4"
+            style={{ background: "#E05A1B10", color: "#E05A1B" }}
+          >
             <RotateCcw className="w-3.5 h-3.5" />
             The System
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ color: "#1A1A1A" }}>
             The Uncommon Cents Operating Loop
           </h1>
-          <p className="text-text-secondary text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-base max-w-xl mx-auto leading-relaxed" style={{ color: "#555555" }}>
             {operatingLoop.principle}
           </p>
         </div>
 
         {/* Progress bar */}
-        <div className="bg-surface border border-border rounded-xl p-5 mb-8">
+        <div
+          className="uc-card p-5 mb-8"
+          style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
+        >
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold" style={{ color: "#1A1A1A" }}>
               {completedSteps.size} of {operatingLoop.steps.length} steps
               reviewed
             </p>
             {completedSteps.size > 0 && (
               <button
                 onClick={resetAll}
-                className="text-xs text-text-muted hover:text-text-primary transition-colors"
+                className="text-xs transition-colors hover:opacity-70"
+                style={{ color: "#555555" }}
               >
                 Reset
               </button>
             )}
           </div>
-          <div className="w-full h-2 bg-border-light rounded-full overflow-hidden">
+          <div
+            className="w-full h-2 rounded-full overflow-hidden"
+            style={{ background: "rgba(196,166,122,0.25)" }}
+          >
             <div
-              className="h-full bg-accent rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${progress * 100}%` }}
+              className="h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress * 100}%`, background: "#E05A1B" }}
             />
           </div>
         </div>
@@ -145,20 +155,28 @@ export default function LoopPage() {
             return (
               <div
                 key={step.order}
-                className={`bg-surface rounded-xl border transition-colors ${
-                  isCompleted ? "border-accent/30" : "border-border"
-                }`}
+                className="uc-card transition-colors"
+                style={{
+                  border: isCompleted
+                    ? "1px solid rgba(224,90,27,0.3)"
+                    : "1px solid rgba(196,166,122,0.3)",
+                  boxShadow: "0 2px 12px rgba(44,95,124,0.06)",
+                }}
               >
                 <div className="p-5">
                   <div className="flex items-start gap-4">
                     {/* Checkbox */}
                     <button
                       onClick={() => toggleStep(step.order)}
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
+                      style={
                         isCompleted
-                          ? "bg-accent text-white"
-                          : "bg-accent-bg text-accent hover:bg-accent/20"
-                      }`}
+                          ? { background: "#E05A1B", color: "#FFFFFF" }
+                          : {
+                              background: "rgba(224,90,27,0.1)",
+                              color: "#E05A1B",
+                            }
+                      }
                     >
                       {isCompleted ? (
                         <Check className="w-4 h-4" />
@@ -171,18 +189,20 @@ export default function LoopPage() {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono text-accent font-semibold">
+                        <span className="text-xs font-mono font-semibold" style={{ color: "#E05A1B" }}>
                           Step {step.order}
                         </span>
                       </div>
                       <p
-                        className={`text-sm font-semibold leading-relaxed mb-2 ${
-                          isCompleted ? "text-text-muted line-through" : ""
-                        }`}
+                        className="text-sm font-semibold leading-relaxed mb-2"
+                        style={{
+                          color: isCompleted ? "#555555" : "#1A1A1A",
+                          textDecoration: isCompleted ? "line-through" : "none",
+                        }}
                       >
                         {step.action}
                       </p>
-                      <p className="text-sm text-text-secondary leading-relaxed mb-3">
+                      <p className="text-sm leading-relaxed mb-3" style={{ color: "#555555" }}>
                         {step.description}
                       </p>
 
@@ -193,7 +213,11 @@ export default function LoopPage() {
                             <Link
                               key={link.href}
                               href={link.href}
-                              className="text-xs text-accent hover:text-accent-light transition-colors inline-flex items-center gap-1 bg-accent-bg px-2.5 py-1 rounded-md"
+                              className="text-xs font-medium inline-flex items-center gap-1 px-2.5 py-1 rounded-md transition-opacity hover:opacity-70"
+                              style={{
+                                color: "#E05A1B",
+                                background: "rgba(224,90,27,0.08)",
+                              }}
                             >
                               {link.label}
                               <ArrowRight className="w-3 h-3" />
@@ -210,30 +234,33 @@ export default function LoopPage() {
         </div>
 
         {/* Guardrails */}
-        <div className="bg-surface-alt rounded-xl p-6 mb-8">
-          <h2 className="text-sm font-semibold mb-3">Guardrails</h2>
+        <div
+          className="rounded-xl p-6 mb-8"
+          style={{ background: "rgba(44,95,124,0.06)" }}
+        >
+          <h2 className="text-sm font-semibold mb-3" style={{ color: "#1A1A1A" }}>Guardrails</h2>
           <ul className="space-y-2">
-            <li className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
-              <span className="text-accent mt-0.5">--</span>
+            <li className="text-xs leading-relaxed flex items-start gap-2" style={{ color: "#555555" }}>
+              <span className="mt-0.5" style={{ color: "#C4A67A" }}>--</span>
               Tax moves depend on facts and documentation. The IRS expects
               recordkeeping systems that clearly show income and deductions.
             </li>
-            <li className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
-              <span className="text-accent mt-0.5">--</span>
+            <li className="text-xs leading-relaxed flex items-start gap-2" style={{ color: "#555555" }}>
+              <span className="mt-0.5" style={{ color: "#C4A67A" }}>--</span>
               Many strategies have eligibility gates (plan features, age rules,
               holding periods). The power comes from respecting the gates.
             </li>
-            <li className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
-              <span className="text-accent mt-0.5">--</span>
+            <li className="text-xs leading-relaxed flex items-start gap-2" style={{ color: "#555555" }}>
+              <span className="mt-0.5" style={{ color: "#C4A67A" }}>--</span>
               Fraud protection is layered defenses, not one trick.
             </li>
-            <li className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
-              <span className="text-accent mt-0.5">--</span>
+            <li className="text-xs leading-relaxed flex items-start gap-2" style={{ color: "#555555" }}>
+              <span className="mt-0.5" style={{ color: "#C4A67A" }}>--</span>
               This is education, not personalized financial/tax/legal advice.
               Consult qualified professionals for your specific situation.
             </li>
-            <li className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
-              <span className="text-accent mt-0.5">--</span>
+            <li className="text-xs leading-relaxed flex items-start gap-2" style={{ color: "#555555" }}>
+              <span className="mt-0.5" style={{ color: "#C4A67A" }}>--</span>
               All legal references are to US federal rules. State-level
               variations exist for many of these strategies.
             </li>
@@ -246,19 +273,22 @@ export default function LoopPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/scripts"
-            className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            className="text-sm font-medium inline-flex items-center gap-1 transition-opacity hover:opacity-70"
+            style={{ color: "#E05A1B" }}
           >
             Money Scripts <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href="/defenses"
-            className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            className="text-sm font-medium inline-flex items-center gap-1 transition-opacity hover:opacity-70"
+            style={{ color: "#E05A1B" }}
           >
             Fraud Defenses <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href="/explore"
-            className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            className="text-sm font-medium inline-flex items-center gap-1 transition-opacity hover:opacity-70"
+            style={{ color: "#E05A1B" }}
           >
             Explore All Domains <ArrowRight className="w-3.5 h-3.5" />
           </Link>

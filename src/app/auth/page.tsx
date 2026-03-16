@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/auth/client'
+import { Coins } from 'lucide-react'
 
 export default function AuthPage() {
   const router = useRouter()
@@ -44,21 +45,23 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0F0A] flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#F5EDE0' }}>
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-[#16A34A] rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            style={{ background: '#1E3F2E' }}
+          >
+            <Coins className="w-8 h-8" style={{ color: '#F5EDE0' }} />
           </div>
-          <h1 className="text-2xl font-bold text-[#16A34A]">Uncommon Cents</h1>
-          <p className="text-sm text-gray-400 mt-1">Sign in to save progress, quiz results, and calculations</p>
+          <h1 className="font-heading text-2xl font-bold" style={{ color: '#1A1A1A' }}>Uncommon Cents</h1>
+          <p className="text-sm mt-1" style={{ color: '#555555' }}>Sign in to save progress, quiz results, and calculations</p>
         </div>
 
-        <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-6">
+        <div className="uc-card p-6" style={{ border: '1px solid rgba(44,95,124,0.15)' }}>
           <button onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-colors mb-4">
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white font-medium rounded-lg hover:bg-gray-50 transition-colors mb-4 text-sm"
+            style={{ color: '#1A1A1A', border: '1px solid rgba(44,95,124,0.15)' }}>
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -69,30 +72,41 @@ export default function AuthPage() {
           </button>
 
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 h-px bg-[#1E3A1E]" />
-            <span className="text-xs text-gray-500">or</span>
-            <div className="flex-1 h-px bg-[#1E3A1E]" />
+            <div className="flex-1 h-px" style={{ background: 'rgba(44,95,124,0.15)' }} />
+            <span className="text-xs" style={{ color: '#555555' }}>or</span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(44,95,124,0.15)' }} />
           </div>
 
           <form onSubmit={handleMagicLink}>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full px-3 py-2.5 bg-[#0A0F0A] border border-[#1E3A1E] rounded-lg text-white text-sm placeholder:text-gray-500 mb-3" />
+              className="w-full px-3 py-2.5 rounded-lg text-sm mb-3"
+              style={{
+                background: '#F5EDE0',
+                border: '1px solid rgba(44,95,124,0.2)',
+                color: '#1A1A1A',
+              }} />
             <button type="submit" disabled={loading || !email}
-              className="w-full px-4 py-2.5 bg-[#16A34A] text-white font-semibold rounded-lg hover:bg-[#22C55E] transition-colors disabled:opacity-50 text-sm">
+              className="uc-button uc-button-primary w-full py-2.5 text-sm font-semibold disabled:opacity-50">
               {loading ? 'Sending...' : 'Send Magic Link'}
             </button>
           </form>
 
           {message && (
-            <p className={`mt-3 text-xs text-center ${message.includes('Check') ? 'text-[#16A34A]' : 'text-red-400'}`}>
+            <p className="mt-3 text-xs text-center" style={{
+              color: message.includes('Check') ? '#2C5F7C' : '#DC2626'
+            }}>
               {message}
             </p>
           )}
         </div>
 
         <button onClick={handleDemoLogin}
-          className="w-full mt-4 px-4 py-2.5 border border-[#1E3A1E] text-gray-500 rounded-lg hover:bg-[#111811] hover:text-[#16A34A] transition-colors text-sm font-medium">
+          className="w-full mt-4 px-4 py-2.5 rounded-lg transition-colors text-sm font-medium"
+          style={{
+            border: '1px solid rgba(44,95,124,0.2)',
+            color: '#555555',
+          }}>
           Demo Login (test@test.com)
         </button>
       </div>

@@ -24,7 +24,10 @@ function ScriptCard({ script }: { script: MoneyScript }) {
   const counterMove = counterMoves.find((c) => c.scriptId === script.id);
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden">
+    <div
+      className="uc-card overflow-hidden"
+      style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
+    >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full text-left p-5 flex items-start justify-between gap-3"
@@ -34,19 +37,19 @@ function ScriptCard({ script }: { script: MoneyScript }) {
             <span
               className={`text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded-full ${
                 script.association === "destructive"
-                  ? "bg-red/10 text-red"
-                  : "bg-accent-bg text-accent"
+                  ? "bg-red-100 text-red-600"
+                  : "bg-[#E05A1B]/10 text-[#E05A1B]"
               }`}
             >
               {script.association}
             </span>
           </div>
-          <h3 className="text-base font-semibold mb-1">{script.name}</h3>
-          <p className="text-sm text-text-muted italic">
+          <h3 className="text-base font-semibold mb-1" style={{ color: "#1A1A1A" }}>{script.name}</h3>
+          <p className="text-sm italic" style={{ color: "#555555" }}>
             {script.triggerPhrase}
           </p>
         </div>
-        <div className="text-text-muted flex-shrink-0 mt-1">
+        <div className="flex-shrink-0 mt-1" style={{ color: "#555555" }}>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
           ) : (
@@ -56,34 +59,37 @@ function ScriptCard({ script }: { script: MoneyScript }) {
       </button>
 
       {isExpanded && (
-        <div className="px-5 pb-5 border-t border-border-light pt-4 space-y-4 animate-fade-in">
+        <div
+          className="px-5 pb-5 pt-4 space-y-4 animate-fade-in"
+          style={{ borderTop: "1px solid rgba(196,166,122,0.3)" }}
+        >
           <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
+            <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: "#555555" }}>
               What it looks like
             </p>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "#555555" }}>
               {script.description}
             </p>
           </div>
 
           <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
+            <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: "#555555" }}>
               Risk pattern
             </p>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "#555555" }}>
               {script.riskPattern}
             </p>
           </div>
 
           {counterMove && (
-            <div className="bg-accent-bg rounded-lg p-4">
-              <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
+            <div className="rounded-lg p-4" style={{ background: "#E05A1B10" }}>
+              <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: "#E05A1B" }}>
                 Counter-move
               </p>
-              <p className="text-sm font-semibold text-text-primary mb-1">
+              <p className="text-sm font-semibold mb-1" style={{ color: "#1A1A1A" }}>
                 {counterMove.intervention}
               </p>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: "#555555" }}>
                 {counterMove.mechanism}
               </p>
             </div>
@@ -96,38 +102,47 @@ function ScriptCard({ script }: { script: MoneyScript }) {
 
 export default function ScriptsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen linen-texture pt-24 pb-16 px-4">
+      <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-accent-bg text-accent px-3 py-1 rounded-full text-xs font-medium mb-4">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4"
+            style={{ background: "#E05A1B10", color: "#E05A1B" }}
+          >
             <Brain className="w-3.5 h-3.5" />
             Behavioral Foundation
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ color: "#1A1A1A" }}>
             {moneyScriptAssessment.title}
           </h1>
-          <p className="text-text-secondary text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-base max-w-xl mx-auto leading-relaxed" style={{ color: "#555555" }}>
             {moneyScriptAssessment.subtitle}
           </p>
         </div>
 
         {/* Research Context */}
-        <div className="bg-surface border border-border rounded-xl p-5 mb-8">
+        <div
+          className="uc-card p-5 mb-8"
+          style={{ boxShadow: "0 2px 12px rgba(44,95,124,0.08)" }}
+        >
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue/10 flex items-center justify-center flex-shrink-0">
-              <Zap className="w-4 h-4 text-blue" />
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ background: "rgba(44,95,124,0.1)" }}
+            >
+              <Zap className="w-4 h-4" style={{ color: "#2C5F7C" }} />
             </div>
             <div>
-              <p className="text-sm font-semibold mb-2">Research Context</p>
-              <p className="text-sm text-text-secondary leading-relaxed mb-2">
+              <p className="text-sm font-semibold mb-2" style={{ color: "#1A1A1A" }}>Research Context</p>
+              <p className="text-sm leading-relaxed mb-2" style={{ color: "#555555" }}>
                 {moneyScriptAssessment.researchContext.keyFinding}
               </p>
-              <p className="text-sm text-text-secondary leading-relaxed mb-2">
+              <p className="text-sm leading-relaxed mb-2" style={{ color: "#555555" }}>
                 {moneyScriptAssessment.researchContext.earlyFormation}
               </p>
-              <p className="text-xs text-text-muted">
+              <p className="text-xs" style={{ color: "#555555" }}>
                 Source: {moneyScriptAssessment.researchContext.source}
               </p>
             </div>
@@ -136,8 +151,8 @@ export default function ScriptsPage() {
 
         {/* Scripts */}
         <div className="mb-10">
-          <h2 className="text-lg font-semibold mb-4">The Four Money Scripts</h2>
-          <p className="text-sm text-text-secondary mb-6">
+          <h2 className="font-heading text-lg font-semibold mb-4" style={{ color: "#1A1A1A" }}>The Four Money Scripts</h2>
+          <p className="text-sm mb-6" style={{ color: "#555555" }}>
             Most people carry one dominant script with elements of others. Tap
             each to explore the pattern, risk, and counter-move.
           </p>
@@ -150,37 +165,49 @@ export default function ScriptsPage() {
         </div>
 
         {/* 30-Day Challenge */}
-        <div className="bg-surface border-2 border-accent/20 rounded-xl p-6 mb-10">
+        <div
+          className="uc-card p-6 mb-10"
+          style={{
+            border: "2px solid rgba(224,90,27,0.2)",
+            boxShadow: "0 2px 12px rgba(44,95,124,0.08)",
+          }}
+        >
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center flex-shrink-0">
-              <Clock className="w-5 h-5 text-accent" />
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ background: "#E05A1B10" }}
+            >
+              <Clock className="w-5 h-5" style={{ color: "#E05A1B" }} />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">
+              <h2 className="font-heading text-lg font-semibold" style={{ color: "#1A1A1A" }}>
                 30-Day Tracking Challenge
               </h2>
-              <p className="text-xs text-text-muted mt-0.5">
+              <p className="text-xs mt-0.5" style={{ color: "#555555" }}>
                 The most powerful exercise in this entire app
               </p>
             </div>
           </div>
 
-          <div className="bg-accent-bg rounded-lg p-4 mb-4">
-            <p className="text-sm font-medium text-text-primary leading-relaxed">
+          <div className="rounded-lg p-4 mb-4" style={{ background: "#E05A1B08" }}>
+            <p className="text-sm font-medium leading-relaxed" style={{ color: "#1A1A1A" }}>
               {trackingChallenge.instruction}
             </p>
           </div>
 
-          <p className="text-sm text-text-secondary leading-relaxed">
+          <p className="text-sm leading-relaxed" style={{ color: "#555555" }}>
             {trackingChallenge.purpose}
           </p>
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-surface-alt rounded-lg p-4 mb-8">
+        <div
+          className="rounded-lg p-4 mb-8"
+          style={{ background: "rgba(44,95,124,0.06)" }}
+        >
           <div className="flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-            <p className="text-xs text-text-muted leading-relaxed">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "#C4A67A" }} />
+            <p className="text-xs leading-relaxed" style={{ color: "#555555" }}>
               Money scripts are patterns, not diagnoses. This is a
               self-awareness tool to help you recognize behavioral tendencies.
               For deeper behavioral finance work, consider working with a
@@ -195,14 +222,15 @@ export default function ScriptsPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/loop"
-            className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors inline-flex items-center gap-2"
+            className="uc-button uc-button-primary inline-flex items-center gap-2"
           >
             See the Operating Loop
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             href="/defenses"
-            className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+            className="text-sm font-medium inline-flex items-center gap-1 transition-opacity hover:opacity-70"
+            style={{ color: "#E05A1B" }}
           >
             Fraud Defenses <ArrowRight className="w-3.5 h-3.5" />
           </Link>

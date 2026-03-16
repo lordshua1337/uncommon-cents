@@ -76,7 +76,7 @@ function buildConfetti(count: number, seed: number): ConfettiParticle[] {
 }
 
 function getParticleColor(index: number, accentColor: string): string {
-  const palette = [accentColor, "#16A34A", "#CA8A04", "#FAFAF8"];
+  const palette = [accentColor, "#1E3F2E", "#C4A67A", "#F5EDE0"];
   return palette[index % palette.length];
 }
 
@@ -195,7 +195,7 @@ function LessonCheckRow({ title }: { title: string }) {
     <div className="flex items-center gap-2.5 py-1.5">
       <CheckCircle2
         className="w-3.5 h-3.5 flex-shrink-0"
-        style={{ color: "#16A34A" }}
+        style={{ color: "#1E3F2E" }}
       />
       <span
         className="text-xs leading-snug truncate"

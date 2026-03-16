@@ -60,7 +60,8 @@ export function MilestoneCelebration({ milestone, onDismiss }: MilestoneCelebrat
     return () => clearTimeout(timer);
   }, [milestone, onDismiss]);
 
-  const accentColor = milestone ? getWarmthColor(milestone) : "#16A34A";
+  // Use VROOM orange as the base accent for milestone celebrations
+  const accentColor = milestone ? getWarmthColor(milestone) : "#E05A1B";
   const label = milestone ? (MILESTONE_LABELS[milestone] ?? `${milestone}-Day Streak`) : "";
   const xp = milestone ? (MILESTONE_XP[milestone] ?? 25) : 0;
   const particleCount = milestone ? (MILESTONE_PARTICLE_COUNTS[milestone] ?? 24) : 24;
@@ -103,13 +104,20 @@ export function MilestoneCelebration({ milestone, onDismiss }: MilestoneCelebrat
                 <StreakFlame streak={milestone} size="lg" status="active" />
               </div>
               <p
-                className="text-[10px] font-semibold uppercase tracking-widest mb-1"
+                className="text-label mb-1"
                 style={{ color: accentColor }}
               >
                 Milestone Reached
               </p>
-              <p className="text-xl font-bold text-white mb-1">{label}</p>
-              <p className="text-sm text-gray-400 mb-2">{milestone} days strong -- keep it up!</p>
+              <p
+                className="font-heading text-xl font-bold mb-1"
+                style={{ color: "#1A1A1A" }}
+              >
+                {label}
+              </p>
+              <p className="text-sm mb-2" style={{ color: "#555555" }}>
+                {milestone} days strong -- keep it up!
+              </p>
               <span
                 className="inline-block text-xs font-bold px-3 py-1 rounded-full"
                 style={{

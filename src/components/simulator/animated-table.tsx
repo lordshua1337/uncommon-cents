@@ -73,7 +73,7 @@ function renderDetailContent(
 
 export function AnimatedTable({
   rows,
-  accentColor = "#16A34A",
+  accentColor = "#2C5F7C",
   animate = true,
   label,
 }: AnimatedTableProps) {

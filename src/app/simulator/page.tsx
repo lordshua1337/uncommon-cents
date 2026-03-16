@@ -24,8 +24,8 @@ export default function SimulatorIndexPage() {
   const headerTransition = prefersReduced ? {} : { ...SPRING_GENTLE, delay: 0 }
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen linen-texture pt-20 pb-16 px-4">
+      <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <motion.div
           {...(prefersReduced ? {} : { initial: headerVariants.initial, animate: headerVariants.animate })}
@@ -35,17 +35,18 @@ export default function SimulatorIndexPage() {
           <div className="flex items-center gap-3 mb-6">
             <Link
               href="/"
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none"
+              className="p-2 rounded-lg transition-colors hover:bg-white/60 focus-visible:ring-2 focus-visible:ring-[#2C5F7C]/30 focus-visible:outline-none"
+              style={{ color: "#555555" }}
               aria-label="Back to home"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
 
-          <h1 className="text-3xl font-semibold text-slate-900 tracking-tight mb-3">
+          <h1 className="font-heading text-3xl font-semibold tracking-tight mb-3" style={{ color: "#1A1A1A" }}>
             Run the numbers.
           </h1>
-          <p className="text-sm text-slate-500 leading-relaxed max-w-xl">
+          <p className="text-sm leading-relaxed max-w-xl" style={{ color: "#555555" }}>
             Six financial scenarios. Real math, no guesswork. Model your actual situation and see what happens.
           </p>
         </motion.div>
@@ -54,7 +55,7 @@ export default function SimulatorIndexPage() {
         <ScenarioGrid scenarios={ALL_SCENARIOS} />
 
         {/* Disclaimer */}
-        <p className="text-[10px] text-slate-400 text-center mt-10">
+        <p className="text-[10px] text-center mt-10" style={{ color: "#555555" }}>
           These calculators use simplified models for educational purposes. Real financial decisions should account
           for your full picture. Not financial advice.
         </p>

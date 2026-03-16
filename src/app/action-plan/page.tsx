@@ -54,35 +54,35 @@ const CATEGORY_CONFIG: Record<
 > = {
   learn: {
     icon: BookOpen,
-    color: "text-blue-600",
-    borderColor: "border-l-blue-500",
-    bgColor: "bg-blue-50/60",
+    color: "text-[#2C5F7C]",
+    borderColor: "border-l-[#2C5F7C]",
+    bgColor: "bg-[#2C5F7C]/5",
     label: "Learn",
-    accentRgb: "59,130,246",
+    accentRgb: "44,95,124",
   },
   do: {
     icon: Zap,
-    color: "text-emerald-600",
-    borderColor: "border-l-emerald-500",
-    bgColor: "bg-emerald-50/60",
+    color: "text-[#E05A1B]",
+    borderColor: "border-l-[#E05A1B]",
+    bgColor: "bg-[#E05A1B]/5",
     label: "Do",
-    accentRgb: "16,185,129",
+    accentRgb: "224,90,27",
   },
   review: {
     icon: Brain,
-    color: "text-violet-600",
-    borderColor: "border-l-violet-500",
-    bgColor: "bg-violet-50/60",
+    color: "text-[#1E3F2E]",
+    borderColor: "border-l-[#1E3F2E]",
+    bgColor: "bg-[#1E3F2E]/5",
     label: "Review",
-    accentRgb: "139,92,246",
+    accentRgb: "30,63,46",
   },
   simulate: {
     icon: Calculator,
-    color: "text-amber-600",
-    borderColor: "border-l-amber-500",
-    bgColor: "bg-amber-50/60",
+    color: "text-[#C4A67A]",
+    borderColor: "border-l-[#C4A67A]",
+    bgColor: "bg-[#C4A67A]/10",
     label: "Simulate",
-    accentRgb: "245,158,11",
+    accentRgb: "196,166,122",
   },
 };
 
@@ -90,9 +90,9 @@ const STATUS_CONFIG: Record<
   ActionStatus,
   { icon: React.ElementType; color: string }
 > = {
-  not_started: { icon: Circle, color: "text-text-secondary" },
-  in_progress: { icon: Clock, color: "text-amber-500" },
-  completed: { icon: CheckCircle2, color: "text-emerald-500" },
+  not_started: { icon: Circle, color: "text-[#555555]" },
+  in_progress: { icon: Clock, color: "text-[#C4A67A]" },
+  completed: { icon: CheckCircle2, color: "text-[#1E3F2E]" },
   skipped: { icon: MinusCircle, color: "text-slate-400" },
 };
 
@@ -229,7 +229,7 @@ function ActionItemCard({
 
   // Background flash: category-appropriate success or skip color
   const pulseBackground = completedPulse.active
-    ? "rgba(34,197,94,0.12)"
+    ? `rgba(${catConfig.accentRgb},0.10)`
     : skippedPulse.active
       ? "rgba(148,163,184,0.10)"
       : undefined;
@@ -261,9 +261,12 @@ function ActionItemCard({
         "group relative flex items-start gap-3 p-4 rounded-xl border border-l-2 overflow-hidden",
         catConfig.borderColor,
         isTerminal
-          ? "border-border-light bg-surface/40"
-          : `${catConfig.bgColor} border-border-light`,
+          ? "border-[rgba(196,166,122,0.2)] bg-white/40"
+          : `${catConfig.bgColor} border-[rgba(196,166,122,0.2)]`,
       ].join(" ")}
+      style={{
+        boxShadow: isTerminal ? "none" : `0 2px 12px rgba(44,95,124,0.06)`,
+      }}
       whileHover={
         prefersReduced || isTerminal
           ? {}
@@ -343,7 +346,7 @@ function ActionItemCard({
           >
             {catConfig.label}
           </span>
-          <span className="text-[10px] text-text-secondary">
+          <span className="text-[10px]" style={{ color: "#555555" }}>
             #{item.priority}
           </span>
         </div>
@@ -351,14 +354,10 @@ function ActionItemCard({
         {/* Title with animated strikethrough line on completion */}
         <div className="relative">
           <p
-            className={[
-              "text-sm font-medium leading-snug transition-colors duration-300",
-              isCompleted
-                ? "text-text-secondary"
-                : isSkipped
-                  ? "text-text-muted"
-                  : "text-text-primary",
-            ].join(" ")}
+            className="text-sm font-medium leading-snug transition-colors duration-300"
+            style={{
+              color: isCompleted ? "#555555" : isSkipped ? "#888888" : "#1A1A1A",
+            }}
           >
             {item.title}
           </p>
@@ -386,7 +385,7 @@ function ActionItemCard({
           </AnimatePresence>
         </div>
 
-        <p className="text-xs text-text-secondary mt-0.5 leading-relaxed">
+        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: "#555555" }}>
           {item.description}
         </p>
 
@@ -402,7 +401,8 @@ function ActionItemCard({
           {!isTerminal && (
             <button
               onClick={() => onStatusChange("skipped")}
-              className="text-[10px] text-text-secondary hover:text-text-primary transition-colors ml-auto focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400/50 rounded"
+              className="text-[10px] transition-colors ml-auto focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400/50 rounded"
+              style={{ color: "#555555" }}
             >
               Skip
             </button>
@@ -423,19 +423,24 @@ function EmptyState({ prefersReduced }: { prefersReduced: boolean }) {
       initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...SPRING_GENTLE, delay: 0.1 }}
-      className="border border-border-light rounded-xl p-10 text-center bg-surface"
+      className="uc-card p-10 text-center"
+      style={{
+        border: "1px solid rgba(196,166,122,0.2)",
+        boxShadow: "0 2px 12px rgba(44,95,124,0.06)",
+      }}
     >
-      <Target className="w-10 h-10 text-text-secondary mx-auto mb-3" />
-      <p className="text-sm font-medium text-text-primary mb-1">
+      <Target className="w-10 h-10 mx-auto mb-3" style={{ color: "#555555" }} />
+      <p className="text-sm font-medium mb-1" style={{ color: "#1A1A1A" }}>
         Your plan is being built.
       </p>
-      <p className="text-xs text-text-secondary mb-4 max-w-xs mx-auto">
+      <p className="text-xs mb-4 max-w-xs mx-auto" style={{ color: "#555555" }}>
         Complete the money script quiz to generate your personalized action
         plan.
       </p>
       <Link
         href="/quiz"
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:text-accent-dark transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-medium transition-opacity hover:opacity-70"
+        style={{ color: "#E05A1B" }}
       >
         Take the quiz &rarr;
       </Link>
@@ -453,18 +458,23 @@ function AllSkippedState({ prefersReduced }: { prefersReduced: boolean }) {
       initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...SPRING_GENTLE, delay: 0.1 }}
-      className="border border-border-light rounded-xl p-10 text-center bg-surface"
+      className="uc-card p-10 text-center"
+      style={{
+        border: "1px solid rgba(196,166,122,0.2)",
+        boxShadow: "0 2px 12px rgba(44,95,124,0.06)",
+      }}
     >
-      <RefreshCw className="w-10 h-10 text-text-secondary mx-auto mb-3" />
-      <p className="text-sm font-medium text-text-primary mb-1">
+      <RefreshCw className="w-10 h-10 mx-auto mb-3" style={{ color: "#555555" }} />
+      <p className="text-sm font-medium mb-1" style={{ color: "#1A1A1A" }}>
         Nothing left to act on.
       </p>
-      <p className="text-xs text-text-secondary mb-4 max-w-xs mx-auto">
+      <p className="text-xs mb-4 max-w-xs mx-auto" style={{ color: "#555555" }}>
         {"You've skipped or completed everything. Retake the quiz to generate a fresh plan."}
       </p>
       <Link
         href="/quiz"
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:text-accent-dark transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-medium transition-opacity hover:opacity-70"
+        style={{ color: "#E05A1B" }}
       >
         Retake quiz &rarr;
       </Link>
@@ -531,8 +541,8 @@ export default function ActionPlanPage() {
   // Loading skeleton
   if (!plan) {
     return (
-      <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
-        <p className="text-sm text-text-secondary animate-pulse">
+      <div className="min-h-screen linen-texture pt-20 pb-16 px-4 flex items-center justify-center">
+        <p className="text-sm animate-pulse" style={{ color: "#555555" }}>
           Building your action plan...
         </p>
       </div>
@@ -558,7 +568,7 @@ export default function ActionPlanPage() {
 
   return (
     <div
-      className="min-h-screen pt-20 pb-16 px-4"
+      className="min-h-screen linen-texture pt-20 pb-16 px-4"
       role="main"
       aria-label="Your personalized action plan"
     >
@@ -570,7 +580,7 @@ export default function ActionPlanPage() {
         className="sr-only"
       />
 
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-[960px] mx-auto">
         {/* Page header */}
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
@@ -581,17 +591,18 @@ export default function ActionPlanPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+              className="p-2 rounded-lg transition-colors hover:bg-white/60"
+              style={{ color: "#555555" }}
               aria-label="Back to home"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div className="space-y-0.5">
-              <h1 className="text-2xl font-bold text-text-primary tracking-tight flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-accent" />
+              <h1 className="font-heading text-2xl font-bold tracking-tight flex items-center gap-2" style={{ color: "#1A1A1A" }}>
+                <Sparkles className="w-5 h-5" style={{ color: "#E05A1B" }} />
                 Your Action Plan
               </h1>
-              <p className="text-sm text-text-secondary font-normal">
+              <p className="text-sm font-normal" style={{ color: "#555555" }}>
                 Personalized next steps based on your money script, knowledge
                 gaps, and simulator activity.
               </p>
@@ -599,7 +610,8 @@ export default function ActionPlanPage() {
           </div>
           <button
             onClick={handleRegenerate}
-            className="p-2 rounded-lg text-text-secondary hover:text-accent hover:bg-surface transition-colors focus-visible:ring-2 focus-visible:ring-accent/30"
+            className="p-2 rounded-lg transition-colors hover:bg-white/60"
+            style={{ color: "#555555" }}
             title="Regenerate plan"
             aria-label="Regenerate action plan"
           >
@@ -668,7 +680,7 @@ export default function ActionPlanPage() {
                     >
                       {catConfig.label}
                     </span>
-                    <span className="text-[10px] text-text-secondary">
+                    <span className="text-[10px]" style={{ color: "#555555" }}>
                       {items.length} {items.length === 1 ? "action" : "actions"}
                     </span>
                   </motion.div>
@@ -718,7 +730,7 @@ export default function ActionPlanPage() {
         )}
 
         {/* Disclaimer */}
-        <p className="text-[10px] text-text-secondary text-center mt-10">
+        <p className="text-[10px] text-center mt-10" style={{ color: "#555555" }}>
           Actions are generated from your quiz results, mastery progress, and
           simulator usage. Not financial advice.
         </p>

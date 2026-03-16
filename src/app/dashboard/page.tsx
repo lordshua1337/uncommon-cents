@@ -34,17 +34,19 @@ function StreakStatsRow({ streak, actionProgress }: StreakStatsRowProps) {
   })
   const warmthColor = getWarmthColor(streak.currentStreak)
 
-  const borderColor = streak.currentStreak > 0 ? `${warmthColor}50` : '#1E3A1E'
+  const borderColor = streak.currentStreak > 0 ? `${warmthColor}50` : 'rgba(44,95,124,0.2)'
   const shadowColor = streak.currentStreak > 0 ? `${warmthColor}15` : 'transparent'
 
   return (
     <div className="grid grid-cols-3 gap-4 mb-6">
       {/* Streak cell */}
       <div
-        className="bg-[#111811] rounded-xl p-5 text-center transition-all duration-500"
+        className="rounded-xl p-5 text-center transition-all duration-500"
         style={{
+          backgroundColor: '#1E3F2E',
           border: `1px solid ${borderColor}`,
           boxShadow: `0 0 16px 0 ${shadowColor}`,
+          borderRadius: '16px 4px 16px 4px',
         }}
       >
         <div className="flex justify-center mb-1">
@@ -53,7 +55,7 @@ function StreakStatsRow({ streak, actionProgress }: StreakStatsRowProps) {
         <p className="text-3xl font-bold" style={{ color: warmthColor }}>
           <AnimatedCounter value={streak.currentStreak} />
         </p>
-        <p className="text-xs text-gray-500 mt-1">Day Streak</p>
+        <p className="text-xs mt-1" style={{ color: '#F5EDE0', opacity: 0.6 }}>Day Streak</p>
         <AnimatePresence>
           {streak.completedToday && (
             <motion.span
@@ -75,19 +77,35 @@ function StreakStatsRow({ streak, actionProgress }: StreakStatsRowProps) {
       </div>
 
       {/* Total days cell */}
-      <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
-        <p className="text-3xl font-bold text-[#16A34A]">
+      <div
+        className="rounded-xl p-5 text-center"
+        style={{
+          backgroundColor: '#1E3F2E',
+          border: 'none',
+          borderRadius: '16px 4px 16px 4px',
+          boxShadow: '0 2px 12px rgba(44,95,124,0.12)',
+        }}
+      >
+        <p className="text-3xl font-bold" style={{ color: '#C4A67A' }}>
           <AnimatedCounter value={streak.totalDaysActive} />
         </p>
-        <p className="text-xs text-gray-500 mt-1">Total Days</p>
+        <p className="text-xs mt-1" style={{ color: '#F5EDE0', opacity: 0.6 }}>Total Days</p>
       </div>
 
       {/* Action plan cell */}
-      <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-5 text-center">
-        <p className="text-3xl font-bold text-[#16A34A]">
+      <div
+        className="rounded-xl p-5 text-center"
+        style={{
+          backgroundColor: '#1E3F2E',
+          border: 'none',
+          borderRadius: '16px 4px 16px 4px',
+          boxShadow: '0 2px 12px rgba(44,95,124,0.12)',
+        }}
+      >
+        <p className="text-3xl font-bold" style={{ color: '#C4A67A' }}>
           {actionProgress ? `${actionProgress.completed}/${actionProgress.total}` : '--'}
         </p>
-        <p className="text-xs text-gray-500 mt-1">Action Plan</p>
+        <p className="text-xs mt-1" style={{ color: '#F5EDE0', opacity: 0.6 }}>Action Plan</p>
       </div>
     </div>
   )
@@ -126,8 +144,8 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0A0F0A] flex items-center justify-center">
-        <div className="text-gray-500">Loading your financial profile...</div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F5EDE0' }}>
+        <div style={{ color: '#555555' }}>Loading your financial profile...</div>
       </div>
     )
   }
@@ -141,29 +159,41 @@ export default function DashboardPage() {
   const ringOffset = ringCircumference - (totalScore / 100) * ringCircumference
 
   return (
-    <div className="min-h-screen bg-[#0A0F0A] text-white">
+    <div className="min-h-screen" style={{ backgroundColor: '#F5EDE0', color: '#1A1A1A' }}>
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[#16A34A]">Your Financial Profile</h1>
-            <p className="text-sm text-gray-500">Track your progress across all domains</p>
+            <h1 className="text-2xl font-bold font-heading" style={{ color: '#2C5F7C' }}>Your Financial Profile</h1>
+            <p className="text-sm" style={{ color: '#555555' }}>Track your progress across all domains</p>
           </div>
-          <Link href="/" className="text-sm text-gray-500 hover:text-[#16A34A] transition-colors">
+          <Link
+            href="/"
+            className="text-sm transition-colors"
+            style={{ color: '#555555' }}
+          >
             Back
           </Link>
         </div>
 
         {/* Health Score Ring + Grade */}
-        <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-8 mb-6">
+        <div
+          className="rounded-xl p-8 mb-6"
+          style={{
+            backgroundColor: '#FFFFFF',
+            border: '1px solid rgba(196,166,122,0.3)',
+            boxShadow: '0 4px 24px rgba(44,95,124,0.1)',
+            borderRadius: '14px',
+          }}
+        >
           <div className="flex items-center gap-8">
             {/* Ring */}
             <div className="relative shrink-0">
               <svg width="180" height="180" viewBox="0 0 180 180" className="-rotate-90">
-                <circle cx="90" cy="90" r={ringRadius} fill="none" stroke="#1E3A1E" strokeWidth="8" />
+                <circle cx="90" cy="90" r={ringRadius} fill="none" stroke="rgba(44,95,124,0.12)" strokeWidth="8" />
                 <circle
                   cx="90" cy="90" r={ringRadius} fill="none"
-                  stroke={grade?.color ?? '#16A34A'}
+                  stroke={grade?.color ?? '#2C5F7C'}
                   strokeWidth="8"
                   strokeLinecap="round"
                   strokeDasharray={ringCircumference}
@@ -173,20 +203,20 @@ export default function DashboardPage() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-4xl font-black" style={{ color: grade?.color }}>{totalScore}</span>
-                <span className="text-xs text-gray-500 font-medium">{grade?.label}</span>
+                <span className="text-xs font-medium" style={{ color: '#555555' }}>{grade?.label}</span>
               </div>
             </div>
 
             {/* Pillars */}
             <div className="flex-1 space-y-3">
-              <h3 className="text-sm font-bold text-white mb-3">Five Pillars</h3>
+              <h3 className="text-sm font-bold mb-3" style={{ color: '#1A1A1A' }}>Five Pillars</h3>
               {healthScore?.pillars.map((pillar) => (
                 <div key={pillar.id}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-400">{pillar.label}</span>
+                    <span className="text-xs" style={{ color: '#555555' }}>{pillar.label}</span>
                     <span className="text-xs font-bold" style={{ color: pillar.color }}>{pillar.score}</span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-[#1E3A1E]">
+                  <div className="h-1.5 rounded-full" style={{ backgroundColor: 'rgba(44,95,124,0.1)' }}>
                     <div
                       className="h-1.5 rounded-full transition-all duration-700"
                       style={{ width: `${pillar.score}%`, background: pillar.color }}
@@ -199,8 +229,11 @@ export default function DashboardPage() {
 
           {/* Top suggestions */}
           {healthScore && healthScore.pillars.some(p => p.suggestions.length > 0) && (
-            <div className="mt-6 pt-4 border-t border-[#1E3A1E]">
-              <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Next Steps</h4>
+            <div
+              className="mt-6 pt-4"
+              style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}
+            >
+              <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#555555' }}>Next Steps</h4>
               <div className="space-y-1.5">
                 {healthScore.pillars
                   .flatMap(p => p.suggestions.map(s => ({ suggestion: s, color: p.color })))
@@ -208,7 +241,7 @@ export default function DashboardPage() {
                   .map((item, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: item.color }} />
-                      <span className="text-xs text-gray-400">{item.suggestion}</span>
+                      <span className="text-xs" style={{ color: '#555555' }}>{item.suggestion}</span>
                     </div>
                   ))}
               </div>
@@ -220,8 +253,16 @@ export default function DashboardPage() {
         <StreakStatsRow streak={streak} actionProgress={actionProgress} />
 
         {/* Domain Mastery */}
-        <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Domain Mastery</h2>
+        <div
+          className="rounded-xl p-6 mb-6"
+          style={{
+            backgroundColor: '#FFFFFF',
+            border: '1px solid rgba(196,166,122,0.3)',
+            boxShadow: '0 2px 16px rgba(44,95,124,0.08)',
+            borderRadius: '14px',
+          }}
+        >
+          <h2 className="text-lg font-semibold mb-4 font-heading" style={{ color: '#1A1A1A' }}>Domain Mastery</h2>
           <div className="space-y-3">
             {domainMastery.map((dm) => {
               const domain = domains.find(d => d.id === dm.domainId)
@@ -233,11 +274,14 @@ export default function DashboardPage() {
                   className="block group"
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm text-gray-300 group-hover:text-[#16A34A] transition-colors">
+                    <span
+                      className="text-sm transition-colors"
+                      style={{ color: '#555555' }}
+                    >
                       {domain.shortName}
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-gray-500">
+                      <span className="text-[10px]" style={{ color: '#555555' }}>
                         {dm.visitedConcepts}/{dm.totalConcepts}
                       </span>
                       <span className="text-xs font-bold" style={{ color: domain.color }}>
@@ -245,7 +289,7 @@ export default function DashboardPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="h-2 rounded-full bg-[#1E3A1E]">
+                  <div className="h-2 rounded-full" style={{ backgroundColor: 'rgba(44,95,124,0.1)' }}>
                     <div
                       className="h-2 rounded-full transition-all duration-500"
                       style={{ width: `${dm.masteryPercent}%`, background: domain.color }}
@@ -258,40 +302,49 @@ export default function DashboardPage() {
         </div>
 
         {/* Money Script Result */}
-        <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-3">Money Scripts</h2>
+        <div
+          className="rounded-xl p-6 mb-6"
+          style={{
+            backgroundColor: '#FFFFFF',
+            border: '1px solid rgba(196,166,122,0.3)',
+            boxShadow: '0 2px 16px rgba(44,95,124,0.08)',
+            borderRadius: '14px',
+          }}
+        >
+          <h2 className="text-lg font-semibold mb-3 font-heading" style={{ color: '#1A1A1A' }}>Money Scripts</h2>
           {quizResult ? (
             <div>
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-sm text-gray-300">Dominant:</span>
-                <span className="text-sm font-bold text-[#16A34A] capitalize">{quizResult.dominant}</span>
+                <span className="text-sm" style={{ color: '#555555' }}>Dominant:</span>
+                <span className="text-sm font-bold capitalize" style={{ color: '#2C5F7C' }}>{quizResult.dominant}</span>
               </div>
               {quizResult.secondary && (
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-sm text-gray-300">Secondary:</span>
-                  <span className="text-sm font-bold text-[#8B5CF6] capitalize">{quizResult.secondary}</span>
+                  <span className="text-sm" style={{ color: '#555555' }}>Secondary:</span>
+                  <span className="text-sm font-bold capitalize" style={{ color: '#C4A67A' }}>{quizResult.secondary}</span>
                 </div>
               )}
               <div className="grid grid-cols-4 gap-2 mt-4">
                 {quizResult.scores.map((s) => (
                   <div key={s.scriptId} className="text-center">
-                    <div className="text-lg font-bold text-white">{Math.round(s.normalized)}</div>
-                    <div className="text-[10px] text-gray-500 capitalize">{s.scriptId}</div>
+                    <div className="text-lg font-bold" style={{ color: '#1A1A1A' }}>{Math.round(s.normalized)}</div>
+                    <div className="text-[10px] capitalize" style={{ color: '#555555' }}>{s.scriptId}</div>
                   </div>
                 ))}
               </div>
-              <Link href="/quiz" className="text-sm text-[#16A34A] hover:underline mt-3 inline-block">
+              <Link href="/quiz" className="text-sm hover:underline mt-3 inline-block" style={{ color: '#2C5F7C' }}>
                 Retake quiz
               </Link>
             </div>
           ) : (
             <div>
-              <p className="text-sm text-gray-500 mb-3">
+              <p className="text-sm mb-3" style={{ color: '#555555' }}>
                 Discover your financial blind spots with the Money Script Quiz.
               </p>
               <Link
                 href="/quiz"
-                className="inline-flex px-4 py-2 bg-[#16A34A] text-black text-sm font-semibold rounded-lg hover:bg-[#22C55E] transition-colors"
+                className="inline-flex px-4 py-2 text-sm font-semibold rounded-lg transition-colors"
+                style={{ backgroundColor: '#E05A1B', color: '#FFFFFF' }}
               >
                 Take the Quiz
               </Link>
@@ -300,8 +353,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Links */}
-        <div className="bg-[#111811] border border-[#1E3A1E] rounded-xl p-6">
-          <h2 className="text-lg font-semibold mb-4">Continue Learning</h2>
+        <div
+          className="rounded-xl p-6"
+          style={{
+            backgroundColor: '#FFFFFF',
+            border: '1px solid rgba(196,166,122,0.3)',
+            boxShadow: '0 2px 16px rgba(44,95,124,0.08)',
+            borderRadius: '14px',
+          }}
+        >
+          <h2 className="text-lg font-semibold mb-4 font-heading" style={{ color: '#1A1A1A' }}>Continue Learning</h2>
           <div className="grid grid-cols-2 gap-3">
             {[
               { href: '/explore', label: 'Explore Domains', desc: '14 financial domains' },
@@ -314,10 +375,14 @@ export default function DashboardPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-4 py-3 bg-[#0A0F0A] border border-[#1E3A1E] rounded-lg hover:border-[#16A34A] transition-colors"
+                className="block px-4 py-3 rounded-lg transition-colors"
+                style={{
+                  backgroundColor: '#F5EDE0',
+                  border: '1px solid rgba(196,166,122,0.3)',
+                }}
               >
-                <p className="font-medium text-sm">{link.label}</p>
-                <p className="text-[10px] text-gray-500">{link.desc}</p>
+                <p className="font-medium text-sm" style={{ color: '#1A1A1A' }}>{link.label}</p>
+                <p className="text-[10px]" style={{ color: '#555555' }}>{link.desc}</p>
               </Link>
             ))}
           </div>

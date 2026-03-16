@@ -108,7 +108,7 @@ export function DomainMasteryCelebration({
   const unlockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Guard: fallback accent color if none provided
-  const color = accentColor || "#16A34A";
+  const color = accentColor || "#2C5F7C";
 
   // Auto-dismiss timer + dismissable unlock
   useEffect(() => {

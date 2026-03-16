@@ -19,7 +19,7 @@ export const domains: Domain[] = [
       "401k, Roth, HSA, 529, Solo 401k, SEP-IRA. The accounts designed to give you legal tax breaks -- if you know how to use them.",
     icon: "PiggyBank",
     conceptCount: 10,
-    color: "#16A34A",
+    color: "#1E3F2E",
   },
   {
     id: "d2",

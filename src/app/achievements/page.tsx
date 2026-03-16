@@ -59,14 +59,14 @@ const CATEGORY_META: Record<
   AchievementCategory,
   { label: string; color: string; bg: string }
 > = {
-  mastery: { label: "Mastery", color: "text-blue-400", bg: "bg-blue-400/10" },
-  explorer: { label: "Explorer", color: "text-teal-400", bg: "bg-teal-400/10" },
-  quiz: { label: "Quiz", color: "text-purple-400", bg: "bg-purple-400/10" },
-  simulator: { label: "Simulator", color: "text-amber-400", bg: "bg-amber-400/10" },
-  review: { label: "Review", color: "text-pink-400", bg: "bg-pink-400/10" },
-  action: { label: "Action", color: "text-green-400", bg: "bg-green-400/10" },
-  streak: { label: "Streak", color: "text-orange-400", bg: "bg-orange-400/10" },
-  path: { label: "Life Path", color: "text-indigo-400", bg: "bg-indigo-400/10" },
+  mastery: { label: "Mastery", color: "#2C5F7C", bg: "rgba(44,95,124,0.1)" },
+  explorer: { label: "Explorer", color: "#2C5F7C", bg: "rgba(44,95,124,0.08)" },
+  quiz: { label: "Quiz", color: "#1E3F2E", bg: "rgba(30,63,46,0.1)" },
+  simulator: { label: "Simulator", color: "#C4A67A", bg: "rgba(196,166,122,0.15)" },
+  review: { label: "Review", color: "#E05A1B", bg: "rgba(224,90,27,0.1)" },
+  action: { label: "Action", color: "#1E3F2E", bg: "rgba(30,63,46,0.1)" },
+  streak: { label: "Streak", color: "#E05A1B", bg: "rgba(224,90,27,0.1)" },
+  path: { label: "Life Path", color: "#2C5F7C", bg: "rgba(44,95,124,0.1)" },
 };
 
 // ---------------------------------------------------------------------------
@@ -87,41 +87,45 @@ function AchievementCard({
 
   return (
     <div
-      className={`bg-surface border rounded-xl p-4 transition-all ${
-        unlocked
-          ? "border-accent/20"
-          : "border-border-light opacity-50"
-      }`}
+      className="uc-card p-4 transition-all"
+      style={{
+        opacity: unlocked ? 1 : 0.5,
+        border: unlocked
+          ? "1px solid rgba(44,95,124,0.2)"
+          : "1px solid rgba(196,166,122,0.3)",
+      }}
     >
       <div className="flex items-start gap-3">
         <div
-          className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
-            unlocked ? "bg-accent/10" : "bg-surface"
-          }`}
+          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+          style={{
+            background: unlocked ? "rgba(44,95,124,0.1)" : "rgba(196,166,122,0.08)",
+          }}
         >
           {unlocked ? (
-            <Icon className="w-5 h-5 text-accent" />
+            <Icon className="w-5 h-5 text-[#2C5F7C]" />
           ) : (
-            <Lock className="w-4 h-4 text-text-secondary" />
+            <Lock className="w-4 h-4" style={{ color: "#555555" }} />
           )}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
             <span
-              className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${cat.bg} ${cat.color}`}
+              className="text-[10px] font-medium px-1.5 py-0.5 rounded"
+              style={{ background: cat.bg, color: cat.color }}
             >
               {cat.label}
             </span>
-            <span className="text-[10px] text-accent font-mono">
+            <span className="text-[10px] font-mono" style={{ color: "#E05A1B" }}>
               +{def.xp} XP
             </span>
           </div>
-          <p className="text-sm font-semibold">{def.title}</p>
-          <p className="text-xs text-text-secondary mt-0.5">
+          <p className="text-sm font-semibold" style={{ color: "#1A1A1A" }}>{def.title}</p>
+          <p className="text-xs mt-0.5" style={{ color: "#555555" }}>
             {def.description}
           </p>
           {unlocked && unlockedAt && (
-            <p className="text-[10px] text-text-secondary mt-1">
+            <p className="text-[10px] mt-1" style={{ color: "#555555" }}>
               Unlocked{" "}
               {new Date(unlockedAt).toLocaleDateString("en-US", {
                 month: "short",
@@ -155,7 +159,7 @@ export default function AchievementsPage() {
   if (!state) {
     return (
       <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
-        <p className="text-sm text-text-secondary">Loading achievements...</p>
+        <p className="text-sm" style={{ color: "#555555" }}>Loading achievements...</p>
       </div>
     );
   }
@@ -193,47 +197,58 @@ export default function AchievementsPage() {
   });
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen pt-20 pb-16 px-4" style={{ background: "#F5EDE0" }}>
+      <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Link
             href="/"
-            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: "#555555" }}
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl font-semibold flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-accent" />
+            <h1 className="font-heading text-xl font-semibold flex items-center gap-2" style={{ color: "#1A1A1A" }}>
+              <Trophy className="w-5 h-5" style={{ color: "#E05A1B" }} />
               Achievements
             </h1>
-            <p className="text-xs text-text-secondary mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: "#555555" }}>
               {state.unlocked.length} of {ACHIEVEMENTS.length} unlocked
             </p>
           </div>
         </div>
 
         {/* Level card */}
-        <div className="bg-surface border border-accent/20 rounded-xl p-5 mb-6">
+        <div
+          className="uc-card p-5 mb-6"
+          style={{ border: "1px solid rgba(44,95,124,0.2)" }}
+        >
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center">
-              <span className="text-xl font-bold text-accent">
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{
+                background: "rgba(44,95,124,0.1)",
+                border: "2px solid rgba(44,95,124,0.3)",
+              }}
+            >
+              <span className="text-xl font-bold" style={{ color: "#2C5F7C" }}>
                 {state.level}
               </span>
             </div>
             <div className="flex-1">
-              <p className="text-base font-semibold">{state.levelTitle}</p>
+              <p className="text-base font-semibold" style={{ color: "#1A1A1A" }}>{state.levelTitle}</p>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 h-2 bg-background rounded-full">
+                <div className="flex-1 h-2 rounded-full" style={{ background: "#F5EDE0" }}>
                   <motion.div
-                    className="h-full bg-accent rounded-full"
+                    className="h-full rounded-full"
+                    style={{ background: "#2C5F7C" }}
                     initial={{ width: 0 }}
                     animate={{ width: `${progressPercent}%` }}
                     transition={{ duration: 0.5 }}
                   />
                 </div>
-                <span className="text-xs font-mono text-accent">
+                <span className="text-xs font-mono" style={{ color: "#2C5F7C" }}>
                   {state.totalXp}
                   {nextXp ? `/${nextXp}` : ""} XP
                 </span>
@@ -254,11 +269,12 @@ export default function AchievementsPage() {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`text-[10px] px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
+                className="text-[10px] px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors"
+                style={
                   filter === cat
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
+                    ? { background: "rgba(44,95,124,0.1)", color: "#2C5F7C" }
+                    : { color: "#555555" }
+                }
               >
                 {cat === "all" ? "All" : meta?.label} ({count})
               </button>
@@ -278,7 +294,7 @@ export default function AchievementsPage() {
           ))}
         </div>
 
-        <p className="text-[10px] text-text-secondary text-center mt-8">
+        <p className="text-[10px] text-center mt-8" style={{ color: "#555555" }}>
           Achievements unlock automatically as you explore, learn, and take
           action. Not financial advice.
         </p>

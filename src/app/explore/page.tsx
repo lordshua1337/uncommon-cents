@@ -69,7 +69,10 @@ function ConceptResult({
   const domain = domains.find((d) => d.id === concept.domainId);
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden">
+    <div
+      className="uc-card overflow-hidden"
+      style={{ boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
+    >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full text-left p-4 flex items-start justify-between gap-3"
@@ -78,7 +81,7 @@ function ConceptResult({
           <div className="flex items-center gap-2 mb-1">
             {domain && (
               <span
-                className="text-[10px] uppercase tracking-widest font-medium px-1.5 py-0.5 rounded"
+                className="text-label px-1.5 py-0.5 rounded"
                 style={{
                   backgroundColor: `${domain.color}15`,
                   color: domain.color,
@@ -88,17 +91,23 @@ function ConceptResult({
               </span>
             )}
             {concept.hasCalculator && (
-              <span className="text-[10px] uppercase tracking-widest font-medium px-1.5 py-0.5 rounded bg-accent-bg text-accent">
+              <span
+                className="text-label px-1.5 py-0.5 rounded"
+                style={{
+                  backgroundColor: "rgba(44,95,124,0.10)",
+                  color: "#2C5F7C",
+                }}
+              >
                 Calculator
               </span>
             )}
           </div>
-          <h4 className="text-sm font-semibold">{concept.name}</h4>
-          <p className="text-xs text-text-secondary mt-1 line-clamp-2">
+          <h4 className="text-sm font-heading font-bold">{concept.name}</h4>
+          <p className="text-xs mt-1 line-clamp-2" style={{ color: "#555555" }}>
             {concept.summary}
           </p>
         </div>
-        <div className="text-text-muted flex-shrink-0 mt-1">
+        <div className="flex-shrink-0 mt-1" style={{ color: "#C4A67A" }}>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
           ) : (
@@ -108,19 +117,23 @@ function ConceptResult({
       </button>
 
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-border-light pt-3 animate-fade-in">
-          <p className="text-sm text-text-secondary leading-relaxed">
+        <div
+          className="px-4 pb-4 pt-3 animate-fade-in"
+          style={{ borderTop: "1px solid rgba(196,166,122,0.3)" }}
+        >
+          <p className="text-sm leading-relaxed" style={{ color: "#555555" }}>
             {concept.layers.accessible}
           </p>
           <div className="flex items-center gap-3 mt-3">
             <Link
               href={`/concepts/${concept.slug}`}
-              className="text-accent text-xs font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+              className="text-xs font-medium transition-colors inline-flex items-center gap-1"
+              style={{ color: "#E05A1B" }}
             >
               Read full entry <ArrowRight className="w-3 h-3" />
             </Link>
             {concept.relatedConceptSlugs.length > 0 && (
-              <span className="text-xs text-text-muted">
+              <span className="text-xs" style={{ color: "#C4A67A" }}>
                 {concept.relatedConceptSlugs.length} related
               </span>
             )}
@@ -232,7 +245,7 @@ export default function ExplorePage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-[960px] mx-auto">
 
         {/* Page header: fades in first, before the card cascade */}
         <motion.div
@@ -241,13 +254,16 @@ export default function ExplorePage() {
           transition={SPRING_GENTLE}
           className="text-center mb-8"
         >
-          <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+          <p
+            className="text-label uppercase tracking-widest font-medium mb-2"
+            style={{ color: "#E05A1B" }}
+          >
             Financial Intelligence
           </p>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+          <h1 className="text-3xl sm:text-4xl font-heading font-[800] mb-3" style={{ color: "#1A1A1A" }}>
             Every money concept you need to know.
           </h1>
-          <p className="text-text-secondary text-sm max-w-lg mx-auto">
+          <p className="text-sm max-w-lg mx-auto" style={{ color: "#555555" }}>
             132 concepts across 14 domains. Start anywhere.
           </p>
         </motion.div>
@@ -259,18 +275,27 @@ export default function ExplorePage() {
           transition={{ ...SPRING_GENTLE, delay: 0.08 }}
           className="relative max-w-md mx-auto mb-10"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+            style={{ color: "#C4A67A" }}
+          />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search concepts, strategies, accounts..."
-            className="w-full bg-surface border border-border rounded-xl pl-10 pr-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent/40 transition-colors"
+            className="w-full bg-white rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-colors"
+            style={{
+              color: "#1A1A1A",
+              border: "1px solid rgba(196,166,122,0.3)",
+              boxShadow: "0 2px 8px rgba(44,95,124,0.06)",
+            }}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary text-xs"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-colors"
+              style={{ color: "#C4A67A" }}
             >
               Clear
             </button>
@@ -280,7 +305,7 @@ export default function ExplorePage() {
         {/* Search results OR domain grid */}
         {isSearching ? (
           <div>
-            <p className="text-xs text-text-muted mb-4">
+            <p className="text-xs mb-4" style={{ color: "#C4A67A" }}>
               {searchResults.length} result
               {searchResults.length !== 1 ? "s" : ""} for &ldquo;
               {searchQuery}&rdquo;
@@ -292,7 +317,7 @@ export default function ExplorePage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-text-muted">
+              <div className="text-center py-12" style={{ color: "#C4A67A" }}>
                 <p className="text-sm">
                   No concepts found. Try a different search term.
                 </p>
@@ -313,32 +338,33 @@ export default function ExplorePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...SPRING_GENTLE, delay: 0.8 }}
-            className="mt-8 bg-surface border border-border rounded-xl p-6 card-hover"
+            className="mt-8 uc-card p-6 card-hover"
+            style={{ boxShadow: "0 4px 16px rgba(44,95,124,0.10)" }}
           >
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div>
-                <p className="text-2xl font-semibold text-accent">
+                <p className="text-2xl font-heading font-[800]" style={{ color: "#E05A1B" }}>
                   {domains.length}
                 </p>
-                <p className="text-xs text-text-muted mt-1">Domains</p>
+                <p className="text-xs mt-1" style={{ color: "#C4A67A" }}>Domains</p>
               </div>
               <div>
-                <p className="text-2xl font-semibold text-accent">
+                <p className="text-2xl font-heading font-[800]" style={{ color: "#E05A1B" }}>
                   {concepts.length}
                 </p>
-                <p className="text-xs text-text-muted mt-1">Concepts</p>
+                <p className="text-xs mt-1" style={{ color: "#C4A67A" }}>Concepts</p>
               </div>
               <div>
-                <p className="text-2xl font-semibold text-accent">
+                <p className="text-2xl font-heading font-[800]" style={{ color: "#E05A1B" }}>
                   {overall ? overall.visitedConcepts : 0}
                 </p>
-                <p className="text-xs text-text-muted mt-1">Explored</p>
+                <p className="text-xs mt-1" style={{ color: "#C4A67A" }}>Explored</p>
               </div>
               <div>
-                <p className="text-2xl font-semibold text-accent">
+                <p className="text-2xl font-heading font-[800]" style={{ color: "#E05A1B" }}>
                   {overall ? `${overall.overallPercent}%` : "0%"}
                 </p>
-                <p className="text-xs text-text-muted mt-1">Mastery</p>
+                <p className="text-xs mt-1" style={{ color: "#C4A67A" }}>Mastery</p>
               </div>
             </div>
           </motion.div>
@@ -349,14 +375,16 @@ export default function ExplorePage() {
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
               href="/calculators"
-              className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+              className="text-sm font-medium transition-colors inline-flex items-center gap-1"
+              style={{ color: "#E05A1B" }}
             >
               Run the numbers with calculators
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               href="/learn"
-              className="text-accent text-sm font-medium hover:text-accent-light transition-colors inline-flex items-center gap-1"
+              className="text-sm font-medium transition-colors inline-flex items-center gap-1"
+              style={{ color: "#E05A1B" }}
             >
               Deep dive strategies
               <ArrowRight className="w-3.5 h-3.5" />

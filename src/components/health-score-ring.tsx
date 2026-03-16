@@ -123,7 +123,7 @@ export function HealthScoreRing({
         className="transform -rotate-90"
         aria-hidden="true"
       >
-        {/* Background track -- tinted to grade color for depth */}
+        {/* Background track -- blue-tinted for brand depth */}
         <circle
           cx={RING_SIZE / 2}
           cy={RING_SIZE / 2}
@@ -193,8 +193,8 @@ export function HealthScoreRing({
             style={{
               width: size * 0.58,
               height: size * 0.58,
-              background: "var(--color-surface, rgba(255,255,255,0.5))",
-              opacity: 0.5,
+              backgroundColor: "rgba(245,237,224,0.7)",
+              opacity: 0.8,
             }}
           />
 
@@ -285,7 +285,7 @@ export function PillarBar({ label, score, color, weight, index = 0 }: PillarBarP
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm font-medium">{label}</span>
+          <span className="text-sm font-medium" style={{ color: "#1A1A1A" }}>{label}</span>
           <span
             className="text-sm font-semibold font-mono tabular-nums"
             style={{ color }}
@@ -326,7 +326,7 @@ export function PillarBar({ label, score, color, weight, index = 0 }: PillarBarP
           )}
         </div>
       </div>
-      <span className="text-[10px] text-text-muted w-8 text-right shrink-0">
+      <span className="text-[10px] w-8 text-right shrink-0" style={{ color: "#555555" }}>
         {Math.round(weight * 100)}%
       </span>
     </motion.div>

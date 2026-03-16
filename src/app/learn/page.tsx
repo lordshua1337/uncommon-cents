@@ -19,38 +19,39 @@ import {
 import { strategies } from "@/lib/strategies-data";
 
 const iconMap: Record<string, React.ReactNode> = {
-  ArrowUpDown: <ArrowUpDown className="w-6 h-6 text-accent" />,
-  AlertTriangle: <AlertTriangle className="w-6 h-6 text-gold" />,
-  Shield: <Shield className="w-6 h-6 text-accent" />,
-  KeyRound: <KeyRound className="w-6 h-6 text-accent" />,
-  Scissors: <Scissors className="w-6 h-6 text-accent" />,
-  Heart: <Heart className="w-6 h-6 text-accent" />,
-  Clock: <Clock className="w-6 h-6 text-accent" />,
-  Landmark: <Landmark className="w-6 h-6 text-accent" />,
-  BarChart3: <BarChart3 className="w-6 h-6 text-accent" />,
-  GraduationCap: <GraduationCap className="w-6 h-6 text-accent" />,
+  ArrowUpDown: <ArrowUpDown className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  AlertTriangle: <AlertTriangle className="w-6 h-6" style={{ color: '#C4A67A' }} />,
+  Shield: <Shield className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  KeyRound: <KeyRound className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  Scissors: <Scissors className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  Heart: <Heart className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  Clock: <Clock className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  Landmark: <Landmark className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  BarChart3: <BarChart3 className="w-6 h-6" style={{ color: '#E05A1B' }} />,
+  GraduationCap: <GraduationCap className="w-6 h-6" style={{ color: '#E05A1B' }} />,
 };
 
 export default function LearnPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen pt-24 pb-16 px-4" style={{ backgroundColor: '#F5EDE0' }}>
+      <div className="max-w-[960px] mx-auto">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-secondary mb-8 transition-colors"
+          className="inline-flex items-center gap-1 text-sm mb-8 transition-colors hover:opacity-80"
+          style={{ color: '#555555' }}
         >
           <ArrowLeft className="w-4 h-4" />
           Home
         </Link>
 
         <div className="mb-12">
-          <p className="text-xs text-accent uppercase tracking-widest font-medium mb-2">
+          <p className="text-label mb-2" style={{ color: '#E05A1B' }}>
             Learn
           </p>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-4">
+          <h1 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight mb-4" style={{ color: '#1A1A1A' }}>
             The Uncommon Playbook
           </h1>
-          <p className="text-text-secondary leading-relaxed">
+          <p className="leading-relaxed" style={{ color: '#555555' }}>
             {strategies.length} strategies that financially literate people use every
             day. Each one is legal, well-documented, and available to you
             right now. Most financial advisors won&apos;t bring these up
@@ -59,8 +60,10 @@ export default function LearnPage() {
         </div>
 
         {/* Table of contents */}
-        <div className="bg-surface border border-border rounded-xl p-5 mb-12">
-          <p className="text-xs text-accent uppercase tracking-widest font-medium mb-3">
+        <div
+          className="uc-card p-5 mb-12"
+        >
+          <p className="text-label mb-3" style={{ color: '#2C5F7C' }}>
             Jump to Strategy
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -68,9 +71,10 @@ export default function LearnPage() {
               <a
                 key={strategy.id}
                 href={`#${strategy.id}`}
-                className="flex items-center gap-3 text-sm text-text-secondary hover:text-accent transition-colors py-1"
+                className="flex items-center gap-3 text-sm transition-colors py-1 hover:opacity-80"
+                style={{ color: '#555555' }}
               >
-                <span className="text-xs text-text-muted font-mono w-5">
+                <span className="text-xs font-mono w-5" style={{ color: '#C4A67A' }}>
                   {index + 1}.
                 </span>
                 {strategy.title}
@@ -89,24 +93,27 @@ export default function LearnPage() {
             >
               {/* Strategy header */}
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-accent-bg flex items-center justify-center flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: 'rgba(224,90,27,0.1)' }}
+                >
                   {iconMap[strategy.icon]}
                 </div>
                 <div>
-                  <p className="text-xs text-text-muted mb-1">
+                  <p className="text-xs mb-1" style={{ color: '#555555' }}>
                     Strategy {index + 1} of {strategies.length}
                   </p>
-                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">
+                  <h2 className="font-heading text-xl sm:text-2xl font-semibold tracking-tight" style={{ color: '#1A1A1A' }}>
                     {strategy.title}
                   </h2>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-sm mt-1" style={{ color: '#555555' }}>
                     {strategy.subtitle}
                   </p>
                 </div>
               </div>
 
               {/* Summary */}
-              <p className="text-text-secondary leading-relaxed mb-6 text-base">
+              <p className="leading-relaxed mb-6 text-base" style={{ color: '#555555' }}>
                 {strategy.summary}
               </p>
 
@@ -115,12 +122,12 @@ export default function LearnPage() {
                 {strategy.keyNumbers.map((kn) => (
                   <div
                     key={kn.label}
-                    className="bg-surface border border-border-light rounded-lg p-3"
+                    className="uc-metric p-3"
                   >
-                    <p className="text-lg font-semibold text-accent">
+                    <p className="text-lg font-semibold" style={{ color: '#F5EDE0' }}>
                       {kn.value}
                     </p>
-                    <p className="text-xs text-text-muted">{kn.label}</p>
+                    <p className="text-xs" style={{ color: 'rgba(245,237,224,0.7)' }}>{kn.label}</p>
                   </div>
                 ))}
               </div>
@@ -129,10 +136,10 @@ export default function LearnPage() {
               <div className="space-y-5">
                 {strategy.sections.map((section) => (
                   <div key={section.heading}>
-                    <h3 className="text-base font-semibold mb-2">
+                    <h3 className="text-base font-semibold mb-2" style={{ color: '#1A1A1A' }}>
                       {section.heading}
                     </h3>
-                    <p className="text-sm text-text-secondary leading-relaxed">
+                    <p className="text-sm leading-relaxed" style={{ color: '#555555' }}>
                       {section.content}
                     </p>
                   </div>
@@ -140,58 +147,73 @@ export default function LearnPage() {
               </div>
 
               {/* Common mistake */}
-              <div className="mt-6 bg-red/5 border border-red/10 rounded-lg p-4">
+              <div
+                className="mt-6 rounded-lg p-4"
+                style={{
+                  backgroundColor: 'rgba(224,90,27,0.06)',
+                  border: '1px solid rgba(224,90,27,0.15)',
+                }}
+              >
                 <div className="flex items-center gap-2 mb-2">
-                  <AlertCircle className="w-4 h-4 text-red" />
-                  <p className="text-sm font-semibold text-red">
+                  <AlertCircle className="w-4 h-4" style={{ color: '#E05A1B' }} />
+                  <p className="text-sm font-semibold" style={{ color: '#E05A1B' }}>
                     Common Mistake
                   </p>
                 </div>
-                <p className="text-sm text-text-secondary leading-relaxed">
+                <p className="text-sm leading-relaxed" style={{ color: '#555555' }}>
                   {strategy.commonMistake}
                 </p>
               </div>
 
               {/* Uncommon insight */}
-              <div className="mt-4 bg-accent-bg border border-accent/10 rounded-lg p-4">
+              <div
+                className="mt-4 rounded-lg p-4"
+                style={{
+                  backgroundColor: 'rgba(44,95,124,0.07)',
+                  border: '1px solid rgba(44,95,124,0.15)',
+                }}
+              >
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="w-4 h-4 text-accent" />
-                  <p className="text-sm font-semibold text-accent">
+                  <Lightbulb className="w-4 h-4" style={{ color: '#2C5F7C' }} />
+                  <p className="text-sm font-semibold" style={{ color: '#2C5F7C' }}>
                     Uncommon Insight
                   </p>
                 </div>
-                <p className="text-sm text-text-secondary leading-relaxed">
+                <p className="text-sm leading-relaxed" style={{ color: '#555555' }}>
                   {strategy.uncommonInsight}
                 </p>
               </div>
 
               {/* Divider */}
               {index < strategies.length - 1 && (
-                <div className="divider-financial mt-12" />
+                <div
+                  className="mt-12"
+                  style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}
+                />
               )}
             </article>
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center bg-surface-alt rounded-xl p-8">
-          <h3 className="text-xl font-semibold mb-3">
+        <div className="mt-16 text-center uc-section p-8">
+          <h3 className="font-heading text-xl font-semibold mb-3" style={{ color: '#F5EDE0' }}>
             Ready to Run the Numbers?
           </h3>
-          <p className="text-text-secondary text-sm mb-6">
+          <p className="text-sm mb-6" style={{ color: 'rgba(245,237,224,0.8)' }}>
             Use our calculators to see how these strategies apply to your
             specific situation.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/calculators"
-              className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-accent-light transition-colors"
+              className="uc-button uc-button-primary"
             >
               Open Calculators
             </Link>
             <Link
               href="/ask"
-              className="bg-surface border border-border text-text-primary px-6 py-2.5 rounded-lg font-medium hover:border-accent/30 transition-colors"
+              className="uc-button uc-button-secondary"
             >
               Ask a Question
             </Link>

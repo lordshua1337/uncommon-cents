@@ -44,10 +44,13 @@ export function StreakFlame({ streak, status = "active", size = "md" }: StreakFl
   const isAtRisk = status === "at-risk";
   const isBroken = status === "broken" || status === "dormant";
 
+  // Grace uses the blue section color; broken uses muted; active uses VROOM orange or warmth color
   const resolvedColor = isGrace
-    ? "#60A5FA"
+    ? "#2C5F7C"
     : isBroken
     ? "#555555"
+    : tier === 0
+    ? "#E05A1B"
     : color;
 
   const opacity = isGrace ? 0.6 : isBroken ? 0.5 : 1;

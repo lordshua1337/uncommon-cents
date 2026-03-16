@@ -72,7 +72,7 @@ function BarTooltip({ label, value, formatValue }: TooltipProps) {
 
 export function AnimatedBarChart({
   bars,
-  accentColor = "#16A34A",
+  accentColor = "#2C5F7C",
   animate = true,
   className = "",
   formatValue = formatDefault,

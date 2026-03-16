@@ -395,7 +395,7 @@ export default function SimulatorRunnerPage() {
   const ariaLiveId = useId();
 
   const categoryColor = useMemo(
-    () => (scenario ? getCategoryColor(scenario.category) : "#16A34A"),
+    () => (scenario ? getCategoryColor(scenario.category) : "#2C5F7C"),
     [scenario],
   );
 

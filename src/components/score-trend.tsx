@@ -16,7 +16,7 @@ interface ScoreTrendProps {
   readonly className?: string;
 }
 
-const UP_COLOR = "#16A34A";
+const UP_COLOR = "#1E3F2E";
 const DOWN_COLOR = "#DC2626";
 const NEUTRAL_COLOR = "#9CA3AF";
 

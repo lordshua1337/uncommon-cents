@@ -177,7 +177,8 @@ function ScenarioCard({ scenario, index, isCompleted, prefersReduced }: Scenario
             <AnimatePresence>
               {isCompleted && (
                 <motion.span
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/15 border border-green-500/25 text-green-600 text-[10px] font-medium"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium"
+                  style={{ background: 'rgba(44,95,124,0.1)', border: '1px solid rgba(44,95,124,0.2)', color: '#2C5F7C' }}
                   initial={prefersReduced ? {} : { scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0, opacity: 0 }}

@@ -88,19 +88,29 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
 
   return (
     <motion.div
-      className="bg-surface border border-border-light rounded-xl overflow-hidden"
+      className="uc-card overflow-hidden"
       initial={cardInitial}
       animate={cardAnimate}
       transition={cardTransition}
       whileHover={prefersReduced ? undefined : { scale: 1.005, y: -1 }}
       layout
+      style={{
+        boxShadow: "0 2px 12px rgba(44,95,124,0.08)",
+      }}
     >
       <button
         onClick={handleToggle}
-        className="w-full flex items-center gap-3 p-4 text-left hover:bg-surface-alt transition-colors"
+        className="w-full flex items-center gap-3 p-4 text-left transition-colors"
+        style={{ color: "#1A1A1A" }}
         role="button"
         aria-expanded={ariaExpanded}
         aria-controls={`pillar-detail-${pillar.id}`}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "rgba(245,237,224,0.5)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }}
       >
         <div
           className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
@@ -112,7 +122,7 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold">{pillar.label}</span>
+            <span className="text-sm font-semibold" style={{ color: "#1A1A1A" }}>{pillar.label}</span>
             <span
               className="text-xs font-mono font-bold tabular-nums"
               style={{ color: pillar.color }}
@@ -122,7 +132,8 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
             </span>
           </div>
           <div
-            className="h-1.5 bg-border-light rounded-full mt-1.5 overflow-hidden"
+            className="h-1.5 rounded-full mt-1.5 overflow-hidden"
+            style={{ backgroundColor: "rgba(44,95,124,0.1)" }}
             role="progressbar"
             aria-valuenow={clampedScore}
             aria-valuemin={0}
@@ -157,7 +168,7 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
           animate={prefersReduced ? undefined : { rotate: open ? 180 : 0 }}
           transition={prefersReduced ? { duration: 0 } : SPRING_SNAPPY}
         >
-          <ChevronDown className="w-4 h-4 text-text-muted" />
+          <ChevronDown className="w-4 h-4" style={{ color: "#555555" }} />
         </motion.div>
       </button>
 
@@ -186,10 +197,13 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
               {pillar.details.map((detail) => (
                 <div key={detail.label}>
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-text-secondary">{detail.label}</span>
-                    <span className="font-mono">{detail.value}</span>
+                    <span style={{ color: "#555555" }}>{detail.label}</span>
+                    <span className="font-mono" style={{ color: "#1A1A1A" }}>{detail.value}</span>
                   </div>
-                  <div className="h-1 bg-border-light rounded-full overflow-hidden">
+                  <div
+                    className="h-1 rounded-full overflow-hidden"
+                    style={{ backgroundColor: "rgba(44,95,124,0.1)" }}
+                  >
                     <div
                       className="h-full rounded-full transition-all"
                       style={{
@@ -204,16 +218,17 @@ function PillarCard({ pillar, index = 0 }: { pillar: PillarScore; index?: number
               {/* Suggestions */}
               {pillar.suggestions.length > 0 && (
                 <div className="pt-2">
-                  <p className="text-[10px] uppercase tracking-wide text-text-muted mb-1.5">
+                  <p className="text-[10px] uppercase tracking-wide mb-1.5" style={{ color: "#555555" }}>
                     How to improve
                   </p>
                   <ul className="space-y-1.5">
                     {pillar.suggestions.map((s) => (
                       <li
                         key={s}
-                        className="flex items-start gap-2 text-xs text-text-secondary"
+                        className="flex items-start gap-2 text-xs"
+                        style={{ color: "#555555" }}
                       >
-                        <Lightbulb className="w-3 h-3 text-gold mt-0.5 shrink-0" />
+                        <Lightbulb className="w-3 h-3 mt-0.5 shrink-0" style={{ color: "#C4A67A" }} />
                         <span>{s}</span>
                       </li>
                     ))}
@@ -256,14 +271,18 @@ function ScoreSparkline({ history }: { history: HealthScoreHistory }) {
   const diff = lastEntry.total - prevEntry.total;
 
   return (
-    <div className="bg-surface border border-border-light rounded-xl p-4">
+    <div
+      className="uc-card p-4"
+      style={{
+        boxShadow: "0 2px 12px rgba(44,95,124,0.08)",
+      }}
+    >
       <div className="flex items-center justify-between mb-2">
-        <p className="text-xs font-medium text-text-secondary">Score History</p>
+        <p className="text-xs font-medium" style={{ color: "#555555" }}>Score History</p>
         {diff !== 0 && (
           <span
-            className={`text-xs font-mono ${
-              diff > 0 ? "text-accent" : "text-red"
-            }`}
+            className="text-xs font-mono"
+            style={{ color: diff > 0 ? "#2C5F7C" : "#E05A1B" }}
           >
             {diff > 0 ? "+" : ""}
             {diff} pts
@@ -278,7 +297,7 @@ function ScoreSparkline({ history }: { history: HealthScoreHistory }) {
         <polyline
           points={points}
           fill="none"
-          stroke="var(--color-accent)"
+          stroke="#2C5F7C"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -294,19 +313,19 @@ function ScoreSparkline({ history }: { history: HealthScoreHistory }) {
               cx={x}
               cy={y}
               r={i === entries.length - 1 ? 3 : 1.5}
-              fill="var(--color-accent)"
+              fill="#2C5F7C"
             />
           );
         })}
       </svg>
       <div className="flex justify-between mt-1">
-        <span className="text-[9px] text-text-muted">
+        <span className="text-[9px]" style={{ color: "#555555" }}>
           {new Date(entries[0].timestamp).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           })}
         </span>
-        <span className="text-[9px] text-text-muted">
+        <span className="text-[9px]" style={{ color: "#555555" }}>
           {new Date(entries[entries.length - 1].timestamp).toLocaleDateString(
             "en-US",
             { month: "short", day: "numeric" }
@@ -381,8 +400,8 @@ export default function ScorePage() {
 
   if (!score) {
     return (
-      <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
-        <p className="text-sm text-text-secondary" role="status">
+      <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center" style={{ backgroundColor: "#F5EDE0" }}>
+        <p className="text-sm" style={{ color: "#555555" }} role="status">
           Calculating your financial health...
         </p>
       </div>
@@ -413,6 +432,7 @@ export default function ScorePage() {
       {/* Page entrance fade-in */}
       <motion.div
         className="min-h-screen pt-20 pb-16 px-4"
+        style={{ backgroundColor: "#F5EDE0" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ ...SPRING_GENTLE, duration: 0.3 }}
@@ -422,16 +442,17 @@ export default function ScorePage() {
           <div className="flex items-center gap-3 mb-6">
             <Link
               href="/"
-              className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: "#555555" }}
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
-              <h1 className="text-xl font-semibold flex items-center gap-2">
-                <Activity className="w-5 h-5 text-accent" />
+              <h1 className="text-xl font-semibold flex items-center gap-2 font-heading" style={{ color: "#1A1A1A" }}>
+                <Activity className="w-5 h-5" style={{ color: "#2C5F7C" }} />
                 Financial Health Score
               </h1>
-              <p className="text-xs text-text-secondary mt-0.5">
+              <p className="text-xs mt-0.5" style={{ color: "#555555" }}>
                 A snapshot of where you stand -- and what to work on next.
               </p>
             </div>
@@ -473,20 +494,22 @@ export default function ScorePage() {
 
           {/* Pillar Overview */}
           <motion.div
-            className="bg-surface border border-border-light rounded-xl p-5 mb-6"
+            className="uc-card p-5 mb-6"
+            style={{ boxShadow: "0 2px 16px rgba(44,95,124,0.08)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ ...SPRING_GENTLE, delay: 0.4 }}
           >
             <motion.h2
-              className="text-sm font-semibold mb-4"
+              className="text-sm font-semibold mb-4 font-heading"
+              style={{ color: "#1A1A1A" }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...SPRING_GENTLE, delay: 0.3 }}
             >
               What makes up your score
             </motion.h2>
-            <p className="text-xs text-text-secondary mb-4 -mt-2">
+            <p className="text-xs mb-4 -mt-2" style={{ color: "#555555" }}>
               Your score is built from five areas. Tap any pillar to see what&apos;s inside.
             </p>
             <div className="space-y-3">
@@ -508,7 +531,7 @@ export default function ScorePage() {
 
           {/* Pillar Details */}
           <div className="mt-6 space-y-3">
-            <h2 className="text-sm font-semibold">Detailed Breakdown</h2>
+            <h2 className="text-sm font-semibold font-heading" style={{ color: "#1A1A1A" }}>Detailed Breakdown</h2>
             {score.pillars.map((p, i) => (
               <PillarCard key={p.id} pillar={p} index={i} />
             ))}
@@ -531,22 +554,30 @@ export default function ScorePage() {
             if (allSuggestions.length === 0) return null;
 
             return (
-              <div className="mt-6 bg-accent-bg border border-accent/10 rounded-xl p-5">
-                <h2 className="text-sm font-semibold text-accent mb-3">
+              <div
+                className="mt-6 rounded-xl p-5"
+                style={{
+                  backgroundColor: "rgba(44,95,124,0.06)",
+                  border: "1px solid rgba(44,95,124,0.15)",
+                  borderRadius: "14px",
+                }}
+              >
+                <h2 className="text-sm font-semibold mb-3 font-heading" style={{ color: "#2C5F7C" }}>
                   Top Actions to Improve
                 </h2>
                 <ul className="space-y-2">
                   {allSuggestions.map((s) => (
                     <li
                       key={s.text}
-                      className="flex items-start gap-2 text-sm text-text-secondary"
+                      className="flex items-start gap-2 text-sm"
+                      style={{ color: "#555555" }}
                     >
                       <div
                         className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
                         style={{ backgroundColor: s.color }}
                       />
                       <span>
-                        <span className="font-medium text-text-primary">
+                        <span className="font-medium" style={{ color: "#1A1A1A" }}>
                           {s.pillar}:
                         </span>{" "}
                         {s.text}
@@ -558,7 +589,7 @@ export default function ScorePage() {
             );
           })()}
 
-          <p className="text-[10px] text-text-muted text-center mt-8">
+          <p className="text-[10px] text-center mt-8" style={{ color: "#555555" }}>
             Score updates every time you visit this page. Not financial advice.
           </p>
         </div>
@@ -566,4 +597,3 @@ export default function ScorePage() {
     </>
   );
 }
-

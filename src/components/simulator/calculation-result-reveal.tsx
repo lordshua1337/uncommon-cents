@@ -47,7 +47,7 @@ function DirectionIcon({
   direction: ResultMetric["direction"];
 }) {
   if (direction === "positive") {
-    return <TrendingUp className="w-3 h-3 text-[#16A34A]" aria-hidden="true" />;
+    return <TrendingUp className="w-3 h-3 text-[#1E3F2E]" aria-hidden="true" />;
   }
   if (direction === "negative") {
     return <TrendingDown className="w-3 h-3 text-[#DC2626]" aria-hidden="true" />;
@@ -134,7 +134,7 @@ function MetricRow({
 
   const valueColor =
     metric.direction === "positive"
-      ? "#16A34A"
+      ? "#1E3F2E"
       : metric.direction === "negative"
         ? "#DC2626"
         : "#1A1A1A";

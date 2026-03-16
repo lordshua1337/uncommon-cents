@@ -63,11 +63,11 @@ const STORAGE_KEY = "uncommon_cents_health_history";
 const MAX_HISTORY = 30;
 
 const PILLAR_COLORS: Record<PillarId, string> = {
-  knowledge: "#2563EB",
-  awareness: "#8B5CF6",
-  practice: "#16A34A",
-  defense: "#DC2626",
-  growth: "#CA8A04",
+  knowledge: "#2C5F7C",
+  awareness: "#2C5F7C",
+  practice: "#1E3F2E",
+  defense: "#E05A1B",
+  growth: "#C4A67A",
 };
 
 const PILLAR_WEIGHTS: Record<PillarId, number> = {
@@ -479,12 +479,12 @@ export function getScoreGrade(score: number): {
   readonly label: string;
   readonly color: string;
 } {
-  if (score >= 90) return { grade: "A+", label: "Exceptional", color: "#16A34A" };
-  if (score >= 80) return { grade: "A", label: "Excellent", color: "#22C55E" };
-  if (score >= 70) return { grade: "B+", label: "Great", color: "#84CC16" };
-  if (score >= 60) return { grade: "B", label: "Good", color: "#CA8A04" };
-  if (score >= 50) return { grade: "C+", label: "Fair", color: "#EAB308" };
-  if (score >= 40) return { grade: "C", label: "Developing", color: "#F97316" };
-  if (score >= 25) return { grade: "D", label: "Getting Started", color: "#DC2626" };
+  if (score >= 90) return { grade: "A+", label: "Exceptional", color: "#1E3F2E" };
+  if (score >= 80) return { grade: "A", label: "Excellent", color: "#2C5F7C" };
+  if (score >= 70) return { grade: "B+", label: "Great", color: "#2C5F7C" };
+  if (score >= 60) return { grade: "B", label: "Good", color: "#C4A67A" };
+  if (score >= 50) return { grade: "C+", label: "Fair", color: "#C4A67A" };
+  if (score >= 40) return { grade: "C", label: "Developing", color: "#E05A1B" };
+  if (score >= 25) return { grade: "D", label: "Getting Started", color: "#E05A1B" };
   return { grade: "F", label: "Just Beginning", color: "#DC2626" };
 }

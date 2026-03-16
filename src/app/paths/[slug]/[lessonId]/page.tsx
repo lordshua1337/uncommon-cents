@@ -82,8 +82,8 @@ function MarkCompleteBlock({
               }
             : {
                 background: accentColor,
-                color: "#FFFFFF",
-                boxShadow: `0 4px 16px ${accentColor}44`,
+                color: "#F5EDE0",
+                boxShadow: `0 4px 16px rgba(44,95,124,0.3)`,
               }
         }
         whileTap={!isCompleted ? { scale: 0.98 } : {}}
@@ -150,9 +150,9 @@ function MobileMarkCompleteBar({
     <div
       className="sm:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3"
       style={{
-        background: "rgba(250,250,248,0.95)",
+        background: "rgba(245,237,224,0.95)",
         backdropFilter: "blur(12px)",
-        borderTop: "1px solid #E5E5E0",
+        borderTop: "1px solid rgba(196,166,122,0.3)",
       }}
     >
       <AnimatePresence>
@@ -186,8 +186,8 @@ function MobileMarkCompleteBar({
               }
             : {
                 background: accentColor,
-                color: "#FFFFFF",
-                boxShadow: `0 4px 16px ${accentColor}44`,
+                color: "#F5EDE0",
+                boxShadow: `0 4px 16px rgba(44,95,124,0.3)`,
               }
         }
         whileTap={!isCompleted ? { scale: 0.98 } : {}}
@@ -241,20 +241,20 @@ function ConceptLessonPage({
   const conceptSlug = lesson.conceptSlug;
 
   return (
-    <div className="min-h-screen pb-32 sm:pb-16" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen pb-32 sm:pb-16" style={{ background: "#F5EDE0" }}>
       {/* Stage context bar */}
       <div
         className="sticky top-16 z-30 px-4 py-2.5 border-b"
         style={{
-          background: "rgba(250,250,248,0.95)",
+          background: "rgba(245,237,224,0.95)",
           backdropFilter: "blur(12px)",
           borderColor: `${accentColor}25`,
         }}
       >
-        <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-[960px] mx-auto flex items-center justify-between gap-4">
           <div
             className="flex items-center gap-2 min-w-0 text-[10px]"
-            style={{ color: "#888888" }}
+            style={{ color: "#555555" }}
           >
             <Link
               href={`/paths/${stage.slug}`}
@@ -272,7 +272,7 @@ function ConceptLessonPage({
 
           <span
             className="text-[10px] font-medium flex-shrink-0"
-            style={{ color: "#888888", fontFamily: "var(--font-jetbrains)" }}
+            style={{ color: "#555555", fontFamily: "var(--font-jetbrains)" }}
           >
             {lessonIndex + 1} / {totalLessons}
           </span>
@@ -288,23 +288,23 @@ function ConceptLessonPage({
         style={{ background: accentColor, transformOrigin: "left" }}
       />
 
-      <div className="max-w-2xl mx-auto px-4 pt-8">
+      <div className="max-w-[960px] mx-auto px-4 pt-8">
         {/* Lesson context header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
           className="mb-6 pb-5 border-b"
-          style={{ borderColor: "#E5E5E0" }}
+          style={{ borderColor: "rgba(196,166,122,0.3)" }}
         >
           <p
-            className="text-[10px] uppercase tracking-widest font-medium mb-1"
+            className="text-label mb-1"
             style={{ color: accentColor, fontFamily: "var(--font-jetbrains)" }}
           >
             Lesson {lessonIndex + 1} of {totalLessons} — {stage.title}
           </p>
           <h1
-            className="text-xl font-semibold mb-1"
+            className="font-heading text-xl font-semibold mb-1"
             style={{ color: "#1A1A1A" }}
           >
             {lesson.title}
@@ -329,15 +329,14 @@ function ConceptLessonPage({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className="rounded-2xl p-6 mb-8"
+          className="uc-card rounded-2xl p-6 mb-8"
           style={{
-            background: "#FFFFFF",
             border: `1px solid ${accentColor}20`,
           }}
         >
           <p
             className="text-sm leading-relaxed mb-4"
-            style={{ color: "#374151" }}
+            style={{ color: "#1A1A1A" }}
           >
             {lesson.summary}
           </p>
@@ -373,7 +372,7 @@ function ConceptLessonPage({
             <Link
               href={`/paths/${stage.slug}/${prevLesson.id}`}
               className="text-sm inline-flex items-center gap-1 hover:opacity-70 transition-opacity"
-              style={{ color: "#888888" }}
+              style={{ color: "#555555" }}
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Previous
             </Link>
@@ -381,7 +380,7 @@ function ConceptLessonPage({
             <Link
               href={`/paths/${stage.slug}`}
               className="text-sm inline-flex items-center gap-1 hover:opacity-70 transition-opacity"
-              style={{ color: "#888888" }}
+              style={{ color: "#555555" }}
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to {stage.title}
             </Link>
@@ -527,9 +526,9 @@ export default function LessonViewPage() {
   // STAGE-LESSON without content
   if (!lesson.content) {
     return (
-      <div className="min-h-screen pt-24 pb-16 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <AlertCircle className="w-8 h-8 mx-auto mb-3" style={{ color: "#DC2626" }} />
+      <div className="min-h-screen pt-24 pb-16 px-4" style={{ background: "#F5EDE0" }}>
+        <div className="max-w-[960px] mx-auto text-center">
+          <AlertCircle className="w-8 h-8 mx-auto mb-3" style={{ color: "#E05A1B" }} />
           <p className="text-sm" style={{ color: "#555555" }}>
             Lesson content is not available. Please try again later.
           </p>
@@ -560,19 +559,19 @@ export default function LessonViewPage() {
         totalXpEarned={totalXpEarned}
         onDismiss={() => setShowGraduation(false)}
       />
-      <div className="min-h-screen pb-32 sm:pb-16" style={{ background: "#FAFAF8" }}>
+      <div className="min-h-screen pb-32 sm:pb-16" style={{ background: "#F5EDE0" }}>
       {/* Breadcrumb bar */}
       <div
         className="sticky top-16 z-30 px-4 py-2.5 border-b"
         style={{
-          background: "rgba(250,250,248,0.95)",
+          background: "rgba(245,237,224,0.95)",
           backdropFilter: "blur(12px)",
           borderColor: `${accentColor}25`,
         }}
       >
         <div
-          className="max-w-2xl mx-auto flex items-center gap-2 text-[10px]"
-          style={{ color: "#888888" }}
+          className="max-w-[960px] mx-auto flex items-center gap-2 text-[10px]"
+          style={{ color: "#555555" }}
         >
           <Link
             href="/paths"
@@ -600,7 +599,7 @@ export default function LessonViewPage() {
       </div>
 
       {/* Main content */}
-      <div className="max-w-2xl mx-auto px-4 pt-8">
+      <div className="max-w-[960px] mx-auto px-4 pt-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -623,7 +622,7 @@ export default function LessonViewPage() {
           <Link
             href={`/paths/${stage.slug}`}
             className="text-sm inline-flex items-center gap-1 hover:opacity-70 transition-opacity"
-            style={{ color: "#888888" }}
+            style={{ color: "#555555" }}
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to {stage.title}
           </Link>

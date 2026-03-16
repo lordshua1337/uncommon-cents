@@ -123,8 +123,8 @@ function getRatingColor(rating: number): string {
     1: "#F87171",
     2: "#F59E0B",
     3: "#EAB308",
-    4: "#16A34A",
-    5: "#15803D",
+    4: "#2C5F7C",
+    5: "#1E3F2E",
   };
   return palette[rating] ?? "#94a3b8";
 }
@@ -186,10 +186,10 @@ function SessionSummary({
   // Color-code accuracy: green >= 80%, amber 60-79%, red < 60%
   const accuracyColor =
     correctPct >= 80
-      ? "text-green-400"
+      ? "text-[#2E7D4A]"
       : correctPct >= 60
-        ? "text-amber-400"
-        : "text-red-400";
+        ? "text-[#C4A67A]"
+        : "text-[#E05A1B]";
 
   const masteryLabel =
     stats.masteredThisSession === 1
@@ -200,25 +200,25 @@ function SessionSummary({
 
   const statItems = [
     {
-      icon: <Layers className="w-4 h-4 text-slate-400" aria-hidden="true" />,
+      icon: <Layers className="w-4 h-4" style={{ color: 'rgba(245,237,224,0.6)' }} aria-hidden="true" />,
       value: stats.reviewed,
       suffix: "",
       label: "Cards Reviewed",
-      valueClass: "text-slate-200",
+      valueClass: "text-[#F5EDE0]",
     },
     {
-      icon: <CheckCircle2 className="w-4 h-4 text-green-500" aria-hidden="true" />,
+      icon: <CheckCircle2 className="w-4 h-4" style={{ color: '#2E7D4A' }} aria-hidden="true" />,
       value: correctPct,
       suffix: "%",
       label: "Accuracy",
       valueClass: accuracyColor,
     },
     {
-      icon: <Star className="w-4 h-4 text-green-400" aria-hidden="true" />,
+      icon: <Star className="w-4 h-4" style={{ color: '#C4A67A' }} aria-hidden="true" />,
       value: stats.masteredThisSession,
       suffix: "",
       label: "Mastered",
-      valueClass: "text-green-400",
+      valueClass: "text-[#C4A67A]",
     },
   ];
 
@@ -230,10 +230,9 @@ function SessionSummary({
       <div
         role="region"
         aria-label="Review session summary"
-        className="max-w-sm mx-auto rounded-2xl bg-gradient-to-br from-slate-800/95 to-slate-900/98 border border-slate-700/50 p-6"
+        className="uc-metric max-w-sm mx-auto p-6"
         style={{
-          boxShadow:
-            "0 25px 50px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(148,163,184,0.08)",
+          boxShadow: "0 25px 50px -12px rgba(44,95,124,0.25), 0 0 0 1px rgba(44,95,124,0.12)",
         }}
       >
         <span className="sr-only" aria-live="assertive">
@@ -241,15 +240,16 @@ function SessionSummary({
         </span>
 
         <div className="text-center mb-6">
-          <CheckCircle2 className="w-10 h-10 text-green-400 mx-auto mb-3" aria-hidden="true" />
+          <CheckCircle2 className="w-10 h-10 mx-auto mb-3" style={{ color: '#2E7D4A' }} aria-hidden="true" />
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="text-xl font-bold text-white outline-none"
+            className="font-heading text-xl font-bold outline-none"
+            style={{ color: '#F5EDE0' }}
           >
             Session complete!
           </h2>
-          <p className="text-sm text-slate-400 mt-1">Good session.</p>
+          <p className="text-sm mt-1" style={{ color: 'rgba(245,237,224,0.7)' }}>Good session.</p>
         </div>
 
         <div className="grid grid-cols-3 gap-4 mt-4">
@@ -263,7 +263,7 @@ function SessionSummary({
               <span className={`text-3xl font-bold font-mono tabular-nums leading-none ${item.valueClass}`}>
                 {item.value}{item.suffix}
               </span>
-              <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wide text-center">
+              <span className="text-[10px] font-medium uppercase tracking-wide text-center" style={{ color: 'rgba(245,237,224,0.6)' }}>
                 {item.label}
               </span>
             </div>
@@ -271,21 +271,23 @@ function SessionSummary({
         </div>
 
         {stats.masteredThisSession > 0 && masteryLabel && (
-          <div className="mt-4 px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/20 text-center">
-            <p className="text-green-400 text-sm font-semibold">{masteryLabel}</p>
+          <div className="mt-4 px-4 py-2 rounded-lg text-center" style={{ background: 'rgba(46,125,74,0.2)', border: '1px solid rgba(46,125,74,0.35)' }}>
+            <p className="text-sm font-semibold" style={{ color: '#2E7D4A' }}>{masteryLabel}</p>
           </div>
         )}
 
-        <div className="mt-5 pt-4 border-t border-slate-700/50 flex gap-3">
+        <div className="mt-5 pt-4 flex gap-3" style={{ borderTop: '1px solid rgba(245,237,224,0.15)' }}>
           <button
             onClick={onRestart}
-            className="flex-1 py-2.5 rounded-xl border border-slate-600/60 text-slate-300 text-xs font-medium hover:border-green-500/40 hover:text-green-300 transition-colors focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 outline-none cursor-pointer"
+            className="flex-1 py-2.5 rounded-xl text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 outline-none cursor-pointer"
+            style={{ border: '1px solid rgba(245,237,224,0.25)', color: 'rgba(245,237,224,0.8)' }}
           >
             Review more
           </button>
           <Link
             href="/explore"
-            className="flex-1 py-2.5 rounded-xl bg-green-500/15 border border-green-500/25 text-green-300 text-xs font-medium text-center hover:bg-green-500/25 transition-colors focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 outline-none"
+            className="flex-1 py-2.5 rounded-xl text-xs font-medium text-center transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 outline-none"
+            style={{ background: 'rgba(46,125,74,0.2)', border: '1px solid rgba(46,125,74,0.35)', color: '#F5EDE0' }}
           >
             I&apos;m done for today
           </Link>
@@ -299,7 +301,7 @@ function SessionSummary({
       {/* Confetti -- only fires if any cards were mastered this session */}
       <LessonConfetti
         visible={stats.masteredThisSession > 0}
-        accentColor="#16A34A"
+        accentColor="#2E7D4A"
         count={CONFETTI_COUNTS.minor}
       />
 
@@ -310,10 +312,9 @@ function SessionSummary({
         initial="initial"
         animate="animate"
         transition={{ ...SPRING_BOUNCY }}
-        className="max-w-sm mx-auto rounded-2xl bg-gradient-to-br from-slate-800/95 to-slate-900/98 border border-slate-700/50 p-6"
+        className="uc-metric max-w-sm mx-auto p-6"
         style={{
-          boxShadow:
-            "0 25px 50px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(148,163,184,0.08)",
+          boxShadow: "0 25px 50px -12px rgba(44,95,124,0.25), 0 0 0 1px rgba(44,95,124,0.12)",
         }}
       >
         <span className="sr-only" aria-live="assertive">
@@ -327,15 +328,16 @@ function SessionSummary({
           transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
           className="text-center mb-6"
         >
-          <CheckCircle2 className="w-10 h-10 text-green-400 mx-auto mb-3" aria-hidden="true" />
+          <CheckCircle2 className="w-10 h-10 mx-auto mb-3" style={{ color: '#2E7D4A' }} aria-hidden="true" />
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="text-xl font-bold text-white outline-none"
+            className="font-heading text-xl font-bold outline-none"
+            style={{ color: '#F5EDE0' }}
           >
             Session complete!
           </h2>
-          <p className="text-sm text-slate-400 mt-1">Good session.</p>
+          <p className="text-sm mt-1" style={{ color: 'rgba(245,237,224,0.7)' }}>Good session.</p>
         </motion.div>
 
         {/* Stats grid -- staggered reveal with AnimatedCounters */}
@@ -363,7 +365,7 @@ function SessionSummary({
                   <span className="text-xl">{item.suffix}</span>
                 )}
               </span>
-              <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wide text-center">
+              <span className="text-[10px] font-medium uppercase tracking-wide text-center" style={{ color: 'rgba(245,237,224,0.6)' }}>
                 {item.label}
               </span>
             </motion.div>
@@ -387,9 +389,10 @@ function SessionSummary({
                   ? { duration: 0.4, delay: 0 }
                   : { ...SPRING_SNAPPY, delay: 0.4 }
               }
-              className="mt-4 px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/20 text-center"
+              className="mt-4 px-4 py-2 rounded-lg text-center"
+              style={{ background: 'rgba(46,125,74,0.2)', border: '1px solid rgba(46,125,74,0.35)' }}
             >
-              <p className="text-green-400 text-sm font-semibold">{masteryLabel}</p>
+              <p className="text-sm font-semibold" style={{ color: '#2E7D4A' }}>{masteryLabel}</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -399,14 +402,16 @@ function SessionSummary({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.5 }}
-          className="mt-5 pt-4 border-t border-slate-700/50 flex gap-3"
+          className="mt-5 pt-4 flex gap-3"
+          style={{ borderTop: '1px solid rgba(245,237,224,0.15)' }}
         >
           <motion.button
             onClick={onRestart}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             transition={{ ...SPRING_SNAPPY }}
-            className="flex-1 py-2.5 rounded-xl border border-slate-600/60 text-slate-300 text-xs font-medium hover:border-green-500/40 hover:text-green-300 transition-colors focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 outline-none cursor-pointer"
+            className="flex-1 py-2.5 rounded-xl text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 outline-none cursor-pointer"
+            style={{ border: '1px solid rgba(245,237,224,0.25)', color: 'rgba(245,237,224,0.8)' }}
           >
             Review more
           </motion.button>
@@ -418,7 +423,8 @@ function SessionSummary({
           >
             <Link
               href="/explore"
-              className="block w-full py-2.5 rounded-xl bg-green-500/15 border border-green-500/25 text-green-300 text-xs font-medium text-center hover:bg-green-500/25 transition-colors focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 outline-none"
+              className="block w-full py-2.5 rounded-xl text-xs font-medium text-center transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 outline-none"
+              style={{ background: 'rgba(46,125,74,0.2)', border: '1px solid rgba(46,125,74,0.35)', color: '#F5EDE0' }}
             >
               I&apos;m done for today
             </Link>
@@ -504,34 +510,37 @@ function SelfRateCard({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.1 }}
-              className="bg-white dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-2xl overflow-hidden"
-              style={{ minHeight: 280 }}
+              className="uc-card rounded-2xl overflow-hidden"
+              style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)", minHeight: 280 }}
             >
               <div className="p-8 flex flex-col items-center justify-center text-center h-full" style={{ minHeight: 220 }}>
                 <motion.p
                   {...conceptNameVariants}
-                  className="text-[10px] text-text-secondary uppercase tracking-wider mb-2"
+                  className="text-[10px] text-[#555555] uppercase tracking-wider mb-2"
                 >
                   What do you remember about...
                 </motion.p>
                 <motion.h2
                   {...conceptNameVariants}
-                  className="text-xl font-semibold text-zinc-900 dark:text-zinc-50"
+                  className="text-xl font-semibold"
+                  style={{ color: '#1A1A1A' }}
                 >
                   {concept.name}
                 </motion.h2>
                 <motion.p
                   {...descriptionVariants}
-                  className="text-xs text-text-secondary mt-2 leading-relaxed"
+                  className="text-xs text-[#555555] mt-2 leading-relaxed"
                 >
                   {concept.summary}
                 </motion.p>
               </div>
-              <div className="border-t border-zinc-200/60 dark:border-zinc-700/60 p-4 text-center">
+              <div className="p-4 text-center"
+              style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}>
                 <button
                   onClick={() => setFlipped(true)}
                   aria-label="Flip card to see answer"
-                  className="text-sm text-accent hover:text-accent-light transition-colors flex items-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:focus-visible:ring-zinc-600 rounded-md px-2 py-1"
+                  className="text-sm transition-colors flex items-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-md px-2 py-1"
+                style={{ color: '#2C5F7C' }}
                 >
                   <RefreshCw className="w-4 h-4" aria-hidden="true" />
                   Show Answer
@@ -547,23 +556,26 @@ function SelfRateCard({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.1 }}
-              className="bg-zinc-50 dark:bg-zinc-700/80 border border-zinc-200/60 dark:border-zinc-700/60 border-t-2 border-t-accent rounded-2xl overflow-hidden"
-              style={{ minHeight: 280 }}
+              className="rounded-2xl overflow-hidden"
+              style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', borderTop: '2px solid #2C5F7C', boxShadow: "0 2px 8px rgba(44,95,124,0.08)", minHeight: 280 }}
             >
               <div className="p-8">
                 <p
-                  className="text-xs font-medium tracking-wide uppercase text-accent mb-3"
+                  className="text-xs font-medium tracking-wide uppercase mb-3"
+                  style={{ color: '#2C5F7C' }}
                   aria-hidden="true"
                 >
                   {concept.name}
                 </p>
-                <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">
+                <p className="text-sm leading-relaxed"
+                  style={{ color: '#1A1A1A' }}>
                   {concept.layers.accessible.slice(0, 300)}
                   {concept.layers.accessible.length > 300 ? "..." : ""}
                 </p>
               </div>
-              <div className="p-4 border-t border-zinc-200/60 dark:border-zinc-700/60">
-                <p className="text-[10px] text-text-secondary mb-2 text-center">
+              <div className="p-4"
+              style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}>
+                <p className="text-[10px] text-[#555555] mb-2 text-center">
                   How well did you remember this?
                 </p>
                 {/* Screen reader live region for selection announcement */}
@@ -592,7 +604,8 @@ function SelfRateCard({
                         <span className="block text-sm font-semibold font-mono" style={{ color }}>
                           {r.value}
                         </span>
-                        <span className="block text-[9px] text-zinc-600 dark:text-zinc-400 leading-tight">{r.label}</span>
+                        <span className="block text-[9px] leading-tight"
+                        style={{ color: '#555555' }}>{r.label}</span>
                       </button>
                     );
                   })}
@@ -644,37 +657,40 @@ function SelfRateCard({
         >
           {/* Front face */}
           <div
-            style={{ backfaceVisibility: "hidden" }}
-            className="absolute inset-0 bg-white dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-2xl overflow-hidden flex flex-col"
+            style={{ backfaceVisibility: "hidden", border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)" }}
+            className="absolute inset-0 uc-card rounded-2xl overflow-hidden flex flex-col"
             aria-hidden={flipped}
           >
             <div className="flex-1 p-8 flex flex-col items-center justify-center text-center" style={{ minHeight: 220 }}>
               <motion.p
                 {...conceptNameVariants}
-                className="text-[10px] text-text-secondary uppercase tracking-wider mb-2"
+                className="text-[10px] text-[#555555] uppercase tracking-wider mb-2"
               >
                 What do you remember about...
               </motion.p>
               <motion.h2
                 {...conceptNameVariants}
-                className="text-xl font-semibold text-zinc-900 dark:text-zinc-50"
+                className="text-xl font-semibold"
+                  style={{ color: '#1A1A1A' }}
               >
                 {concept.name}
               </motion.h2>
               <motion.p
                 {...descriptionVariants}
-                className="text-xs text-text-secondary mt-2 leading-relaxed max-w-sm"
+                className="text-xs text-[#555555] mt-2 leading-relaxed max-w-sm"
               >
                 {concept.summary}
               </motion.p>
             </div>
-            <div className="border-t border-zinc-200/60 dark:border-zinc-700/60 p-4 text-center">
+            <div className="p-4 text-center"
+              style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}>
               <motion.button
                 onClick={() => setFlipped(true)}
                 aria-label="Flip card to see answer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.92, transition: { ...SPRING_SNAPPY } }}
-                className="text-sm text-accent hover:text-accent-light transition-colors flex items-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:focus-visible:ring-zinc-600 rounded-md px-2 py-1"
+                className="text-sm transition-colors flex items-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-md px-2 py-1"
+                style={{ color: '#2C5F7C' }}
               >
                 <motion.span
                   whileHover={{ rotate: 15 }}
@@ -693,8 +709,12 @@ function SelfRateCard({
             style={{
               backfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
+              background: '#F5EDE0',
+              border: '1px solid rgba(196,166,122,0.3)',
+              borderTop: '2px solid #2C5F7C',
+              boxShadow: "0 2px 8px rgba(44,95,124,0.08)",
             }}
-            className="absolute inset-0 bg-zinc-50 dark:bg-zinc-700/80 border border-zinc-200/60 dark:border-zinc-700/60 border-t-2 border-t-accent rounded-2xl overflow-hidden flex flex-col"
+            className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col"
             aria-hidden={!flipped}
           >
             <div className="flex-1 p-8">
@@ -705,7 +725,8 @@ function SelfRateCard({
                 animate="animate"
               >
                 <p
-                  className="text-xs font-medium tracking-wide uppercase text-accent mb-3"
+                  className="text-xs font-medium tracking-wide uppercase mb-3"
+                  style={{ color: '#2C5F7C' }}
                   aria-hidden="true"
                 >
                   {concept.name}
@@ -713,7 +734,8 @@ function SelfRateCard({
                 <p
                   ref={flipped ? ariaRef : null}
                   tabIndex={flipped ? -1 : undefined}
-                  className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-200"
+                  className="text-sm leading-relaxed"
+                  style={{ color: '#1A1A1A' }}
                 >
                   {concept.layers.accessible.slice(0, 300)}
                   {concept.layers.accessible.length > 300 ? "..." : ""}
@@ -725,9 +747,10 @@ function SelfRateCard({
               variants={backContentVariants}
               initial="initial"
               animate="animate"
-              className="p-4 border-t border-zinc-200/60 dark:border-zinc-700/60"
+              className="p-4"
+              style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}
             >
-              <p className="text-[10px] text-text-secondary mb-2 text-center">
+              <p className="text-[10px] text-[#555555] mb-2 text-center">
                 How well did you remember this?
               </p>
               {/* Screen reader live region for selection announcement */}
@@ -756,7 +779,8 @@ function SelfRateCard({
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.12 }}
-                            className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium px-1.5 py-0.5 rounded bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 pointer-events-none z-10"
+                            className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium px-1.5 py-0.5 rounded pointer-events-none z-10"
+                            style={{ background: '#1A1A1A', color: '#F5EDE0' }}
                           >
                             {r.label}
                           </motion.div>
@@ -790,7 +814,8 @@ function SelfRateCard({
                         >
                           {r.value}
                         </span>
-                        <span className="block text-[9px] text-zinc-600 dark:text-zinc-400 leading-tight mt-0.5">
+                        <span className="block text-[9px] leading-tight mt-0.5"
+                        style={{ color: '#555555' }}>
                           {r.label}
                         </span>
                       </motion.button>
@@ -843,15 +868,15 @@ function QuizAnswerButton({
   let borderColor = "rgba(161,161,170,0.3)";
   let bgColor = "transparent";
   if (isRevealedCorrect) {
-    borderColor = "#16A34A";
-    bgColor = "rgba(22,163,74,0.12)";
+    borderColor = "#2E7D4A";
+    bgColor = "rgba(46,125,74,0.12)";
   } else if (isWrong) {
     borderColor = "rgba(161,161,170,0.3)";
     bgColor = "transparent";
   }
 
   const boxShadow = isRevealedCorrect && !prefersReduced
-    ? "0 0 0 2px #16A34A, 0 0 16px rgba(22,163,74,0.25)"
+    ? "0 0 0 2px #2E7D4A, 0 0 16px rgba(46,125,74,0.25)"
     : "none";
 
   return (
@@ -914,7 +939,7 @@ function QuizAnswerButton({
               className="shrink-0"
               aria-hidden="true"
             >
-              <Check className="w-3.5 h-3.5 text-green-500 dark:text-green-400" />
+              <Check className="w-3.5 h-3.5" style={{ color: '#2E7D4A' }} />
             </motion.span>
           )}
         </AnimatePresence>
@@ -927,10 +952,10 @@ function QuizAnswerButton({
         <span
           className={
             isRevealedCorrect
-              ? "text-green-700 dark:text-green-300 font-medium"
+              ? "font-medium text-[#1E3F2E]"
               : isWrong
-                ? "text-zinc-500 dark:text-zinc-400"
-                : "text-zinc-800 dark:text-zinc-200"
+                ? "text-[#555555]"
+                : "text-[#1A1A1A]"
           }
         >
           {option}
@@ -973,8 +998,8 @@ function QuizCard({
 
   return (
     <div
-      className="bg-white dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-2xl p-6"
-      style={{ minHeight: 280 }}
+      className="uc-card rounded-2xl p-6"
+      style={{ border: "1px solid rgba(196,166,122,0.3)", boxShadow: "0 2px 8px rgba(44,95,124,0.08)", minHeight: 280 }}
     >
       {/* Screen reader live region for quiz result */}
       <div ref={quizAriaRef} aria-live="polite" aria-atomic="true" className="sr-only">
@@ -984,13 +1009,15 @@ function QuizCard({
 
       <motion.p
         {...conceptNameVariants}
-        className="text-[10px] text-accent uppercase tracking-wider mb-2"
+        className="text-[10px] uppercase tracking-wider mb-2"
+        style={{ color: '#2C5F7C' }}
       >
         {question.conceptName}
       </motion.p>
       <motion.h3
         {...descriptionVariants}
-        className="text-sm font-semibold mb-4 text-zinc-900 dark:text-zinc-50"
+        className="text-sm font-semibold mb-4"
+        style={{ color: '#1A1A1A' }}
       >
         {question.question}
       </motion.h3>
@@ -1015,9 +1042,10 @@ function QuizCard({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
-          className="mt-3 p-3 bg-accent/5 border border-accent/10 rounded-xl"
+          className="mt-3 p-3 rounded-xl"
+          style={{ background: 'rgba(44,95,124,0.06)', border: '1px solid rgba(44,95,124,0.12)' }}
         >
-          <p className="text-[10px] text-text-secondary">
+          <p className="text-[10px] text-[#555555]">
             {question.explanation}
           </p>
         </motion.div>
@@ -1238,7 +1266,7 @@ export default function ReviewPage() {
   if (!state || !stats) {
     return (
       <div className="min-h-screen pt-20 pb-16 px-4 flex items-center justify-center">
-        <p className="text-sm text-text-secondary">Loading review cards...</p>
+        <p className="text-sm text-[#555555]">Loading review cards...</p>
       </div>
     );
   }
@@ -1271,17 +1299,18 @@ export default function ReviewPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+              className="p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 hover:bg-[rgba(44,95,124,0.06)]"
+            style={{ color: '#555555' }}
               aria-label="Back to home"
             >
               <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             </Link>
             <div>
               <h1 className="text-xl font-semibold flex items-center gap-2">
-                <Brain className="w-5 h-5 text-accent" aria-hidden="true" />
+                <Brain className="w-5 h-5" style={{ color: '#2C5F7C' }} aria-hidden="true" />
                 Review
               </h1>
-              <p className="text-xs text-text-secondary">
+              <p className="text-xs text-[#555555]">
                 {stats.due} cards due &mdash; {stats.mastered} mastered
               </p>
             </div>
@@ -1290,7 +1319,8 @@ export default function ReviewPage() {
           {/* Mode toggle -- hidden during session complete */}
           {!sessionComplete && (
             <div
-              className="flex bg-surface border border-border-light rounded-lg p-0.5"
+              className="flex rounded-lg p-0.5"
+              style={{ background: '#FFFFFF', border: '1px solid rgba(196,166,122,0.3)' }}
               role="group"
               aria-label="Review mode"
             >
@@ -1299,8 +1329,8 @@ export default function ReviewPage() {
                 aria-pressed={mode === "self-rate"}
                 className={`text-[10px] px-3 py-1.5 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 ${
                   mode === "self-rate"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-secondary"
+                    ? "text-[#2C5F7C]"
+                    : "text-[#555555]"
                 }`}
               >
                 Flashcard
@@ -1310,8 +1340,8 @@ export default function ReviewPage() {
                 aria-pressed={mode === "quiz"}
                 className={`text-[10px] px-3 py-1.5 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 ${
                   mode === "quiz"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-secondary"
+                    ? "text-[#2C5F7C]"
+                    : "text-[#555555]"
                 }`}
               >
                 Quiz
@@ -1322,29 +1352,33 @@ export default function ReviewPage() {
 
         {/* Stats bar -- animated counters on each number */}
         <div className="grid grid-cols-4 gap-2 mb-6">
-          <div className="bg-surface border border-border-light rounded-lg p-3 text-center">
+          <div className="uc-card rounded-lg p-3 text-center"
+            style={{ border: '1px solid rgba(196,166,122,0.3)', boxShadow: '0 1px 4px rgba(44,95,124,0.06)' }}>
             <p className="text-lg font-bold font-mono">
               <AnimatedCounter value={stats.total} className="text-lg font-bold font-mono" />
             </p>
-            <p className="text-[10px] text-text-secondary">Total</p>
+            <p className="text-[10px] text-[#555555]">Total</p>
           </div>
-          <div className="bg-surface border border-border-light rounded-lg p-3 text-center">
+          <div className="uc-card rounded-lg p-3 text-center"
+            style={{ border: '1px solid rgba(196,166,122,0.3)', boxShadow: '0 1px 4px rgba(44,95,124,0.06)' }}>
             <p className="text-lg font-bold font-mono text-amber-400">
               <AnimatedCounter value={stats.due} className="text-lg font-bold font-mono text-amber-400" />
             </p>
-            <p className="text-[10px] text-text-secondary">Due</p>
+            <p className="text-[10px] text-[#555555]">Due</p>
           </div>
-          <div className="bg-surface border border-border-light rounded-lg p-3 text-center">
+          <div className="uc-card rounded-lg p-3 text-center"
+            style={{ border: '1px solid rgba(196,166,122,0.3)', boxShadow: '0 1px 4px rgba(44,95,124,0.06)' }}>
             <p className="text-lg font-bold font-mono text-blue-400">
               <AnimatedCounter value={stats.learning} className="text-lg font-bold font-mono text-blue-400" />
             </p>
-            <p className="text-[10px] text-text-secondary">Learning</p>
+            <p className="text-[10px] text-[#555555]">Learning</p>
           </div>
-          <div className="bg-surface border border-border-light rounded-lg p-3 text-center">
-            <p className="text-lg font-bold font-mono text-green-400">
-              <AnimatedCounter value={stats.mastered} className="text-lg font-bold font-mono text-green-400" />
+          <div className="uc-card rounded-lg p-3 text-center"
+            style={{ border: '1px solid rgba(196,166,122,0.3)', boxShadow: '0 1px 4px rgba(44,95,124,0.06)' }}>
+            <p className="text-lg font-bold font-mono" style={{ color: '#2E7D4A' }}>
+              <AnimatedCounter value={stats.mastered} className="text-lg font-bold font-mono" />
             </p>
-            <p className="text-[10px] text-text-secondary">Mastered</p>
+            <p className="text-[10px] text-[#555555]">Mastered</p>
           </div>
         </div>
 
@@ -1354,19 +1388,22 @@ export default function ReviewPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...SPRING_GENTLE }}
-            className="bg-surface border border-border-light rounded-2xl p-8 text-center"
+            className="uc-card rounded-2xl p-8 text-center"
+            style={{ border: '1px solid rgba(196,166,122,0.3)', boxShadow: '0 2px 8px rgba(44,95,124,0.08)' }}
           >
             <Trophy
-              className="w-10 h-10 text-accent mx-auto mb-3"
+              className="w-10 h-10 mx-auto mb-3"
+              style={{ color: '#2C5F7C' }}
               aria-hidden="true"
             />
             <h2 className="text-sm font-semibold mb-1">Nothing due today.</h2>
-            <p className="text-xs text-text-secondary mb-4">
+            <p className="text-xs text-[#555555] mb-4">
               Your scheduled cards show up here each day. Check back tomorrow.
             </p>
             <Link
               href="/explore"
-              className="inline-flex items-center gap-2 text-xs text-accent hover:text-accent-light transition-colors"
+              className="inline-flex items-center gap-2 text-xs transition-colors hover:opacity-80"
+              style={{ color: '#2C5F7C' }}
             >
               <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
               Explore concepts
@@ -1390,7 +1427,7 @@ export default function ReviewPage() {
           <div>
             {/* Progress */}
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] text-text-secondary">
+              <span className="text-[10px] text-[#555555]">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={currentIndex}
@@ -1404,13 +1441,15 @@ export default function ReviewPage() {
                   </motion.span>
                 </AnimatePresence>
               </span>
-              <span className="text-[10px] text-accent font-mono tabular-nums">
+              <span className="text-[10px] font-mono tabular-nums" style={{ color: '#2C5F7C' }}>
                 {sessionCorrectRef.current}/{sessionReviewedRef.current} correct
               </span>
             </div>
-            <div className="h-1 bg-surface rounded-full mb-4" role="progressbar" aria-valuenow={currentIndex + 1} aria-valuemin={1} aria-valuemax={dueCards.length}>
+            <div className="h-1 rounded-full mb-4"
+              style={{ background: 'rgba(44,95,124,0.10)' }} role="progressbar" aria-valuenow={currentIndex + 1} aria-valuemin={1} aria-valuemax={dueCards.length}>
               <motion.div
-                className="h-full bg-accent rounded-full"
+                className="h-full rounded-full"
+                style={{ background: '#2C5F7C' }}
                 animate={{
                   width: `${((currentIndex + 1) / dueCards.length) * 100}%`,
                 }}
@@ -1423,7 +1462,7 @@ export default function ReviewPage() {
             {!prefersReduced && (
               <LessonConfetti
                 visible={masteryCard !== null}
-                accentColor="#16A34A"
+                accentColor="#2E7D4A"
                 count={CONFETTI_COUNTS.minor}
               />
             )}
@@ -1462,20 +1501,20 @@ export default function ReviewPage() {
                       onClick={handleMasteryDismiss}
                       className="absolute inset-0 rounded-[inherit] z-10 flex flex-col items-center justify-center cursor-pointer"
                       style={{
-                        backgroundColor: "rgba(240, 253, 244, 0.95)",
-                        border: "2px solid #16A34A",
+                        backgroundColor: "rgba(30,63,46,0.95)",
+                        border: "2px solid #2E7D4A",
                       }}
                       role="status"
                       aria-label="Mastered! This concept is now in long-term memory"
                     >
                       <Trophy
                         className="w-10 h-10 mb-3"
-                        style={{ color: "#16A34A" }}
+                        style={{ color: "#C4A67A" }}
                         aria-hidden="true"
                       />
-                      <p className="text-2xl font-bold text-green-700">Mastered!</p>
-                      <p className="text-sm font-medium text-green-800 mt-1">{masteryCard.conceptName}</p>
-                      <p className="text-xs text-green-600 mt-2">This concept is now in long-term memory</p>
+                      <p className="text-2xl font-bold" style={{ color: '#F5EDE0' }}>Mastered!</p>
+                      <p className="text-sm font-medium mt-1" style={{ color: '#F5EDE0' }}>{masteryCard.conceptName}</p>
+                      <p className="text-xs mt-2" style={{ color: 'rgba(245,237,224,0.7)' }}>This concept is now in long-term memory</p>
                     </div>
                   ) : (
                     <motion.div
@@ -1486,7 +1525,7 @@ export default function ReviewPage() {
                       transition={{ ...SPRING_BOUNCY }}
                       onClick={handleMasteryDismiss}
                       className="absolute inset-0 rounded-[inherit] z-10 flex flex-col items-center justify-center cursor-pointer"
-                      style={{ backgroundColor: "rgba(240, 253, 244, 0.95)" }}
+                      style={{ backgroundColor: "rgba(30,63,46,0.95)" }}
                       role="status"
                       aria-label="Mastered! This concept is now in long-term memory"
                     >
@@ -1497,15 +1536,15 @@ export default function ReviewPage() {
                         <Trophy
                           className="w-10 h-10 mb-3"
                           style={{
-                            color: "#16A34A",
-                            filter: "drop-shadow(0 0 8px #16A34A80)",
+                            color: "#C4A67A",
+                            filter: "drop-shadow(0 0 8px rgba(196,166,122,0.8))",
                           }}
                           aria-hidden="true"
                         />
                       </motion.div>
-                      <p className="text-2xl font-bold text-green-700">Mastered!</p>
-                      <p className="text-sm font-medium text-green-800 mt-1">{masteryCard.conceptName}</p>
-                      <p className="text-xs text-green-600 mt-2">This concept is now in long-term memory</p>
+                      <p className="text-2xl font-bold" style={{ color: '#F5EDE0' }}>Mastered!</p>
+                      <p className="text-sm font-medium mt-1" style={{ color: '#F5EDE0' }}>{masteryCard.conceptName}</p>
+                      <p className="text-xs mt-2" style={{ color: 'rgba(245,237,224,0.7)' }}>This concept is now in long-term memory</p>
                     </motion.div>
                   )
                 )}
@@ -1519,7 +1558,8 @@ export default function ReviewPage() {
           <div className="mt-6 text-center">
             <Link
               href="/explore"
-              className="inline-flex items-center gap-1 text-[10px] text-text-secondary hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 rounded-md px-2 py-1"
+              className="inline-flex items-center gap-1 text-[10px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-md px-2 py-1 hover:opacity-80"
+              style={{ color: '#555555' }}
             >
               <Layers className="w-3 h-3" aria-hidden="true" />
               Add more concepts to review

@@ -4,13 +4,13 @@
 import type { ScenarioDefinition } from "./types";
 
 export const CATEGORY_COLORS: Readonly<Record<ScenarioDefinition["category"], string>> = {
-  tax: "#CA8A04",       // gold -- tax is complex, serious, gold = authority
-  debt: "#DC2626",      // red -- debt is urgent, high-stakes
-  investing: "#2563EB", // blue -- investing is analytical, calm confidence
-  retirement: "#16A34A",// green -- retirement is the growth goal, main accent
-  insurance: "#7C3AED", // purple -- protection, shield, security
+  tax: "#C4A67A",       // tan -- tax is complex, serious
+  debt: "#E05A1B",      // VROOM orange -- debt is urgent, high-stakes
+  investing: "#2C5F7C", // blue -- investing is analytical, calm confidence
+  retirement: "#1E3F2E",// green -- retirement is the growth goal
+  insurance: "#2C5F7C", // blue -- protection, shield, security
 } as const;
 
 export function getCategoryColor(category: ScenarioDefinition["category"]): string {
-  return CATEGORY_COLORS[category] ?? "#16A34A";
+  return CATEGORY_COLORS[category] ?? "#2C5F7C";
 }

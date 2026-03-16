@@ -41,7 +41,7 @@ export function AnimatedCardGrid({
     };
   }, []);
 
-  const color = accentColor ?? "#16A34A";
+  const color = accentColor ?? "#2C5F7C";
   const hoverBoxShadow = `0 8px 24px ${color}28, 0 2px 8px ${color}14`;
 
   if (prefersReducedMotion) {

@@ -107,12 +107,12 @@ export default function StageDetailPage() {
   const allComplete = completionPercent === 100;
 
   return (
-    <div className="min-h-screen" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen" style={{ background: "#F5EDE0" }}>
       {/* HERO */}
       <div
         className="relative h-[200px] sm:h-[260px] md:h-[300px] overflow-hidden"
         style={{
-          background: `linear-gradient(135deg, ${accentColor}18 0%, ${accentColor}08 50%, #FAFAF8 100%)`,
+          background: `linear-gradient(135deg, ${accentColor}18 0%, ${accentColor}08 50%, #F5EDE0 100%)`,
         }}
       >
         {/* Radial glow blob */}
@@ -143,9 +143,9 @@ export default function StageDetailPage() {
         </motion.div>
 
         {/* Hero content */}
-        <div className="relative max-w-4xl mx-auto px-4 h-full flex flex-col justify-end pb-6 sm:pb-8">
+        <div className="relative max-w-[960px] mx-auto px-4 h-full flex flex-col justify-end pb-6 sm:pb-8">
           {/* Breadcrumb — hidden on mobile */}
-          <div className="hidden sm:flex items-center gap-2 mb-3 text-[10px]" style={{ color: "#888888" }}>
+          <div className="hidden sm:flex items-center gap-2 mb-3 text-[10px]" style={{ color: "#555555" }}>
             <Link
               href="/paths"
               className="hover:opacity-70 transition-opacity"
@@ -189,7 +189,7 @@ export default function StageDetailPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight"
+            className="font-heading text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight"
             style={{ color: "#1A1A1A" }}
           >
             {stage.title}
@@ -213,12 +213,12 @@ export default function StageDetailPage() {
             transition={{ delay: 0.35, duration: 0.4 }}
             className="flex items-center gap-3 mt-4"
           >
-            <span className="text-[10px]" style={{ color: "#888888" }}>
+            <span className="text-[10px]" style={{ color: "#555555" }}>
               {completedCount} of {stage.lessons.length} lessons completed
             </span>
             <div
               className="flex-1 max-w-[200px] h-1.5 rounded-full overflow-hidden"
-              style={{ background: "#EFEFEA" }}
+              style={{ background: "rgba(196,166,122,0.3)" }}
             >
               <motion.div
                 initial={{ width: 0 }}
@@ -248,18 +248,13 @@ export default function StageDetailPage() {
       <div className="divider-financial" />
 
       {/* LESSON STACK */}
-      <div className="max-w-4xl mx-auto px-4 py-10 sm:py-12">
+      <div className="max-w-[960px] mx-auto px-4 py-10 sm:py-12">
         {/* Continue CTA (returning user) */}
         {completedCount > 0 && !allComplete && nextLessonId && (
           <div className="mb-6">
             <Link
               href={`/paths/${stage.slug}/${nextLessonId}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
-              style={{
-                background: accentColor,
-                color: "#FFFFFF",
-                boxShadow: `0 4px 16px ${accentColor}44`,
-              }}
+              className="uc-button uc-button-primary inline-flex items-center gap-2"
             >
               Continue <ArrowRight className="w-4 h-4" />
             </Link>
@@ -274,13 +269,13 @@ export default function StageDetailPage() {
           <div className="flex items-center gap-3">
             <span
               className="flex items-center gap-1 text-[10px]"
-              style={{ color: "#888888", fontFamily: "var(--font-jetbrains)" }}
+              style={{ color: "#555555", fontFamily: "var(--font-jetbrains)" }}
             >
               <Clock className="w-3 h-3" />
               {stage.estimatedMinutes} min total
             </span>
             {completedCount === 0 && (
-              <span className="text-[10px]" style={{ color: "#888888" }}>
+              <span className="text-[10px]" style={{ color: "#555555" }}>
                 Tap a lesson to begin
               </span>
             )}
@@ -326,9 +321,9 @@ export default function StageDetailPage() {
           >
             <Trophy
               className="w-10 h-10 mx-auto mb-3"
-              style={{ color: accentColor }}
+              style={{ color: "#E05A1B" }}
             />
-            <h3 className="text-lg font-semibold mb-1" style={{ color: "#1A1A1A" }}>
+            <h3 className="font-heading text-lg font-semibold mb-1" style={{ color: "#1A1A1A" }}>
               Stage Complete!
             </h3>
             <p className="text-sm mb-5" style={{ color: "#555555" }}>
@@ -337,12 +332,7 @@ export default function StageDetailPage() {
             {nextStage && (
               <Link
                 href={`/paths/${nextStage.slug}`}
-                className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
-                style={{
-                  background: accentColor,
-                  color: "#FFFFFF",
-                  boxShadow: `0 4px 16px ${accentColor}44`,
-                }}
+                className="uc-button uc-button-primary inline-flex items-center gap-2"
               >
                 Continue to {nextStage.title}
                 <ArrowRight className="w-4 h-4" />
@@ -357,7 +347,7 @@ export default function StageDetailPage() {
           <Link
             href="/paths"
             className="text-sm inline-flex items-center gap-1 hover:opacity-70 transition-opacity"
-            style={{ color: "#888888" }}
+            style={{ color: "#555555" }}
           >
             <ArrowLeft className="w-3.5 h-3.5" /> All Paths
           </Link>

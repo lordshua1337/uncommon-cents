@@ -36,26 +36,36 @@ function MessageBubble({ message }: { message: Message }) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
       <div
-        className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 ${
+        className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3`}
+        style={
           isUser
-            ? "bg-accent text-white rounded-br-md"
-            : "bg-surface border border-border rounded-bl-md"
-        }`}
+            ? {
+                backgroundColor: "#2C5F7C",
+                color: "#F5EDE0",
+                borderBottomRightRadius: "4px",
+                boxShadow: "0 2px 12px rgba(44,95,124,0.25)",
+              }
+            : {
+                backgroundColor: "#FFFFFF",
+                border: "1px solid rgba(196,166,122,0.3)",
+                borderBottomLeftRadius: "4px",
+                boxShadow: "0 2px 8px rgba(44,95,124,0.08)",
+              }
+        }
       >
         {!isUser && (
           <div className="flex items-center gap-1.5 mb-2">
-            <Coins className="w-3.5 h-3.5 text-accent" />
-            <span className="text-xs text-accent font-medium">Uncommon Cents</span>
+            <Coins className="w-3.5 h-3.5" style={{ color: "#E05A1B" }} />
+            <span className="text-xs font-medium" style={{ color: "#E05A1B" }}>Uncommon Cents</span>
           </div>
         )}
         <div
-          className={`text-sm leading-relaxed whitespace-pre-wrap ${
-            isUser ? "text-white" : "text-text-primary"
-          }`}
+          className="text-sm leading-relaxed whitespace-pre-wrap"
+          style={{ color: isUser ? "#F5EDE0" : "#1A1A1A" }}
         >
           {message.content.split("**").map((part, i) =>
             i % 2 === 1 ? (
-              <strong key={i} className={isUser ? "text-white" : "text-accent-dark"}>
+              <strong key={i} style={{ color: isUser ? "#F5EDE0" : "#2C5F7C" }}>
                 {part}
               </strong>
             ) : (
@@ -149,22 +159,34 @@ function AskPageContent() {
   };
 
   return (
-    <div className="min-h-screen pt-14 flex flex-col">
-      <div className="border-b border-border-light bg-background/80 backdrop-blur-sm px-4 py-3">
+    <div className="min-h-screen pt-14 flex flex-col" style={{ backgroundColor: "#F5EDE0" }}>
+      <div
+        className="px-4 py-3"
+        style={{
+          borderBottom: "1px solid rgba(196,166,122,0.3)",
+          backgroundColor: "rgba(245,237,224,0.85)",
+          backdropFilter: "blur(8px)",
+        }}
+      >
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-text-muted hover:text-text-secondary transition-colors">
+            <Link
+              href="/"
+              className="transition-colors"
+              style={{ color: "#555555" }}
+            >
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>
-              <h1 className="text-base font-semibold">Ask Uncommon Cents</h1>
-              <p className="text-xs text-text-muted">Financial education, not advice</p>
+              <h1 className="text-base font-semibold font-heading" style={{ color: "#1A1A1A" }}>Ask Uncommon Cents</h1>
+              <p className="text-xs" style={{ color: "#555555" }}>Financial education, not advice</p>
             </div>
           </div>
           {messages.length > 0 && (
             <button
               onClick={() => { setMessages([]); setInput(""); }}
-              className="text-text-muted hover:text-text-secondary p-1.5 rounded-lg hover:bg-surface transition-colors"
+              className="p-1.5 rounded-lg transition-colors"
+              style={{ color: "#555555" }}
             >
               <RotateCcw className="w-4 h-4" />
             </button>
@@ -176,11 +198,11 @@ function AskPageContent() {
         <div className="max-w-2xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center min-h-[50vh]">
-              <Coins className="w-10 h-10 text-accent mb-4" />
-              <h2 className="text-xl font-semibold mb-2">
+              <Coins className="w-10 h-10 mb-4" style={{ color: "#E05A1B" }} />
+              <h2 className="text-xl font-semibold mb-2 font-heading" style={{ color: "#1A1A1A" }}>
                 What do you want to understand?
               </h2>
-              <p className="text-text-muted text-sm text-center max-w-sm mb-8">
+              <p className="text-sm text-center max-w-sm mb-8" style={{ color: "#555555" }}>
                 Ask about any financial strategy, tax concept, or retirement
                 planning question. Get clear answers with real numbers.
               </p>
@@ -189,7 +211,21 @@ function AskPageContent() {
                   <button
                     key={q}
                     onClick={() => sendMessage(q)}
-                    className="text-left text-sm bg-surface border border-border rounded-lg px-3 py-2.5 text-text-secondary hover:border-accent/30 hover:text-text-primary transition-colors"
+                    className="text-left text-sm rounded-lg px-3 py-2.5 transition-colors"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid rgba(196,166,122,0.3)",
+                      color: "#555555",
+                      boxShadow: "0 1px 4px rgba(44,95,124,0.06)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(44,95,124,0.4)";
+                      e.currentTarget.style.color = "#1A1A1A";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(196,166,122,0.3)";
+                      e.currentTarget.style.color = "#555555";
+                    }}
                   >
                     {q}
                   </button>
@@ -203,14 +239,22 @@ function AskPageContent() {
               ))}
               {isLoading && (
                 <div className="flex justify-start animate-fade-in">
-                  <div className="bg-surface border border-border rounded-2xl rounded-bl-md px-4 py-3">
+                  <div
+                    className="rounded-2xl px-4 py-3"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid rgba(196,166,122,0.3)",
+                      borderBottomLeftRadius: "4px",
+                      boxShadow: "0 2px 8px rgba(44,95,124,0.08)",
+                    }}
+                  >
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Coins className="w-3.5 h-3.5 text-accent" />
-                      <span className="text-xs text-accent font-medium">Uncommon Cents</span>
+                      <Coins className="w-3.5 h-3.5" style={{ color: "#E05A1B" }} />
+                      <span className="text-xs font-medium" style={{ color: "#E05A1B" }}>Uncommon Cents</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Loader2 className="w-4 h-4 text-text-muted animate-spin" />
-                      <span className="text-xs text-text-muted">Running the numbers...</span>
+                      <Loader2 className="w-4 h-4 animate-spin" style={{ color: "#555555" }} />
+                      <span className="text-xs" style={{ color: "#555555" }}>Running the numbers...</span>
                     </div>
                   </div>
                 </div>
@@ -221,7 +265,14 @@ function AskPageContent() {
         </div>
       </div>
 
-      <div className="border-t border-border-light bg-background/80 backdrop-blur-sm px-4 py-3">
+      <div
+        className="px-4 py-3"
+        style={{
+          borderTop: "1px solid rgba(196,166,122,0.3)",
+          backgroundColor: "rgba(245,237,224,0.85)",
+          backdropFilter: "blur(8px)",
+        }}
+      >
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -230,14 +281,20 @@ function AskPageContent() {
             onKeyDown={handleKeyDown}
             placeholder="Ask about any financial strategy..."
             rows={1}
-            className="flex-1 resize-none bg-surface border border-border rounded-xl px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent/40 transition-colors"
-            style={{ maxHeight: "120px" }}
+            className="flex-1 resize-none rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors"
+            style={{
+              backgroundColor: "#FFFFFF",
+              border: "1px solid rgba(196,166,122,0.4)",
+              color: "#1A1A1A",
+              maxHeight: "120px",
+            }}
             disabled={isLoading}
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="bg-accent text-white p-2.5 rounded-xl hover:bg-accent-light disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+            className="p-2.5 rounded-xl transition-colors flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ backgroundColor: "#E05A1B", color: "#FFFFFF" }}
           >
             <Send className="w-4 h-4" />
           </button>

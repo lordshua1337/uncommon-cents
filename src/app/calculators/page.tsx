@@ -38,14 +38,14 @@ function RothConversionCalc() {
   const rothFV = futureValue;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <ArrowUpDown className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <ArrowUpDown className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Roth Conversion Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Roth Conversion Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             See if converting makes sense for you
           </p>
         </div>
@@ -53,113 +53,120 @@ function RothConversionCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Traditional IRA Balance
           </label>
           <input
             type="number"
             value={balance}
             onChange={(e) => setBalance(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Amount to Convert
           </label>
           <input
             type="number"
             value={conversionAmount}
             onChange={(e) => setConversionAmount(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Current Tax Bracket (%)
           </label>
           <input
             type="number"
             value={currentBracket}
             onChange={(e) => setCurrentBracket(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Expected Retirement Bracket (%)
           </label>
           <input
             type="number"
             value={retirementBracket}
             onChange={(e) => setRetirementBracket(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Years to Retirement
           </label>
           <input
             type="number"
             value={yearsToRetirement}
             onChange={(e) => setYearsToRetirement(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Annual Growth Rate (%)
           </label>
           <input
             type="number"
             value={growthRate}
             onChange={(e) => setGrowthRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
       </div>
 
       {/* Results */}
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+      <div className="rounded-lg p-4 space-y-3" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Tax paid on conversion now</span>
-          <span className="font-medium text-red">{formatCurrency(taxNow)}</span>
+          <span style={{ color: '#555555' }}>Tax paid on conversion now</span>
+          <span className="font-medium" style={{ color: '#E05A1B' }}>{formatCurrency(taxNow)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">
+          <span style={{ color: '#555555' }}>
             Converted amount grows to (tax-free)
           </span>
-          <span className="font-medium text-accent">
+          <span className="font-medium" style={{ color: '#2C5F7C' }}>
             {formatCurrency(rothFV)}
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">
+          <span style={{ color: '#555555' }}>
             Tax you&apos;d pay on that in retirement
           </span>
-          <span className="font-medium text-red">
+          <span className="font-medium" style={{ color: '#E05A1B' }}>
             {formatCurrency(taxLater)}
           </span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>
             {taxSavings > 0 ? "Net tax savings" : "Net tax cost"}
           </span>
           <span
-            className={`font-semibold ${taxSavings > 0 ? "text-accent" : "text-red"}`}
+            className="font-semibold"
+            style={{ color: taxSavings > 0 ? '#2C5F7C' : '#E05A1B' }}
           >
             {formatCurrency(Math.abs(taxSavings))}
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Remaining traditional FV</span>
-          <span className="font-medium">{formatCurrency(remainingFV)}</span>
+          <span style={{ color: '#555555' }}>Remaining traditional FV</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(remainingFV)}</span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted mt-3">
+      <p className="text-xs mt-3" style={{ color: '#555555' }}>
         Simplified estimate. Does not account for state taxes, IRMAA, or NIIT.
         Consult a tax professional.
       </p>
@@ -189,14 +196,14 @@ function HSAGrowthCalc() {
   const totalTaxBenefit = taxSavingsOnContributions + taxSavingsOnGrowth;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <Heart className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <Heart className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">HSA Growth Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>HSA Growth Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             See the power of the triple tax advantage
           </p>
         </div>
@@ -204,112 +211,117 @@ function HSAGrowthCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Annual Contribution
           </label>
           <input
             type="number"
             value={annualContribution}
             onChange={(e) => setAnnualContribution(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Current Age
           </label>
           <input
             type="number"
             value={currentAge}
             onChange={(e) => setCurrentAge(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Retirement Age
           </label>
           <input
             type="number"
             value={retirementAge}
             onChange={(e) => setRetirementAge(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Expected Growth Rate (%)
           </label>
           <input
             type="number"
             value={growthRate}
             onChange={(e) => setGrowthRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Your Tax Rate (%)
           </label>
           <input
             type="number"
             value={taxRate}
             onChange={(e) => setTaxRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Years of Growth
           </label>
-          <div className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm text-text-muted">
+          <div className="w-full rounded-lg px-3 py-2 text-sm" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#555555' }}>
             {years} years
           </div>
         </div>
       </div>
 
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+      <div className="rounded-lg p-4 space-y-3" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Total contributions</span>
-          <span className="font-medium">{formatCurrency(totalContributions)}</span>
+          <span style={{ color: '#555555' }}>Total contributions</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(totalContributions)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Tax-free growth</span>
-          <span className="font-medium text-accent">
+          <span style={{ color: '#555555' }}>Tax-free growth</span>
+          <span className="font-medium" style={{ color: '#2C5F7C' }}>
             {formatCurrency(taxFreeGrowth)}
           </span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Total HSA balance at retirement</span>
-          <span className="font-semibold text-accent">
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Total HSA balance at retirement</span>
+          <span className="font-semibold" style={{ color: '#2C5F7C' }}>
             {formatCurrency(balance)}
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">
+          <span style={{ color: '#555555' }}>
             Tax savings on contributions
           </span>
-          <span className="font-medium text-accent">
+          <span className="font-medium" style={{ color: '#1E3F2E' }}>
             {formatCurrency(taxSavingsOnContributions)}
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Tax savings on growth</span>
-          <span className="font-medium text-accent">
+          <span style={{ color: '#555555' }}>Tax savings on growth</span>
+          <span className="font-medium" style={{ color: '#1E3F2E' }}>
             {formatCurrency(taxSavingsOnGrowth)}
           </span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Total tax benefit</span>
-          <span className="font-semibold text-accent">
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Total tax benefit</span>
+          <span className="font-semibold" style={{ color: '#1E3F2E' }}>
             {formatCurrency(totalTaxBenefit)}
           </span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted mt-3">
+      <p className="text-xs mt-3" style={{ color: '#555555' }}>
         Assumes contributions are invested (not spent on medical bills), and
         medical expenses are paid out of pocket. All growth is tax-free.
       </p>
@@ -336,14 +348,14 @@ function CompoundInterestCalc() {
   const doublingYears = annualRate > 0 ? 72 / annualRate : 0;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <DollarSign className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <DollarSign className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Compound Interest Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Compound Interest Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             See how time and consistency build wealth
           </p>
         </div>
@@ -351,76 +363,80 @@ function CompoundInterestCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Starting Amount
           </label>
           <input
             type="number"
             value={principal}
             onChange={(e) => setPrincipal(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Monthly Contribution
           </label>
           <input
             type="number"
             value={monthlyContribution}
             onChange={(e) => setMonthlyContribution(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Annual Return (%)
           </label>
           <input
             type="number"
             value={annualRate}
             onChange={(e) => setAnnualRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Time Horizon (years)
           </label>
           <input
             type="number"
             value={years}
             onChange={(e) => setYears(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
       </div>
 
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+      <div className="rounded-lg p-4 space-y-3" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Total contributions</span>
-          <span className="font-medium">{formatCurrency(totalContributions)}</span>
+          <span style={{ color: '#555555' }}>Total contributions</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(totalContributions)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Interest earned</span>
-          <span className="font-medium text-accent">
+          <span style={{ color: '#555555' }}>Interest earned</span>
+          <span className="font-medium" style={{ color: '#1E3F2E' }}>
             {formatCurrency(totalInterest)}
           </span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Future value</span>
-          <span className="font-semibold text-accent">
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Future value</span>
+          <span className="font-semibold" style={{ color: '#2C5F7C' }}>
             {formatCurrency(futureValue)}
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Rule of 72: money doubles every</span>
-          <span className="font-medium">{doublingYears.toFixed(1)} years</span>
+          <span style={{ color: '#555555' }}>Rule of 72: money doubles every</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{doublingYears.toFixed(1)} years</span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted mt-3">
+      <p className="text-xs mt-3" style={{ color: '#555555' }}>
         Assumes annual compounding. Real returns vary year to year. Past
         performance does not guarantee future results.
       </p>
@@ -494,14 +510,14 @@ function BuyVsRentCalc() {
   const rentNetWealth = investedSavings;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <Calculator className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <Calculator className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Buy vs Rent Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Buy vs Rent Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             Compare the real cost of owning vs renting
           </p>
         </div>
@@ -509,124 +525,130 @@ function BuyVsRentCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Home Price
           </label>
           <input
             type="number"
             value={homePrice}
             onChange={(e) => setHomePrice(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Down Payment (%)
           </label>
           <input
             type="number"
             value={downPaymentPct}
             onChange={(e) => setDownPaymentPct(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Mortgage Rate (%)
           </label>
           <input
             type="number"
             value={mortgageRate}
             onChange={(e) => setMortgageRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Monthly Rent
           </label>
           <input
             type="number"
             value={monthlyRent}
             onChange={(e) => setMonthlyRent(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Home Appreciation (%/yr)
           </label>
           <input
             type="number"
             value={homeAppreciation}
             onChange={(e) => setHomeAppreciation(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Time Horizon (years)
           </label>
           <input
             type="number"
             value={years}
             onChange={(e) => setYears(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-accent-bg rounded-lg p-3">
-          <p className="text-xs text-text-muted mb-1">Monthly cost (owning)</p>
-          <p className="text-lg font-semibold">{formatCurrency(totalMonthlyOwning)}</p>
-          <p className="text-[10px] text-text-muted mt-1">
+        <div className="rounded-lg p-3" style={{ background: 'rgba(44,95,124,0.08)', border: '1px solid rgba(44,95,124,0.15)' }}>
+          <p className="text-xs mb-1" style={{ color: '#555555' }}>Monthly cost (owning)</p>
+          <p className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>{formatCurrency(totalMonthlyOwning)}</p>
+          <p className="text-[10px] mt-1" style={{ color: '#555555' }}>
             Mortgage + tax + insurance + maintenance
           </p>
         </div>
-        <div className="bg-surface-alt rounded-lg p-3">
-          <p className="text-xs text-text-muted mb-1">Monthly cost (renting)</p>
-          <p className="text-lg font-semibold">{formatCurrency(monthlyRent)}</p>
-          <p className="text-[10px] text-text-muted mt-1">
+        <div className="rounded-lg p-3" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)' }}>
+          <p className="text-xs mb-1" style={{ color: '#555555' }}>Monthly cost (renting)</p>
+          <p className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>{formatCurrency(monthlyRent)}</p>
+          <p className="text-[10px] mt-1" style={{ color: '#555555' }}>
             Difference invested at {investmentReturn}%
           </p>
         </div>
       </div>
 
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3">
+      <div className="rounded-lg p-4 space-y-3" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Home value after {years}yr</span>
-          <span className="font-medium">{formatCurrency(homeValueAtEnd)}</span>
+          <span style={{ color: '#555555' }}>Home value after {years}yr</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(homeValueAtEnd)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Total paid (owning)</span>
-          <span className="font-medium text-red">{formatCurrency(totalPaidOwning)}</span>
+          <span style={{ color: '#555555' }}>Total paid (owning)</span>
+          <span className="font-medium" style={{ color: '#E05A1B' }}>{formatCurrency(totalPaidOwning)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Total paid (renting)</span>
-          <span className="font-medium text-red">{formatCurrency(totalPaidRenting)}</span>
+          <span style={{ color: '#555555' }}>Total paid (renting)</span>
+          <span className="font-medium" style={{ color: '#E05A1B' }}>{formatCurrency(totalPaidRenting)}</span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Buy: estimated net wealth</span>
-          <span className="font-semibold">{formatCurrency(buyNetWealth)}</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Buy: estimated net wealth</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>{formatCurrency(buyNetWealth)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Rent + invest: net wealth</span>
-          <span className="font-semibold">{formatCurrency(rentNetWealth)}</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Rent + invest: net wealth</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>{formatCurrency(rentNetWealth)}</span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>
             {buyNetWealth > rentNetWealth ? "Buying wins by" : "Renting wins by"}
           </span>
-          <span className="font-semibold text-accent">
+          <span className="font-semibold" style={{ color: '#2C5F7C' }}>
             {formatCurrency(Math.abs(buyNetWealth - rentNetWealth))}
           </span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted mt-3">
+      <p className="text-xs mt-3" style={{ color: '#555555' }}>
         Simplified model. Does not account for closing costs, rent increases,
         mortgage interest deduction, or opportunity cost of maintenance time.
       </p>
@@ -701,14 +723,14 @@ function OverfundingCalc() {
   const isOverfunded = firstRmd && parseFloat(firstRmd.bracket) >= 24;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <AlertTriangle className="w-5 h-5 text-gold" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(196,166,122,0.15)' }}>
+          <AlertTriangle className="w-5 h-5" style={{ color: '#C4A67A' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">401(k) Overfunding Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>401(k) Overfunding Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             Will your RMDs push you into a higher bracket?
           </p>
         </div>
@@ -716,141 +738,148 @@ function OverfundingCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Current Age
           </label>
           <input
             type="number"
             value={currentAge}
             onChange={(e) => setCurrentAge(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Current 401(k) Balance
           </label>
           <input
             type="number"
             value={currentBalance}
             onChange={(e) => setCurrentBalance(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Annual Employee Contribution
           </label>
           <input
             type="number"
             value={annualContribution}
             onChange={(e) => setAnnualContribution(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Annual Employer Match
           </label>
           <input
             type="number"
             value={employerMatch}
             onChange={(e) => setEmployerMatch(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Expected Growth Rate (%)
           </label>
           <input
             type="number"
             value={growthRate}
             onChange={(e) => setGrowthRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Planned Retirement Age
           </label>
           <input
             type="number"
             value={retirementAge}
             onChange={(e) => setRetirementAge(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Expected Social Security / Pension Income
           </label>
           <input
             type="number"
             value={ssIncome}
             onChange={(e) => setSsIncome(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
       </div>
 
       {/* Warning flag */}
       {isOverfunded && (
-        <div className="bg-red/10 border border-red/20 rounded-lg p-3 mb-4">
-          <p className="text-sm text-red font-medium">
+        <div className="rounded-lg p-3 mb-4" style={{ background: 'rgba(224,90,27,0.08)', border: '1px solid rgba(224,90,27,0.2)' }}>
+          <p className="text-sm font-medium" style={{ color: '#E05A1B' }}>
             Warning: Your projected RMDs may push you into the {firstRmd.bracket} bracket or higher.
           </p>
-          <p className="text-xs text-text-secondary mt-1">
+          <p className="text-xs mt-1" style={{ color: '#555555' }}>
             Consider splitting future contributions between Traditional and Roth 401(k),
             or doing Roth conversions in early retirement before RMDs begin.
           </p>
         </div>
       )}
 
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
+      <div className="rounded-lg p-4 space-y-3 mb-4" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Balance at retirement (age {retirementAge})</span>
-          <span className="font-medium">{formatCurrency(balanceAtRetirement)}</span>
+          <span style={{ color: '#555555' }}>Balance at retirement (age {retirementAge})</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(balanceAtRetirement)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Balance at RMD start (age 73)</span>
-          <span className="font-medium">{formatCurrency(balanceAtRmd)}</span>
+          <span style={{ color: '#555555' }}>Balance at RMD start (age 73)</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(balanceAtRmd)}</span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         {firstRmd && (
           <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">First RMD (age 73)</span>
-            <span className="font-medium text-accent">{formatCurrency(firstRmd.rmd)}</span>
+            <span style={{ color: '#555555' }}>First RMD (age 73)</span>
+            <span className="font-medium" style={{ color: '#2C5F7C' }}>{formatCurrency(firstRmd.rmd)}</span>
           </div>
         )}
         {firstRmd && (
           <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Total taxable income at 73</span>
-            <span className={`font-medium ${isOverfunded ? "text-red" : ""}`}>
+            <span style={{ color: '#555555' }}>Total taxable income at 73</span>
+            <span className="font-medium" style={{ color: isOverfunded ? '#E05A1B' : '#1A1A1A' }}>
               {formatCurrency(firstRmd.taxableIncome)} ({firstRmd.bracket} bracket)
             </span>
           </div>
         )}
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Peak RMD (age {peakRmd.age})</span>
-          <span className="font-medium text-accent">{formatCurrency(peakRmd.rmd)}</span>
+          <span style={{ color: '#555555' }}>Peak RMD (age {peakRmd.age})</span>
+          <span className="font-medium" style={{ color: '#2C5F7C' }}>{formatCurrency(peakRmd.rmd)}</span>
         </div>
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Est. total tax on RMDs (73-95)</span>
-          <span className="font-semibold text-red">{formatCurrency(totalRmdTax)}</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Est. total tax on RMDs (73-95)</span>
+          <span className="font-semibold" style={{ color: '#E05A1B' }}>{formatCurrency(totalRmdTax)}</span>
         </div>
       </div>
 
       {/* RMD Schedule Preview */}
       <div className="mb-4">
-        <p className="text-xs text-text-muted mb-2 font-medium uppercase tracking-wider">
+        <p className="text-xs mb-2 font-medium uppercase tracking-wider" style={{ color: '#555555' }}>
           RMD Schedule (first 10 years)
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="text-text-muted border-b border-border">
+              <tr style={{ borderBottom: '1px solid rgba(196,166,122,0.3)', color: '#555555' }}>
                 <th className="text-left py-2 pr-3">Age</th>
                 <th className="text-right py-2 px-3">Balance</th>
                 <th className="text-right py-2 px-3">RMD</th>
@@ -859,11 +888,11 @@ function OverfundingCalc() {
             </thead>
             <tbody>
               {rmdSchedule.slice(0, 10).map((row) => (
-                <tr key={row.age} className="border-b border-border-light">
-                  <td className="py-1.5 pr-3 text-text-secondary">{row.age}</td>
-                  <td className="py-1.5 px-3 text-right font-mono">{formatCurrency(row.balance)}</td>
-                  <td className="py-1.5 px-3 text-right font-mono text-accent">{formatCurrency(row.rmd)}</td>
-                  <td className={`py-1.5 pl-3 text-right font-mono ${parseFloat(row.bracket) >= 24 ? "text-red" : ""}`}>
+                <tr key={row.age} style={{ borderBottom: '1px solid rgba(196,166,122,0.15)' }}>
+                  <td className="py-1.5 pr-3" style={{ color: '#555555' }}>{row.age}</td>
+                  <td className="py-1.5 px-3 text-right font-mono" style={{ color: '#1A1A1A' }}>{formatCurrency(row.balance)}</td>
+                  <td className="py-1.5 px-3 text-right font-mono" style={{ color: '#2C5F7C' }}>{formatCurrency(row.rmd)}</td>
+                  <td className="py-1.5 pl-3 text-right font-mono" style={{ color: parseFloat(row.bracket) >= 24 ? '#E05A1B' : '#1A1A1A' }}>
                     {row.bracket}
                   </td>
                 </tr>
@@ -873,7 +902,7 @@ function OverfundingCalc() {
         </div>
       </div>
 
-      <p className="text-xs text-text-muted">
+      <p className="text-xs" style={{ color: '#555555' }}>
         Uses IRS Uniform Lifetime Table. Assumes single filer, 2025 brackets.
         Does not account for state taxes, IRMAA, or NIIT. Consult a tax professional.
       </p>
@@ -937,14 +966,14 @@ function TaxLossHarvestingCalc() {
   const yearsOfCarryforward = carryforward > 0 ? Math.ceil(carryforward / 3000) : 0;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <ArrowUpDown className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <ArrowUpDown className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Tax-Loss Harvesting Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Tax-Loss Harvesting Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             How much can harvested losses save you?
           </p>
         </div>
@@ -952,109 +981,114 @@ function TaxLossHarvestingCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Harvested Losses ($)
           </label>
           <input
             type="number"
             value={lossAmount}
             onChange={(e) => setLossAmount(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Realized Capital Gains ($)
           </label>
           <input
             type="number"
             value={gainsToOffset}
             onChange={(e) => setGainsToOffset(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Ordinary Income ($)
           </label>
           <input
             type="number"
             value={ordinaryIncome}
             onChange={(e) => setOrdinaryIncome(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">Filing Status</label>
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>Filing Status</label>
           <select
             value={filingStatus}
             onChange={(e) => setFilingStatus(e.target.value as "single" | "married")}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           >
             <option value="single">Single</option>
             <option value="married">Married Filing Jointly</option>
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             State Tax Rate (%)
           </label>
           <input
             type="number"
             value={stateRate}
             onChange={(e) => setStateRate(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
       </div>
 
-      <div className="bg-accent-bg rounded-lg p-4 space-y-3 mb-4">
-        <p className="text-xs font-medium text-text-muted uppercase tracking-wider">
+      <div className="rounded-lg p-4 space-y-3 mb-4" style={{ background: 'rgba(44,95,124,0.06)' }}>
+        <p className="text-xs font-medium uppercase tracking-wider" style={{ color: '#555555' }}>
           How Your {formatCurrency(lossAmount)} Loss Gets Applied
         </p>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Offsets capital gains</span>
-          <span className="font-medium">{formatCurrency(gainsOffset)}</span>
+          <span style={{ color: '#555555' }}>Offsets capital gains</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(gainsOffset)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Deducts from ordinary income</span>
-          <span className="font-medium">{formatCurrency(ordinaryDeduction)}</span>
+          <span style={{ color: '#555555' }}>Deducts from ordinary income</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(ordinaryDeduction)}</span>
         </div>
         {carryforward > 0 && (
           <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">
+            <span style={{ color: '#555555' }}>
               Carried forward (~{yearsOfCarryforward} yrs at $3K/yr)
             </span>
-            <span className="font-medium">{formatCurrency(carryforward)}</span>
+            <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(carryforward)}</span>
           </div>
         )}
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">
+          <span style={{ color: '#555555' }}>
             Cap gains tax rate (fed {fedLtcgRate}%{niitApplies ? " + 3.8% NIIT" : ""} + {stateRate}% state)
           </span>
-          <span className="font-medium">{totalCapGainRate.toFixed(1)}%</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{totalCapGainRate.toFixed(1)}%</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Capital gains tax saved</span>
-          <span className="font-medium text-accent">{formatCurrency(capitalGainsSaved)}</span>
+          <span style={{ color: '#555555' }}>Capital gains tax saved</span>
+          <span className="font-medium" style={{ color: '#1E3F2E' }}>{formatCurrency(capitalGainsSaved)}</span>
         </div>
         {ordinaryDeduction > 0 && (
           <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">
+            <span style={{ color: '#555555' }}>
               Ordinary income tax saved ({marginalRate}% + {stateRate}%)
             </span>
-            <span className="font-medium text-accent">{formatCurrency(ordinaryDeductionSaved)}</span>
+            <span className="font-medium" style={{ color: '#1E3F2E' }}>{formatCurrency(ordinaryDeductionSaved)}</span>
           </div>
         )}
-        <hr className="border-accent/20" />
+        <hr style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Total tax saved this year</span>
-          <span className="font-semibold text-accent">{formatCurrency(totalSaved)}</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Total tax saved this year</span>
+          <span className="font-semibold" style={{ color: '#1E3F2E' }}>{formatCurrency(totalSaved)}</span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted">
+      <p className="text-xs" style={{ color: '#555555' }}>
         Losses offset gains dollar-for-dollar, then up to $3,000 against ordinary income.
         Excess carries forward indefinitely. Watch wash-sale rules: no repurchase of
         substantially identical securities within 30 days.
@@ -1102,14 +1136,14 @@ function MarginalVsEffectiveCalc() {
     breakdown.length > 0 ? breakdown[breakdown.length - 1].rate : 10;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <Calculator className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <Calculator className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Marginal vs Effective Tax Rate</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Marginal vs Effective Tax Rate</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             Your top bracket is NOT what you actually pay
           </p>
         </div>
@@ -1117,22 +1151,24 @@ function MarginalVsEffectiveCalc() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs text-text-muted mb-1">
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>
             Taxable Income ($)
           </label>
           <input
             type="number"
             value={income}
             onChange={(e) => setIncome(Number(e.target.value))}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           />
         </div>
         <div>
-          <label className="block text-xs text-text-muted mb-1">Filing Status</label>
+          <label className="block text-xs mb-1" style={{ color: '#555555' }}>Filing Status</label>
           <select
             value={filingStatus}
             onChange={(e) => setFilingStatus(e.target.value as "single" | "married")}
-            className="w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent/40"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+            style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
           >
             <option value="single">Single</option>
             <option value="married">Married Filing Jointly</option>
@@ -1140,63 +1176,64 @@ function MarginalVsEffectiveCalc() {
         </div>
       </div>
 
-      <div className="bg-accent-bg rounded-lg p-4 mb-4">
+      <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(44,95,124,0.06)' }}>
         <div className="flex justify-between items-center mb-4">
           <div className="text-center flex-1">
-            <p className="text-2xl font-mono font-bold text-accent">
+            <p className="text-2xl font-mono font-bold" style={{ color: '#E05A1B' }}>
               {marginalRate}%
             </p>
-            <p className="text-xs text-text-muted">Marginal Rate</p>
-            <p className="text-[10px] text-text-muted">(your top bracket)</p>
+            <p className="text-xs" style={{ color: '#555555' }}>Marginal Rate</p>
+            <p className="text-[10px]" style={{ color: '#555555' }}>(your top bracket)</p>
           </div>
-          <div className="text-text-muted text-xl">vs</div>
+          <div className="text-xl" style={{ color: '#555555' }}>vs</div>
           <div className="text-center flex-1">
-            <p className="text-2xl font-mono font-bold text-green">
+            <p className="text-2xl font-mono font-bold" style={{ color: '#1E3F2E' }}>
               {effectiveRate.toFixed(1)}%
             </p>
-            <p className="text-xs text-text-muted">Effective Rate</p>
-            <p className="text-[10px] text-text-muted">(what you actually pay)</p>
+            <p className="text-xs" style={{ color: '#555555' }}>Effective Rate</p>
+            <p className="text-[10px]" style={{ color: '#555555' }}>(what you actually pay)</p>
           </div>
         </div>
 
-        <hr className="border-accent/20 mb-3" />
+        <hr className="mb-3" style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
 
-        <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
+        <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: '#555555' }}>
           Bracket Breakdown
         </p>
         <div className="space-y-2">
           {breakdown.map((b) => (
             <div key={b.rate} className="flex items-center gap-3">
-              <div className="w-10 text-right text-xs font-mono text-text-muted">
+              <div className="w-10 text-right text-xs font-mono" style={{ color: '#555555' }}>
                 {b.rate}%
               </div>
-              <div className="flex-1 bg-surface-alt rounded-full h-3 overflow-hidden">
+              <div className="flex-1 rounded-full h-3 overflow-hidden" style={{ background: '#F5EDE0' }}>
                 <div
-                  className="h-full bg-accent/60 rounded-full"
+                  className="h-full rounded-full"
                   style={{
                     width: `${Math.min(100, (b.taxableInBracket / income) * 100)}%`,
+                    background: 'rgba(44,95,124,0.5)',
                   }}
                 />
               </div>
-              <div className="w-20 text-right text-xs font-mono">
+              <div className="w-20 text-right text-xs font-mono" style={{ color: '#1A1A1A' }}>
                 {formatCurrency(b.taxInBracket)}
               </div>
             </div>
           ))}
         </div>
 
-        <hr className="border-accent/20 my-3" />
+        <hr className="my-3" style={{ borderColor: 'rgba(44,95,124,0.2)' }} />
         <div className="flex justify-between text-sm">
-          <span className="font-semibold">Total Federal Tax</span>
-          <span className="font-semibold text-accent">{formatCurrency(totalTax)}</span>
+          <span className="font-semibold" style={{ color: '#1A1A1A' }}>Total Federal Tax</span>
+          <span className="font-semibold" style={{ color: '#2C5F7C' }}>{formatCurrency(totalTax)}</span>
         </div>
         <div className="flex justify-between text-sm mt-1">
-          <span className="text-text-secondary">Take-home (before state/FICA)</span>
-          <span className="font-medium">{formatCurrency(income - totalTax)}</span>
+          <span style={{ color: '#555555' }}>Take-home (before state/FICA)</span>
+          <span className="font-medium" style={{ color: '#1A1A1A' }}>{formatCurrency(income - totalTax)}</span>
         </div>
       </div>
 
-      <p className="text-xs text-text-muted">
+      <p className="text-xs" style={{ color: '#555555' }}>
         2025 federal brackets. Does not include standard deduction (subtract ~$15,700
         single / ~$31,400 MFJ from gross income first), FICA (7.65%), state taxes,
         or AMT. Your effective rate is always lower than your marginal rate because
@@ -1228,14 +1265,14 @@ function BackdoorRothCalc() {
   const taxFreeSavings = futureValue * 0.22;
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent-bg flex items-center justify-center">
-          <ArrowUpDown className="w-5 h-5 text-accent" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(44,95,124,0.1)' }}>
+          <ArrowUpDown className="w-5 h-5" style={{ color: '#2C5F7C' }} />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Backdoor Roth IRA Calculator</h3>
-          <p className="text-xs text-text-muted">
+          <h3 className="text-lg font-semibold font-heading" style={{ color: '#1A1A1A' }}>Backdoor Roth IRA Calculator</h3>
+          <p className="text-xs" style={{ color: '#555555' }}>
             The workaround for high-income earners
           </p>
         </div>
@@ -1243,7 +1280,7 @@ function BackdoorRothCalc() {
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="text-xs text-text-muted block mb-1">
+          <label className="text-xs block mb-1" style={{ color: '#555555' }}>
             Annual Contribution (${annualContribution.toLocaleString()})
           </label>
           <input
@@ -1253,9 +1290,10 @@ function BackdoorRothCalc() {
             step={500}
             value={annualContribution}
             onChange={(e) => setAnnualContribution(Number(e.target.value))}
-            className="w-full accent-[var(--color-accent)]"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
-          <div className="flex justify-between text-[10px] text-text-muted mt-0.5">
+          <div className="flex justify-between text-[10px] mt-0.5" style={{ color: '#555555' }}>
             <span>$1,000</span>
             <span>$7,000 (2025 limit)</span>
             <span>$8,000 (50+ catch-up)</span>
@@ -1264,7 +1302,7 @@ function BackdoorRothCalc() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-text-muted block mb-1">
+            <label className="text-xs block mb-1" style={{ color: '#555555' }}>
               Current Age
             </label>
             <input
@@ -1273,11 +1311,12 @@ function BackdoorRothCalc() {
               max={80}
               value={currentAge}
               onChange={(e) => setCurrentAge(Number(e.target.value))}
-              className="w-full bg-surface-alt rounded-lg px-3 py-2 text-sm border border-border-light"
+              className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+              style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
             />
           </div>
           <div>
-            <label className="text-xs text-text-muted block mb-1">
+            <label className="text-xs block mb-1" style={{ color: '#555555' }}>
               Retirement Age
             </label>
             <input
@@ -1286,13 +1325,14 @@ function BackdoorRothCalc() {
               max={100}
               value={retirementAge}
               onChange={(e) => setRetirementAge(Number(e.target.value))}
-              className="w-full bg-surface-alt rounded-lg px-3 py-2 text-sm border border-border-light"
+              className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+              style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#1A1A1A' }}
             />
           </div>
         </div>
 
         <div>
-          <label className="text-xs text-text-muted block mb-1">
+          <label className="text-xs block mb-1" style={{ color: '#555555' }}>
             Expected Growth Rate ({growthRate}%)
           </label>
           <input
@@ -1302,12 +1342,13 @@ function BackdoorRothCalc() {
             step={0.5}
             value={growthRate}
             onChange={(e) => setGrowthRate(Number(e.target.value))}
-            className="w-full accent-[var(--color-accent)]"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
 
         <div>
-          <label className="text-xs text-text-muted block mb-1">
+          <label className="text-xs block mb-1" style={{ color: '#555555' }}>
             Existing Traditional IRA Balance ({formatCurrency(existingTraditionalIRA)})
           </label>
           <input
@@ -1319,45 +1360,46 @@ function BackdoorRothCalc() {
             onChange={(e) =>
               setExistingTraditionalIRA(Number(e.target.value))
             }
-            className="w-full accent-[var(--color-accent)]"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
-          <p className="text-[10px] text-text-muted mt-0.5">
+          <p className="text-[10px] mt-0.5" style={{ color: '#555555' }}>
             $0 = clean backdoor. Any balance triggers pro-rata rule.
           </p>
         </div>
       </div>
 
       {/* Results */}
-      <div className="bg-surface-alt rounded-lg p-4 space-y-3">
+      <div className="rounded-lg p-4 space-y-3" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)' }}>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <p className="text-xs text-text-muted">Years of Contributions</p>
-            <p className="text-lg font-semibold font-mono">{years}</p>
+            <p className="text-xs" style={{ color: '#555555' }}>Years of Contributions</p>
+            <p className="text-lg font-semibold font-mono" style={{ color: '#1A1A1A' }}>{years}</p>
           </div>
           <div>
-            <p className="text-xs text-text-muted">Total Contributed</p>
-            <p className="text-lg font-semibold font-mono">
+            <p className="text-xs" style={{ color: '#555555' }}>Total Contributed</p>
+            <p className="text-lg font-semibold font-mono" style={{ color: '#1A1A1A' }}>
               {formatCurrency(annualContribution * years)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-text-muted">Projected Roth Value</p>
-            <p className="text-lg font-semibold font-mono text-accent">
+            <p className="text-xs" style={{ color: '#555555' }}>Projected Roth Value</p>
+            <p className="text-lg font-semibold font-mono" style={{ color: '#2C5F7C' }}>
               {formatCurrency(futureValue)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-text-muted">Tax-Free Growth</p>
-            <p className="text-lg font-semibold font-mono text-accent">
+            <p className="text-xs" style={{ color: '#555555' }}>Tax-Free Growth</p>
+            <p className="text-lg font-semibold font-mono" style={{ color: '#1E3F2E' }}>
               {formatCurrency(futureValue - annualContribution * years)}
             </p>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-border">
+        <div className="pt-2" style={{ borderTop: '1px solid rgba(196,166,122,0.3)' }}>
           <div className="flex justify-between text-sm">
-            <span>Estimated tax saved at 22%</span>
-            <span className="font-semibold text-accent">
+            <span style={{ color: '#1A1A1A' }}>Estimated tax saved at 22%</span>
+            <span className="font-semibold" style={{ color: '#1E3F2E' }}>
               {formatCurrency(taxFreeSavings)}
             </span>
           </div>
@@ -1366,13 +1408,13 @@ function BackdoorRothCalc() {
 
       {/* Pro-rata warning */}
       {hasProRataIssue && (
-        <div className="mt-4 bg-red/5 border border-red/10 rounded-lg p-3 flex items-start gap-2">
-          <AlertTriangle className="w-4 h-4 text-red flex-shrink-0 mt-0.5" />
+        <div className="mt-4 rounded-lg p-3 flex items-start gap-2" style={{ background: 'rgba(224,90,27,0.06)', border: '1px solid rgba(224,90,27,0.15)' }}>
+          <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#E05A1B' }} />
           <div>
-            <p className="text-sm font-semibold text-red mb-1">
+            <p className="text-sm font-semibold mb-1" style={{ color: '#E05A1B' }}>
               Pro-Rata Rule Warning
             </p>
-            <p className="text-xs text-text-secondary leading-relaxed">
+            <p className="text-xs leading-relaxed" style={{ color: '#555555' }}>
               You have {formatCurrency(existingTraditionalIRA)} in Traditional IRA
               balances. The IRS will treat{" "}
               {proRataTaxablePercent.toFixed(0)}% of your conversion as taxable.
@@ -1385,9 +1427,9 @@ function BackdoorRothCalc() {
       )}
 
       {!hasProRataIssue && (
-        <div className="mt-4 bg-accent-bg border border-accent/10 rounded-lg p-3 flex items-start gap-2">
-          <Heart className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-text-secondary leading-relaxed">
+        <div className="mt-4 rounded-lg p-3 flex items-start gap-2" style={{ background: 'rgba(30,63,46,0.06)', border: '1px solid rgba(30,63,46,0.15)' }}>
+          <Heart className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#1E3F2E' }} />
+          <p className="text-xs leading-relaxed" style={{ color: '#555555' }}>
             No existing Traditional IRA balance -- your Backdoor Roth conversion
             will be clean and essentially tax-free. Contribute after-tax to
             Traditional IRA, convert immediately to Roth.
@@ -1395,7 +1437,7 @@ function BackdoorRothCalc() {
         </div>
       )}
 
-      <p className="text-xs text-text-muted mt-4">
+      <p className="text-xs mt-4" style={{ color: '#555555' }}>
         Assumes annual contributions at the start of each year with consistent
         growth. The Backdoor Roth is a legal strategy for high earners above the
         Roth IRA income limit ($161K single / $240K married in 2025). Consult a
@@ -1438,20 +1480,20 @@ function DCAvsLumpSumCalc() {
   }
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
-      <div className="flex items-center gap-2 mb-1 text-accent">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
+      <div className="flex items-center gap-2 mb-1" style={{ color: '#E05A1B' }}>
         <ArrowUpDown className="w-4 h-4" />
         <p className="text-xs uppercase tracking-widest font-medium">
           DCA vs. Lump Sum
         </p>
       </div>
-      <h3 className="text-lg font-semibold mb-4">
+      <h3 className="text-lg font-semibold font-heading mb-4" style={{ color: '#1A1A1A' }}>
         Should You Invest All at Once or Spread It Out?
       </h3>
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="text-xs text-text-muted block mb-1">
+          <label className="text-xs block mb-1" style={{ color: '#555555' }}>
             Total Amount to Invest: {formatCurrency(totalAmount)}
           </label>
           <input
@@ -1461,11 +1503,12 @@ function DCAvsLumpSumCalc() {
             step={5000}
             value={totalAmount}
             onChange={(e) => setTotalAmount(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
         <div>
-          <label className="text-xs text-text-muted block mb-1">
+          <label className="text-xs block mb-1" style={{ color: '#555555' }}>
             DCA Period: {dcaMonths} months
           </label>
           <input
@@ -1475,12 +1518,13 @@ function DCAvsLumpSumCalc() {
             step={1}
             value={dcaMonths}
             onChange={(e) => setDcaMonths(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-text-muted block mb-1">
+            <label className="text-xs block mb-1" style={{ color: '#555555' }}>
               Expected Annual Return: {annualReturn}%
             </label>
             <input
@@ -1490,11 +1534,12 @@ function DCAvsLumpSumCalc() {
               step={1}
               value={annualReturn}
               onChange={(e) => setAnnualReturn(Number(e.target.value))}
-              className="w-full accent-accent"
+              className="w-full"
+              style={{ accentColor: '#E05A1B' }}
             />
           </div>
           <div>
-            <label className="text-xs text-text-muted block mb-1">
+            <label className="text-xs block mb-1" style={{ color: '#555555' }}>
               Annual Volatility: {annualVolatility}%
             </label>
             <input
@@ -1504,7 +1549,8 @@ function DCAvsLumpSumCalc() {
               step={1}
               value={annualVolatility}
               onChange={(e) => setAnnualVolatility(Number(e.target.value))}
-              className="w-full accent-accent"
+              className="w-full"
+              style={{ accentColor: '#E05A1B' }}
             />
           </div>
         </div>
@@ -1512,62 +1558,80 @@ function DCAvsLumpSumCalc() {
 
       {/* Results */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className={`rounded-lg p-3 border ${lumpSumWins ? "border-accent/20 bg-accent-bg" : "border-border-light bg-surface-alt"}`}>
-          <p className="text-xs text-text-muted mb-1">Lump Sum Growth</p>
-          <p className={`text-lg font-semibold ${lumpSumWins ? "text-accent" : ""}`}>
+        <div
+          className="rounded-lg p-3"
+          style={{
+            border: lumpSumWins ? '1px solid rgba(44,95,124,0.2)' : '1px solid rgba(196,166,122,0.3)',
+            background: lumpSumWins ? 'rgba(44,95,124,0.06)' : '#F5EDE0',
+          }}
+        >
+          <p className="text-xs mb-1" style={{ color: '#555555' }}>Lump Sum Growth</p>
+          <p className="text-lg font-semibold" style={{ color: lumpSumWins ? '#2C5F7C' : '#1A1A1A' }}>
             {formatCurrency(lumpSumGain)}
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-xs" style={{ color: '#555555' }}>
             Final: {formatCurrency(lumpSumFinal)}
           </p>
         </div>
-        <div className={`rounded-lg p-3 border ${!lumpSumWins ? "border-accent/20 bg-accent-bg" : "border-border-light bg-surface-alt"}`}>
-          <p className="text-xs text-text-muted mb-1">DCA Growth</p>
-          <p className={`text-lg font-semibold ${!lumpSumWins ? "text-accent" : ""}`}>
+        <div
+          className="rounded-lg p-3"
+          style={{
+            border: !lumpSumWins ? '1px solid rgba(44,95,124,0.2)' : '1px solid rgba(196,166,122,0.3)',
+            background: !lumpSumWins ? 'rgba(44,95,124,0.06)' : '#F5EDE0',
+          }}
+        >
+          <p className="text-xs mb-1" style={{ color: '#555555' }}>DCA Growth</p>
+          <p className="text-lg font-semibold" style={{ color: !lumpSumWins ? '#2C5F7C' : '#1A1A1A' }}>
             {formatCurrency(dcaGain)}
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-xs" style={{ color: '#555555' }}>
             Final: {formatCurrency(dcaFinal)}
           </p>
         </div>
       </div>
 
-      <div className={`rounded-lg p-3 text-center ${lumpSumWins ? "bg-accent-bg border border-accent/10" : "bg-surface-alt border border-border-light"}`}>
-        <p className="text-sm font-semibold">
+      <div
+        className="rounded-lg p-3 text-center"
+        style={{
+          background: lumpSumWins ? 'rgba(44,95,124,0.06)' : '#F5EDE0',
+          border: lumpSumWins ? '1px solid rgba(44,95,124,0.1)' : '1px solid rgba(196,166,122,0.3)',
+        }}
+      >
+        <p className="text-sm font-semibold" style={{ color: '#1A1A1A' }}>
           {lumpSumWins
             ? `Lump Sum wins by ${formatCurrency(difference)}`
             : `DCA wins by ${formatCurrency(Math.abs(difference))}`}
         </p>
-        <p className="text-xs text-text-muted mt-1">
+        <p className="text-xs mt-1" style={{ color: '#555555' }}>
           In a normal market, lump sum wins ~65% of the time
         </p>
       </div>
 
       {/* Downside scenario */}
-      <div className="mt-4 bg-red/5 border border-red/10 rounded-lg p-3">
-        <p className="text-xs font-semibold text-red mb-2">
+      <div className="mt-4 rounded-lg p-3" style={{ background: 'rgba(224,90,27,0.06)', border: '1px solid rgba(224,90,27,0.12)' }}>
+        <p className="text-xs font-semibold mb-2" style={{ color: '#E05A1B' }}>
           Bad Year Scenario (-1 Std Dev)
         </p>
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div>
-            <p className="text-text-muted">Lump Sum</p>
-            <p className="font-mono font-medium">
+            <p style={{ color: '#555555' }}>Lump Sum</p>
+            <p className="font-mono font-medium" style={{ color: '#1A1A1A' }}>
               {formatCurrency(lumpSumDown - totalAmount)}
             </p>
           </div>
           <div>
-            <p className="text-text-muted">DCA</p>
-            <p className="font-mono font-medium">
+            <p style={{ color: '#555555' }}>DCA</p>
+            <p className="font-mono font-medium" style={{ color: '#1A1A1A' }}>
               {formatCurrency(dcaDown - totalAmount)}
             </p>
           </div>
         </div>
-        <p className="text-xs text-text-muted mt-2">
+        <p className="text-xs mt-2" style={{ color: '#555555' }}>
           DCA reduces downside in bad markets by averaging your entry price
         </p>
       </div>
 
-      <p className="text-xs text-text-muted mt-4">
+      <p className="text-xs mt-4" style={{ color: '#555555' }}>
         Historical data shows lump sum investing beats DCA about two-thirds of
         the time because markets trend upward. DCA&apos;s advantage is
         psychological -- it reduces regret if markets drop right after you invest.
@@ -1590,15 +1654,15 @@ function EmergencyFundCalc() {
   const progressPct = Math.min(100, (currentSavings / targetAmount) * 100);
 
   return (
-    <div className="bg-surface rounded-xl border border-border p-6">
-      <h3 className="text-lg font-semibold mb-1">Emergency Fund</h3>
-      <p className="text-sm text-text-muted mb-5">
+    <div className="uc-card p-6" style={{ boxShadow: '0 2px 12px rgba(44,95,124,0.08)' }}>
+      <h3 className="text-lg font-semibold font-heading mb-1" style={{ color: '#1A1A1A' }}>Emergency Fund</h3>
+      <p className="text-sm mb-5" style={{ color: '#555555' }}>
         How long until you have a real safety net?
       </p>
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="text-xs text-text-muted">
+          <label className="text-xs" style={{ color: '#555555' }}>
             Monthly Expenses: ${monthlyExpenses.toLocaleString()}
           </label>
           <input
@@ -1608,11 +1672,12 @@ function EmergencyFundCalc() {
             step={250}
             value={monthlyExpenses}
             onChange={(e) => setMonthlyExpenses(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
         <div>
-          <label className="text-xs text-text-muted">
+          <label className="text-xs" style={{ color: '#555555' }}>
             Current Savings: ${currentSavings.toLocaleString()}
           </label>
           <input
@@ -1622,11 +1687,12 @@ function EmergencyFundCalc() {
             step={500}
             value={currentSavings}
             onChange={(e) => setCurrentSavings(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
         <div>
-          <label className="text-xs text-text-muted">
+          <label className="text-xs" style={{ color: '#555555' }}>
             Monthly Contribution: ${monthlyContribution.toLocaleString()}
           </label>
           <input
@@ -1636,11 +1702,12 @@ function EmergencyFundCalc() {
             step={50}
             value={monthlyContribution}
             onChange={(e) => setMonthlyContribution(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
         <div>
-          <label className="text-xs text-text-muted">
+          <label className="text-xs" style={{ color: '#555555' }}>
             Target: {targetMonths} months of expenses
           </label>
           <input
@@ -1650,52 +1717,53 @@ function EmergencyFundCalc() {
             step={1}
             value={targetMonths}
             onChange={(e) => setTargetMonths(Number(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full"
+            style={{ accentColor: '#E05A1B' }}
           />
         </div>
       </div>
 
       {/* Progress bar */}
       <div className="mb-4">
-        <div className="flex justify-between text-xs text-text-muted mb-1">
+        <div className="flex justify-between text-xs mb-1" style={{ color: '#555555' }}>
           <span>${currentSavings.toLocaleString()} saved</span>
           <span>${targetAmount.toLocaleString()} target</span>
         </div>
-        <div className="w-full bg-surface-alt rounded-full h-3">
+        <div className="w-full rounded-full h-3" style={{ background: '#F5EDE0' }}>
           <div
             className="h-3 rounded-full transition-all duration-300"
             style={{
               width: `${progressPct}%`,
               background:
                 progressPct >= 100
-                  ? "var(--color-green, #16a34a)"
+                  ? '#1E3F2E'
                   : progressPct >= 50
-                    ? "var(--color-accent)"
-                    : "var(--color-gold, #eab308)",
+                    ? '#2C5F7C'
+                    : '#C4A67A',
             }}
           />
         </div>
-        <p className="text-xs text-text-muted mt-1 text-center">
+        <p className="text-xs mt-1 text-center" style={{ color: '#555555' }}>
           {progressPct.toFixed(0)}% funded
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-surface-alt rounded-lg p-3">
-          <p className="text-xs text-text-muted">Current Coverage</p>
-          <p className="text-lg font-bold font-mono text-accent">
+        <div className="rounded-lg p-3" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)' }}>
+          <p className="text-xs" style={{ color: '#555555' }}>Current Coverage</p>
+          <p className="text-lg font-bold font-mono" style={{ color: '#2C5F7C' }}>
             {coverageMonths.toFixed(1)} mo
           </p>
         </div>
-        <div className="bg-surface-alt rounded-lg p-3">
-          <p className="text-xs text-text-muted">Gap to Fill</p>
-          <p className="text-lg font-bold font-mono">
+        <div className="rounded-lg p-3" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)' }}>
+          <p className="text-xs" style={{ color: '#555555' }}>Gap to Fill</p>
+          <p className="text-lg font-bold font-mono" style={{ color: '#1A1A1A' }}>
             ${gap.toLocaleString()}
           </p>
         </div>
-        <div className="bg-surface-alt rounded-lg p-3 col-span-2">
-          <p className="text-xs text-text-muted">Time to Fully Funded</p>
-          <p className="text-lg font-bold font-mono text-accent">
+        <div className="rounded-lg p-3 col-span-2" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)' }}>
+          <p className="text-xs" style={{ color: '#555555' }}>Time to Fully Funded</p>
+          <p className="text-lg font-bold font-mono" style={{ color: '#2C5F7C' }}>
             {gap === 0
               ? "Already there"
               : monthsToGoal === Infinity
@@ -1705,7 +1773,7 @@ function EmergencyFundCalc() {
         </div>
       </div>
 
-      <p className="text-xs text-text-muted mt-4 leading-relaxed">
+      <p className="text-xs mt-4 leading-relaxed" style={{ color: '#555555' }}>
         Most experts recommend 3-6 months of expenses. Self-employed or single-income
         households should aim for 6-12 months. Keep it in a high-yield savings account --
         accessible but not too accessible.
@@ -1716,27 +1784,28 @@ function EmergencyFundCalc() {
 
 export default function CalculatorsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="linen-texture min-h-screen pt-24 pb-16 px-4">
+      <div className="max-w-[960px] mx-auto">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-secondary mb-8 transition-colors"
+          className="inline-flex items-center gap-1 text-sm mb-8 transition-colors hover:opacity-70"
+          style={{ color: '#555555' }}
         >
           <ArrowLeft className="w-4 h-4" />
           Home
         </Link>
 
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 text-accent mb-2">
+          <div className="inline-flex items-center gap-2 mb-2" style={{ color: '#E05A1B' }}>
             <Calculator className="w-4 h-4" />
-            <p className="text-xs uppercase tracking-widest font-medium">
+            <p className="text-label">
               Calculators
             </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+          <h1 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight mb-3" style={{ color: '#1A1A1A' }}>
             Run Your Numbers
           </h1>
-          <p className="text-text-secondary leading-relaxed">
+          <p className="leading-relaxed" style={{ color: '#555555' }}>
             Strategies are only useful when you see how they apply to your
             specific situation. Plug in your numbers.
           </p>
@@ -1756,7 +1825,7 @@ export default function CalculatorsPage() {
         </div>
 
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 bg-surface-alt rounded-lg px-4 py-2.5 text-sm text-text-muted">
+          <div className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm" style={{ background: '#F5EDE0', border: '1px solid rgba(196,166,122,0.3)', color: '#555555' }}>
             <DollarSign className="w-4 h-4" />
             More coming: Social Security Timing, Asset Location, IRMAA Planning
           </div>

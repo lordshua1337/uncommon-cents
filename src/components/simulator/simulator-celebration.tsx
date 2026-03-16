@@ -23,7 +23,7 @@ interface SimulatorCelebrationProps {
 // Constants
 // ---------------------------------------------------------------------------
 
-const ALL_SIMS_COLOR = "#22C55E";
+const ALL_SIMS_COLOR = "#1E3F2E";
 const AUTO_DISMISS_MS = 3000;
 
 // ---------------------------------------------------------------------------
